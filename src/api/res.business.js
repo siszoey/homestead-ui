@@ -11,8 +11,8 @@ export function toDeclare(data) {
 
 export function getDictData(params) {
   return request({
-    // url: '/mock/system/dict',
-    url: '/system/dict',
+    url: '/mock/system/dict',
+    // url: '/system/dict',
     method: 'get',
     params
   })
@@ -36,8 +36,8 @@ export function getUploadImgConfig(params) {
  */
 export function getResidenceList(pageNum, pageSize, stage, queryForm) {
   return request({
-    // url: '/mock/getResidenceList',
-    url: '/management/declarelist',
+    url: '/mock/getResidenceList',
+    // url: '/management/declarelist',
     method: 'post',
     data: Object.assign({
       pageNum,
