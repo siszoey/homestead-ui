@@ -67,45 +67,25 @@ export default function(iotHeader) {
                 }
             },
             {
-                path: 'implementationProcess/index',
-                name: `${pre}index`,
-                component: _import('land/map/implementationProcess'),
+                path: 'implementationProcess/examineList',
+                name: `${pre}examineList`,
+                component: _import('land/map/implementationProcess/examineList.vue'),
                 meta: {
                     ...meta,
                     ismap: true,
-                    title: '实施过程'
+                    title: '审批一览表'
+                }
+            },
+            {
+                path: 'implementationProcess/examinePic',
+                name: `${pre}examinePic`,
+                component: _import('land/map/implementationProcess/examinePic.vue'),
+                meta: {
+                    ...meta,
+                    ismap: true,
+                    title: '审批一张图'
                 }
             }
-        ])('land-map-spatialData-'),
-        // children: (pre => [{
-        //         path: 'accountInformation/yearPlan',
-        //         name: `${pre}yearPlan`,
-        //         component: _import('land/map/accountInformation/yearPlan.vue'),
-        //         meta: {
-        //             ...meta,
-        //             ismap: true,
-        //             title: '年度计划一览表'
-        //         }
-        //     },
-        //     {
-        //         path: 'accountInformation/landIndex',
-        //         name: `${pre}landIndex`,
-        //         component: _import('land/map/accountInformation/landIndex.vue'),
-        //         meta: {
-        //             ...meta,
-        //             title: '用地指标一览表'
-        //         }
-        //     }
-        // ])('land-map-accountInformation-'),
-        // children: (pre => [{
-        //     path: 'implementationProcess/index',
-        //     name: `${pre}index`,
-        //     component: _import('land/map/implementationProcess'),
-        //     meta: {
-        //         ...meta,
-        //         ismap: true,
-        //         title: '实施过程'
-        //     }
-        // }])('land-map-implementationProcess-')
+        ])(),
     }
 }

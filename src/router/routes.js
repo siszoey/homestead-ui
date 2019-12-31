@@ -16,6 +16,7 @@ import defaultRouter from './modules/default'
 // import resSystem from './modules/res.system'
 
 import landMap from './modules/land.map'
+import landExamine from './modules/land.examine'
 
 /**
  * 在主框架内显示
@@ -29,8 +30,8 @@ const frameIn = [
     // resAnalyse(layHeader),
     // resSystem(layHeader)
 
-
-    landMap(layHeader)
+    landMap(layHeader),
+    landExamine(layHeader)
 
 ]
 
