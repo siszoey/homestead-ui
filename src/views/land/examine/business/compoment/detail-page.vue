@@ -6,7 +6,7 @@
             <el-step title="步骤 3"></el-step>
         </el-steps>
         <el-divider></el-divider>
-        <el-tabs tab-position="left" style="height: 200px;">
+        <el-tabs tab-position="left">
             <el-tab-pane label="申请表">
                 <applicationForm></applicationForm>
             </el-tab-pane>
