@@ -10,8 +10,12 @@
             <el-tab-pane label="申请表">
                 <applicationForm></applicationForm>
             </el-tab-pane>
-            <el-tab-pane label="审批表">配置管理</el-tab-pane>
-            <el-tab-pane label="验收表">角色管理</el-tab-pane>
+            <el-tab-pane label="审批表">
+                <approvalForm></approvalForm>
+            </el-tab-pane>
+            <el-tab-pane label="验收表">
+                <appceptanceForm></appceptanceForm>
+            </el-tab-pane>
             <el-tab-pane label="打印表单">定时任务补偿</el-tab-pane>
             <el-tab-pane label="材料表单">定时任务补偿</el-tab-pane>
         </el-tabs>
@@ -20,11 +24,15 @@
 
 <script>
   import applicationForm from './application-form'
+  import appceptanceForm from './appceptance-form'
+  import approvalForm from './approval-form'
 
   export default {
     name: 'todo-create',
     components: {
-      applicationForm
+      applicationForm,
+      approvalForm,
+      appceptanceForm
     },
     data() {
       return {
