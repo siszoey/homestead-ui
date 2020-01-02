@@ -2,11 +2,11 @@
   <div>
     <div>
       <span>类型</span>
-      <el-select v-model="selectedType" filterable placeholder="请选择">
+      <el-select v-model="selectedType" size="mini" filterable placeholder="请选择">
         <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value"></el-option>
       </el-select>
       <span>年份</span>
-      <el-select v-model="selectedYear" filterable placeholder="请选择">
+      <el-select v-model="selectedYear" size="mini" filterable placeholder="请选择">
         <el-option v-for="item in years" :key="item.value" :label="item.label" :value="item.value"></el-option>
       </el-select>
     </div>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { getExaminePic } from "../../../../api/res.implprocess";
+
 export default {
   name: "examinePic",
   data() {
@@ -82,7 +84,28 @@ export default {
       ]
     };
   },
-  created() {}
+  created() {},
+  watch: {
+    selectedType(val) {
+      this.getTableData();
+    },
+    selectedYear(val) {
+      this.getTableData();
+    }
+  },
+  methods: {
+    getTableData() {
+      this.table.listLoading = true;
+      getExaminePic(this.selectedType, this.selectedYear)
+        .then(res => {
+          this.table.list = res.list;
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.table.listLoading = false;
+        });
+    }
+  }
 };
 </script>
 
