@@ -1,5 +1,5 @@
 
-import {getDictData} from "../../../../api/res.business"
+import {getDictData} from "../../../../api/res.system"
 
 export default {
   namespaced: true,
