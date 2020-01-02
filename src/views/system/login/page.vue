@@ -144,8 +144,8 @@ export default {
       ],
       // 表单
       formLogin: {
-        username: 'zjd',
-        password: '123456',
+        username: 'admin',
+        password: 'admin',
         code: 'v9am'
       },
       // 表单校验
