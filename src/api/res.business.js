@@ -87,3 +87,18 @@ export function tobackfill(data) {
   })
 }
 
+export function getAppceptcance(data) {
+  return request({
+    url: '/management/appceptcance',
+    method: 'get',
+    data
+  })
+}
+
+export function setAppceptcance(data) {
+  return request({
+    url: '/management/appceptcance',
+    method: 'post',
+    data
+  })
+}
