@@ -49,7 +49,7 @@
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
-                <!--<el-form-item prop="code">
+                <el-form-item prop="code">
                   <el-input
                     type="text"
                     v-model="formLogin.code"
@@ -58,7 +58,7 @@
                       <img class="login-code" src="./image/login-code.png">
                     </template>
                   </el-input>
-                </el-form-item>-->
+                </el-form-item>
                 <el-button
                   size="default"
                   @click="submit"
@@ -144,8 +144,8 @@ export default {
       ],
       // 表单
       formLogin: {
-        username: '',
-        password: '',
+        username: 'zjd',
+        password: '123456',
         code: 'v9am'
       },
       // 表单校验

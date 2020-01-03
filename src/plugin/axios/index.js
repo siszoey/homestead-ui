@@ -69,20 +69,17 @@ service.interceptors.response.use(
     } else {
       // 有 state 代表这是一个后端接口 可以进行进一步的判断
       let s = state === undefined ? code : state
-      //后端详情消息
-      let msgInfo =  dataAxios.msg || dataAxios.message
       switch (s) {
-        case 'S200':
         case 1:
           // [ 示例 ] state === 1 代表没有错误
-          return dataAxios.data || dataAxios.result || dataAxios
+          return dataAxios.data || dataAxios
         case 'xxx':
           // [ 示例 ] 其它和后台约定的 state
-          errorCreate(`[ state: xxx ] ${msgInfo}: ${response.config.url}`)
+          errorCreate(`[ state: xxx ] ${dataAxios.msg}: ${response.config.url}`)
           break
         default:
           // 不是正确的 state
-          errorCreate(`${msgInfo}: ${response.config.url}`)
+          errorCreate(`${dataAxios.msg}: ${response.config.url}`)
           break
       }
     }

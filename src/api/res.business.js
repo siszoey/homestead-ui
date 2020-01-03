@@ -9,6 +9,16 @@ export function toDeclare(data) {
   })
 }
 
+export function getDictData(params) {
+  return request({
+    url: '/mock/system/dict',
+    // url: '/system/dict',
+    method: 'get',
+    params
+  })
+}
+
+
 export function getUploadImgConfig(params) {
   return request({
     url: '/mock/getUploadImgConfig',
@@ -77,18 +87,38 @@ export function tobackfill(data) {
   })
 }
 
-export function getAppceptcance(data) {
+/**
+ * 统计分析报表数据
+ * @param pageNum 分页页码
+ * @param pageSize  每页数量
+ * @param queryForm 过滤条件参数对象
+ */
+export function getTableList(pageNum, pageSize, queryForm) {
   return request({
-    url: '/management/appceptcance',
+    url: '/statistics/xmtjxx',
     method: 'get',
-    data
+    data: Object.assign({
+      pageNum,
+      pageSize
+    }, queryForm)
   })
 }
 
-export function setAppceptcance(data) {
-  return request({
-    url: '/management/appceptcance',
-    method: 'post',
-    data
-  })
-}
+
+//项目所处阶段统计
+// export function getXmscjdtj(data) {
+//   return request({
+//     url: '/statistics/GetXmscjdtj',
+//     method: 'get',
+//     data
+//   })
+// }
+
+//申请与已建数
+// export function getsqyyjs(data) {
+//   return request({
+//     url: '/statistics/sqyyjs',
+//     method: 'get',
+//     data
+//   })
+// }
