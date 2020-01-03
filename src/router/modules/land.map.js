@@ -67,6 +67,33 @@ export default function(iotHeader) {
                 }
             },
             {
+                path: 'accountInformation/IllegalHouse',
+                name: `${pre}IllegalHouse`,
+                component: _import('land/map/accountInformation/IllegalHouse.vue'),
+                meta: {
+                    ...meta,
+                    title: '违法建房一览表'
+                }
+            },
+            {
+                path: 'accountInformation/revitalizeUse',
+                name: `${pre}revitalizeUse`,
+                component: _import('land/map/accountInformation/revitalizeUse.vue'),
+                meta: {
+                    ...meta,
+                    title: '盘活利用一览表'
+                }
+            },
+            {
+                path: 'accountInformation/householdRegister',
+                name: `${pre}householdRegister`,
+                component: _import('land/map/accountInformation/householdRegister.vue'),
+                meta: {
+                    ...meta,
+                    title: '户籍信息一览表'
+                }
+            },
+            {
                 path: 'implementationProcess/examineList',
                 name: `${pre}examineList`,
                 component: _import('land/map/implementationProcess/examineList.vue'),

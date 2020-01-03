@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="left-side">
-      <label class="year-column-x">年份</label>
+      <label class="year-column-l">年份</label>
       <el-select
         v-model="year"
         style="position:absolute;z-index:9999999;left:45px;"
@@ -9,7 +9,7 @@
       >
         <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
       </el-select>
-      <label class="xzq-column-x">行政区</label>
+      <label class="xzq-column-l">行政区</label>
       <el-select
         v-model="city"
         style="position:absolute;z-index:9999999;left:234px;width: 2rem !important;"
@@ -26,20 +26,20 @@
         <div v-for="o in 5" :key="o" class="text item">
           <span class="demonstration">江夏区{{o}}</span>
           <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>实际用地
+            <div class="color-box-orange"></div>违法占地
           </span>
           <br />
           <span class="demonstration">5460.81</span>
           <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>计划用地
+            <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="o" style="width:417px"></el-progress>
+          <el-progress :percentage="o" color="#E85754" style="width:417px"></el-progress>
         </div>
       </el-card>
       <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
         <el-table-column prop="xzq" label="行政区"></el-table-column>
-        <el-table-column prop="jhyd" label="计划用地"></el-table-column>
-        <el-table-column prop="sjyd" label="实际用地"></el-table-column>
+        <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
+        <el-table-column prop="wfzd" label="违法占地"></el-table-column>
         <el-table-column prop="szbl" label="所占比例"></el-table-column>
       </el-table>
     </div>
@@ -71,32 +71,32 @@ export default {
       tableData: [
         {
           xzq: "江夏区1",
-          jhyd: "9460.81",
-          sjyd: "1518.69",
+          zzyd: "9460.81",
+          wfzd: "1518.69",
           szbl: "1%"
         },
         {
           xzq: "江夏区2",
-          jhyd: "75765.81",
-          sjyd: "1518.69",
+          zzyd: "75765.81",
+          wfzd: "1518.69",
           szbl: "2%"
         },
         {
           xzq: "江夏区3",
-          jhyd: "3243.81",
-          sjyd: "1518.69",
+          zzyd: "3243.81",
+          wfzd: "1518.69",
           szbl: "3%"
         },
         {
           xzq: "江夏区4",
-          jhyd: "9875.81",
-          sjyd: "1518.69",
+          zzyd: "9875.81",
+          wfzd: "1518.69",
           szbl: "4%"
         },
         {
           xzq: "江夏区5",
-          jhyd: "7657.81",
-          sjyd: "1518.69",
+          zzyd: "7657.81",
+          wfzd: "1518.69",
           szbl: "5%"
         }
       ],
@@ -455,12 +455,12 @@ export default {
 .el-table .success-row {
   background: #f0f9eb;
 }
-.color-box-blue {
+.color-box-orange {
   width: 13px;
   height: 13px;
   position: absolute;
   margin: 3px -20px;
-  background-color: #409eff;
+  background-color: #E85754;
 }
 .color-box-gray {
   width: 13px;
@@ -507,7 +507,7 @@ hr {
   /* background-color: #f7f7f7d1; */
   margin-top: -0.1rem;
 }
-.year-column-x {
+.year-column-l {
   position: absolute;
   z-index: 9999999;
   font-size: 16px;
@@ -515,7 +515,7 @@ hr {
   margin: 7px;
   margin-top: 2.8%;
 }
-.xzq-column-x {
+.xzq-column-l {
   position: absolute;
   z-index: 9999999;
   font-size: 16px;
