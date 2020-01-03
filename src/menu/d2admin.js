@@ -24,50 +24,60 @@ const map = {
             ])('/land/map/accountInformation')
         },
         {
-            path: `${pre}/implementationProcess/index`,
-            title: '实施过程'
+            path: `${pre}/implementationProcess`,
+            title: '实施过程',
+            children: (pre => [
+                { path: `${pre}/examineList`, title: '审批一览表' },
+                { path: `${pre}/examinePic`, title: '审批一张图' },
+            ])('/land/map/implementationProcess')
         },
     ])('/land/map')
 }
 
-// const business = {
-//   path: '/res/business',
-//   title: '业务办理',
-//   alias: 'real-business',
-//   icon: 'align-left',
-//   children: (pre => [
-//     {path: `${pre}/declare`, title: '项目申报'},
-//     {path: `${pre}/check`, title: '街道审核'},
-//     {path: `${pre}/summarize`, title: '审核汇总'},
-//     {path: `${pre}/supervision`, title: '建房监管'},
-//     {path: `${pre}/retreat`, title: '退办件'}
-//   ])('/res/business')
-// }
-// const search = {
-//   path: '/res/search',
-//   title: '归档查询',
-//   alias: 'index',
-//   icon: 'search',
-//   children: (pre => [
-//     {path: `${pre}/filesSearch`, title: '归档查询'},
-//   ])('/res/search')
-// }
-// const message = {
-//   path: '/res/message',
-//   title: '信息动态',
-//   alias: 'index',
-//   icon: 'area-chart',
-//   children: (pre => [
-//     {path: `${pre}/mesManager`, title: '信息管理'},
-//   ])('/res/message')
-// }
-// const analyse = {
-//   path: '/res/analyse',
-//   title: '数据分析',
-//   alias: 'index',
-//   icon: 'codepen',
-//   children: (pre => [
-//     {path: `${pre}/analyse`, title: '数据分析'},
+const examine = {
+        path: '/land/examine',
+        title: '联合审批',
+        alias: 'real-examine',
+        icon: 'align-left',
+        children: (pre => [{
+                path: `${pre}/business`,
+                title: '业务办理',
+                children: (pre => [
+                    { path: `${pre}/todo`, title: '待办箱' },
+                    { path: `${pre}/done`, title: '已办箱' },
+                    { path: `${pre}/rollback`, title: '退件箱' },
+                    { path: `${pre}/comprehensive`, title: '综合管理' },
+                ])('/land/examine/business')
+            },
+            { path: `${pre}/search`, title: '归档查询' },
+            { path: `${pre}/statistics`, title: '统计分析' }
+        ])('/land/examine')
+    }
+    // const search = {
+    //   path: '/res/search',
+    //   title: '归档查询',
+    //   alias: 'index',
+    //   icon: 'search',
+    //   children: (pre => [
+    //     {path: `${pre}/filesSearch`, title: '归档查询'},
+    //   ])('/res/search')
+    // }
+    // const message = {
+    //   path: '/res/message',
+    //   title: '信息动态',
+    //   alias: 'index',
+    //   icon: 'area-chart',
+    //   children: (pre => [
+    //     {path: `${pre}/mesManager`, title: '信息管理'},
+    //   ])('/res/message')
+    // }
+    // const analyse = {
+    //   path: '/res/analyse',
+    //   title: '数据分析',
+    //   alias: 'index',
+    //   icon: 'codepen',
+    //   children: (pre => [
+    //     {path: `${pre}/analyse`, title: '数据分析'},
 
 //   ])('/res/analyse')
 // }
@@ -89,6 +99,7 @@ const map = {
 export const menuAside = [
     // home,
     map,
+    examine
     // business,
     // search,
     // message,
@@ -101,6 +112,7 @@ export const menuAside = [
 export const menuHeader = [
     // home,
     map,
+    examine
     // business,
     // search,
     // message,

@@ -167,7 +167,7 @@ export default {
   overflow: auto;
 }
 .header{
-  background: #3580FF;
+  background: #27658A;
 }
 .slide{
   background: white;
@@ -182,7 +182,7 @@ export default {
     font-size: 18px;
     font-weight: bold;
     background: none;
-    border-bottom:3px solid white;
+    // border-bottom:3px solid white;
 }
 .theme-d2 .d2-theme-header .el-menu .el-submenu .el-submenu__title {
     color: white;
@@ -205,7 +205,7 @@ export default {
     font-size: 18px;
     font-weight: bold;
     background: none;
-    border-bottom:3px solid white;
+    // border-bottom:3px solid white;
 }
 .theme-d2 .d2-theme-header .el-menu .el-menu-item {
     color: white;

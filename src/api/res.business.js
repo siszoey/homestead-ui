@@ -9,16 +9,6 @@ export function toDeclare(data) {
   })
 }
 
-export function getDictData(params) {
-  return request({
-    // url: '/mock/system/dict',
-    url: '/system/dict',
-    method: 'get',
-    params
-  })
-}
-
-
 export function getUploadImgConfig(params) {
   return request({
     url: '/mock/getUploadImgConfig',
@@ -36,8 +26,8 @@ export function getUploadImgConfig(params) {
  */
 export function getResidenceList(pageNum, pageSize, stage, queryForm) {
   return request({
-    // url: '/mock/getResidenceList',
-    url: '/management/declarelist',
+    url: '/mock/getResidenceList',
+    // url: '/management/declarelist',
     method: 'post',
     data: Object.assign({
       pageNum,
@@ -87,3 +77,18 @@ export function tobackfill(data) {
   })
 }
 
+export function getAppceptcance(data) {
+  return request({
+    url: '/management/appceptcance',
+    method: 'get',
+    data
+  })
+}
+
+export function setAppceptcance(data) {
+  return request({
+    url: '/management/appceptcance',
+    method: 'post',
+    data
+  })
+}

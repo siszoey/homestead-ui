@@ -1,10 +1,10 @@
 <template>
-  <p>实施过程</p>
+  <p>统计分析</p>
 </template>
 
 <script>
 export default {
-    name:'implementationProcess'
+    name:'statistics'
 }
 </script>
 
