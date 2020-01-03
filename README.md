@@ -4,4 +4,4 @@
 
 [Gitee](https://gitee.com/fairyever/d2-admin-start-kit)
 
-测试管理员权限
+测试管理员权限，但只有开发者权限
