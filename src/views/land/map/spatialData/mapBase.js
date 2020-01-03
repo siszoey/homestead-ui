@@ -76,6 +76,7 @@ export default {
     BaseDKStyle,
     BaseAddLayer,
     BaseChangeRegionVector,
+    BaseChangeRegionVectorWithPoints,
     BaseCreateRegionVectorFromServer,
     endWith,
     startWith
@@ -211,7 +212,7 @@ function BaseCreateRegionVectorFromServer(xzqhdm) {
     return regionVector;
 }
 
-function BaseChangeRegionVectorWithPoints(map, xzqhdm) {
+function BaseChangeRegionVectorWithPoints(map, xzqhdm,currentRegionLayer) {
     map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
 
