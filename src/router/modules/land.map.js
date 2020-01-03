@@ -21,6 +21,16 @@ export default function(iotHeader) {
                 }
             },
             {
+                path: 'spatialData/test',
+                name: `${pre}test`,
+                component: _import('land/map/spatialData/test.vue'),
+                meta: {
+                    ...meta,
+                    ismap: true,
+                    title: 'DEMO页面'
+                }
+            },
+            {
                 path: 'spatialData/plan',
                 name: `${pre}plan`,
                 component: _import('land/map/spatialData/plan.vue'),
