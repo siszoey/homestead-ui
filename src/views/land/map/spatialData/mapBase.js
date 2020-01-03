@@ -3,10 +3,12 @@ import Map from "ol/Map";
 import View from "ol/View";
 import GeoJSON from "ol/format/GeoJSON";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import { Stroke, Style, Fill } from "ol/style";
-import { XYZ, TileWMS } from "ol/source";
-import { Overlay } from "ol";
+import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
+import { XYZ, TileWMS, Cluster } from "ol/source";
+import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
+import { getCenter, getBottomLeft } from "ol/extent";
+import Point from "ol/geom/Point";
 
 
 //当前加载的行政区界限图层
@@ -56,10 +58,10 @@ var cia_wLayer = new TileLayer({
     zindex: 2
 });
 
-var geoserverURL='http://192.168.0.42:8080/geoserver/';
+var geoserverURL = 'http://101.91.199.54:8060/geoserver/';
 
-var geoserver = geoserverURL+'TDLYXZ/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson';
-var dkserver = geoserverURL+'TDLYXZ/wms';
+var geoserver = geoserverURL + 'TDLYXZ/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson';
+var dkserver = geoserverURL + 'TDLYXZ/wms';
 
 export default {
     currentRegionLayer,
@@ -161,7 +163,7 @@ function BaseDKStyle() {
     return regionStyle;
 }
 
-function BaseAddLayer(map,url, params) {
+function BaseAddLayer(map, url, params) {
     var currentDK = new TileLayer({
         mType: 4,
         source: new TileWMS({
@@ -197,23 +199,38 @@ function BaseCreateRegionVectorFromServer(xzqhdm) {
             format: new GeoJSON()
 
         })
-/*         ,
-        style: function (feature, resolution) {
-            var name = feature.get('XZQMC');
-            if (name === undefined)
-                name = feature.get('ZLDWMC');
-            var style = BaseRegionStyle();
-            //style.getText().setText(name);
-            //style.setText(name);
-            return style;
-        } */
+        /*         ,
+                style: function (feature, resolution) {
+                    var name = feature.get('XZQMC');
+                    if (name === undefined)
+                        name = feature.get('ZLDWMC');
+                    var style = BaseRegionStyle();
+                    //style.getText().setText(name);
+                    //style.setText(name);
+                    return style;
+                } */
         ,
         zindex: 4
     });
     return regionVector;
 }
 
-function BaseChangeRegionVector(map,xzqhdm) {
+function BaseChangeRegionVectorWithPoints(map, xzqhdm) {
+    map.removeLayer(currentRegionLayer);//移除当前界线图层
+    currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
+
+    currentRegionLayer.getSource().on('change', function (evt) {
+        var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === 'ready') {
+            map.values_.view.fit(source.getExtent());//自动缩放
+            map.addLayer(AddPoints(source.getExtent()));
+        }
+    });
+    map.addLayer(currentRegionLayer);//加载图层
+}
+
+
+function BaseChangeRegionVector(map, xzqhdm) {
     map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
 
@@ -243,3 +260,58 @@ function startWith(str) {
     else
         return false;
 };
+
+function AddPoints(extent) {
+    var center = getCenter(extent);
+    var count = 500;
+    var features = new Array(count);
+    for (var i = 0; i < count; ++i) {
+        var coordinates = [
+            center[0] + (Math.random()*4000),
+            center[1] + (Math.random()*4000)
+        ];
+        features[i] = new Feature(new Point(coordinates));
+    }
+
+    var source = new VectorSource({
+        features: features
+    });
+
+    var clusterSource = new Cluster({
+        //distance: parseInt(distance.value, 10),
+        distance: 50,
+        source: source
+    });
+
+    var styleCache = {};
+    var clusters = new VectorLayer({
+        source: clusterSource,
+        style: function (feature) {
+            var size = feature.get("features").length;
+            var style = styleCache[size];
+            if (!style) {
+                style = new Style({
+                    image: new CircleStyle({
+                        radius: 10,
+                        stroke: new Stroke({
+                            color: "#fff"
+                        }),
+                        fill: new Fill({
+                            color: "#3399CC"
+                        })
+                    }),
+                    text: new Text({
+                        text: size.toString(),
+                        fill: new Fill({
+                            color: "#fff"
+                        })
+                    })
+                });
+                styleCache[size] = style;
+            }
+            return style;
+        }
+    });
+
+    return clusters;
+}

@@ -1,106 +1,216 @@
 <template>
-  <div>
-    <div
-      style="width:150px;height:200px;color:white;position:absolute;z-index:150;right:20px;bottom:20px;padding:10px;border:double;font-size:18px"
-    >
-      <div>土地利用现状分类</div>
-      <div>
-        <span
-          id="0702"
-          style="background-color:rgba(0,0,255,0.7);border:1px solid"
-        >&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp; 农村宅基地
+  <div class="container">
+    <div id="map" ref="rootmap"></div>
+
+    <div class="toolbarContainer">
+      <div class="toolbar">
+        <div class="toolButton top">
+          <img src="../assets/sldt.png" />
+        </div>
+        <div class="toolButton bottom highlight">
+          <img src="../assets/yxdt.png" />
+        </div>
       </div>
-      <div>
-        <span
-          id="0701"
-          style="background-color:rgba(255,20,147,0.7);border:1px solid"
-        >&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp; 城镇住宅用地
+      <div class="toolbar" style="margin-top:10px">
+        <div class="toolButton top">
+          <img src="../assets/sjjc.png" />
+        </div>
+        <div class="toolButton bottom">
+          <img src="../assets/cggx.png" />
+        </div>
       </div>
-      <div>
-        <span
-          id="0000"
-          style="background-color:rgba(230,230,250,0.7);border:1px solid"
-        >&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp; 其他
+      <div class="toolbar" style="margin-top:10px">
+        <div :class="layerOn ?'toolButton top selected':'toolButton top '" @click="showLayer">
+          <img src="../assets/tcgl.png" />
+        </div>
+        <div class="toolButton">
+          <img src="../assets/sqgl.png" />
+        </div>
+        <div class="toolButton">
+          <img src="../assets/cad.png" />
+        </div>
+        <div class="toolButton">
+          <img src="../assets/fpdb.png" />
+        </div>
+        <div class="toolButton bottom">
+          <img src="../assets/zbdw.png" />
+        </div>
       </div>
     </div>
-    <div id="map" ref="rootmap" style="width:1700px;height:840px;background-color:#00161F"></div>
+
+    <div class="legendContainer">
+      <div class="legendBox">
+        <div class="title">图例</div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0301.png" />乔木林地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0204.png" />其他园地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1006.png" />农村道路
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0101.png" />水田
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0702.png" />农村宅基地
+        </div>
+                <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0307.png" />其他林地
+        </div>
+      </div>
+    </div>
+
+    <LayerList style="position:absolute;top:180px;right:80px" v-if="layerOn"></LayerList>
   </div>
 </template>
-
 <script>
 import "ol/ol.css";
-import Map from "ol/Map";
-import View from "ol/View";
-import GeoJSON from "ol/format/GeoJSON";
-import { Tile as TileLayer, Vector as VectorLayer, Vector } from "ol/layer";
-import { Stroke, Style, Fill } from "ol/style";
-import { XYZ, TileWMS } from "ol/source";
-import { Overlay } from "ol";
-import VectorSource from "ol/source/Vector";
-
+import { createTdtImgLayer } from "./ol.tdt";
+import { Map, View } from "ol";
+import { defaults } from "ol/control";
+import ImageLayer from "ol/layer/Image";
+import ImageWMS from "ol/source/ImageWMS";
+import LayerList from "./components/LayerList";
 import BaseMap from "../spatialData/mapBase.js";
-
 export default {
+  name: "survey",
   data() {
     return {
-      map: null
+      map: null,
+      layerOn: false
     };
+  },
+  components: {
+    LayerList
   },
   mounted() {
     var xzqhdm = "469005110";
     this.map = BaseMap.BaseInitMap();
     this.map.addLayer(BaseMap.img_wLayer);
     BaseMap.BaseChangeRegionVector(this.map, xzqhdm);
-    ChangeDK(this.map, xzqhdm,'0702');
+    var wmsLayer = new ImageLayer({
+      source: new ImageWMS({
+        url: BaseMap.geoserverURL + "TDLYXZ/wms",
+        params: {
+          LAYERS: "TDLYXZ:DLTB",
+          QUERY_LAYERS: "TDLYXZ:DLTB",
+          CQL_FILTER: "QSDWDM LIKE '" + xzqhdm + "%'"
+        },
+        serverType: "geoserver",
+        VERSION: "1.1.1"
+      })
+    });
 
-    function ChangeDK(map, xzqhdm,dlbm) {
-      var url =
-        BaseMap.geoserver +
-        "&typeName=TDLYXZ%3ADLTB" +
-        "&CQL_FILTER=ZLDWDM LIKE %27" +
-        xzqhdm +
-        "%25%27"
-        //+"and DLBM LIKE %27"+dlbm+"%25%27"
-        ;
-      var vector = new Vector({
-        source: new VectorSource({
-          url: url,
-          format: new GeoJSON()
-        }),
-        // style: function(feature, resolution) {
-        //   var DLBM = feature.get("DLBM");
-        //   var style = new Style({
-        //     fill: new Fill({
-        //       //矢量图层填充颜色，以及透明度
-        //     })
-        //     // ,
-        //     // stroke: new Stroke({
-        //     //   //边界样式
-        //     //   color: "rgba(0,0,0, 1)",
-        //     //   width: 1
-        //     // })
-        //   });
-        //   var color = "rgba(230,230,250,0.7)";
-        //   if (document.getElementById(DLBM) != undefined)
-        //     color = document.getElementById(DLBM).style.backgroundColor; //根据行政区划代码获取背景色
-        //   style.getFill().setColor(color);
-        //   return style;
-        // },
-        zindex: 4
-      });
-      map.addLayer(vector);
+    this.map.addLayer(wmsLayer);
+  },
+  methods: {
+    showLayer() {
+      this.layerOn = !this.layerOn;
     }
   }
 };
 </script>
-
-<style>
-#map {
-  height: 100%;
+<style lang="scss" scoped>
+.container {
+  width: 98%;
+  height: 96%;
+  padding: 0px;
+  margin: 0px;
+  position: relative;
 }
-/*隐藏ol的一些自带元素*/
-.ol-attribution,
-.ol-zoom {
-  display: none;
+#mapDiv {
+  height: 100%;
+  padding: 0px;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.toolbarContainer {
+  right: 30px;
+  top: 10px;
+  position: absolute;
+}
+.toolbar {
+  width: 40px;
+  z-index: 10;
+  box-shadow: 0px 0px 1px gray;
+  border-radius: 5px;
+  .toolButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    background-color: gray;
+
+    &:hover {
+      opacity: 1;
+      background-color: white;
+    }
+    img {
+      width: 24px;
+      height: 24px;
+      background-size: contain;
+    }
+  }
+  .highlight {
+    opacity: 1;
+    background-color: rgba(128, 128, 128, 0.5);
+  }
+  .selected {
+    opacity: 1;
+    background-color: white;
+  }
+  .top {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .bottom {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+}
+.legendContainer {
+    right: 25px;
+  //right: 0px;
+  position: absolute;
+  bottom:10px;
+  .legendBox {
+    border: rgb(200, 200, 200) 1px solid;
+    width: 200px;
+    padding-left: 10px;
+    color: rgb(240, 240, 240);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+    .title {
+      font-size: 20px;
+      width: 200px;
+      height: 30px;
+    }
+    .legendItem {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      height: 30px;
+      line-height: 30px;
+      //width: 100px;
+      .img {
+        background-color: yellow;
+        margin-right: 5px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
 }
 </style>
