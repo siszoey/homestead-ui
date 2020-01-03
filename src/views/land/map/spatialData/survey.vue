@@ -74,6 +74,8 @@ import ImageLayer from "ol/layer/Image";
 import ImageWMS from "ol/source/ImageWMS";
 import LayerList from "./components/LayerList";
 import BaseMap from "../spatialData/mapBase.js";
+import TileLayer from 'ol/layer/Tile';
+import { TileWMS } from 'ol/source';
 export default {
   name: "survey",
   data() {
@@ -91,8 +93,8 @@ export default {
     this.map = BaseMap.BaseInitMap("mapsurvey");
     this.map.addLayer(BaseMap.img_wLayer);
     currentRegionLayer=BaseMap.BaseChangeRegionVector(this.map, xzqhdm,currentRegionLayer);
-    var wmsLayer = new ImageLayer({
-      source: new ImageWMS({
+    var wmsLayer = new TileLayer({
+      source: new TileWMS({
         url: BaseMap.geoserverURL + "TDLYXZ/wms",
         params: {
           LAYERS: "TDLYXZ:DLTB",
