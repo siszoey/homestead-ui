@@ -228,35 +228,66 @@
       handleUpdate(row) {
       },
       handleCheck(row, flag) {
+        console.log("hanldeCheck", row);
+
+        let confirm = {
+          distinguishCancelAndClose: false,
+          title : '提交申请, 是否继续?',
+          trueText: '确定',
+          falseText: '取消',
+        }
+        if(true){
+          confirm = Object.assign(confirm, {
+            distinguishCancelAndClose: true,
+            title : '办理结果, 是否继续?',
+            trueText: '已办',
+            falseText: '退办',
+          })
+        }
+
         let data = {
-          id: '',
-          sqid: '',
+          id: row.zjdSqJl.id,
+          sqid: row.zjdSqJl.sqid,
           next_xmzt: '',
           next_blzt: '',
           next_roleid: '',
-          now_xmzt: '',
-          now_blzt: ''
+          now_xmzt: row.zjdSqJl.xmzt,
+          now_blzt: this.getOptCode("办理状态","已办")
         }
-        this.$confirm('提交申请, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-          center: true
-        }).then(() => {
-          ApproalProcess(data).then(() => {
+        this.$confirm(confirm.title, '提示',
+          {
+            distinguishCancelAndClose: confirm.distinguishCancelAndClose,
+            confirmButtonText: confirm.trueText,
+            cancelButtonText: confirm.falseText,
+            type: 'warning',
+            center: true
+          }).then(() => {
+          this.$message({
+                type: 'success',
+                message: '成功!'
+              })
+          // ApproalProcess(data).then(() => {
+          //   this.$message({
+          //     type: 'success',
+          //     message: '成功!'
+          //   })
+          // }).catch(() => {
+          //   this.$message({
+          //     type: 'error',
+          //     message: '请求失败!'
+          //   })
+          // }).finally(() => {
+          //   this.getTableData()
+          // })
+        }).catch(action => {
+          //不通过
+          if(confirm.distinguishCancelAndClose && action === 'cancel'){
             this.$message({
-              type: 'success',
-              message: '成功!'
+              type: 'info',
+              message: '不通过'
             })
-          }).catch(() => {
-            this.$message({
-              type: 'error',
-              message: '请求失败!'
-            })
-          }).finally(() => {
-            this.getTableData()
-          })
-        })
+          }
+        });
       },
     }
   }
