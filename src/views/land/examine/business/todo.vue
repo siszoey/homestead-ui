@@ -114,8 +114,10 @@
 
             <el-table-column fixed="right" align="center" label="操作" width="300">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="primary" @click="handleCheck(scope.row, true)"
+                    <!--<el-button size="mini" type="primary" @click="handleCheck(scope.row, true)"
                                icon="el-icon-check">查看详情
+                    </el-button>-->
+                    <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
                     </el-button>
                 </template>
             </el-table-column>
@@ -238,16 +240,31 @@
       handleCreate() {
         this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
       },
+      handleDetail(row) {
+        this.$router.push({
+            name: 'land-examine-detail',
+            params: Object.assign({
+              sqlx: 0,
+              sqid: 'xx',
+              applicationFormDisabled: true,
+              appceptanceFormDisabled: true,
+              approvalFormDisabled: true,
+              detail: row
+            })
+          }
+        )
+      },
       handleUpdate(row) {
         this.dialogEditItem = row
         this.dialogEditVisible = true
       },
       handleCheck(row, flag) {
-        if (flag) {
-          this.dialogCheckNextFormVisible = true
-        } else {
-        }
-        this.currentId = row.xmsbid
+        // if (flag) {
+        //   this.dialogCheckNextFormVisible = true
+        // } else {
+        // }
+        // this.currentId = row.xmsbid
+
       },
       handleUpdate(row) {
         this.dialogEditItem = row

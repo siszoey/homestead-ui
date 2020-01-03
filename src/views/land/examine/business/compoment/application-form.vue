@@ -1,12 +1,11 @@
 <template>
     <div>
         <el-form
-
+                :disabled="disabled"
                 :model="form"
                 label-position="top"
                 :rules="rules"
                 ref="form">
-
             <h1>申请户主信息</h1>
             <el-row>
                 <el-col :span="4">
@@ -284,6 +283,16 @@
     mixins: [
       dictMixins
     ],
+    props:{
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      detail: {
+        type: Object,
+        default: undefined
+      }
+    },
     data() {
       return {
         form: {
