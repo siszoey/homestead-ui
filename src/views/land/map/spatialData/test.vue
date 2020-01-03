@@ -17,7 +17,7 @@
         <span id="0000" style="background-color:#CDCDB4;border:1px solid">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp; 其他
       </div>
     </div>
-    <div id="map" ref="rootmap" style="width:1700px;height:840px;background-color:#00161F"></div>
+    <div id="map" style="width:1700px;height:840px;background-color:#00161F"></div>
   </div>
 </template>
 

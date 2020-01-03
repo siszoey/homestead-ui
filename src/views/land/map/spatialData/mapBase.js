@@ -11,9 +11,6 @@ import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
 
 
-//当前加载的行政区界限图层
-var currentRegionLayer;
-
 //访问天地图网站的序号
 var siteindex = Math.round(Math.random() * 7);
 
@@ -64,7 +61,6 @@ var geoserver = geoserverURL + 'TDLYXZ/ows?service=WFS&version=1.0.0&request=Get
 var dkserver = geoserverURL + 'TDLYXZ/wms';
 
 export default {
-    currentRegionLayer,
     img_wLayer,
     vec_wLayer,
     ter_wLayer,
@@ -230,7 +226,7 @@ function BaseChangeRegionVectorWithPoints(map, xzqhdm) {
 }
 
 
-function BaseChangeRegionVector(map, xzqhdm) {
+function BaseChangeRegionVector(map, xzqhdm,currentRegionLayer) {
     map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
 
@@ -241,6 +237,7 @@ function BaseChangeRegionVector(map, xzqhdm) {
         }
     });
     map.addLayer(currentRegionLayer);//加载图层
+    return currentRegionLayer;
 }
 
 function endWith(str) {

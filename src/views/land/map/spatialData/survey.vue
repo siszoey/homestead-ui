@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div id="map" ref="rootmap"></div>
+    <div id="mapsurvey" class="mapDiv"></div>
 
     <div class="toolbarContainer">
       <div class="toolbar">
@@ -86,10 +86,11 @@ export default {
     LayerList
   },
   mounted() {
+    var currentRegionLayer;
     var xzqhdm = "469005110";
-    this.map = BaseMap.BaseInitMap();
+    this.map = BaseMap.BaseInitMap("mapsurvey");
     this.map.addLayer(BaseMap.img_wLayer);
-    BaseMap.BaseChangeRegionVector(this.map, xzqhdm);
+    currentRegionLayer=BaseMap.BaseChangeRegionVector(this.map, xzqhdm,currentRegionLayer);
     var wmsLayer = new ImageLayer({
       source: new ImageWMS({
         url: BaseMap.geoserverURL + "TDLYXZ/wms",
@@ -120,7 +121,7 @@ export default {
   margin: 0px;
   position: relative;
 }
-#mapDiv {
+.mapDiv {
   height: 100%;
   padding: 0px;
   padding: 0px;
