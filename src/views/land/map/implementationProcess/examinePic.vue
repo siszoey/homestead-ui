@@ -42,7 +42,7 @@ import { Map, View } from "ol";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM, XYZ, Vector as VectorSource } from "ol/source";
 
-import { getExaminePic } from "../../../../api/res.implprocess";
+// import { getExaminePic } from "../../../../api/res.implprocess";
 
 export default {
   name: "examinePic",
