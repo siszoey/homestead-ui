@@ -37,23 +37,7 @@
 </template>
 
 <script>
-import "ol/ol.css";
-import Map from "ol/Map";
-import View from "ol/View";
-import MVT from "ol/format/MVT";
-import VectorTileLayer from "ol/layer/VectorTile";
-import VectorTileSource from "ol/source/VectorTile";
-import { Fill, Icon, Stroke, Style, Text } from "ol/style";
-
 import BaseMap from "../spatialData/mapBase.js";
-import { TileWMS, Cluster } from "ol/source";
-import { Feature } from "ol";
-import Point from "ol/geom/Point";
-import VectorSource from "ol/source/Vector";
-import VectorLayer from "ol/layer/Vector";
-import CircleStyle from "ol/style/Circle";
-import { getCenter } from "ol/extent";
-import TileLayer from "ol/layer/Tile";
 
 import { getExaminePic } from "../../../../api/res.implprocess";
 
