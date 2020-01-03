@@ -40,7 +40,7 @@ export default {
     },
 
     getOptName(keyName, optCode) {
-      let dict = this.dictList.find((value, index, arr) => value.keyName == keyName && value.code == optCode)
+      let dict = this.dictList.find((value, index, arr) => value.keyName == keyName && value.optCode == optCode)
       return dict ? dict.optName :  ''
     },
 
