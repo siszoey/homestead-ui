@@ -87,3 +87,37 @@ export function tobackfill(data) {
   })
 }
 
+/**
+ * 统计分析报表数据
+ * @param pageNum 分页页码
+ * @param pageSize  每页数量
+ * @param queryForm 过滤条件参数对象
+ */
+export function getTableList(pageNum, pageSize, queryForm) {
+  return request({
+    url: '/statistics/xmtjxx',
+    method: 'get',
+    data: Object.assign({
+      pageNum,
+      pageSize
+    }, queryForm)
+  })
+}
+
+//项目所处阶段统计
+// export function getXmscjdtj(data) {
+//   return request({
+//     url: '/statistics/GetXmscjdtj',
+//     method: 'get',
+//     data
+//   })
+// }
+
+//申请与已建数
+// export function getsqyyjs(data) {
+//   return request({
+//     url: '/statistics/sqyyjs',
+//     method: 'get',
+//     data
+//   })
+// }
