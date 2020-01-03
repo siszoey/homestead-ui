@@ -51,7 +51,7 @@ export default {
     var xzqhdm = "469005110";
     this.map = BaseMap.BaseInitMap("maptest");
     this.map.addLayer(BaseMap.img_wLayer);
-    currentRegionLayer=BaseMap.BaseChangeRegionVectorWithPoints(this.map, xzqhdm,currentRegionLayer);
+    currentRegionLayer=BaseMap.BaseAddPoints(this.map, xzqhdm,currentRegionLayer);
     ChangeDK(this.map, xzqhdm, "0702");
 
     function ChangeDK(map, xzqhdm, dlbm) {

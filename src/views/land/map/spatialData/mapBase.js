@@ -77,6 +77,7 @@ export default {
     BaseAddLayer,
     BaseChangeRegionVector,
     BaseChangeRegionVectorWithPoints,
+    BaseAddPoints,
     BaseCreateRegionVectorFromServer,
     endWith,
     startWith
@@ -196,23 +197,23 @@ function BaseCreateRegionVectorFromServer(xzqhdm) {
             format: new GeoJSON()
 
         })
-        /*         ,
-                style: function (feature, resolution) {
-                    var name = feature.get('XZQMC');
-                    if (name === undefined)
-                        name = feature.get('ZLDWMC');
-                    var style = BaseRegionStyle();
-                    //style.getText().setText(name);
-                    //style.setText(name);
-                    return style;
-                } */
+        ,
+        style: function (feature, resolution) {
+            var name = feature.get('XZQMC');
+            if (name === undefined)
+                name = feature.get('ZLDWMC');
+            var style = BaseRegionStyle();
+            style.getText().setText(name);
+            //style.setText(name);
+            return style;
+        }
         ,
         zindex: 4
     });
     return regionVector;
 }
 
-function BaseChangeRegionVectorWithPoints(map, xzqhdm,currentRegionLayer) {
+function BaseChangeRegionVectorWithPoints(map, xzqhdm, currentRegionLayer) {
     map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
 
@@ -227,7 +228,22 @@ function BaseChangeRegionVectorWithPoints(map, xzqhdm,currentRegionLayer) {
 }
 
 
-function BaseChangeRegionVector(map, xzqhdm,currentRegionLayer) {
+function BaseAddPoints(map, xzqhdm, currentRegionLayer) {
+    //map.removeLayer(currentRegionLayer);//移除当前界线图层
+    currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
+
+    currentRegionLayer.getSource().on('change', function (evt) {
+        var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === 'ready') {
+            map.values_.view.fit(source.getExtent());//自动缩放
+            map.addLayer(AddPoints(source.getExtent()));
+        }
+    });
+    map.addLayer(currentRegionLayer);//加载图层
+}
+
+
+function BaseChangeRegionVector(map, xzqhdm, currentRegionLayer) {
     map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
 
@@ -265,8 +281,8 @@ function AddPoints(extent) {
     var features = new Array(count);
     for (var i = 0; i < count; ++i) {
         var coordinates = [
-            center[0] + (Math.random()*4000),
-            center[1] + (Math.random()*4000)
+            center[0] + (Math.random() * 4000),
+            center[1] + (Math.random() * 4000)
         ];
         features[i] = new Feature(new Point(coordinates));
     }

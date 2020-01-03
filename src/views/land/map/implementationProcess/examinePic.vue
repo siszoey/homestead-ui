@@ -1,5 +1,5 @@
 <template>
-  <div style="height:500px" id="pic-map" ref="rootmap">
+  <div style="height:96%" id="pic-map" ref="rootmap">
     <div id="float-on-list" class="div-table ol-control">
       <div>
         <span>类型</span>
@@ -38,9 +38,22 @@
 
 <script>
 import "ol/ol.css";
-import { Map, View } from "ol";
-import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import { OSM, XYZ, Vector as VectorSource } from "ol/source";
+import Map from "ol/Map";
+import View from "ol/View";
+import MVT from "ol/format/MVT";
+import VectorTileLayer from "ol/layer/VectorTile";
+import VectorTileSource from "ol/source/VectorTile";
+import { Fill, Icon, Stroke, Style, Text } from "ol/style";
+
+import BaseMap from "../spatialData/mapBase.js";
+import { TileWMS, Cluster } from "ol/source";
+import { Feature } from "ol";
+import Point from "ol/geom/Point";
+import VectorSource from "ol/source/Vector";
+import VectorLayer from "ol/layer/Vector";
+import CircleStyle from "ol/style/Circle";
+import { getCenter } from "ol/extent";
+import TileLayer from "ol/layer/Tile";
 
 import { getExaminePic } from "../../../../api/res.implprocess";
 
@@ -141,28 +154,17 @@ export default {
     }
   },
   mounted() {
-    var mapcontainer = this.$refs.rootmap;
+    var currentRegionLayer;
+    var xzqhdm = "469005110";
+    this.map = BaseMap.BaseInitMap("pic-map");
+    this.map.addLayer(BaseMap.img_wLayer);
+    currentRegionLayer = BaseMap.BaseAddPoints(
+      this.map,
+      xzqhdm,
+      currentRegionLayer
+    );
 
-    this.map = new Map({
-      target: "pic-map",
-      layers: [
-        // new TileLayer({
-        //   name: "base-layer",
-        //   source: new XYZ({
-        //     url: "http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-        //   })
-        // }),
-        new TileLayer({
-          name: "base-layer",
-          source: new OSM()
-        })
-      ],
-      view: new View({
-        center: [12062989, 3405766],
-        zoom: 4
-      })
-    });
-    floatOnMap();
+    //floatOnMap();
   }
 };
 </script>
