@@ -127,7 +127,7 @@
           <el-col :span="5">
             <el-form-item label="自然资源部门填写日期">
               <el-date-picker
-                v-model="formLabel.zrzybmyjdate"
+                v-model="formLabel.spyj.zrzybmrq"
                 type="date"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
@@ -153,7 +153,7 @@
           <el-col :span="5">
             <el-form-item label="农业农村部门填写日期">
               <el-date-picker
-                v-model="formLabel.nyncbyjdate"
+                v-model="formLabel.spyj.nyncbrq"
                 type="date"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
@@ -174,7 +174,7 @@
           <el-col :span="5">
             <el-form-item label="乡镇政府填写日期">
               <el-date-picker
-                v-model="formLabel.xzzfyjdate"
+                v-model="formLabel.spyj.xzzfrq"
                 type="date"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
@@ -247,10 +247,7 @@ export default {
             xzzfshyj:"",
             xzzffzr:"",
             xzzfrq:""
-          },
-          zrzybmyjdate: '',
-          nyncbyjdate:'',
-          xzzfyjdate:''
+          }
         }          
       };
     }
