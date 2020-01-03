@@ -1,5 +1,5 @@
 <template>
-  <div style="height:500px" id="map" ref="rootmap">
+  <div style="height:500px" id="pic-map" ref="rootmap">
     <div id="float-on-list" class="div-table ol-control">
       <div>
         <span>类型</span>
@@ -144,7 +144,7 @@ export default {
     var mapcontainer = this.$refs.rootmap;
 
     this.map = new Map({
-      target: "map",
+      target: "pic-map",
       layers: [
         // new TileLayer({
         //   name: "base-layer",

@@ -186,6 +186,11 @@
       <el-form-item label="备注">
         <el-input v-model="form.remark" type="textarea"></el-input>
       </el-form-item>
+      <el-row>
+        <el-form-item>
+          <el-button type="primary" @click="submit()">提交</el-button>
+        </el-form-item>
+      </el-row>
     </el-form>
   </div>
 </template>
@@ -214,6 +219,24 @@ export default {
       })
       .catch(err => console.log(err))
       .finally(() => {});
+  },
+  methods: {
+    submit() {
+      setAppceptcance(this.form)
+        .then(res => {
+          this.$message({
+            message: "提交成功",
+            type: "success"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            message: "提交失败",
+            type: "error"
+          });
+        })
+        .finally(() => {});
+    }
   }
 };
 </script>
