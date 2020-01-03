@@ -13,6 +13,7 @@ export const declareColumns = [
       key: 'jssj',
       label: '结束时间'
     },
+    
  
     {
       key: 'sqsj',

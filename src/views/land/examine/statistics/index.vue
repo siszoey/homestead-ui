@@ -86,6 +86,7 @@
 import {getTableList} from '../../../../api/res.business'
 import {declareColumnsFilter} from "../statistics/constant"//查询参数
 
+
 export default {
 name: 'dataAnalysis',
     data() {
