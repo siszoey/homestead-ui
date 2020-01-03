@@ -450,6 +450,7 @@ p {
   align-items: center;
   justify-content: space-between;
 }
+
 .state {
   font-size: 16px;
   margin-top: 10px;
