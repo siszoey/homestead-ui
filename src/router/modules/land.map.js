@@ -36,7 +36,7 @@ export default function(iotHeader) {
                 component: _import('land/map/spatialData/plan.vue'),
                 meta: {
                     ...meta,
-                    title: '村庄规划编制成果'
+                    title: '国土空间规划'
                 }
             },
             {
@@ -45,7 +45,7 @@ export default function(iotHeader) {
                 component: _import('land/map/spatialData/year.vue'),
                 meta: {
                     ...meta,
-                    title: '年度计划成果'
+                    title: '村庄规划'
                 }
             },
             {
@@ -54,7 +54,7 @@ export default function(iotHeader) {
                 component: _import('land/map/spatialData/build.vue'),
                 meta: {
                     ...meta,
-                    title: '宅基地建设成果'
+                    title: '农房建设分布'
                 }
             },
             {

@@ -38,30 +38,6 @@
       </div>
     </div>
 
-    <div class="legendContainer">
-      <div class="legendBox">
-        <div class="title">图例</div>
-        <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/0301.png" />乔木林地
-        </div>
-        <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/0204.png" />其他园地
-        </div>
-        <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/1006.png" />农村道路
-        </div>
-        <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/0101.png" />水田
-        </div>
-        <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/0702.png" />农村宅基地
-        </div>
-                <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/0307.png" />其他林地
-        </div>
-      </div>
-    </div>
-
     <LayerList style="position:absolute;top:180px;right:80px" v-if="layerOn"></LayerList>
   </div>
 </template>
@@ -74,8 +50,12 @@ import ImageLayer from "ol/layer/Image";
 import ImageWMS from "ol/source/ImageWMS";
 import LayerList from "./components/LayerList";
 import BaseMap from "../spatialData/mapBase.js";
-import TileLayer from 'ol/layer/Tile';
-import { TileWMS } from 'ol/source';
+import TileLayer from "ol/layer/Tile";
+import { TileWMS } from "ol/source";
+import Point from "ol/geom/Point";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import GeoJSON from "ol/format/GeoJSON";
 export default {
   name: "survey",
   data() {
@@ -88,24 +68,17 @@ export default {
     LayerList
   },
   mounted() {
-    var xzqhdm = "469005110";
+    var currentRegionLayer;
+    var xzqhdm = "469005115201";
     this.map = BaseMap.BaseInitMap("mapbuild");
     this.map.addLayer(BaseMap.img_wLayer);
-    BaseMap.BaseChangeRegionVector(this.map, xzqhdm);
-    var wmsLayer = new TileLayer({
-      source: new TileWMS({
-        url: BaseMap.geoserverURL + "TDLYXZ/wms",
-        params: {
-          LAYERS: "TDLYXZ:DLTB",
-          QUERY_LAYERS: "TDLYXZ:DLTB",
-          CQL_FILTER: "QSDWDM LIKE '" + xzqhdm + "%'"
-        },
-        serverType: "geoserver",
-        VERSION: "1.1.1"
-      })
-    });
 
-    this.map.addLayer(wmsLayer);
+    currentRegionLayer = BaseMap.BaseChangeRegionVector(
+      this.map,
+      xzqhdm,
+      currentRegionLayer
+    );
+    BaseMap.BaseAddTruePoints(this.map);
   },
   methods: {
     showLayer() {
@@ -179,10 +152,10 @@ export default {
   }
 }
 .legendContainer {
-    right: 25px;
+  right: 25px;
   //right: 0px;
   position: absolute;
-  bottom:10px;
+  bottom: 10px;
   .legendBox {
     border: rgb(200, 200, 200) 1px solid;
     width: 200px;

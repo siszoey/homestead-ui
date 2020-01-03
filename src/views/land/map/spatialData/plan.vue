@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div id="mapplan" class="mapDiv"></div>
+    <div id="mapsurvey" class="mapDiv"></div>
 
     <div class="toolbarContainer">
       <div class="toolbar">
@@ -56,7 +56,7 @@
         <div class="legendItem">
           <img class="img" src="../assets/dltbstyle/0702.png" />农村宅基地
         </div>
-                <div class="legendItem">
+        <div class="legendItem">
           <img class="img" src="../assets/dltbstyle/0307.png" />其他林地
         </div>
       </div>
@@ -74,8 +74,8 @@ import ImageLayer from "ol/layer/Image";
 import ImageWMS from "ol/source/ImageWMS";
 import LayerList from "./components/LayerList";
 import BaseMap from "../spatialData/mapBase.js";
-import TileLayer from 'ol/layer/Tile';
-import { TileWMS } from 'ol/source';
+import TileLayer from "ol/layer/Tile";
+import { TileWMS } from "ol/source";
 export default {
   name: "survey",
   data() {
@@ -88,10 +88,11 @@ export default {
     LayerList
   },
   mounted() {
-    var xzqhdm = "469005110";
-    this.map = BaseMap.BaseInitMap("mapplan");
+    var currentRegionLayer;
+    var xzqhdm = "469005";
+    this.map = BaseMap.BaseInitMap("mapsurvey");
     this.map.addLayer(BaseMap.img_wLayer);
-    BaseMap.BaseChangeRegionVector(this.map, xzqhdm);
+
     var wmsLayer = new TileLayer({
       source: new TileWMS({
         url: BaseMap.geoserverURL + "TDLYXZ/wms",
@@ -102,10 +103,18 @@ export default {
         },
         serverType: "geoserver",
         VERSION: "1.1.1"
-      })
+      }),
+      zIndex: 19
     });
 
     this.map.addLayer(wmsLayer);
+
+    currentRegionLayer = BaseMap.BaseChangeRegionVector(
+      this.map,
+      xzqhdm,
+      currentRegionLayer
+    );
+    currentRegionLayer.setZIndex(20);
   },
   methods: {
     showLayer() {
@@ -179,10 +188,10 @@ export default {
   }
 }
 .legendContainer {
-    right: 25px;
+  right: 25px;
   //right: 0px;
   position: absolute;
-  bottom:10px;
+  bottom: 10px;
   .legendBox {
     border: rgb(200, 200, 200) 1px solid;
     width: 200px;
