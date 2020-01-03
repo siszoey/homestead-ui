@@ -64,7 +64,7 @@
 
             <el-table-column align="center" label="项目编号">
                 <template slot-scope="scope">
-                    <span>{{scope.row.xmbh}}</span>
+                    <span>{{scope.row.jcxx.sqid}}</span>
                 </template>
             </el-table-column>
 
@@ -82,26 +82,26 @@
 
             <el-table-column align="center" label="申请时间">
                 <template slot-scope="scope">
-                    <span>{{scope.row.userName}}</span>
+                    <span>{{scope.row.qt.sqrrq}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="申请人">
                 <template slot-scope="scope">
-                    <span>{{scope.row.userName}}</span>
+                    <span>{{scope.row.jcxx.xm}}</span>
                 </template>
             </el-table-column>
 
 
             <el-table-column align="center" label="申请面积">
                 <template slot-scope="scope">
-                    <span>{{scope.row.cardId}}</span>
+                    <span>{{scope.row.nzjdqk.zjdmj}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="联系方式">
                 <template slot-scope="scope">
-                    <span>{{scope.row.mobile}}</span>
+                    <span>{{scope.row.jcxx.lxdh}}</span>
                 </template>
             </el-table-column>
 
@@ -118,6 +118,8 @@
                                icon="el-icon-check">查看详情
                     </el-button>-->
                     <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
+                    </el-button>
+                    <el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
                     </el-button>
                 </template>
             </el-table-column>
@@ -165,8 +167,9 @@
 </template>
 
 <script>
-  import {getResidenceList, deleteDeclare} from "../../../../api/res.business"
+  import {PageData, ApproalProcess} from "../../../../api/land.business"
   import dictMixnis from "../../mixnis/dict-mixnis"
+  import {mapState} from 'vuex'
 
   export default {
     name: 'todo',
@@ -194,10 +197,10 @@
           pages: null
         },
         queryForm: {
-          sqlx: '',
-          sqid: '',
-          sqmc: '',
-          sqsj: '',
+          sqlx: undefined,
+          sqid: undefined,
+          sqmc: undefined,
+          sqsj: undefined,
         },
 
         sqlxOptions: [],
@@ -214,12 +217,20 @@
       // this.initOption(['是否', '户口性质'])
       this.getTableData()
     },
+    computed: {
+      ...mapState('d2admin/user', [
+        'info'
+      ])
+    },
     methods: {
       getTableData() {
         this.table.listLoading = true
-        let stage = '0' // 申报
-        getResidenceList(this.table.pageNum, this.table.pageSize, stage, this.queryForm).then(res => {
-          this.table.list = res.list
+        let stageParam = {
+          blzt: this.getOptCode("办理状态", "待办"),
+          roleid: this.info.role.join("|")
+        }
+        PageData(this.table.pageNum, this.table.pageSize, stageParam, this.queryForm).then(res => {
+          this.table.list = res.records
           this.table.total = res.total
         }).catch(err => console.log(err)).finally(() => {
           this.table.listLoading = false
@@ -259,12 +270,40 @@
         this.dialogEditVisible = true
       },
       handleCheck(row, flag) {
-        // if (flag) {
-        //   this.dialogCheckNextFormVisible = true
-        // } else {
-        // }
-        // this.currentId = row.xmsbid
-
+        let data = {
+          id: '',
+          sqid: '',
+          next_xmzt: '',
+          next_blzt: '',
+          next_roleid: '',
+          now_xmzt: '',
+          now_blzt: ''
+        }
+        this.$confirm('提交申请, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          ApproalProcess(data).then(() => {
+            this.$message({
+              type: 'success',
+              message: '成功!'
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'error',
+              message: '请求失败!'
+            })
+          }).finally(() => {
+            this.getTableData()
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '失败'
+          })
+        })
       },
       handleUpdate(row) {
         this.dialogEditItem = row
