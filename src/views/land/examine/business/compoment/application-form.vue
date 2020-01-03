@@ -276,14 +276,14 @@
 
 <script>
   import dictMixins from '../../../mixnis/dict-mixnis'
-  import {postApplication} from '@/api/land.business'
+  import {ApplicationForm, ApproalProcess} from '@/api/land.business'
 
   export default {
     name: 'application-form',
     mixins: [
       dictMixins
     ],
-    props:{
+    props: {
       disabled: {
         type: Boolean,
         default: false
@@ -348,6 +348,9 @@
       }
     },
     created() {
+      if(this.disabled && this.detail != undefined){
+        this.form = this.detail
+      }
       this.formValidate()
     },
     methods: {
@@ -396,32 +399,40 @@
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
-          console.log(this.form)
-          if (valid) {
-            postApplication(this.ruleForm).then(res => {
-              this.$message({
-                message: this.isCreateView ? '创建成功' : '修改成功',
-                type: 'success'
-              })
-            }).catch(() => {
-              this.$message({
-                message: this.isCreateView ? '创建失败' : '修改失败',
-                type: 'error'
-              })
-            }).finally(() => {
-              if (this.isCreateView) {
-                this.resetForm(formName)
-              }
+            console.log(this.form)
+            if (valid) {
+              ApplicationForm(this.ruleForm).then(res => {
+                ApproalProcess({
+                  'sqid': res.sqid,
+                  'next_blzt': this.getOptCode("办理状态", "待办"),
+                  'next_roleid': "sq-start",
+                  'next_xmzt': this.getOptCode("项目状态", "项目申报"),
+                }).then(() => {
+                  this.$message({
+                    message: '成功',
+                    type: 'success'
+                  })
+                })
+              }).catch(() => {
+                this.$message({
+                  message: this.isCreateView ? '创建失败' : '修改失败',
+                  type: 'error'
+                })
+              }).finally(() => {
+                if (this.isCreateView) {
+                  this.resetForm(formName)
+                }
 
-            })
-          } else {
-            this.$message({
-              message: '请按要求填写',
-              type: 'warning'
-            })
-            return false
+              })
+            } else {
+              this.$message({
+                message: '请按要求填写',
+                type: 'warning'
+              })
+              return false
+            }
           }
-        })
+        )
       },
       resetForm(formName) {
         this.$refs[formName].resetFields()
