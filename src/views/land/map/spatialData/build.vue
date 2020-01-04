@@ -39,10 +39,13 @@
     </div>
 
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
+<timeline></timeline>
+
   </div>
 </template>
 <script>
 import LayerList from "./components/LayerList";
+import timeline from "./components/timeline";
 import BaseMap from "../spatialData/mapBase.js";
 export default {
   name: "survey",
@@ -53,7 +56,8 @@ export default {
     };
   },
   components: {
-    LayerList
+    LayerList,
+    timeline
   },
   mounted() {
     var currentRegionLayer;
@@ -66,7 +70,7 @@ export default {
       xzqhdm,
       currentRegionLayer
     );
-    BaseMap.BaseAddTruePoints(this.map,"#E58C2A");
+    BaseMap.BaseAddTruePoints(this.map, "#E58C2A");
   },
   methods: {
     showLayer() {
