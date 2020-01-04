@@ -11,9 +11,9 @@ const map = {
             children: (pre => [
                 { path: `${pre}/test`, title: 'DEMO' },
                 { path: `${pre}/survey`, title: '现状调查成果' },
-                { path: `${pre}/plan`, title: '村庄规划编制成果' },
-                { path: `${pre}/year`, title: '年度计划成果' },
-                { path: `${pre}/build`, title: '宅基地建设成果' },
+                { path: `${pre}/plan`, title: '国土空间规划' },
+                { path: `${pre}/year`, title: '村庄规划' },
+                { path: `${pre}/build`, title: '农房建设分布' },
             ])('/land/map/spatialData')
         },
         {

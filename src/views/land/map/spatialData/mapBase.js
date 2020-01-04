@@ -70,6 +70,8 @@ export default {
     geoserver,
     dkserver,
 
+    BaseAddTruePoints,
+    AddZD,
     BaseInitMap,
     BaseOverlay,
     BaseRegionStyle,
@@ -77,6 +79,7 @@ export default {
     BaseAddLayer,
     BaseChangeRegionVector,
     BaseChangeRegionVectorWithPoints,
+    BaseAddPoints,
     BaseCreateRegionVectorFromServer,
     endWith,
     startWith
@@ -125,7 +128,7 @@ function BaseRegionStyle() {
             font: '14px 微软雅黑',
             scale: 1,
             fill: new Fill({ //矢量图层填充颜色，以及透明度
-                color: 'rgba(255, 255, 255, 0.78)'
+                color: 'rgba(255, 255, 255, 1)'
             }),
             stroke: new Stroke({
                 color: '#1b1c1d',
@@ -149,7 +152,7 @@ function BaseDKStyle() {
             font: '14px 微软雅黑',
             scale: 1,
             fill: new Fill({ //矢量图层填充颜色，以及透明度
-                color: 'rgba(255, 255, 255, 0.78)'
+                color: 'rgba(255, 255, 255, 1)'
             }),
             stroke: new Stroke({
                 color: '#1b1c1d',
@@ -187,7 +190,7 @@ function BaseCreateRegionVectorFromServer(xzqhdm) {
         finalurl = geoserver + cjqy + "&CQL_FILTER=ZLDWDM LIKE %27" + xzqhdm + "%25%27";
     }
     else {//村级，加载一个村
-        finalurl = geoserver + cjqy + "&CQL_FILTER=ZLDWDM = %27" + xzqhdm + "%27";
+        finalurl = geoserver + cjqy + "&CQL_FILTER=ZLDWDM LIKE %27" + xzqhdm + "%25%27";
     }
     var regionVector = new VectorLayer({
         source: new VectorSource({
@@ -196,23 +199,23 @@ function BaseCreateRegionVectorFromServer(xzqhdm) {
             format: new GeoJSON()
 
         })
-        /*         ,
-                style: function (feature, resolution) {
-                    var name = feature.get('XZQMC');
-                    if (name === undefined)
-                        name = feature.get('ZLDWMC');
-                    var style = BaseRegionStyle();
-                    //style.getText().setText(name);
-                    //style.setText(name);
-                    return style;
-                } */
         ,
-        zindex: 4
+        style: function (feature, resolution) {
+            var name = feature.get('XZQMC');
+            if (name === undefined)
+                name = feature.get('ZLDWMC');
+            var style = BaseRegionStyle();
+            style.getText().setText(name);
+            //style.setText(name);
+            return style;
+        }
+        ,
+        zindex: 9
     });
     return regionVector;
 }
 
-function BaseChangeRegionVectorWithPoints(map, xzqhdm,currentRegionLayer) {
+function BaseChangeRegionVectorWithPoints(map, xzqhdm, currentRegionLayer) {
     map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
 
@@ -227,7 +230,106 @@ function BaseChangeRegionVectorWithPoints(map, xzqhdm,currentRegionLayer) {
 }
 
 
-function BaseChangeRegionVector(map, xzqhdm,currentRegionLayer) {
+function AddZD(map) {
+    var vecLayer = new VectorLayer({
+        source: new VectorSource({
+            url: geoserver + "&typeName=TDLYXZ:ZD",
+            format: new GeoJSON()
+        })
+    });
+    map.addLayer(vecLayer);
+
+    vecLayer.getSource().on("change", function (evt) {
+        var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === "ready") {
+            //map.values_.view.fit(source.getExtent()); //自动缩放
+        }
+    });
+}
+
+
+function BaseAddPoints(map, xzqhdm, currentRegionLayer) {
+    //map.removeLayer(currentRegionLayer);//移除当前界线图层
+    currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
+
+    currentRegionLayer.getSource().on('change', function (evt) {
+        var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === 'ready') {
+            map.values_.view.fit(source.getExtent());//自动缩放
+            map.addLayer(AddPoints(source.getExtent()));
+        }
+    });
+    map.addLayer(currentRegionLayer);//加载图层
+}
+
+function BaseAddTruePoints(map, color) {
+    if (color == undefined)
+        color = "#3399CC";
+    var vecLayer = new VectorLayer({
+        source: new VectorSource({
+            url: geoserver + "&typeName=TDLYXZ:ZD",
+            format: new GeoJSON()
+        })
+    });
+
+    vecLayer.getSource().on('change', function (evt) {
+        var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === 'ready') {
+            var features = source.getFeatures();
+            var features1 = new Array(features.length);
+            for (var i = 0; i < features.length; i++) {
+                var coord = getCenter(features[i].getGeometry().getExtent());
+                features1[i] = new Feature(new Point(coord));
+            }
+            var source = new VectorSource({
+                features: features1
+            });
+
+            var clusterSource = new Cluster({
+                //distance: parseInt(distance.value, 10),
+                distance: 50,
+                source: source
+            });
+
+            var styleCache = {};
+            var clusters = new VectorLayer({
+                source: clusterSource,
+                style: function (feature) {
+                    var size = feature.get("features").length;
+                    var style = styleCache[size];
+                    if (!style) {
+                        style = new Style({
+                            image: new CircleStyle({
+                                radius: 10,
+                                stroke: new Stroke({
+                                    color: "#fff"
+                                }),
+                                fill: new Fill({
+                                    color: color
+                                })
+                            }),
+                            text: new Text({
+                                text: size.toString(),
+                                fill: new Fill({
+                                    color: "#fff"
+                                })
+                            })
+                        });
+                        styleCache[size] = style;
+                    }
+                    return style;
+                }
+            });
+            map.addLayer(clusters);
+            vecLayer.setVisible(false);
+        }
+    });
+    map.addLayer(vecLayer);//加载图层
+
+}
+
+
+function BaseChangeRegionVector(map, xzqhdm, currentRegionLayer) {
     map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
 
@@ -265,8 +367,8 @@ function AddPoints(extent) {
     var features = new Array(count);
     for (var i = 0; i < count; ++i) {
         var coordinates = [
-            center[0] + (Math.random()*4000),
-            center[1] + (Math.random()*4000)
+            center[0] + (Math.random() * 4000),
+            center[1] + (Math.random() * 4000)
         ];
         features[i] = new Feature(new Point(coordinates));
     }
