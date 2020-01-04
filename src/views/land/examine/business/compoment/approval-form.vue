@@ -182,6 +182,7 @@
           </el-col>
         </el-row>  
       </el-form>
+      <el-button type="primary">提交</el-button>
   </div>
 </template>
 
