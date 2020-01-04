@@ -48,8 +48,21 @@
               <el-table-column prop="gdmj" label="供电面积/亩" sortable></el-table-column>
               <el-table-column prop="ljsj" label="垃圾收集/亩" sortable></el-table-column>
               <el-table-column prop="cqyzcs" label="畜禽养殖场所/亩" sortable></el-table-column>
-               <el-table-column prop="lswhycbh" label="历史文化遗产保护/亩" sortable width="180px"></el-table-column>
+              <el-table-column prop="lswhycbh" label="历史文化遗产保护/亩" sortable width="180px"></el-table-column>
             </el-table>
+            <!-- footer 分页条 -->
+            <template slot="footer">
+              <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="1"
+                :page-sizes="[10,20,30,50]"
+                :page-size="10"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="100"
+              ></el-pagination>
+            </template>
           </div>
         </el-col>
       </el-row>
@@ -142,6 +155,12 @@ export default {
     //this.ajaxSync();
   },
   methods: {
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
     //搜索
     search() {
       this.ajaxSync();
@@ -216,8 +235,8 @@ export default {
 .el-row {
   margin-top: 0px;
   margin-bottom: 20px;
-  margin-left:0px;
-  margin-right:35px;
+  margin-left: 0px;
+  margin-right: 35px;
 }
 .body-box {
   height: auto;
@@ -239,7 +258,7 @@ export default {
   vertical-align: middle;
 }
 .el-col-22 {
-    width: 105%!important;
-    margin-left: 0px!important;
+  width: 105% !important;
+  margin-left: 0px !important;
 }
 </style>

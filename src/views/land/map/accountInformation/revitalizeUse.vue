@@ -24,7 +24,7 @@
           <span class="card-title">各县市用地情况统计排行</span>
         </div>
         <div v-for="o in 5" :key="o" class="text item">
-          <span class="demonstration">江夏区{{o}}</span>
+          <span class="demonstration">江夏区{{o}}（平方米）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -40,6 +40,7 @@
             <div class="color-box-gray"></div>住宅用地
           </span>
           <el-progress :percentage="o" style="width:417px"></el-progress>
+          <el-progress :percentage="10" color="#FFBB3B" style="width:417px"></el-progress>
         </div>
       </el-card>
       <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
