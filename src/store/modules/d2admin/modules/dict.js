@@ -1,5 +1,5 @@
 
-import {getDictData} from "../../../../api/res.business"
+import {getDictData} from "../../../../api/land.system"
 
 export default {
   namespaced: true,
@@ -11,10 +11,11 @@ export default {
 
     init ({ state, dispatch }) {
       return new Promise(async resolve => {
-        console.log('init dict data')
+        console.log('start init dict data')
         // store 赋值
         getDictData().then(res=>{
           state.dictList = res
+          console.log('init dict is success')
         }).catch(err=>{
           console.error('init dict is error', err)
         }).finally(()=>{
