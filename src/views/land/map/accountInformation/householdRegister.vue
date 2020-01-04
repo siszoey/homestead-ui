@@ -31,7 +31,7 @@
               ref="multipleTable"
               :data="tableData"
               tooltip-effect="dark"
-              style="width: 100%;margin-top: 11px;"
+              style="width: 95%;margin-top: 11px;"
             >
               <el-table-column prop="hzxm" label="户主姓名" sortable></el-table-column>
               <el-table-column prop="sfzh" label="身份证号" sortable></el-table-column>
