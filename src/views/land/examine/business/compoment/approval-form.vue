@@ -129,6 +129,7 @@
               <el-date-picker
                 v-model="formLabel.spyj.zrzybmrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
@@ -155,6 +156,7 @@
               <el-date-picker
                 v-model="formLabel.spyj.nyncbrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
@@ -176,6 +178,7 @@
               <el-date-picker
                 v-model="formLabel.spyj.xzzfrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
@@ -255,7 +258,7 @@ export default {
     },
     methods:{
       submitForm(){
-        submitForm(this.spyj).then(res=>{
+        submitForm(this.formLabel.spyj).then(res=>{
           console.log(1)
           console.log(res)
         })
