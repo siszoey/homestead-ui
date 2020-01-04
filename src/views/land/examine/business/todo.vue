@@ -8,7 +8,7 @@
                 style="margin-bottom: -25px; padding: 0 20px">
             <el-form-item label="申请类型">
                 <el-select v-model="queryForm['sqlx']">
-                    <el-option v-for="(option, oIndex) in sqlxOptions" :label="option.optName"
+                    <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
             </el-form-item>
@@ -64,58 +64,62 @@
 
             <el-table-column align="center" label="项目编号">
                 <template slot-scope="scope">
-                    <span>{{scope.row.xmbh}}</span>
+                    <span>{{scope.row.jcxx.sqid}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="项目名称">
                 <template slot-scope="scope">
-                    <span>{{scope.row.userName}}</span>
+                    <span>{{getOptName('建房类型', scope.row.nzjdqk.jflx)}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="申请类型">
                 <template slot-scope="scope">
-                    <span>{{scope.row.userName}}</span>
+                    <span>{{getOptName('建房类型', scope.row.nzjdqk.jflx)}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="申请时间">
                 <template slot-scope="scope">
-                    <span>{{scope.row.userName}}</span>
+                    <span>{{scope.row.qt.sqrrq}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="申请人">
                 <template slot-scope="scope">
-                    <span>{{scope.row.userName}}</span>
+                    <span>{{scope.row.jcxx.xm}}</span>
                 </template>
             </el-table-column>
 
 
             <el-table-column align="center" label="申请面积">
                 <template slot-scope="scope">
-                    <span>{{scope.row.cardId}}</span>
+                    <span>{{scope.row.nzjdqk.zjdmj}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="联系方式">
                 <template slot-scope="scope">
-                    <span>{{scope.row.mobile}}</span>
+                    <span>{{scope.row.jcxx.lxdh}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="项目状态">
                 <template slot-scope="scope">
-                    <span>{{getOptName('户口性质', scope.row.residenceType)}}</span>
+                    <span>{{getOptName('项目状态', scope.row.zjdSqJl.xmzt)}}</span>
                 </template>
             </el-table-column>
 
 
             <el-table-column fixed="right" align="center" label="操作" width="300">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="primary" @click="handleCheck(scope.row, true)"
+                    <!--<el-button size="mini" type="primary" @click="handleCheck(scope.row, true)"
                                icon="el-icon-check">查看详情
+                    </el-button>-->
+                    <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
+                    </el-button>
+                    <el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
                     </el-button>
                 </template>
             </el-table-column>
@@ -137,51 +141,22 @@
             </el-pagination>
         </template>
 
-
-        <!-- 编辑 弹框 -->
-        <el-dialog title="编辑申报" :visible.sync="dialogEditVisible" top="5vh">
-            <el-tabs type="border-card">
-                <el-tab-pane label="基本信息">
-                    <declareView :item.sync="dialogEditItem"></declareView>
-                </el-tab-pane>
-                <el-tab-pane label="影像信息">
-                    <fileTreeView :xmbh="dialogEditItem.xmbh" :stage="currentStage.code"></fileTreeView>
-                </el-tab-pane>
-            </el-tabs>
-        </el-dialog>
-
-        <!-- 通过 弹框 -->
-        <check-next-view
-                v-if="dialogCheckNextFormVisible"
-                v-bind:itemId="currentId"
-                :stage="currentStage"
-                content="确定提交申报？"
-                v-on:refresh="getTableData"
-                :visible.sync="dialogCheckNextFormVisible"></check-next-view>
-
     </d2-container>
 </template>
 
 <script>
-  import {getResidenceList, deleteDeclare} from "../../../../api/res.business"
+  import {PageData, ApproalProcess} from "../../../../api/land.business"
   import dictMixnis from "../../mixnis/dict-mixnis"
+  import {mapState} from 'vuex'
 
   export default {
-    name: 'todo',
-    components: {
-      // declareView,
-      // checkNextView,
-      // fileTreeView
-    },
+    name: 'examine-todo',
+    components: {},
     mixins: [
       dictMixnis
     ],
     data() {
-      // let declareColumns = declareColumnsFilter(true, ['userName', 'residenceType', 'isHouseHolder'])
       return {
-        currentStage: {},
-        activeNames: ['1', '2'],
-        // columnOptions: declareColumns,
         table: {
           key: 0,
           listLoading: false,
@@ -192,32 +167,30 @@
           pages: null
         },
         queryForm: {
-          sqlx: '',
-          sqid: '',
-          sqmc: '',
-          sqsj: '',
+          sqlx: undefined,
+          sqid: undefined,
+          sqmc: undefined,
+          sqsj: undefined,
         },
-
-        sqlxOptions: [],
-
-        dialogEditVisible: false,
-        dialogEditItem: '',
-
-        dialogCheckNextFormVisible: false,
-        currentId: ''
       }
     },
     created() {
-      // this.currentStage = this.getOptionByContent('项目阶段', '项目申报')
-      // this.initOption(['是否', '户口性质'])
       this.getTableData()
+    },
+    computed: {
+      ...mapState('d2admin/user', [
+        'info'
+      ])
     },
     methods: {
       getTableData() {
         this.table.listLoading = true
-        let stage = '0' // 申报
-        getResidenceList(this.table.pageNum, this.table.pageSize, stage, this.queryForm).then(res => {
-          this.table.list = res.list
+        let stageParam = {
+          blzt: this.getOptCode("办理状态", "待办"),
+          roleid: this.info.role.join("|")
+        }
+        PageData(this.table.pageNum, this.table.pageSize, stageParam, this.queryForm).then(res => {
+          this.table.list = res.records
           this.table.total = res.total
         }).catch(err => console.log(err)).finally(() => {
           this.table.listLoading = false
@@ -238,45 +211,50 @@
       handleCreate() {
         this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
       },
+      handleDetail(row) {
+        this.$router.push({
+            name: 'land-examine-detail',
+            params: Object.assign({
+              sqlx: 0,
+              sqid: 'xx',
+              applicationFormDisabled: true,
+              appceptanceFormDisabled: true,
+              approvalFormDisabled: true,
+              detail: row
+            })
+          }
+        )
+      },
       handleUpdate(row) {
-        this.dialogEditItem = row
-        this.dialogEditVisible = true
       },
       handleCheck(row, flag) {
-        if (flag) {
-          this.dialogCheckNextFormVisible = true
-        } else {
+        let data = {
+          id: '',
+          sqid: '',
+          next_xmzt: '',
+          next_blzt: '',
+          next_roleid: '',
+          now_xmzt: '',
+          now_blzt: ''
         }
-        this.currentId = row.xmsbid
-      },
-      handleUpdate(row) {
-        this.dialogEditItem = row
-        this.dialogEditVisible = true
-      },
-      handleDelete(row) {
-        this.$confirm('确定删除所选', '提示', {
+        this.$confirm('提交申请, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
           center: true
         }).then(() => {
-          deleteDeclare(row.xmsbid).then(() => {
+          ApproalProcess(data).then(() => {
             this.$message({
               type: 'success',
-              message: '已删除!'
+              message: '成功!'
             })
           }).catch(() => {
             this.$message({
               type: 'error',
-              message: '删除失败!'
+              message: '请求失败!'
             })
           }).finally(() => {
             this.getTableData()
-          })
-        }).catch(action => {
-          this.$message({
-            type: 'info',
-            message: '取消删除'
           })
         })
       },
@@ -284,6 +262,6 @@
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>

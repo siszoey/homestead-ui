@@ -30,6 +30,16 @@ export default function (iotHeader) {
         }
       },
       {
+        path: 'business/detail/:sqlx/:sqid',
+        props: true,
+        name: `${pre}detail`,
+        component: _import('land/examine/business/compoment/detail-page.vue'),
+        meta: {
+          ...meta,
+          title: '详情'
+        }
+      },
+      {
         path: 'business/done',
         name: `${pre}done`,
         component: _import('land/examine/business/done.vue'),

@@ -40,19 +40,13 @@ export default {
     },
 
     getOptName(keyName, optCode) {
-      let dict = this.dictList.find((value, index, arr) => value.keyName == keyName && value.code == optCode)
-      if (dict == undefined) {
-        return ''
-      }
-      return dict.content
+      let dict = this.dictList.find((value, index, arr) => value.keyName == keyName && value.optCode == optCode)
+      return dict ? dict.optName :  ''
     },
 
-    getOptCode(keyName, optCode) {
-      let dict = this.dictList.find(t => t.keyName === keyName && t.optCode === optCode)
-      if (dict) {
-        return dict.code
-      }
-      return ''
+    getOptCode(keyName, optName) {
+      let dict = this.dictList.find(t => t.keyName === keyName && t.optName === optName)
+      return dict ? dict.optCode :  ''
     }
   }
 }
