@@ -205,9 +205,9 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
-                    <el-form-item label="申请日期" prop="qt.sqrq">
+                    <el-form-item label="申请日期" prop="qt.sqrrq">
                         <el-date-picker
-                                v-model="form.qt['sqrq']"
+                                v-model="form.qt['sqrrq']"
                                 type="date"
                                 format="yyyy 年 MM 月 dd 日"
                                 value-format="yyyy-MM-dd"
@@ -334,7 +334,7 @@
           qt: {
             sqly: '',
             sqr: '',
-            sqrq: '',
+            sqrrq: '',
             cmxzyj: '',
             cmxzfzr: '',
             cmxzrq: '',
@@ -402,11 +402,12 @@
             let params = this.form
             if (valid) {
               ApplicationForm(params).then(res => {
+                debugger
                 ApproalProcess({
                   'sqid': res.sqid,
                   'next_blzt': this.getOptCode("办理状态", "待办"),
-                  'next_roleid': "sq-start",
-                  'next_xmzt': this.getOptCode("项目状态", "项目申报"),
+                  'next_roleid': this.getDictByOptCode("流程角色", "1").optName,
+                  'next_xmzt': this.getDictByOptCode("项目状态", "1").optCode,
                 }).then(() => {
                   this.$message({
                     message: '申请成功',
