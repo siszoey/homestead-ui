@@ -31,7 +31,6 @@ import VectorTileSource from "ol/source/VectorTile";
 import { Fill, Icon, Stroke, Style, Text } from "ol/style";
 
 import BaseMap from "../spatialData/mapBase.js";
-import TileLayer from "ol/layer/Tile";
 import { TileWMS, Cluster } from "ol/source";
 import { Feature } from "ol";
 import Point from "ol/geom/Point";
@@ -39,6 +38,7 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import CircleStyle from "ol/style/Circle";
 import { getCenter } from "ol/extent";
+import TileLayer from "ol/layer/Tile";
 
 export default {
   data() {
@@ -51,11 +51,16 @@ export default {
     var xzqhdm = "469005110";
     this.map = BaseMap.BaseInitMap("maptest");
     this.map.addLayer(BaseMap.img_wLayer);
-    currentRegionLayer=BaseMap.BaseChangeRegionVectorWithPoints(this.map, xzqhdm,currentRegionLayer);
+    
     ChangeDK(this.map, xzqhdm, "0702");
-
+    currentRegionLayer = BaseMap.BaseAddPoints(
+      this.map,
+      xzqhdm,
+      currentRegionLayer
+    );
+    currentRegionLayer.setZIndex(20);
     function ChangeDK(map, xzqhdm, dlbm) {
-      var vector = new TileLayer({
+      var wmsLayer = new TileLayer({
         source: new TileWMS({
           url: BaseMap.geoserverURL + "TDLYXZ/wms",
           params: {

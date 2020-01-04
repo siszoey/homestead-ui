@@ -11,9 +11,9 @@ const map = {
             children: (pre => [
                 { path: `${pre}/test`, title: 'DEMO' },
                 { path: `${pre}/survey`, title: '现状调查成果' },
-                { path: `${pre}/plan`, title: '村庄规划编制成果' },
-                { path: `${pre}/year`, title: '年度计划成果' },
-                { path: `${pre}/build`, title: '宅基地建设成果' },
+                { path: `${pre}/plan`, title: '国土空间规划' },
+                { path: `${pre}/year`, title: '村庄规划' },
+                { path: `${pre}/build`, title: '农房建设分布' },
             ])('/land/map/spatialData')
         },
         {
@@ -22,6 +22,9 @@ const map = {
             children: (pre => [
                 { path: `${pre}/yearPlan`, title: '年度计划一览表' },
                 { path: `${pre}/landIndex`, title: '用地指标一览表' },
+                { path: `${pre}/IllegalHouse`, title: '违法建房一览表' },
+                { path: `${pre}/revitalizeUse`, title: '盘活利用一览表' },
+                { path: `${pre}/householdRegister`, title: '户籍信息一览表' },
             ])('/land/map/accountInformation')
         },
         {
@@ -54,6 +57,15 @@ const examine = {
             { path: `${pre}/statistics`, title: '统计分析' }
         ])('/land/examine')
     }
+    const system = {
+        path: '/land/system',
+        title: '系统设置',
+        alias: 'index',
+        icon: 'system',
+        children: (pre => [
+          {path: `${pre}/fileConfig`, title: '上传设置'},
+        ])('/land/system')
+      }
     // const search = {
     //   path: '/res/search',
     //   title: '归档查询',
@@ -100,7 +112,8 @@ const examine = {
 export const menuAside = [
     // home,
     map,
-    examine
+    examine,
+    system
     // business,
     // search,
     // message,
@@ -113,7 +126,8 @@ export const menuAside = [
 export const menuHeader = [
     // home,
     map,
-    examine
+    examine,
+    system
     // business,
     // search,
     // message,

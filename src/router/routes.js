@@ -8,6 +8,7 @@ let layHeader = defaultHeader
 
 // 路由模块
 import defaultRouter from './modules/default'
+
 // import resMap from './modules/res.map'
 // import resBusiness from './modules/res.business'
 // import resSearch from './modules/res.search'
@@ -17,6 +18,7 @@ import defaultRouter from './modules/default'
 
 import landMap from './modules/land.map'
 import landExamine from './modules/land.examine'
+import landSystem from './modules/land.system'
 
 /**
  * 在主框架内显示
@@ -31,8 +33,8 @@ const frameIn = [
     // resSystem(layHeader)
 
     landMap(layHeader),
-    landExamine(layHeader)
-
+    landExamine(layHeader),
+    landSystem(layHeader)
 ]
 
 /**
