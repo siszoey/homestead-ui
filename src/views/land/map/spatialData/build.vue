@@ -42,20 +42,8 @@
   </div>
 </template>
 <script>
-import "ol/ol.css";
-import { createTdtImgLayer } from "./ol.tdt";
-import { Map, View } from "ol";
-import { defaults } from "ol/control";
-import ImageLayer from "ol/layer/Image";
-import ImageWMS from "ol/source/ImageWMS";
 import LayerList from "./components/LayerList";
 import BaseMap from "../spatialData/mapBase.js";
-import TileLayer from "ol/layer/Tile";
-import { TileWMS } from "ol/source";
-import Point from "ol/geom/Point";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
-import GeoJSON from "ol/format/GeoJSON";
 export default {
   name: "survey",
   data() {
@@ -78,7 +66,7 @@ export default {
       xzqhdm,
       currentRegionLayer
     );
-    BaseMap.BaseAddTruePoints(this.map);
+    BaseMap.BaseAddTruePoints(this.map,"#E58C2A");
   },
   methods: {
     showLayer() {

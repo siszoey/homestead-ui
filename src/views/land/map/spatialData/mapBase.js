@@ -230,21 +230,21 @@ function BaseChangeRegionVectorWithPoints(map, xzqhdm, currentRegionLayer) {
 }
 
 
-function AddZD(map){
+function AddZD(map) {
     var vecLayer = new VectorLayer({
         source: new VectorSource({
-          url: geoserver + "&typeName=TDLYXZ:ZD",
-          format: new GeoJSON()
+            url: geoserver + "&typeName=TDLYXZ:ZD",
+            format: new GeoJSON()
         })
-      });
-      map.addLayer(vecLayer);
-  
-      vecLayer.getSource().on("change", function(evt) {
+    });
+    map.addLayer(vecLayer);
+
+    vecLayer.getSource().on("change", function (evt) {
         var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
         if (source.getState() === "ready") {
-          //map.values_.view.fit(source.getExtent()); //自动缩放
+            //map.values_.view.fit(source.getExtent()); //自动缩放
         }
-      });
+    });
 }
 
 
@@ -262,34 +262,35 @@ function BaseAddPoints(map, xzqhdm, currentRegionLayer) {
     map.addLayer(currentRegionLayer);//加载图层
 }
 
-function BaseAddTruePoints(map) {
+function BaseAddTruePoints(map, color) {
+    if (color == undefined)
+        color = "#3399CC";
     var vecLayer = new VectorLayer({
         source: new VectorSource({
-          url: geoserver + "&typeName=TDLYXZ:ZD",
-          format: new GeoJSON()
+            url: geoserver + "&typeName=TDLYXZ:ZD",
+            format: new GeoJSON()
         })
-      });
+    });
 
-      vecLayer.getSource().on('change', function (evt) {
+    vecLayer.getSource().on('change', function (evt) {
         var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
         if (source.getState() === 'ready') {
-            var features=source.getFeatures();
+            var features = source.getFeatures();
             var features1 = new Array(features.length);
-            for(var i=0;i<features.length;i++)
-            {
-               var coord= getCenter(features[i].getGeometry().getExtent());
-               features1[i] = new Feature(new Point(coord));
+            for (var i = 0; i < features.length; i++) {
+                var coord = getCenter(features[i].getGeometry().getExtent());
+                features1[i] = new Feature(new Point(coord));
             }
             var source = new VectorSource({
                 features: features1
             });
-        
+
             var clusterSource = new Cluster({
                 //distance: parseInt(distance.value, 10),
                 distance: 50,
                 source: source
             });
-        
+
             var styleCache = {};
             var clusters = new VectorLayer({
                 source: clusterSource,
@@ -304,7 +305,7 @@ function BaseAddTruePoints(map) {
                                     color: "#fff"
                                 }),
                                 fill: new Fill({
-                                    color: "#3399CC"
+                                    color: color
                                 })
                             }),
                             text: new Text({
@@ -324,7 +325,7 @@ function BaseAddTruePoints(map) {
         }
     });
     map.addLayer(vecLayer);//加载图层
-    
+
 }
 
 

@@ -139,14 +139,15 @@ export default {
   },
   mounted() {
     var currentRegionLayer;
-    var xzqhdm = "469005110";
+    var xzqhdm = "469005115201";
     this.map = BaseMap.BaseInitMap("pic-map");
     this.map.addLayer(BaseMap.img_wLayer);
-    currentRegionLayer = BaseMap.BaseAddPoints(
+    currentRegionLayer = BaseMap.BaseChangeRegionVector(
       this.map,
       xzqhdm,
       currentRegionLayer
     );
+    BaseMap.BaseAddTruePoints(this.map,"#E58C2A");
 
     //floatOnMap();
   }
