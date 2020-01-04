@@ -96,7 +96,7 @@ export function getTableList(queryForm,current, size) {
 
 
 // 项目所处阶段统计
-export function pieChartDatas(data) {
+export function pieChartDatas(params) {
   return request({
     url: '/statistics/xmscjdtj',
     method: 'get',
@@ -105,10 +105,10 @@ export function pieChartDatas(data) {
 }
 
 //申请与已建数
-// export function getsqyyjs(data) {
-//   return request({
-//     url: '/statistics/sqyyjs',
-//     method: 'get',
-//     data
-//   })
-// }
+export function GetBarChartDatas(params) {
+  return request({
+    url: '/statistics/sqyyjs',
+    method: 'get',
+    params
+  })
+}

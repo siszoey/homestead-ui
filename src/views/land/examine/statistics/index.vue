@@ -123,7 +123,7 @@
 
 <script>
 import dictMixnis from "../../mixnis/dict-mixnis"
-import { getTableList,pieChartDatas } from "../../../../api/res.business";
+import { getTableList,pieChartDatas,GetBarChartDatas } from "../../../../api/res.business";
 import { color } from "echarts/lib/export";
 export default {
   name: "land-map-implementationProcess",
@@ -143,49 +143,50 @@ export default {
       },
     
           //柱状图数据显示
-          barChartDatas:[
+          barDatas:[
             {
-              year: "2017",
+              sqnf: "",
               number: 28,
               resData: [
                 {
                   name: "申请数",
-                  value: "20"
+                  value: ""
                 },
                 {
                   name: "已建数",
-                  value: "6"
+                  value: ""
                 }
               ]
-            },
-             {
-                year: "2018",
-                number: 20,
-                resData: [
-                  {
-                    name: "申请数",
-                    value: "18"
-                  },
-                  {
-                    name: "已建数",
-                    value: "2"
-                  }
-                ]
-              },
-              {
-                year: "2019",
-                number: 30,
-                resData: [
-                  {
-                    name: "申请数",
-                    value: "22"
-                  },
-                  {
-                    name: "已建数",
-                    value: "5"
-                  }
-                ]
-              }
+            }
+            // ,
+            //  {
+            //     year: "2018",
+            //     number: 20,
+            //     resData: [
+            //       {
+            //         name: "申请数",
+            //         value: "18"
+            //       },
+            //       {
+            //         name: "已建数",
+            //         value: "2"
+            //       }
+            //     ]
+            //   },
+            //   {
+            //     year: "2019",
+            //     number: 30,
+            //     resData: [
+            //       {
+            //         name: "申请数",
+            //         value: "22"
+            //       },
+            //       {
+            //         name: "已建数",
+            //         value: "5"
+            //       }
+            //     ]
+            //   }
         ],
         //饼状图数据显示
          pieChartDatas:[
@@ -246,9 +247,11 @@ export default {
     },
     //柱状统计图
     InitChart() {
-      const _dataList = this.barChartDatas;
+      GetBarChartDatas().then((res) =>
+      {  
+      const _dataList = res;
       this.barChart = this.$echarts.init(this.$refs.barMain);
-      if (_dataList.length > 0) {
+      if (_dataList != null) {
         const serieSqs = {
           name: "申请数",
           type: "bar",
@@ -265,16 +268,9 @@ export default {
         const dataYjs = [];
         const xAixs = [];
         _dataList.forEach(item => {
-          xAixs.push(item.year);
-          if (item.resData.length > 0) {
-            item.resData.forEach(it => {
-              if (it.name == "申请数") {
-                dataSqs.push(it.value);
-              } else if (it.name == "已建数") {
-                dataYjs.push(it.value);
-              } 
-            });
-          }
+          xAixs.push(item.sqnf);
+          dataSqs.push(item.sqs);
+          dataYjs.push(item.yjs);
         });
         serieSqs.data = dataSqs;
         serieYjs.data = dataYjs;
@@ -316,6 +312,7 @@ export default {
         // 使用刚指定的配置项和数据显示图表。
         this.barChart.setOption(option);
       }
+    })
     },
 
       //饼状图
@@ -328,7 +325,7 @@ export default {
           right: 60,
           bottom: "10%",
           data: this.pieChartDatas.name,
-          padding: [0, 30, 0, 0],
+          padding: [0, 0, 0, 0],
           selectedMode: false,
           itemWidth: 6,
           itemHeight: 30,
@@ -386,7 +383,7 @@ export default {
           {
             type: "pie",
             radius: ["35%", "75%"],//调整环形图的大小
-            center: [250, 125],//调整环形图位置：距离右边距、上边距
+            center: [170, 125],//调整环形图位置：距离右边距、上边距
             avoidLabelOverlap: false,
             hoverAnimation: false,
             legendHoverLink: false,
