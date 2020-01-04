@@ -348,7 +348,7 @@
       }
     },
     created() {
-      if(this.disabled && this.detail != undefined){
+      if (this.disabled && this.detail != undefined) {
         this.form = this.detail
       }
       this.formValidate()
@@ -399,9 +399,9 @@
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
-            console.log(this.form)
+            let params = this.form
             if (valid) {
-              ApplicationForm(this.ruleForm).then(res => {
+              ApplicationForm(params).then(res => {
                 ApproalProcess({
                   'sqid': res.sqid,
                   'next_blzt': this.getOptCode("办理状态", "待办"),
@@ -409,7 +409,7 @@
                   'next_xmzt': this.getOptCode("项目状态", "项目申报"),
                 }).then(() => {
                   this.$message({
-                    message: '成功',
+                    message: '申请成功',
                     type: 'success'
                   })
                 })
