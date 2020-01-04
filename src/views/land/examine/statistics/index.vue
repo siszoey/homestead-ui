@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="wrap-middle">
+      <p class="header-title">项目统计分析</p>
       <el-row class="queryForm">
         <el-col>
           <el-form :inline="true" :model="queryForm" ref="queryForm" size="mini">
             <el-form-item label="建房类型">
               <el-select v-model="queryForm['jflx']">
                 <el-option
-                  v-for="(option, oIndex) in jflxOptions"
+                  v-for="(option, oIndex) in getDicts('建房类型')"
                   :label="option.optName"
                   :value="option.optCode"
                   :key="oIndex"
@@ -32,7 +33,7 @@
             <el-form-item label="项目状态">
               <el-select v-model="queryForm['xmzt']">
                 <el-option
-                  v-for="(option, oIndex) in xmztOptions"
+                  v-for="(option, oIndex) in getDicts('项目状态')"
                   :label="option.optName"
                   :value="option.optCode"
                   :key="oIndex"
@@ -69,7 +70,7 @@
 
                     <el-table-column align="center" label="建房类型">
                         <template slot-scope="scope">
-                            <span>{{scope.row.jflx}}</span>
+                            <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
                         </template>
                     </el-table-column>
 
@@ -79,15 +80,15 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column align="center" label="申请面积">
+                    <el-table-column align="center" label="宅基地面积">
                         <template slot-scope="scope">
-                            <span>{{scope.row.sqmj}}</span>
+                            <span>{{scope.row.zjdmj}}</span>
                         </template>
                     </el-table-column>
 
                     <el-table-column align="center" label="项目状态">
                         <template slot-scope="scope">
-                            <span>{{scope.row.xmzt}}</span>
+                            <span>{{getOptName('项目状态', scope.row.xmzt)}}</span>
                         </template>
                     </el-table-column> 
           </el-table>
@@ -96,8 +97,8 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page.sync="table.pageNum"
-            :page-size="table.pageSize"
+            :current-page.sync="table.current"
+            :page-size="table.size"
             layout="total, prev, pager, next, jumper"
             :total="table.total"
             style="margin-top:35px;text-align:center"
@@ -121,10 +122,14 @@
 </template>
 
 <script>
-import { getTableList } from "../../../../api/res.business";
+import dictMixnis from "../../mixnis/dict-mixnis"
+import { getTableList,pieChartDatas } from "../../../../api/res.business";
 import { color } from "echarts/lib/export";
 export default {
   name: "land-map-implementationProcess",
+  mixins: [
+      dictMixnis
+  ],
   data() {
     return {
       table: {
@@ -132,8 +137,8 @@ export default {
         listLoading: false,
         list: [],
         total: null,
-        pageNum: 0,
-        pageSize: 10,
+        current: 1,
+        size: 10,
         pages: null
       },
     
@@ -190,16 +195,18 @@ export default {
           ],
       //搜索权限
       queryForm: {
-        sqlx: "",
         sqid: "",
-        sqmc: "",
-        sqsj: ""
+        jflx: "",
+        kssj: "",
+        jssj: "",
+        xmzt: ""       
       },
       pieChart: {},
       barChart: {}
     };
   },
   mounted() {
+    console.log(888);
     this.getChartData();
     this.getTableData();
     //当页面大小发生变化时，echarts统计图根据画布大小自动重新绘制
@@ -215,15 +222,13 @@ export default {
     },
     getTableData() {
       this.table.listLoading = true;
-      //let stage = "0"; // 申报
       getTableList(
-        this.table.pageNum,
-        this.table.pageSize,
-        //stage,
-        this.queryForm
+        this.queryForm,//查询条件
+        this.table.current,//当前页
+        this.table.size//每页数量       
       )
         .then(res => {
-          this.table.list = res.list;
+          this.table.list = res.records;
           this.table.total = res.total;
         })
         .catch(err => console.log(err))
@@ -232,11 +237,11 @@ export default {
         });
     },
     handleSizeChange(pageSiz) {
-      this.table.pageSize = pageSiz;
+      this.table.size = pageSiz;
       this.getTableData();
     },
-    handleCurrentChange(pageNum) {
-      this.table.pageNum = pageNum;
+    handleCurrentChange(current) {
+      this.table.current = current;
       this.getTableData();
     },
     //柱状统计图
@@ -313,7 +318,7 @@ export default {
       }
     },
 
-    //饼状图
+      //饼状图
       IniPieChart() {
       const _dataList = this.pieChartDatas;
       this.pieChart = this.$echarts.init(this.$refs.pieMain);

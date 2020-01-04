@@ -89,30 +89,30 @@ export function tobackfill(data) {
 
 /**
  * 统计分析报表数据
- * @param pageNum 分页页码
- * @param pageSize  每页数量
+ * @param current 分页页码
+ * @param size  每页数量
  * @param queryForm 过滤条件参数对象
  */
-export function getTableList(pageNum, pageSize, queryForm) {
+export function getTableList(queryForm,current, size) {
   return request({
     url: '/statistics/xmtjxx',
     method: 'get',
-    data: Object.assign({
-      pageNum,
-      pageSize
+    params: Object.assign({
+      current,
+      size
     }, queryForm)
   })
 }
 
 
-//项目所处阶段统计
-// export function getXmscjdtj(data) {
-//   return request({
-//     url: '/statistics/GetXmscjdtj',
-//     method: 'get',
-//     data
-//   })
-// }
+// 项目所处阶段统计
+export function pieChartDatas(data) {
+  return request({
+    url: '/statistics/xmscjdtj',
+    method: 'get',
+    params
+  })
+}
 
 //申请与已建数
 // export function getsqyyjs(data) {
