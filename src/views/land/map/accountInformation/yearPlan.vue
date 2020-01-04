@@ -20,12 +20,27 @@
               v-model="city"
               style="position:absolute;z-index:9999999;left:250px;width: 2rem !important;"
               class="select-item-xzq"
-            ></el-select>
+              v-on:change="changeCity(city)"
+            >
+              <el-option
+                v-for="item in cities"
+                :key="item.id"
+                :label="item.properties.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
             <el-select
-              v-model="city"
+              v-model="county"
               style="position:absolute;z-index:9999999;left:470px;width: 2rem !important;"
               class="select-item-xzq"
-            ></el-select>
+            >
+              <el-option
+                v-for="item in counties"
+                :key="item.properties.id"
+                :label="item.properties.name"
+                :value="item.properties.id"
+              ></el-option>
+            </el-select>
 
             <el-button
               size="medium"
@@ -71,6 +86,7 @@
 </template>
 
 <script>
+import JSON_WHS from "@/plugin/echarts-map/city/json/hubei/420100.json"; //武汉市
 export default {
   data() {
     return {
@@ -79,61 +95,97 @@ export default {
       years: [],
       year: "",
       city: "",
+      cities: [],
+      county: [],
+      counties: [],
       tableData: [
         {
-          szsx: "江夏区",
-          zzmj: "5343.54",
-          dlmj: "56464.7",
+          szsx: "龙华区",
+          zzmj: "954.54",
+          dlmj: "321.7",
           gsmj: "978.5",
-          psmj: "765.5",
-          gdmj: "8656.6",
-          ljsj: "4346345",
-          cqyzcs: "5342.13",
-          lswhycbh: "8654532.78"
+          psmj: "86545.5",
+          gdmj: "673.6",
+          ljsj: "753",
+          cqyzcs: "945.13",
+          lswhycbh: "854.78"
         },
         {
-          szsx: "黄陂区",
-          zzmj: "5343.54",
-          dlmj: "56464.7",
-          gsmj: "978.5",
-          psmj: "765.5",
-          gdmj: "8656.6",
-          ljsj: "4346345",
-          cqyzcs: "5342.13",
-          lswhycbh: "8654532.78"
+          szsx: "美兰区",
+          zzmj: "2546.54",
+          dlmj: "975.7",
+          gsmj: "874.5",
+          psmj: "366.5",
+          gdmj: "422.6",
+          ljsj: "652.88",
+          cqyzcs: "54.13",
+          lswhycbh: "76.78"
         },
         {
-          szsx: "新洲区",
-          zzmj: "5343.54",
-          dlmj: "56464.7",
-          gsmj: "978.5",
-          psmj: "765.5",
+          szsx: "琼山区",
+          zzmj: "953.54",
+          dlmj: "753.7",
+          gsmj: "265.5",
+          psmj: "545.5",
           gdmj: "8656.6",
-          ljsj: "4346345",
-          cqyzcs: "5342.13",
-          lswhycbh: "8654532.78"
+          ljsj: "4233.08",
+          cqyzcs: "545.13",
+          lswhycbh: "765754.78"
         },
         {
-          szsx: "青山区",
-          zzmj: "5343.54",
-          dlmj: "56464.7",
-          gsmj: "978.5",
+          szsx: "秀英区",
+          zzmj: "4545.54",
+          dlmj: "6543.7",
+          gsmj: "64534.5",
           psmj: "765.5",
-          gdmj: "8656.6",
-          ljsj: "4346345",
-          cqyzcs: "5342.13",
-          lswhycbh: "8654532.78"
+          gdmj: "5345.6",
+          ljsj: "867.99",
+          cqyzcs: "543.13",
+          lswhycbh: "535.78"
         },
         {
-          szsx: "武昌区",
-          zzmj: "5343.54",
-          dlmj: "56464.7",
-          gsmj: "978.5",
-          psmj: "765.5",
-          gdmj: "8656.6",
-          ljsj: "4346345",
-          cqyzcs: "5342.13",
-          lswhycbh: "8654532.78"
+          szsx: "龙华区",
+          zzmj: "876.54",
+          dlmj: "8765.7",
+          gsmj: "545.5",
+          psmj: "8654.5",
+          gdmj: "537.6",
+          ljsj: "65",
+          cqyzcs: "5345.13",
+          lswhycbh: "74.78"
+        },
+        {
+          szsx: "秀英区",
+          zzmj: "7654.54",
+          dlmj: "423.7",
+          gsmj: "987.5",
+          psmj: "844.5",
+          gdmj: "123.6",
+          ljsj: "97.09",
+          cqyzcs: "6323.13",
+          lswhycbh: "975.78"
+        },
+        {
+          szsx: "琼山区",
+          zzmj: "875.54",
+          dlmj: "976.7",
+          gsmj: "312.5",
+          psmj: "9753.5",
+          gdmj: "344.6",
+          ljsj: "6543",
+          cqyzcs: "8645.13",
+          lswhycbh: "74.78"
+        },
+        {
+          szsx: "龙华区",
+          zzmj: "333.54",
+          dlmj: "35.7",
+          gsmj: "87688.5",
+          psmj: "86543.5",
+          gdmj: "76.6",
+          ljsj: "42354.99",
+          cqyzcs: "864.13",
+          lswhycbh: "234.78"
         }
       ],
       ids: "",
@@ -143,6 +195,74 @@ export default {
     };
   },
   mounted: function() {
+    //console.log(JSON_WHS);
+    //获取海南市级行政区
+    let sj_fileName = "echarts-map/province/json/hainan.json";
+    this.requestAjax(sj_fileName, 2);
+    //获取海南省海口市行政区
+    let xj_fileName = "echarts-map/city/json/hainan/460100.json";
+    this.requestAjax(xj_fileName, 3);
+    // let cities = [
+    //   {
+    //     value: "420100",
+    //     label: "武汉市"
+    //   },
+    //   {
+    //     value: "420200",
+    //     label: "黄石市"
+    //   },
+    //   {
+    //     value: "420300",
+    //     label: "十堰市"
+    //   },
+    //   {
+    //     value: "420500",
+    //     label: "宜昌市"
+    //   },
+    //   {
+    //     value: "420600",
+    //     label: "襄阳市"
+    //   },
+    //   {
+    //     value: "420700",
+    //     label: "鄂州市"
+    //   },
+    //   {
+    //     value: "420800",
+    //     label: "荆门市"
+    //   },
+    //   {
+    //     value: "420900",
+    //     label: "孝感市"
+    //   },
+    //   {
+    //     value: "421000",
+    //     label: "荆州市"
+    //   },
+    //   {
+    //     value: "421100",
+    //     label: "黄冈市"
+    //   },
+    //   {
+    //     value: "421200",
+    //     label: "咸宁市"
+    //   },
+    //   {
+    //     value: "421300",
+    //     label: "随州市"
+    //   },
+    //   {
+    //     value: "422800",
+    //     label: "恩施土家族苗族自治州"
+    //   },
+    //   {
+    //     value: "429000",
+    //     label: "湖北省直辖县市"
+    //   }
+    // ];
+    //this.cities = cities;
+    //默认行政区为海口市
+    this.city = "460100";
     //获得当前年份
     var _date = new Date();
     var tYear = _date.getFullYear();
@@ -155,6 +275,90 @@ export default {
     //this.ajaxSync();
   },
   methods: {
+    changeCity(value) {
+      let fileName="";
+      console.log(value);
+      switch (value) {
+        // case "420100":
+        //   let fileName = "echarts-map/city/json/hubei/420100.json";
+        //   this.requestAjax(fileName, 3);
+        //   break;
+        // case "420200":
+        //   this.initMaps(JSON_HSS);
+        //   break;
+        // case "420300":
+        //   this.initMaps(JSON_SYS);
+        //   break;
+        // case "420500":
+        //   this.initMaps(JSON_YCS);
+        //   break;
+        // case "420600":
+        //   this.initMaps(JSON_XYS);
+        //   break;
+        // case "420700":
+        //   this.initMaps(JSON_EZS);
+        //   break;
+        // case "420800":
+        //   this.initMaps(JSON_JMS);
+        //   break;
+        // case "420900":
+        //   this.initMaps(JSON_XGS);
+        //   break;
+        // case "421000":
+        //   this.initMaps(JSON_JZS);
+        //   break;
+        // case "421100":
+        //   this.initMaps(JSON_HGS);
+        //   break;
+        // case "421200":
+        //   this.initMaps(JSON_XNS);
+        //   break;
+        // case "421300":
+        //   this.initMaps(JSON_SZS);
+        //   break;
+        // case "422800":
+        //   this.initMaps(JSON_ESTJZMZZZZ);
+        //   break;
+        // case "429000":
+        //   this.initMaps(JSON_HBSZXXS);
+        //   break;
+        case "460100":
+          fileName = "echarts-map/city/json/hainan/460100.json";
+          this.requestAjax(fileName, 3);
+          break;
+        case "460200":
+          fileName = "echarts-map/city/json/hainan/460200.json";
+          this.requestAjax(fileName, 3);
+          break;
+        case "460300":
+          fileName = "echarts-map/city/json/hainan/460300.json";
+          this.requestAjax(fileName, 3);
+          break;
+          default:
+            this.counties=[];
+            break;
+      }
+    },
+    //ajax获取本地json文件行政区划
+    requestAjax(fileName, level) {
+      let _this = this;
+      this.$axios
+        .get(fileName)
+        //then获取成功；response成功后的返回值（对象）
+        .then(response => {
+          console.log(response.data.features); //[0].properties.name
+          if (level == "3") {
+            this.counties = response.data.features;
+          } else if (level == "2") {
+            this.cities = response.data.features;
+          }
+        })
+        //获取失败
+        .catch(error => {
+          console.log(error);
+          alert("网络错误，不能访问");
+        });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
