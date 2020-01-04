@@ -28,7 +28,7 @@ export default {
   },
   props: {
     xmbh: { default: "20191211165945104", type: String },
-    stage: { default: "-1", type: String },
+    stage: { default: "", type: String },
     readonly: {default: false, type: Boolean}
   },
   data() {
@@ -49,7 +49,7 @@ export default {
                  .reduce((f, s) => [...f, ...s], [])
                 .map(k => k.images)
                 .reduce((f, s) => [...f, ...s], []);
-            console.log(this.nodeImages)
+            //console.log(this.nodeImages)
         }
     });
   },
@@ -83,7 +83,7 @@ export default {
           }
         })
         .then(res => {
-          // console.log(res);
+          //  console.log(res);
           if (res) {
             this.files = res;
           }

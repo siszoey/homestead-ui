@@ -53,6 +53,15 @@ const examine = {
             { path: `${pre}/statistics`, title: '统计分析' }
         ])('/land/examine')
     }
+    const system = {
+        path: '/land/system',
+        title: '系统设置',
+        alias: 'index',
+        icon: 'system',
+        children: (pre => [
+          {path: `${pre}/fileConfig`, title: '上传设置'},
+        ])('/land/system')
+      }
     // const search = {
     //   path: '/res/search',
     //   title: '归档查询',
@@ -99,7 +108,8 @@ const examine = {
 export const menuAside = [
     // home,
     map,
-    examine
+    examine,
+    system
     // business,
     // search,
     // message,
@@ -112,7 +122,8 @@ export const menuAside = [
 export const menuHeader = [
     // home,
     map,
-    examine
+    examine,
+    system
     // business,
     // search,
     // message,
