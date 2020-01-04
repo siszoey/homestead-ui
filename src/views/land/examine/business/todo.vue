@@ -13,9 +13,9 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="项目名称">
+            <!--<el-form-item label="项目名称">
                 <el-input v-model="queryForm['sqmc']" placeholder="项目名称"></el-input>
-            </el-form-item>
+            </el-form-item>-->
 
             <el-form-item label="项目编号">
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
@@ -33,7 +33,7 @@
 
             <div style="float: right">
                 <el-form-item>
-                    <el-button type="success" @click="handleCreate">
+                    <el-button type="success" @click="handleCreate" v-if="isFirstProcess()">
                         <d2-icon name="create"/>
                         新建
                     </el-button>
@@ -114,9 +114,6 @@
 
             <el-table-column fixed="right" align="center" label="操作" width="300">
                 <template slot-scope="scope">
-                    <!--<el-button size="mini" type="primary" @click="handleCheck(scope.row, true)"
-                               icon="el-icon-check">查看详情
-                    </el-button>-->
                     <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
                     </el-button>
                     <el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
@@ -145,15 +142,17 @@
 </template>
 
 <script>
-  import {PageData, ApproalProcess} from "../../../../api/land.business"
+  import {PageData} from "../../../../api/land.business"
   import dictMixnis from "../../mixnis/dict-mixnis"
+  import processMixnis from "../../mixnis/process-mixnis"
   import {mapState} from 'vuex'
 
   export default {
     name: 'examine-todo',
     components: {},
     mixins: [
-      dictMixnis
+      dictMixnis,
+      processMixnis
     ],
     data() {
       return {
@@ -227,68 +226,46 @@
       },
       handleUpdate(row) {
       },
-      handleCheck(row, flag) {
-        console.log("hanldeCheck", row);
-
+      handleCheck(row) {
         let confirm = {
-          distinguishCancelAndClose: false,
-          title : '提交申请, 是否继续?',
-          trueText: '确定',
-          falseText: '取消',
+          distinguishCancelAndClose: true,
+          title: '办理结果, 是否继续?',
+          trueText: '已办',
+          falseText: '退办',
         }
-        if(true){
+        //第一个角色申请，只有已办，没有退办
+        if (row.zjdSqJl.roleid === this.getOptName("流程角色", "1")) {
           confirm = Object.assign(confirm, {
-            distinguishCancelAndClose: true,
-            title : '办理结果, 是否继续?',
+            distinguishCancelAndClose: false,
+            title: '办理结果, 是否继续?',
             trueText: '已办',
-            falseText: '退办',
+            falseText: '取消',
           })
         }
-
-        let data = {
-          id: row.zjdSqJl.id,
-          sqid: row.zjdSqJl.sqid,
-          next_xmzt: '',
-          next_blzt: '',
-          next_roleid: '',
-          now_xmzt: row.zjdSqJl.xmzt,
-          now_blzt: this.getOptCode("办理状态","已办")
-        }
-        this.$confirm(confirm.title, '提示',
-          {
-            distinguishCancelAndClose: confirm.distinguishCancelAndClose,
-            confirmButtonText: confirm.trueText,
-            cancelButtonText: confirm.falseText,
-            type: 'warning',
-            center: true
-          }).then(() => {
+        this.$confirm(confirm.title, '提示', {
+          distinguishCancelAndClose: confirm.distinguishCancelAndClose,
+          confirmButtonText: confirm.trueText,
+          cancelButtonText: confirm.falseText,
+          type: 'warning',
+          center: true
+        }).then(() => {
           this.$message({
-                type: 'success',
-                message: '成功!'
-              })
-          // ApproalProcess(data).then(() => {
-          //   this.$message({
-          //     type: 'success',
-          //     message: '成功!'
-          //   })
-          // }).catch(() => {
-          //   this.$message({
-          //     type: 'error',
-          //     message: '请求失败!'
-          //   })
-          // }).finally(() => {
-          //   this.getTableData()
-          // })
+            type: 'success',
+            message: '已办!'
+          })
+          this.processRequest(row.zjdSqJl, true)
         }).catch(action => {
           //不通过
-          if(confirm.distinguishCancelAndClose && action === 'cancel'){
+          if (confirm.distinguishCancelAndClose && action === 'cancel') {
             this.$message({
               type: 'info',
-              message: '不通过'
+              message: '退办!'
             })
+            this.processRequest(row.zjdSqJl, false)
           }
-        });
+        })
       },
+
     }
   }
 </script>
