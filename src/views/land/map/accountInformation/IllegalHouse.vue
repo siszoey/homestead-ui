@@ -24,7 +24,7 @@
           <span class="card-title">各县市用地情况统计排行</span>
         </div>
         <div v-for="o in 5" :key="o" class="text item">
-          <span class="demonstration">江夏区{{o}}</span>
+          <span class="demonstration">江夏区{{o}}（平方米）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
