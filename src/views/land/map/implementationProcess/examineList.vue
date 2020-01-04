@@ -13,7 +13,10 @@
               :percentage="progress.auditPercent"
               :color="progressColor[index]"
             ></el-progress>
-            <p class="state">{{progress.auditType}}</p>
+            <!-- 自己定义的数据 -->
+            <p class="state">{{getOptName('建房类型', progress.auditType)}}</p>
+            <!-- 访问api得到的数据 -->
+            <!-- <p class="state">{{getDictByOptCode("建房类型",progress.auditType)}}</p> -->
             <p class="num">{{progress.auditNum}}</p>
           </div>
         </el-col>
@@ -58,7 +61,7 @@
             <el-form-item label="项目状态">
               <el-select v-model="queryForm['xmzt']" placeholder="项目状态" style="width:120px">
                 <el-option
-                  v-for="(option, index) in getDicts('项目状态')"
+                  v-for="(option, index) in getDicts('办理状态')"
                   :label="option.optName"
                   :value="option.optCode"
                   :key="index"
@@ -68,7 +71,7 @@
 
             <div style="float: right">
               <el-form-item>
-                <el-button type="primary" @click="getTableData">
+                <el-button type="primary" @click="queryTableData">
                   <d2-icon name="search" />查询
                 </el-button>
               </el-form-item>
@@ -88,89 +91,43 @@
             :header-cell-style="{background:'#F5F5F5',color:'#666666'}"
             style="width: 100%;"
           >
-            <el-table-column align="center" label="项目编号" width="120">
+            <el-table-column align="center" label="项目编号" width="150" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.xmbh}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="项目名称" width="120">
-              <template slot-scope="scope">
-                <span>{{scope.row.userName}}</span>
-              </template>
-            </el-table-column>
-
-            <el-table-column align="center" label="申请类型">
-              <template slot-scope="scope">
-                <span>{{scope.row.userName}}</span>
-              </template>
-            </el-table-column>
-
-            <el-table-column align="center" label="申请时间">
-              <template slot-scope="scope">
-                <span>{{scope.row.userName}}</span>
-              </template>
-            </el-table-column>
-
-            <el-table-column align="center" label="项目状态">
-              <template slot-scope="scope">
-                <!-- <span>{{getOptName('户口性质', scope.row.residenceType)}}</span> -->
-                <span>{{scope.row.userName}}</span>
-              </template>
-            </el-table-column>
-
-            <el-table-column align="center" label="申请人" width="100">
-              <template slot-scope="scope">
-                <span>{{scope.row.userName}}</span>
-              </template>
-            </el-table-column>
-          </el-table>
-          <!-- <el-table
-            :key="table.key"
-            :data="table.list"
-            v-loading="table.listLoading"
-            element-loading-text="拼命加载中..."
-            highlight-current-row
-            border
-            :header-cell-style="{background:'#F5F5F5',color:'#666666'}"
-            style="width: 100%;"
-          >
-            <el-table-column align="center" label="项目编号" width="150">
-              <template slot-scope="scope">
-                <span>{{scope.row.xmbh}}</span>
-              </template>
-            </el-table-column>
-
-            <el-table-column align="center" label="项目名称" width="130">
+            <el-table-column align="center" label="项目名称" width="130" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.xmmc}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="申请类型">
+            <el-table-column align="center" label="申请类型" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                <span>{{scope.row.sqlx}}</span>
+                <span>{{getOptName('建房类型', scope.row.sqlx)}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="申请时间">
+            <el-table-column align="center" label="申请时间" :show-overflow-tooltip="true">
               <template slot-scope="scope">
+                <!-- <span>{{getOptName('户口性质', scope.row.residenceType)}}</span> -->
                 <span>{{scope.row.sqsj}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="项目状态">
+            <el-table-column align="center" label="项目状态" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                <span>{{scope.row.xmzt}}</span>
+                <span>{{getOptName('办理状态', scope.row.xmzt)}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="申请人" width="100">
+            <el-table-column align="center" label="申请人" width="100" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
               </template>
             </el-table-column>
-          </el-table> -->
+          </el-table>
           <!-- footer 分页条 -->
           <el-pagination
             background
@@ -201,7 +158,7 @@
 </template>
 
 <script>
-import { getResidenceList } from "../../../../api/res.business";
+import { getAuditTableDatas,GetAuditProgress,GetAuditSituation,GetYearAuditSituation } from "../../../../api/map";
 import dictMixins from "../../mixnis/dict-mixnis";
 import { color } from "echarts/lib/export";
 export default {
@@ -246,145 +203,8 @@ export default {
           auditNum: 56
         }
       ],
-      barChartDatas: [
-        {
-          year: "2014",
-          number: 26,
-          resData: [
-            {
-              name: "申报数量",
-              value: "10"
-            },
-            {
-              name: "审批通过数量",
-              value: "15"
-            },
-            {
-              name: "审批不通过数量",
-              value: "5"
-            },
-            {
-              name: "审批中数量",
-              value: "1"
-            }
-          ]
-        },
-        {
-          year: "2015",
-          number: 32,
-          resData: [
-            {
-              name: "申报数量",
-              value: "12"
-            },
-            {
-              name: "审批通过数量",
-              value: "18"
-            },
-            {
-              name: "审批不通过数量",
-              value: "1"
-            },
-            {
-              name: "审批中数量",
-              value: "2"
-            }
-          ]
-        },
-        {
-          year: "2016",
-          number: 28,
-          resData: [
-            {
-              name: "申报数量",
-              value: "15"
-            },
-            {
-              name: "审批通过数量",
-              value: "10"
-            },
-            {
-              name: "审批不通过数量",
-              value: "3"
-            },
-            {
-              name: "审批中数量",
-              value: "3"
-            }
-          ]
-        },
-        {
-          year: "2017",
-          number: 28,
-          resData: [
-            {
-              name: "申报数量",
-              value: "20"
-            },
-            {
-              name: "审批通过数量",
-              value: "6"
-            },
-            {
-              name: "审批不通过数量",
-              value: "2"
-            },
-            {
-              name: "审批中数量",
-              value: "2"
-            }
-          ]
-        },
-        {
-          year: "2018",
-          number: 20,
-          resData: [
-            {
-              name: "申报数量",
-              value: "18"
-            },
-            {
-              name: "审批通过数量",
-              value: "2"
-            },
-            {
-              name: "审批不通过数量",
-              value: "2"
-            },
-            {
-              name: "审批中数量",
-              value: "0"
-            }
-          ]
-        },
-        {
-          year: "2019",
-          number: 30,
-          resData: [
-            {
-              name: "申报数量",
-              value: "22"
-            },
-            {
-              name: "审批通过数量",
-              value: "5"
-            },
-            {
-              name: "审批不通过数量",
-              value: "1"
-            },
-            {
-              name: "审批中数量",
-              value: "3"
-            }
-          ]
-        }
-      ],
-      pieChartDatas: [
-        { value: 8, name: "审核通过" },
-        { value: 4, name: "审核不通过" },
-        { value: 8, name: "审核中" }
-      ],
+      barChartDatas: [],
+      pieChartDatas: [],
       progressList: [],
       progressColor: [
         "#7ECBFC",
@@ -430,21 +250,34 @@ export default {
       }
     },
     getChartData() {
-      //this.pieChartDatas = this.pieChartDatas;
-      this.InitChart();
-      this.IniPieChart();
+      //饼状图请求方法
+      GetAuditSituation().then(res => {
+          console.log("饼状图请求结果")
+          console.log(res)
+          this.pieChartDatas = res;
+          this.IniPieChart();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.table.listLoading = false;
+        });
+        //柱状图请求方法
+        GetYearAuditSituation().then(res => {
+          console.log("柱状图请求结果")
+          console.log(res)
+          this.barChartDatas = res;
+          this.InitChart();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.table.listLoading = false;
+        });
     },
+    //获取表格数据
     getTableData() {
       this.table.listLoading = true;
-      let stage = "0"; // 申报
-      getResidenceList(
-        this.table.pageNum,
-        this.table.pageSize,
-        stage,
-        this.queryForm
-      )
-        .then(res => {
-          this.table.list = res.list;
+      getAuditTableDatas(this.table.pageNum,this.table.pageSize,this.queryForm).then(res => {
+          this.table.list = res.records;
           this.table.total = res.total;
         })
         .catch(err => console.log(err))
@@ -452,9 +285,25 @@ export default {
           this.table.listLoading = false;
         });
     },
+    //点击查询按钮请求的方法
+    queryTableData(){
+      this.table.pageNum = 1;
+      this.getTableData()
+    },
+    //页面头部的审核进度
     getProgressData() {
-      this.progressList = this.progressDatas;
-      this.progressWidth = 24 / this.progressList.length;
+      //访问api得到的数据
+      GetAuditProgress().then(res => {
+          this.progressList = res;
+          this.progressWidth = 24 / this.progressList.length;
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.table.listLoading = false;
+        });
+      //自己定义的数据
+      // this.progressList = this.progressDatas;
+      // this.progressWidth = 24 / this.progressList.length;
     },
     handleSizeChange(pageSiz) {
       this.table.pageSize = pageSiz;
@@ -500,15 +349,14 @@ export default {
         const xAixs = [];
         _dataList.forEach(item => {
           xAixs.push(item.year);
+          dataSbsl.push(item.number);
           if (item.resData.length > 0) {
             item.resData.forEach(it => {
-              if (it.name == "申报数量") {
-                dataSbsl.push(it.value);
-              } else if (it.name == "审批通过数量") {
+              if (it.name == "2") {
                 dataSptgsl.push(it.value);
-              } else if (it.name == "审批不通过数量") {
+              } else if (it.name == "3") {
                 dataSpbtgsl.push(it.value);
-              } else if (it.name == "审批中数量") {
+              } else if (it.name == "1") {
                 dataSpzsl.push(it.value);
               }
             });
@@ -567,7 +415,7 @@ export default {
           right: 60,
           bottom: "10%",
           data: this.pieChartDatas.name,
-          padding: [0, 30, 0, 0],
+          padding: [0, 60, 0, 0],
           selectedMode: false,
           itemWidth: 6,
           itemHeight: 30,
@@ -613,10 +461,12 @@ export default {
               }
             });
             let arr;
-            if (name == "申报数量") {
-              arr = ["{a|" + name + "}", "{b|" + _dataList[_index].value + "}"];
-            } else {
-              arr = ["{a|" + name + "}", "{c|" + _dataList[_index].value + "}"];
+            if (name == "1") {
+              arr = ["{a|待办}", "{b|" + _dataList[_index].value + "}"];
+            } else if(name == "2") {
+              arr = ["{a|已办}", "{c|" + _dataList[_index].value + "}"];
+            } else if(name == "3") {
+              arr = ["{a|退办}", "{c|" + _dataList[_index].value + "}"];
             }
             return arr.join("");
           }
@@ -631,7 +481,7 @@ export default {
             legendHoverLink: false,
             silent: false,
             label: {
-              formatter: "{b}\n{d}%",
+              formatter: "{d}%",
               color: "black"
             },
             labelLine: {
@@ -643,7 +493,7 @@ export default {
             },
             itemStyle: {
               color: function(params) {
-                var colorList = ["#51CEE6", "#2D80E8", "#009AF6"];
+                var colorList = ["#51CEE6", "#2D80E8", "#04BE7D"];
                 return colorList[params.dataIndex];
               }
             },
