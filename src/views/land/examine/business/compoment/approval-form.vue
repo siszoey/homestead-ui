@@ -182,11 +182,12 @@
           </el-col>
         </el-row>  
       </el-form>
-      <el-button type="primary">提交</el-button>
+      <el-button type="primary" @click="submitForm()">提交</el-button>
   </div>
 </template>
 
 <script>
+import {submitForm} from '@/api/land.examine'
 export default {
     name:'appceptance-form',
      data() {
@@ -250,7 +251,15 @@ export default {
             xzzfrq:""
           }
         }          
-      };
+      }
+    },
+    methods:{
+      submitForm(){
+        submitForm(this.spyj).then(res=>{
+          console.log(1)
+          console.log(res)
+        })
+      }
     }
 }
 </script>
