@@ -77,7 +77,7 @@ export default {
 <style  lang="scss" scoped>
 .timeLineContainer {
   position: absolute;
-  bottom: 10px;
+  bottom: 30px;
   width: 100%;
   user-select: none;
   .timeLine {
