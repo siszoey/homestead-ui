@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <LayerList style="position:absolute;top:180px;right:80px" v-if="layerOn"></LayerList>
+    <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
 </template>
 <script>
@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     showLayer() {
-      this.layerOn = !this.layerOn;
+      //this.layerOn = !this.layerOn;
     }
   }
 };

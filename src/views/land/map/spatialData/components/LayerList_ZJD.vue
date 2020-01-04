@@ -1,19 +1,19 @@
 <template>
   <div class="bubble">
     <div class="listItem">
-      <input type="checkbox" />未批已建
+      <input type="checkbox" checked />未批已建
     </div>
     <div class="listItem">
-      <input type="checkbox" />已建无人居
+      <input type="checkbox" checked />已建无人居
     </div>
     <div class="listItem">
-      <input type="checkbox" />已批未建
+      <input type="checkbox" checked />已批未建
     </div>
     <div class="listItem">
-      <input type="checkbox" />已建季节性居住
+      <input type="checkbox" checked />已建季节性居住
     </div>
     <div class="listItem">
-      <input type="checkbox" />已批已建
+      <input type="checkbox" checked />已批已建
     </div>
   </div>
 </template>

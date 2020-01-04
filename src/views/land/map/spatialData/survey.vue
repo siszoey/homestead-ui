@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <LayerList style="position:absolute;top:180px;right:80px" v-if="layerOn"></LayerList>
+    <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
 </template>
 <script>
@@ -190,7 +190,7 @@ export default {
   bottom: 10px;
   .legendBox {
     border: rgb(200, 200, 200) 1px solid;
-    width: 200px;
+    width: 170px;
     padding-left: 10px;
     color: rgb(240, 240, 240);
     display: flex;
@@ -201,7 +201,7 @@ export default {
     text-align: left;
     .title {
       font-size: 20px;
-      width: 200px;
+      width: 170px;
       height: 30px;
     }
     .legendItem {

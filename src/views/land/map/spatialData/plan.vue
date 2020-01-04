@@ -40,29 +40,190 @@
 
     <div class="legendContainer">
       <div class="legendBox">
-        <div class="title">图例</div>
+        <div class="title">农用地</div>
         <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/0301.png" />乔木林地
+          <img class="img" src="../assets/dltbstyle/0101.png" />水田
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0102.png" />水浇地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0103.png" />旱地
+        </div>
+
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0201.png" />果园
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0202.png" />茶园
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0203.png" />橡胶园
         </div>
         <div class="legendItem">
           <img class="img" src="../assets/dltbstyle/0204.png" />其他园地
         </div>
         <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/1006.png" />农村道路
+          <img class="img" src="../assets/dltbstyle/0301.png" />乔木林地
         </div>
         <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/0101.png" />水田
+          <img class="img" src="../assets/dltbstyle/0302.png" />竹林地
         </div>
         <div class="legendItem">
-          <img class="img" src="../assets/dltbstyle/0702.png" />农村宅基地
+          <img class="img" src="../assets/dltbstyle/0303.png" />红树林地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0304.png" />森林沼泽
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0305.png" />灌木林地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0306.png" />灌丛沼泽
         </div>
         <div class="legendItem">
           <img class="img" src="../assets/dltbstyle/0307.png" />其他林地
         </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0401.png" />天然牧草地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0402.png" />沼泽草地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0403.png" />人工牧草地
+        </div>
+
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1006.png" />农村道路
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1103.png" />水库水面
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1104.png" />坑塘水面
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1107.png" />沟渠
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1202.png" />设施农用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1203.png" />田坎
+        </div>
+        <div class="title">建设用地</div>
+
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0508.png" />物流仓储用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0601.png" />工业用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0602.png" />采矿用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0603.png" />盐田
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0701.png" />城镇住宅用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0702.png" />农村宅基地
+        </div>
+
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/08H2.png" />科教文卫用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0809.png" />公共设施用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0810.png" />公园与绿地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/09.png" />特殊用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1001.png" />铁路用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1002.png" />轨道交通用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1003.png" />公路用地
+        </div>
+
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1007.png" />机场用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1008.png" />港口码头用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1009.png" />管道运输用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1109.png" />水工建筑用地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1201.png" />空闲地
+        </div>
+        <div class="legendItem" style="width:240px">
+          <img class="img" src="../assets/dltbstyle/05H1.png" />商业服务业设施用地
+        </div>
+        <div class="legendItem" style="width:240px">
+          <img class="img" src="../assets/dltbstyle/1004.png" />城镇村道路用地
+        </div>
+        <div class="legendItem" style="width:240px">
+          <img class="img" src="../assets/dltbstyle/1005.png" />交通服务场站用地
+        </div>
+        <div class="legendItem" style="width:240px">
+          <img class="img" src="../assets/dltbstyle/08H1.png" />机关团体新闻出版用地
+        </div>
+
+        <div class="title">未利用地</div>
+
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/0403.png" />其他草地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1101.png" />河流水面
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1102.png" />湖泊水面
+        </div>
+
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1105.png" />沿海滩涂
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1106.png" />内陆滩涂
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1108.png" />沼泽地
+        </div>
+
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1204.png" />盐碱地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1205.png" />沙地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1206.png" />裸土地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1207.png" />裸岩石砾地
+        </div>
+        <div class="legendItem">
+          <img class="img" src="../assets/dltbstyle/1110.png" />冰川及永久积雪
+        </div>
       </div>
     </div>
 
-    <LayerList style="position:absolute;top:180px;right:80px" v-if="layerOn"></LayerList>
+    <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
 </template>
 <script>
@@ -194,7 +355,7 @@ export default {
   bottom: 10px;
   .legendBox {
     border: rgb(200, 200, 200) 1px solid;
-    width: 200px;
+    width: 480px;
     padding-left: 10px;
     color: rgb(240, 240, 240);
     display: flex;
@@ -204,17 +365,18 @@ export default {
     align-items: center;
     text-align: left;
     .title {
-      font-size: 20px;
-      width: 200px;
+      font-size: 18px;
+      width: 480px;
       height: 30px;
     }
     .legendItem {
       display: flex;
       align-items: center;
-      font-size: 18px;
-      height: 30px;
-      line-height: 30px;
-      //width: 100px;
+      font-size: 15px;
+      height: 25px;
+      line-height: 25px;
+      min-width: 120px;
+
       .img {
         background-color: yellow;
         margin-right: 5px;
