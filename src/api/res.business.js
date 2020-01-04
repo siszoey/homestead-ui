@@ -9,16 +9,6 @@ export function toDeclare(data) {
   })
 }
 
-export function getDictData(params) {
-  return request({
-    url: '/mock/system/dict',
-    // url: '/system/dict',
-    method: 'get',
-    params
-  })
-}
-
-
 export function getUploadImgConfig(params) {
   return request({
     url: '/mock/getUploadImgConfig',

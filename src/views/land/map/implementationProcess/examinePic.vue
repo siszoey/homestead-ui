@@ -1,5 +1,5 @@
 <template>
-  <div style="height:500px" id="pic-map" ref="rootmap">
+  <div style="height:96%" id="pic-map" ref="rootmap">
     <div id="float-on-list" class="div-table ol-control">
       <div>
         <span>类型</span>
@@ -37,12 +37,9 @@
 </template>
 
 <script>
-import "ol/ol.css";
-import { Map, View } from "ol";
-import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import { OSM, XYZ, Vector as VectorSource } from "ol/source";
+import BaseMap from "../spatialData/mapBase.js";
 
-// import { getExaminePic } from "../../../../api/res.implprocess";
+import { getExaminePic } from "../../../../api/res.implprocess";
 
 export default {
   name: "examinePic",
@@ -141,28 +138,18 @@ export default {
     }
   },
   mounted() {
-    var mapcontainer = this.$refs.rootmap;
+    var currentRegionLayer;
+    var xzqhdm = "469005115201";
+    this.map = BaseMap.BaseInitMap("pic-map");
+    this.map.addLayer(BaseMap.img_wLayer);
+    currentRegionLayer = BaseMap.BaseChangeRegionVector(
+      this.map,
+      xzqhdm,
+      currentRegionLayer
+    );
+    BaseMap.BaseAddTruePoints(this.map,"#E58C2A");
 
-    this.map = new Map({
-      target: "pic-map",
-      layers: [
-        // new TileLayer({
-        //   name: "base-layer",
-        //   source: new XYZ({
-        //     url: "http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-        //   })
-        // }),
-        new TileLayer({
-          name: "base-layer",
-          source: new OSM()
-        })
-      ],
-      view: new View({
-        center: [12062989, 3405766],
-        zoom: 4
-      })
-    });
-    floatOnMap();
+    //floatOnMap();
   }
 };
 </script>

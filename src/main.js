@@ -21,6 +21,10 @@ Vue.use(myPlugin)
 // 自定义RemJS,只引入一次
 import '@/libs/rem'
 
+//Vue.js提供的ajax插件
+import axios from 'axios';
+Vue.prototype.$axios = axios;
+
 // 核心插件
 Vue.use(d2Admin)
 
