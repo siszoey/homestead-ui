@@ -1,9 +1,7 @@
 <template>
     <d2-container>
-        <el-steps :space="200" :active="active" finish-status="success">
-            <el-step title="已完成"></el-step>
-            <el-step title="进行中"></el-step>
-            <el-step title="步骤 3"></el-step>
+        <el-steps :active="active" finish-status="success" align-center>
+            <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
         </el-steps>
         <el-divider></el-divider>
         <el-tabs tab-position="left">
@@ -23,6 +21,7 @@
 </template>
 
 <script>
+  import dictMixins from '../../../mixnis/dict-mixnis'
   import applicationForm from './application-form'
   import appceptanceForm from './appceptance-form'
   import approvalForm from './approval-form'
@@ -34,6 +33,9 @@
       approvalForm,
       appceptanceForm
     },
+    mixins: [
+      dictMixins
+    ],
     props:{
       applicationFormDisabled: {
         type: Boolean,

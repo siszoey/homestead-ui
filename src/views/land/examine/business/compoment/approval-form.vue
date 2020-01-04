@@ -127,8 +127,9 @@
           <el-col :span="5">
             <el-form-item label="自然资源部门填写日期">
               <el-date-picker
-                v-model="formLabel.zrzybmyjdate"
+                v-model="formLabel.spyj.zrzybmrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
@@ -153,8 +154,9 @@
           <el-col :span="5">
             <el-form-item label="农业农村部门填写日期">
               <el-date-picker
-                v-model="formLabel.nyncbyjdate"
+                v-model="formLabel.spyj.nyncbrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
@@ -174,18 +176,21 @@
           <el-col :span="5">
             <el-form-item label="乡镇政府填写日期">
               <el-date-picker
-                v-model="formLabel.xzzfyjdate"
+                v-model="formLabel.spyj.xzzfrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>  
       </el-form>
+      <el-button type="primary" @click="submitForm()">提交</el-button>
   </div>
 </template>
 
 <script>
+import {submitForm} from '@/api/land.examine'
 export default {
     name:'appceptance-form',
      data() {
@@ -247,12 +252,17 @@ export default {
             xzzfshyj:"",
             xzzffzr:"",
             xzzfrq:""
-          },
-          zrzybmyjdate: '',
-          nyncbyjdate:'',
-          xzzfyjdate:''
+          }
         }          
-      };
+      }
+    },
+    methods:{
+      submitForm(){
+        submitForm(this.formLabel.spyj).then(res=>{
+          console.log(1)
+          console.log(res)
+        })
+      }
     }
 }
 </script>

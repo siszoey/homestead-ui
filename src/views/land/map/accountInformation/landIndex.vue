@@ -1,13 +1,544 @@
 <template>
-  <p>用地指标</p>
+  <div id="app">
+    <div class="left-side">
+      <label class="year-column-x">年份</label>
+      <el-select
+        v-model="year"
+        style="position:absolute;z-index:9999999;left:45px;"
+        class="select-item-year"
+      >
+        <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
+      </el-select>
+      <label class="xzq-column-x">行政区</label>
+      <el-select
+        v-model="city"
+        style="position:absolute;z-index:9999999;left:234px;width: 2rem !important;"
+        class="select-item-xzq"
+        v-on:change="changeCity(city)"
+      >
+        <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value"></el-option>
+      </el-select>
+      <!-- <hr /> -->
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span class="card-title">各县市用地情况统计排行</span>
+        </div>
+        <div v-for="o in 5" :key="o" class="text item">
+          <span class="demonstration">江夏区{{o}}（平方米）</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-blue"></div>实际用地
+          </span>
+          <br />
+          <span class="demonstration">5460.81</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-gray"></div>计划用地
+          </span>
+          <el-progress :percentage="o" style="width:417px"></el-progress>
+        </div>
+      </el-card>
+      <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+        <el-table-column prop="xzq" label="行政区"></el-table-column>
+        <el-table-column prop="jhyd" label="计划用地"></el-table-column>
+        <el-table-column prop="sjyd" label="实际用地"></el-table-column>
+        <el-table-column prop="szbl" label="所占比例"></el-table-column>
+      </el-table>
+    </div>
+    <div :id="id" class="o-echarts" style="background-color:white"></div>
+  </div>
 </template>
 
 <script>
+import echarts from "echarts";
+import JSON_WHS from "@/plugin/echarts-map/city/json/hubei/420100.json"; //武汉市
+import JSON_HSS from "@/plugin/echarts-map/city/json/hubei/420200.json"; //黄石市
+import JSON_SYS from "@/plugin/echarts-map/city/json/hubei/420300.json"; //十堰市
+import JSON_YCS from "@/plugin/echarts-map/city/json/hubei/420500.json"; //宜昌市
+import JSON_XYS from "@/plugin/echarts-map/city/json/hubei/420600.json"; //襄阳市
+import JSON_EZS from "@/plugin/echarts-map/city/json/hubei/420700.json"; //鄂州市
+import JSON_JMS from "@/plugin/echarts-map/city/json/hubei/420800.json"; //荆门市
+import JSON_XGS from "@/plugin/echarts-map/city/json/hubei/420900.json"; //孝感市
+import JSON_JZS from "@/plugin/echarts-map/city/json/hubei/421000.json"; //荆州市
+import JSON_HGS from "@/plugin/echarts-map/city/json/hubei/421100.json"; //黄冈市
+import JSON_XNS from "@/plugin/echarts-map/city/json/hubei/421200.json"; //咸宁市
+import JSON_SZS from "@/plugin/echarts-map/city/json/hubei/421300.json"; //随州市
+import JSON_ESTJZMZZZZ from "@/plugin/echarts-map/city/json/hubei/422800.json"; //恩施土家族苗族自治州
+import JSON_HBSZXXS from "@/plugin/echarts-map/city/json/hubei/429000.json"; //湖北省直辖县市
+
 export default {
-    name: 'landIndex',
-}
+  name: "echart-map",
+  data() {
+    return {
+      tableData: [
+        {
+          xzq: "江夏区1",
+          jhyd: "9460.81",
+          sjyd: "1518.69",
+          szbl: "1%"
+        },
+        {
+          xzq: "江夏区2",
+          jhyd: "75765.81",
+          sjyd: "1518.69",
+          szbl: "2%"
+        },
+        {
+          xzq: "江夏区3",
+          jhyd: "3243.81",
+          sjyd: "1518.69",
+          szbl: "3%"
+        },
+        {
+          xzq: "江夏区4",
+          jhyd: "9875.81",
+          sjyd: "1518.69",
+          szbl: "4%"
+        },
+        {
+          xzq: "江夏区5",
+          jhyd: "7657.81",
+          sjyd: "1518.69",
+          szbl: "5%"
+        }
+      ],
+      years: [],
+      cities: [],
+      year: "",
+      city: "",
+      JSON_Data: [],
+      myFile: "420200",
+      id: "echarts_" + new Date().getTime() + Math.floor(Math.random() * 1000),
+      echartObj: null,
+      radioList: {
+        A: "1",
+        B: "2",
+        C: "3",
+        D: "4",
+        E: "5"
+      },
+      radioActive: "A",
+      option: {
+        title: {
+          //text: "各县市用地情况统计排行",
+          top: "10%",
+          left: "1%",
+          textStyle: {
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "#000000"
+          }
+        },
+        tooltip: {
+          padding: 0,
+          backgroundColor: "transparent",
+          formatter: params => {
+            // params.data
+            return "";
+            // `<table class="map__tooltip o_font20">
+            //                         <thead>
+            //                            <tr>
+            //                                <th>行政区</th>
+            //                                <th>计划用地</th>
+            //                                <th>实际用地</th>
+            //                                <th>所占比例</th>
+            //                             </tr>
+            //                         </thead>
+            //                         <tbody>
+            //                             <tr>
+            //                                 <th>${params.data.obj.a}</th>
+            //                                 <th>${params.data.obj.b}</th>
+            //                                 <th>${params.data.obj.c}</th>
+            //                                 <th>${params.data.obj.d}</th>
+            //                              </tr>
+            //                         </tbody>
+            //                     </table>`;
+          }
+        },
+        legend: {
+          orient: "vertical",
+          top: "9%",
+          left: "5%",
+          icon: "circle",
+          data: [],
+          selectedMode: "single",
+          selected: {},
+          itemWidth: 12,
+          itemHeight: 12,
+          itemGap: 30,
+          inactiveColor: "#b6d7ff",
+          textStyle: {
+            color: "#ec808d",
+            fontSize: 14,
+            fontWeight: 300,
+            padding: [0, 0, 0, 15]
+          }
+        },
+        visualMap: {
+          min: 0,
+          max: 500,
+          show: false,
+          splitNumber: 5,
+          inRange: {
+            color: [
+              "#FACD91",
+              "#74DFB2",
+              "#81D3F8",
+              "#768FDE",
+              "#e9969f"
+            ].reverse()
+          },
+          textStyle: {
+            color: "#fff"
+          }
+        },
+        geo: {
+          map: "武汉市",
+          label: {
+            normal: {
+              show: true,
+              color: "#000"
+            },
+            emphasis: {
+              show: true,
+              color: "#fff"
+            }
+          },
+          roam: false,
+          itemStyle: {
+            normal: {
+              areaColor: "#8db200",
+              borderColor: "#6367ad",
+              borderWidth: 1
+            },
+            emphasis: {
+              areaColor: "#feb6aa" // hover效果
+            }
+          },
+          left: "5%",
+          right: "5%",
+          top: "5%",
+          bottom: "5%"
+        },
+        series: [
+          {
+            name: "年度总项目数据查询",
+            type: "map",
+            geoIndex: 0, // 不可缺少，否则无tooltip 指示效果
+            data: []
+          }
+        ]
+      }
+    };
+  },
+  mounted() {
+    //遍历行政区
+    let cities = [
+      {
+        value: "420100",
+        label: "武汉市"
+      },
+      {
+        value: "420200",
+        label: "黄石市"
+      },
+      {
+        value: "420300",
+        label: "十堰市"
+      },
+      {
+        value: "420500",
+        label: "宜昌市"
+      },
+      {
+        value: "420600",
+        label: "襄阳市"
+      },
+      {
+        value: "420700",
+        label: "鄂州市"
+      },
+      {
+        value: "420800",
+        label: "荆门市"
+      },
+      {
+        value: "420900",
+        label: "孝感市"
+      },
+      {
+        value: "421000",
+        label: "荆州市"
+      },
+      {
+        value: "421100",
+        label: "黄冈市"
+      },
+      {
+        value: "421200",
+        label: "咸宁市"
+      },
+      {
+        value: "421300",
+        label: "随州市"
+      },
+      {
+        value: "422800",
+        label: "恩施土家族苗族自治州"
+      },
+      {
+        value: "429000",
+        label: "湖北省直辖县市"
+      }
+    ];
+    this.cities = cities;
+    //默认行政区为武汉市
+    this.city = "420100";
+    //获得当前年份
+    var _date = new Date();
+    var tYear = _date.getFullYear();
+    for (var i = tYear - 4; i <= tYear; i++) {
+      //初始化加载年份时间
+      this.years.push(i);
+    }
+    //默认年份为上一年度
+    this.year = tYear - 1;
+    console.log(this.years);
+    // this.echartObj = echarts.init(document.getElementById(this.id));
+    this.JSON_Data = JSON_WHS;
+    this.initMaps(this.JSON_Data);
+    // echarts.registerMap("武汉市", this.JSON_Data);
+    // this.echartObj.setOption(this.getOptions(), true);
+    this.echartObj.on("legendselectchanged", params => {
+      this.radioActive = Object.keys(this.radioList).filter(
+        item => this.radioList[item] === params.name
+      )[0];
+      this.echartObj.clear();
+      this.echartObj.setOption(this.getOptions());
+    });
+    window.addEventListener("resize", () => {
+      if (this.echartObj && this.echartObj.resize) {
+        this.echartObj.resize();
+      }
+    });
+  },
+  methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex === 1) {
+        return "warning-row";
+      } else if (rowIndex === 3) {
+        return "success-row";
+      }
+      return "";
+    },
+    //初始化加载和注册Map
+    initMaps(jsonData) {
+      this.echartObj = echarts.init(document.getElementById(this.id));
+      this.JSON_Data = jsonData;
+      echarts.registerMap("武汉市", jsonData);
+      this.echartObj.setOption(this.getOptions(), true);
+      console.log(this.JSON_Data);
+    },
+    changeCity(value) {
+      console.log(value);
+      switch (value) {
+        case "420100":
+          this.initMaps(JSON_WHS);
+          break;
+        case "420200":
+          this.initMaps(JSON_HSS);
+          break;
+        case "420300":
+          this.initMaps(JSON_SYS);
+          break;
+        case "420500":
+          this.initMaps(JSON_YCS);
+          break;
+        case "420600":
+          this.initMaps(JSON_XYS);
+          break;
+        case "420700":
+          this.initMaps(JSON_EZS);
+          break;
+        case "420800":
+          this.initMaps(JSON_JMS);
+          break;
+        case "420900":
+          this.initMaps(JSON_XGS);
+          break;
+        case "421000":
+          this.initMaps(JSON_JZS);
+          break;
+        case "421100":
+          this.initMaps(JSON_HGS);
+          break;
+        case "421200":
+          this.initMaps(JSON_XNS);
+          break;
+        case "421300":
+          this.initMaps(JSON_SZS);
+          break;
+        case "422800":
+          this.initMaps(JSON_ESTJZMZZZZ);
+          break;
+        case "429000":
+          this.initMaps(JSON_HBSZXXS);
+          break;
+      }
+      //this.initMaps();
+    },
+    getOptions() {
+      this.setOptions("legend", {
+        //data: Object.values(this.radioList),
+        selected: (list => {
+          const obj = {};
+          Object.keys(list).map((item, index) => {
+            obj[list[item]] = item === this.radioActive;
+          });
+          return obj;
+        })(this.radioList)
+      });
+      this.setOptions(
+        "series",
+        (() => {
+          const arr = [];
+          Object.values(this.radioList).map((item, index) => {
+            arr[this.radioList[this.radioActive] === item ? "unshift" : "push"](
+              {
+                name: item,
+                type: "map",
+                geoIndex: 0, // 不可缺少，否则无tooltip 指示效果
+                data: this.getSeriesData(item)
+              }
+            );
+          });
+          return arr;
+        })()
+      );
+      return this.option;
+    },
+    getSeriesData(item) {
+      return this.radioList[this.radioActive] === item
+        ? this.JSON_Data.features.map(item => {
+            return {
+              name: item.properties.name,
+              value: Math.ceil(Math.random() * 500),
+              obj: {
+                a: Math.ceil(Math.random() * 500),
+                b: Math.ceil(Math.random() * 500),
+                c: Math.ceil(Math.random() * 500),
+                d: Math.ceil(Math.random() * 500)
+              }
+            };
+          })
+        : [];
+    },
+    setOptions(objKey, objVal) {
+      if (
+        this.option[objKey] &&
+        typeof this.option[objKey] === "object" &&
+        !Array.isArray(this.option[objKey])
+      ) {
+        this.option[objKey] = Object.assign(this.option[objKey], objVal);
+      } else {
+        this.option[objKey] = objVal;
+      }
+      this.$set(this.option, objKey, this.option[objKey]);
+    }
+  }
+};
 </script>
 
 <style>
+.el-table .warning-row {
+  background: oldlace;
+}
 
+.el-table .success-row {
+  background: #f0f9eb;
+}
+.color-box-blue {
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  margin: 3px -20px;
+  background-color: #409eff;
+}
+.color-box-gray {
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  margin: 4px -20px;
+  background-color: #ebeef5;
+}
+.el-card__header {
+  font-size: 16px;
+  font-weight: bold;
+}
+.text {
+  font-size: 14px;
+}
+
+.item {
+  margin-bottom: 18px;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+
+.box-card {
+  width: 99.5%;
+  margin-top: 11%;
+  background-color: #f7f7f7d1;
+}
+hr {
+  margin-top: 11%;
+}
+.left-side {
+  position: absolute;
+  z-index: 99;
+  width: 33.5%;
+  height: 98%;
+  color: white;
+  /* background-color: #f7f7f7d1; */
+  margin-top: -0.1rem;
+}
+.year-column-x {
+  position: absolute;
+  z-index: 9999999;
+  font-size: 16px;
+  color: #303133;
+  margin: 7px;
+  margin-top: 2.8%;
+}
+.xzq-column-x {
+  position: absolute;
+  z-index: 9999999;
+  font-size: 16px;
+  color: #303133;
+  margin: 7px;
+  margin-left: 1.8rem;
+  margin-top: 2.8%;
+}
+
+.select-item-year input {
+  height: 35px !important;
+  width: 100px !important;
+  margin-top: 5%;
+}
+.select-item-xzq input {
+  height: 35px !important;
+  margin-top: 2.5%;
+}
+.o-echarts {
+  min-width: 30px;
+  min-height: 30px;
+  width: 100%;
+  height: 100%;
+  margin-top: -10px;
+}
 </style>

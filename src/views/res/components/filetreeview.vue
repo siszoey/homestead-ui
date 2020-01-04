@@ -28,7 +28,7 @@ export default {
   },
   props: {
     xmbh: { default: "20191211165945104", type: String },
-    stage: { default: "", type: String },
+    stage: { default: "-1", type: String },
     readonly: {default: false, type: Boolean}
   },
   data() {

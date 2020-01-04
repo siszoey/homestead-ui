@@ -118,77 +118,77 @@
         </el-col>
       </el-row>
       <h1>农业农村部门验收意见</h1>
-      <el-form-item label="验收意见">
-        <el-input v-model="form.ruralBranchView" type="textarea"></el-input>
-      </el-form-item>
       <el-row>
-        <el-col :span="6">
-          <el-form-item label="验收经办人">
-            <el-input v-model="form.ruralBranchPerson"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="验收时间">
-            <el-date-picker
-              v-model="form.ruralBranchTime"
-              type="date"
-              format="yyyy 年 MM 月 dd 日"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-col :span="14">
+            <el-form-item label="农业农村部门审查意见">
+              <el-input v-model="formLabel.spyj.nyncbscyj" placeholder="农业农村部门审查意见"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="农业农村部门负责人">
+              <el-input v-model="formLabel.spyj.nyncbfzr" placeholder="农业农村部门负责人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="农业农村部门填写日期">
+              <el-date-picker
+                v-model="formLabel.spyj.nyncbrq"
+                type="date"
+                placeholder="选择日期" style="width:100%;">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       <h1>自然资源部门验收意见</h1>
-      <el-form-item label="验收意见">
-        <el-input v-model="form.resourceBranchView" type="textarea"></el-input>
-      </el-form-item>
       <el-row>
-        <el-col :span="6">
-          <el-form-item label="验收经办人">
-            <el-input v-model="form.resourceBranchPerson"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="验收时间">
-            <el-date-picker
-              v-model="form.resourceBranchTime"
-              type="date"
-              format="yyyy 年 MM 月 dd 日"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-col :span="14">
+            <el-form-item label="自然资源部门意见">
+              <el-input v-model="formLabel.spyj.zrzybmyj" placeholder="自然资源部门意见"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="自然资源部门负责人">
+              <el-input v-model="formLabel.spyj.zrzybmfzr" placeholder="自然资源部门负责人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="自然资源部门填写日期">
+              <el-date-picker
+                v-model="formLabel.spyj.zrzybmrq"
+                type="date"
+                placeholder="选择日期" style="width:100%;">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       <h1>乡镇政府验收意见</h1>
-      <el-form-item label="验收意见">
-        <el-input v-model="form.townBranchView" type="textarea"></el-input>
-      </el-form-item>
       <el-row>
-        <el-col :span="6">
-          <el-form-item label="验收经办人">
-            <el-input v-model="form.townBranchPerson"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="验收时间">
-            <el-date-picker
-              v-model="form.townBranchTime"
-              type="date"
-              format="yyyy 年 MM 月 dd 日"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-col :span="14">
+            <el-form-item label="乡镇政府审核批准意见">
+              <el-input v-model="formLabel.spyj.xzzfshyj" placeholder="乡镇政府审核批准意见"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="乡镇政府负责人">
+              <el-input v-model="formLabel.spyj.xzzffzr" placeholder="乡镇政府负责人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="乡镇政府填写日期">
+              <el-date-picker
+                v-model="formLabel.spyj.xzzfrq"
+                type="date"
+                placeholder="选择日期" style="width:100%;">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>  
       <el-form-item label="备注">
         <el-input v-model="form.remark" type="textarea"></el-input>
       </el-form-item>
       <el-row>
         <el-form-item>
-          <el-button type="primary" @click="submit()">提交</el-button>
+          <el-button type="primary" >提交</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -196,10 +196,6 @@
 </template>
 
 <script>
-import {
-  getAppceptcance,
-  setAppceptcance
-} from "../../../../../api/res.business";
 export default {
   name: "appceptance-form",
   data() {
@@ -209,34 +205,28 @@ export default {
         { value: "1", label: "1.不属于" },
         { value: "2", label: "2.属于，已落实" },
         { value: "3", label: "3.属于，尚未落实" }
-      ]
+      ],
+      formLabel:{
+        //意见
+        spyj:{
+          zrzybmyj:"",
+          zrzybmfzr:"",
+          zrzybmrq:"",
+          nyncbscyj:"",
+          nyncbfzr:"",
+          nyncbrq:"",
+          xzzfshyj:"",
+          xzzffzr:"",
+          xzzfrq:""
+        }
+      }     
     };
   },
   created() {
-    getAppceptcance()
-      .then(res => {
-        this.form = res;
-      })
-      .catch(err => console.log(err))
-      .finally(() => {});
+    
   },
   methods: {
-    submit() {
-      setAppceptcance(this.form)
-        .then(res => {
-          this.$message({
-            message: "提交成功",
-            type: "success"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            message: "提交失败",
-            type: "error"
-          });
-        })
-        .finally(() => {});
-    }
+    
   }
 };
 </script>

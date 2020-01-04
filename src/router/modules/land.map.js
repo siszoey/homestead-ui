@@ -36,7 +36,7 @@ export default function(iotHeader) {
                 component: _import('land/map/spatialData/plan.vue'),
                 meta: {
                     ...meta,
-                    title: '村庄规划编制成果'
+                    title: '国土空间规划'
                 }
             },
             {
@@ -45,7 +45,7 @@ export default function(iotHeader) {
                 component: _import('land/map/spatialData/year.vue'),
                 meta: {
                     ...meta,
-                    title: '年度计划成果'
+                    title: '村庄规划'
                 }
             },
             {
@@ -54,7 +54,7 @@ export default function(iotHeader) {
                 component: _import('land/map/spatialData/build.vue'),
                 meta: {
                     ...meta,
-                    title: '宅基地建设成果'
+                    title: '农房建设分布'
                 }
             },
             {
@@ -77,6 +77,33 @@ export default function(iotHeader) {
                 }
             },
             {
+                path: 'accountInformation/IllegalHouse',
+                name: `${pre}IllegalHouse`,
+                component: _import('land/map/accountInformation/IllegalHouse.vue'),
+                meta: {
+                    ...meta,
+                    title: '违法建房一览表'
+                }
+            },
+            {
+                path: 'accountInformation/revitalizeUse',
+                name: `${pre}revitalizeUse`,
+                component: _import('land/map/accountInformation/revitalizeUse.vue'),
+                meta: {
+                    ...meta,
+                    title: '盘活利用一览表'
+                }
+            },
+            {
+                path: 'accountInformation/householdRegister',
+                name: `${pre}householdRegister`,
+                component: _import('land/map/accountInformation/householdRegister.vue'),
+                meta: {
+                    ...meta,
+                    title: '户籍信息一览表'
+                }
+            },
+            {
                 path: 'implementationProcess/examineList',
                 name: `${pre}examineList`,
                 component: _import('land/map/implementationProcess/examineList.vue'),
@@ -95,7 +122,16 @@ export default function(iotHeader) {
                     ismap: true,
                     title: '审批一张图'
                 }
-            }
+            },
+            {
+                path: 'leaderCockpit/index',
+                name: `${pre}index`,
+                component: _import('land/map/leaderCockpit/index.vue'),
+                meta: {
+                  ...meta,
+                  title: '领导驾驶舱'
+                }
+              },
         ])(),
     }
 }

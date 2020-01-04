@@ -61,3 +61,35 @@ export function getMapQueryZjdLnLx(data) {
     data
   })
 }
+
+export function getAuditTableDatas(current,size,data) {
+  return request({
+    url: `/map/page/${current}/${size}`,
+    method: 'get',
+    params:data
+  })
+}
+
+export function GetAuditProgress(data) {
+  return request({
+    url: '/map/GetAuditProgress',
+    method: 'get',
+    data
+  })
+}
+
+export function GetAuditSituation(data) {
+  return request({
+    url: '/map/GetAuditSituation',
+    method: 'get',
+    data
+  })
+}
+
+export function GetYearAuditSituation(data) {
+  return request({
+    url: '/map/GetYearAuditSituation',
+    method: 'get',
+    data
+  })
+}
