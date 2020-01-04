@@ -28,13 +28,13 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
-          <br/>
+          <br />
           <span class="demonstration" style="float:right">
             <div class="color-box-yellow"></div>闲置用地
           </span>
           <br />
           <span class="demonstration">5460.81</span>
-          <br/>
+          <br />
           <span class="demonstration"></span>
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
@@ -50,7 +50,9 @@
         <el-table-column prop="phyd" label="盘活用地"></el-table-column>
       </el-table>
     </div>
-    <div :id="id" class="o-echarts" style="background-color:white"></div>
+    <div id="maprevitalizeuse" class="mapDiv"></div>
+    <timeline></timeline>
+    <!-- <div :id="id" class="o-echarts" style="background-color:white"></div> -->
   </div>
 </template>
 
@@ -71,10 +73,17 @@ import JSON_SZS from "@/plugin/echarts-map/city/json/hubei/421300.json"; //随�
 import JSON_ESTJZMZZZZ from "@/plugin/echarts-map/city/json/hubei/422800.json"; //恩施土家族苗族自治州
 import JSON_HBSZXXS from "@/plugin/echarts-map/city/json/hubei/429000.json"; //湖北省直辖县市
 
+import timeline from "../spatialData/components/timeline";
+import BaseMap from "../spatialData/mapBase.js";
+
 export default {
   name: "echart-map",
+  components: {
+    timeline
+  },
   data() {
     return {
+      map: null,
       tableData: [
         {
           xzq: "江夏区1",
@@ -237,6 +246,17 @@ export default {
     };
   },
   mounted() {
+    var currentRegionLayer;
+    var xzqhdm = "469005115201";
+    this.map = BaseMap.BaseInitMap("maprevitalizeuse");
+    this.map.addLayer(BaseMap.img_wLayer);
+
+    currentRegionLayer = BaseMap.BaseChangeRegionVector(
+      this.map,
+      xzqhdm,
+      currentRegionLayer
+    );
+    BaseMap.BaseAddTruePoints(this.map, "#5AC778");
     //遍历行政区
     let cities = [
       {
@@ -310,22 +330,22 @@ export default {
     this.year = tYear - 1;
     console.log(this.years);
     // this.echartObj = echarts.init(document.getElementById(this.id));
-    this.JSON_Data = JSON_WHS;
-    this.initMaps(this.JSON_Data);
-    // echarts.registerMap("武汉市", this.JSON_Data);
-    // this.echartObj.setOption(this.getOptions(), true);
-    this.echartObj.on("legendselectchanged", params => {
-      this.radioActive = Object.keys(this.radioList).filter(
-        item => this.radioList[item] === params.name
-      )[0];
-      this.echartObj.clear();
-      this.echartObj.setOption(this.getOptions());
-    });
-    window.addEventListener("resize", () => {
-      if (this.echartObj && this.echartObj.resize) {
-        this.echartObj.resize();
-      }
-    });
+    // this.JSON_Data = JSON_WHS;
+    // this.initMaps(this.JSON_Data);
+    // // echarts.registerMap("武汉市", this.JSON_Data);
+    // // this.echartObj.setOption(this.getOptions(), true);
+    // this.echartObj.on("legendselectchanged", params => {
+    //   this.radioActive = Object.keys(this.radioList).filter(
+    //     item => this.radioList[item] === params.name
+    //   )[0];
+    //   this.echartObj.clear();
+    //   this.echartObj.setOption(this.getOptions());
+    // });
+    // window.addEventListener("resize", () => {
+    //   if (this.echartObj && this.echartObj.resize) {
+    //     this.echartObj.resize();
+    //   }
+    // });
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -474,7 +494,7 @@ export default {
   height: 13px;
   position: absolute;
   margin: 3px -20px;
-  background-color: #FFBB3B;
+  background-color: #ffbb3b;
 }
 
 .color-box-gray {
@@ -555,5 +575,15 @@ hr {
   width: 100%;
   height: 100%;
   margin-top: -10px;
+}
+.mapDiv {
+  height: 100%;
+  padding: 0px;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
 }
 </style>

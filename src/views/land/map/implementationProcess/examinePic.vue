@@ -1,5 +1,6 @@
 <template>
   <div style="height:96%" id="pic-map" ref="rootmap">
+    <timeline style="z-index: 1;"></timeline>
     <div id="float-on-list" class="div-table ol-control">
       <div>
         <span>类型</span>
@@ -38,7 +39,7 @@
 
 <script>
 import BaseMap from "../spatialData/mapBase.js";
-
+import timeline from "../spatialData/components/timeline";
 import { getExaminePic } from "../../../../api/res.implprocess";
 
 export default {
@@ -98,6 +99,9 @@ export default {
         }
       ]
     };
+  },
+    components: {
+    timeline
   },
   created() {},
   watch: {
