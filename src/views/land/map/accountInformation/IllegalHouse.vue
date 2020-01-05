@@ -16,15 +16,21 @@
         class="select-item-xzq"
         v-on:change="changeCity(city)"
       >
-        <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-option
+          v-for="item in cities"
+          :key="item.id"
+          :label="item.properties.name"
+          :value="item.id"
+        ></el-option>
       </el-select>
       <!-- <hr /> -->
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span class="card-title">各县市用地情况统计排行</span>
         </div>
-        <div v-for="o in 5" :key="o" class="text item">
-          <span class="demonstration">江夏区{{o}}（平方米）</span>
+        <div class="text item">
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <span class="demonstration">龙华区（平方米）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -33,7 +39,59 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="o" color="#E85754" style="width:417px"></el-progress>
+          <el-progress :percentage="39" color="#E85754" style="width:417px"></el-progress>
+        </div>
+        <div class="text item">
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <span class="demonstration">美兰区（平方米）</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-orange"></div>违法占地
+          </span>
+          <br />
+          <span class="demonstration">7656.81</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-gray"></div>住宅用地
+          </span>
+          <el-progress :percentage="25" color="#E85754" style="width:417px"></el-progress>
+        </div>
+        <div class="text item">
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-orange"></div>违法占地
+          </span>
+          <br />
+          <span class="demonstration">9732.81</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-gray"></div>住宅用地
+          </span>
+          <el-progress :percentage="67" color="#E85754" style="width:417px"></el-progress>
+        </div>
+        <div class="text item">
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <span class="demonstration">秀英区（平方米）</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-orange"></div>违法占地
+          </span>
+          <br />
+          <span class="demonstration">2323.81</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-gray"></div>住宅用地
+          </span>
+          <el-progress :percentage="21" color="#E85754" style="width:417px"></el-progress>
+        </div>
+        <div class="text item">
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-orange"></div>违法占地
+          </span>
+          <br />
+          <span class="demonstration">6942.81</span>
+          <span class="demonstration" style="float:right">
+            <div class="color-box-gray"></div>住宅用地
+          </span>
+          <el-progress :percentage="56" color="#E85754" style="width:417px"></el-progress>
         </div>
       </el-card>
       <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
@@ -52,20 +110,24 @@
 
 <script>
 import echarts from "echarts";
-import JSON_WHS from "@/plugin/echarts-map/city/json/hubei/420100.json"; //武汉市
-import JSON_HSS from "@/plugin/echarts-map/city/json/hubei/420200.json"; //黄石市
-import JSON_SYS from "@/plugin/echarts-map/city/json/hubei/420300.json"; //十堰市
-import JSON_YCS from "@/plugin/echarts-map/city/json/hubei/420500.json"; //宜昌市
-import JSON_XYS from "@/plugin/echarts-map/city/json/hubei/420600.json"; //襄阳市
-import JSON_EZS from "@/plugin/echarts-map/city/json/hubei/420700.json"; //鄂州市
-import JSON_JMS from "@/plugin/echarts-map/city/json/hubei/420800.json"; //荆门市
-import JSON_XGS from "@/plugin/echarts-map/city/json/hubei/420900.json"; //孝感市
-import JSON_JZS from "@/plugin/echarts-map/city/json/hubei/421000.json"; //荆州市
-import JSON_HGS from "@/plugin/echarts-map/city/json/hubei/421100.json"; //黄冈市
-import JSON_XNS from "@/plugin/echarts-map/city/json/hubei/421200.json"; //咸宁市
-import JSON_SZS from "@/plugin/echarts-map/city/json/hubei/421300.json"; //随州市
-import JSON_ESTJZMZZZZ from "@/plugin/echarts-map/city/json/hubei/422800.json"; //恩施土家族苗族自治州
-import JSON_HBSZXXS from "@/plugin/echarts-map/city/json/hubei/429000.json"; //湖北省直辖县市
+// import JSON_WHS from "@/plugin/echarts-map/city/json/hubei/420100.json"; //武汉市
+// import JSON_HSS from "@/plugin/echarts-map/city/json/hubei/420200.json"; //黄石市
+// import JSON_SYS from "@/plugin/echarts-map/city/json/hubei/420300.json"; //十堰市
+// import JSON_YCS from "@/plugin/echarts-map/city/json/hubei/420500.json"; //宜昌市
+// import JSON_XYS from "@/plugin/echarts-map/city/json/hubei/420600.json"; //襄阳市
+// import JSON_EZS from "@/plugin/echarts-map/city/json/hubei/420700.json"; //鄂州市
+// import JSON_JMS from "@/plugin/echarts-map/city/json/hubei/420800.json"; //荆门市
+// import JSON_XGS from "@/plugin/echarts-map/city/json/hubei/420900.json"; //孝感市
+// import JSON_JZS from "@/plugin/echarts-map/city/json/hubei/421000.json"; //荆州市
+// import JSON_HGS from "@/plugin/echarts-map/city/json/hubei/421100.json"; //黄冈市
+// import JSON_XNS from "@/plugin/echarts-map/city/json/hubei/421200.json"; //咸宁市
+// import JSON_SZS from "@/plugin/echarts-map/city/json/hubei/421300.json"; //随州市
+// import JSON_ESTJZMZZZZ from "@/plugin/echarts-map/city/json/hubei/422800.json"; //恩施土家族苗族自治州
+// import JSON_HBSZXXS from "@/plugin/echarts-map/city/json/hubei/429000.json"; //湖北省直辖县市
+import JSON_WHS from "@/plugin/echarts-map/city/json/hainan/460100.json"; //海口市
+import JSON_HSS from "@/plugin/echarts-map/city/json/hainan/460200.json"; //三亚市
+import JSON_SYS from "@/plugin/echarts-map/city/json/hainan/460300.json"; //三沙市
+import JSON_YCS from "@/plugin/echarts-map/city/json/hainan/469000.json"; //其它自治市县
 
 import timeline from "../spatialData/components/timeline";
 import BaseMap from "../spatialData/mapBase.js";
@@ -77,34 +139,34 @@ export default {
       map: null,
       tableData: [
         {
-          xzq: "江夏区1",
+          xzq: "龙华区",
           zzyd: "9460.81",
-          wfzd: "1518.69",
-          szbl: "1%"
+          wfzd: "5460.81",
+          szbl: "39%"
         },
         {
-          xzq: "江夏区2",
+          xzq: "美兰区",
           zzyd: "75765.81",
-          wfzd: "1518.69",
-          szbl: "2%"
+          wfzd: "7656.81",
+          szbl: "25%"
         },
         {
-          xzq: "江夏区3",
+          xzq: "琼山区",
           zzyd: "3243.81",
-          wfzd: "1518.69",
-          szbl: "3%"
+          wfzd: "9732.81",
+          szbl: "67%"
         },
         {
-          xzq: "江夏区4",
+          xzq: "秀英区",
           zzyd: "9875.81",
-          wfzd: "1518.69",
-          szbl: "4%"
+          wfzd: "2323.81",
+          szbl: "21%"
         },
         {
-          xzq: "江夏区5",
+          xzq: "琼山区",
           zzyd: "7657.81",
-          wfzd: "1518.69",
-          szbl: "5%"
+          wfzd: "6942.81",
+          szbl: "56%"
         }
       ],
       years: [],
@@ -251,69 +313,71 @@ export default {
       currentRegionLayer
     );
     BaseMap.BaseAddTruePoints(this.map, "#F28965");
-
-    //遍历行政区
-    let cities = [
-      {
-        value: "420100",
-        label: "武汉市"
-      },
-      {
-        value: "420200",
-        label: "黄石市"
-      },
-      {
-        value: "420300",
-        label: "十堰市"
-      },
-      {
-        value: "420500",
-        label: "宜昌市"
-      },
-      {
-        value: "420600",
-        label: "襄阳市"
-      },
-      {
-        value: "420700",
-        label: "鄂州市"
-      },
-      {
-        value: "420800",
-        label: "荆门市"
-      },
-      {
-        value: "420900",
-        label: "孝感市"
-      },
-      {
-        value: "421000",
-        label: "荆州市"
-      },
-      {
-        value: "421100",
-        label: "黄冈市"
-      },
-      {
-        value: "421200",
-        label: "咸宁市"
-      },
-      {
-        value: "421300",
-        label: "随州市"
-      },
-      {
-        value: "422800",
-        label: "恩施土家族苗族自治州"
-      },
-      {
-        value: "429000",
-        label: "湖北省直辖县市"
-      }
-    ];
-    this.cities = cities;
-    //默认行政区为武汉市
-    this.city = "420100";
+    //获取海南市级行政区
+    let sj_fileName = "echarts-map/province/json/hainan.json";
+    this.requestAjax(sj_fileName, 2);
+    //获取行政区
+    // let cities = [
+    //   {
+    //     value: "420100",
+    //     label: "武汉市"
+    //   },
+    //   {
+    //     value: "420200",
+    //     label: "黄石市"
+    //   },
+    //   {
+    //     value: "420300",
+    //     label: "十堰市"
+    //   },
+    //   {
+    //     value: "420500",
+    //     label: "宜昌市"
+    //   },
+    //   {
+    //     value: "420600",
+    //     label: "襄阳市"
+    //   },
+    //   {
+    //     value: "420700",
+    //     label: "鄂州市"
+    //   },
+    //   {
+    //     value: "420800",
+    //     label: "荆门市"
+    //   },
+    //   {
+    //     value: "420900",
+    //     label: "孝感市"
+    //   },
+    //   {
+    //     value: "421000",
+    //     label: "荆州市"
+    //   },
+    //   {
+    //     value: "421100",
+    //     label: "黄冈市"
+    //   },
+    //   {
+    //     value: "421200",
+    //     label: "咸宁市"
+    //   },
+    //   {
+    //     value: "421300",
+    //     label: "随州市"
+    //   },
+    //   {
+    //     value: "422800",
+    //     label: "恩施土家族苗族自治州"
+    //   },
+    //   {
+    //     value: "429000",
+    //     label: "湖北省直辖县市"
+    //   }
+    // ];
+    // this.cities = cities;
+    //默认行政区为海口市
+    this.city = "460100";
     //获得当前年份
     var _date = new Date();
     var tYear = _date.getFullYear();
@@ -343,6 +407,26 @@ export default {
     // });
   },
   methods: {
+    //ajax获取本地json文件行政区划
+    requestAjax(fileName, level) {
+      let _this = this;
+      this.$axios
+        .get(fileName)
+        //then获取成功；response成功后的返回值（对象）
+        .then(response => {
+          console.log(response.data.features); //[0].properties.name
+          if (level == "3") {
+            this.counties = response.data.features;
+          } else if (level == "2") {
+            this.cities = response.data.features;
+          }
+        })
+        //获取失败
+        .catch(error => {
+          console.log(error);
+          alert("网络错误，不能访问");
+        });
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {
         return "warning-row";
@@ -362,47 +446,62 @@ export default {
     changeCity(value) {
       console.log(value);
       switch (value) {
-        case "420100":
+        // case "420100":
+        //   this.initMaps(JSON_WHS);
+        //   break;
+        // case "420200":
+        //   this.initMaps(JSON_HSS);
+        //   break;
+        // case "420300":
+        //   this.initMaps(JSON_SYS);
+        //   break;
+        // case "420500":
+        //   this.initMaps(JSON_YCS);
+        //   break;
+        // case "420600":
+        //   this.initMaps(JSON_XYS);
+        //   break;
+        // case "420700":
+        //   this.initMaps(JSON_EZS);
+        //   break;
+        // case "420800":
+        //   this.initMaps(JSON_JMS);
+        //   break;
+        // case "420900":
+        //   this.initMaps(JSON_XGS);
+        //   break;
+        // case "421000":
+        //   this.initMaps(JSON_JZS);
+        //   break;
+        // case "421100":
+        //   this.initMaps(JSON_HGS);
+        //   break;
+        // case "421200":
+        //   this.initMaps(JSON_XNS);
+        //   break;
+        // case "421300":
+        //   this.initMaps(JSON_SZS);
+        //   break;
+        // case "422800":
+        //   this.initMaps(JSON_ESTJZMZZZZ);
+        //   break;
+        // case "429000":
+        //   this.initMaps(JSON_HBSZXXS);
+        //   break;
+        case "460100":
           this.initMaps(JSON_WHS);
           break;
-        case "420200":
+        case "460200":
           this.initMaps(JSON_HSS);
           break;
-        case "420300":
+        case "460300":
           this.initMaps(JSON_SYS);
           break;
-        case "420500":
+        case "469000":
           this.initMaps(JSON_YCS);
           break;
-        case "420600":
-          this.initMaps(JSON_XYS);
-          break;
-        case "420700":
-          this.initMaps(JSON_EZS);
-          break;
-        case "420800":
-          this.initMaps(JSON_JMS);
-          break;
-        case "420900":
-          this.initMaps(JSON_XGS);
-          break;
-        case "421000":
-          this.initMaps(JSON_JZS);
-          break;
-        case "421100":
-          this.initMaps(JSON_HGS);
-          break;
-        case "421200":
-          this.initMaps(JSON_XNS);
-          break;
-        case "421300":
-          this.initMaps(JSON_SZS);
-          break;
-        case "422800":
-          this.initMaps(JSON_ESTJZMZZZZ);
-          break;
-        case "429000":
-          this.initMaps(JSON_HBSZXXS);
+        default:
+          this.initMaps("");
           break;
       }
       //this.initMaps();
@@ -562,16 +661,5 @@ hr {
   width: 100%;
   height: 100%;
   margin-top: -10px;
-}
-
-.mapDiv {
-  height: 100%;
-  padding: 0px;
-  padding: 0px;
-  margin: 0px;
-  width: 100%;
-  position: absolute;
-  left: 0px;
-  top: 0px;
 }
 </style>

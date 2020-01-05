@@ -129,6 +129,7 @@
               <el-date-picker
                 v-model="formLabel.spyj.zrzybmrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
@@ -155,6 +156,7 @@
               <el-date-picker
                 v-model="formLabel.spyj.nyncbrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
@@ -176,17 +178,19 @@
               <el-date-picker
                 v-model="formLabel.spyj.xzzfrq"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>  
       </el-form>
-      <el-button type="primary">提交</el-button>
+      <el-button type="primary" @click="submitForm()">提交</el-button>
   </div>
 </template>
 
 <script>
+import {submitForm} from '@/api/land.examine'
 export default {
     name:'appceptance-form',
      data() {
@@ -250,7 +254,15 @@ export default {
             xzzfrq:""
           }
         }          
-      };
+      }
+    },
+    methods:{
+      submitForm(){
+        submitForm(this.formLabel.spyj).then(res=>{
+          console.log(1)
+          console.log(res)
+        })
+      }
     }
 }
 </script>
