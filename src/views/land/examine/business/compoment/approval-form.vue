@@ -1,31 +1,31 @@
 <template>
   <div>
       <h1>申请户主信息</h1>
-      <el-form :label-position="labelPosition" :model="formLabel">
+      <el-form  :label-position="labelPosition" :model="formLabel">
         <el-row>
           <el-col :span="3">
             <el-form-item label="姓名">
-              <el-input v-model="formLabel.hzxx.xm" placeholder="姓名"></el-input>
+              <el-input v-model="detailData.jcxx.xm" placeholder="姓名"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="3">
             <el-form-item label="性别">
-              <el-input v-model="formLabel.hzxx.xb" placeholder="性别"></el-input>
+              <el-input v-model="detailData.jcxx.xb" placeholder="性别"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="身份证号">
-              <el-input v-model="formLabel.hzxx.sfzh" placeholder="身份证号"></el-input>
+              <el-input v-model="detailData.jcxx.sfzh" placeholder="身份证号"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="家庭住址">
-              <el-input v-model="formLabel.hzxx.jtzz" placeholder="家庭住址"></el-input>
+              <el-input v-model="detailData.jcxx.jtzz" placeholder="家庭住址"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="申请理由">
-              <el-input v-model="formLabel.hzxx.sqly" placeholder="申请理由"></el-input>
+              <el-input v-model="detailData.qt.sqly" placeholder="申请理由"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -33,39 +33,39 @@
         <el-row>
           <el-col :span="5">
             <el-form-item label="宅基地面积">
-              <el-input v-model="formLabel.jfqk.zjdmj" placeholder="宅基地面积"></el-input>
+              <el-input v-model="detailData.nzjdqk.zjdmj" placeholder="宅基地面积"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="房基占地面积">
-              <el-input v-model="formLabel.jfqk.fjzdmj" placeholder="房基占地面积"></el-input>
+              <el-input v-model="detailData.nzjdqk.fjzdmj" placeholder="房基占地面积"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="14">
             <el-form-item label="地址">
-              <el-input v-model="formLabel.jfqk.dz" placeholder="地址"></el-input>
+              <el-input v-model="detailData.nzjdqk.dz" placeholder="地址"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="四至东至">
-              <el-input v-model="formLabel.jfqk.szdz" placeholder="四至东至"></el-input>
+              <el-input v-model="detailData.nzjdqk.szdz" placeholder="四至东至"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="四至西至">
-              <el-input v-model="formLabel.jfqk.szxz" placeholder="四至西至"></el-input>
+              <el-input v-model="detailData.nzjdqk.szxz" placeholder="四至西至"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="四至北至">
-              <el-input v-model="formLabel.jfqk.szbz" placeholder="四至北至"></el-input>
+              <el-input v-model="detailData.nzjdqk.szbz" placeholder="四至北至"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="四至南至">
-              <el-input v-model="formLabel.jfqk.sznz" placeholder="四至南至"></el-input>
+              <el-input v-model="detailData.nzjdqk.sznz" placeholder="四至南至"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -73,7 +73,7 @@
           <el-col :span="5">
             <label class="el-form-item__label">建房类型</label>
             <div>
-              <el-select v-model="formLabel.jflxvalue" placeholder="请选择" style="width:100%">
+              <el-select v-model="detailData.nzjdqk.jflx" placeholder="请选择" style="width:100%">
                 <el-option
                   v-for="item in formLabel.jflxoptions"
                   :key="item.value"
@@ -86,7 +86,7 @@
           <el-col :span="4">
             <label class="el-form-item__label">地类</label>
             <div>
-              <el-select v-model="formLabel.dlvalue" placeholder="请选择" style="width:100%">
+              <el-select v-model="detailData.nzjdqk.dl" placeholder="请选择" style="width:100%">
                 <el-option
                   v-for="item in formLabel.dloptions"
                   :key="item.value"
@@ -98,17 +98,17 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="住房建筑面积">
-              <el-input v-model="formLabel.jfqk.zfjzmj" placeholder="住房建筑面积"></el-input>
+              <el-input v-model="detailData.nzjdqk.zfjzmj" placeholder="住房建筑面积"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="建筑层数">
-              <el-input v-model="formLabel.jfqk.jzcs" placeholder="建筑层数"></el-input>
+              <el-input v-model="detailData.nzjdqk.jzcs" placeholder="建筑层数"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="建筑高度">
-              <el-input v-model="formLabel.jfqk.jzgd" placeholder="建筑高度"></el-input>
+              <el-input v-model="detailData.nzjdqk.jzgd" placeholder="建筑高度"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -184,27 +184,39 @@
             </el-form-item>
           </el-col>
         </el-row>  
+        <el-button type="primary" @click="submitForm()">提交</el-button>
       </el-form>
-      <el-button type="primary" @click="submitForm()">提交</el-button>
+      
   </div>
 </template>
 
 <script>
 import {submitForm} from '@/api/land.examine'
 export default {
-    name:'appceptance-form',
+    name:'approval-form',
+     props: {
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      detail: {
+        type: Object,
+        default: undefined
+      }
+    },
      data() {
       return {
         labelPosition: 'top',
+        detailData:this.detail,
         formLabel:{
-          //申请户主信息
-          hzxx:{
-            xm:"",
-            xb:"",
-            sfzh:"",
-            jtzz:"",
-            sqly:""
-          },
+          // //申请户主信息
+          // hzxx:{
+          //   xm:"",
+          //   xb:"",
+          //   sfzh:"",
+          //   jtzz:"",
+          //   sqly:""
+          // },
           //拟批准宅基地及建房情况
           jfqk:{
             zjdmj:"",
@@ -242,6 +254,7 @@ export default {
           dlvalue:'',
           //意见
           spyj:{
+            sqid:this.detail.zjdSqJl.sqid,
             zrzybmyj:"",
             zrzybmfzr:"",
             zrzybmrq:"",
@@ -254,6 +267,11 @@ export default {
             xzzfrq:""
           }
         }          
+      }
+    },
+    created () {
+      if(this.detail){
+        this.formLabel.spyj = JSON.parse(JSON.stringify(this.detail.qt))
       }
     },
     methods:{
