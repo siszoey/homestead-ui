@@ -28,6 +28,8 @@
   import appceptanceForm from './appceptance-form'
   import approvalForm from './approval-form'
   import FileTreeView from '../../../components/filetreeview.vue'
+  import {LastProcess} from "../../../../../api/land.business"
+
   export default {
     name: 'detail-page',
     components: {
@@ -63,6 +65,7 @@
         this.xmbh=this.detail.zjdSqJl.sqid
         this.stage=this.detail.zjdSqJl.xmzt
       }
+      this.getLastXMZT();
     },
     data() {
       return {
@@ -71,8 +74,21 @@
         stage: ""
       }
     },
-    
-    methods: {}
+
+    methods: {
+      getLastXMZT(){
+        let currentXMZTCode = this.detail == undefined ? 1 : this.detail.zjdSqJl.xmzt
+        this.active = currentXMZTCode - 1
+        /*if(currentXMZTCode){
+          LastProcess(currentXMZTCode).then(()=>{
+
+          }).catch(()=>{
+
+          })
+        }*/
+
+      }
+    }
   }
 </script>
 
