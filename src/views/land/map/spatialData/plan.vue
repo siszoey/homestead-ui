@@ -4,7 +4,7 @@
 
     <div class="toolbarContainer">
       <div class="toolbar">
-        <div class="toolButton top">
+        <div class="toolButton top" title="切换图例显示" @click="show = !show">
           <img src="../assets/sldt.png" />
         </div>
         <div class="toolButton bottom highlight">
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="toolbar" style="margin-top:10px">
-        <div :class="layerOn ?'toolButton top selected':'toolButton top '" @click="showLayer">
+        <div :class="layerOn ?'toolButton top selected':'toolButton top '" @click="showLayer"  title="选择图层">
           <img src="../assets/tcgl.png" />
         </div>
         <div class="toolButton">
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="legendContainer">
+    <div class="legendContainer"  v-show="show" id="legendContainer">
       <div class="legendBox">
         <div class="title">农用地</div>
         <div class="legendItem">
@@ -182,7 +182,6 @@
         <div class="legendItem" style="width:240px">
           <img class="img" src="../assets/dltbstyle/08H1.png" />机关团体新闻出版用地
         </div>
-
         <div class="title">未利用地</div>
 
         <div class="legendItem">
@@ -242,7 +241,8 @@ export default {
   data() {
     return {
       map: null,
-      layerOn: false
+      layerOn: false,
+      show:true
     };
   },
   components: {
@@ -280,6 +280,19 @@ export default {
   methods: {
     showLayer() {
       this.layerOn = !this.layerOn;
+    },
+    switchPanel() {
+      var id = "legendContainer";
+      if (
+        document.getElementById(id).style.display == "flex" ||
+        document.getElementById(id).style.display == ""
+      ) {
+        document.getElementById(id).style.display = "none";
+        document.getElementById("BUTTON").innerHTML = "查看图例";
+      } else {
+        document.getElementById(id).style.display = "flex";
+        document.getElementById("BUTTON").innerHTML = "收起图例";
+      }
     }
   }
 };
@@ -353,6 +366,19 @@ export default {
   //right: 0px;
   position: absolute;
   bottom: 10px;
+  z-index: 9;
+  .legendcontainer {
+    //border: rgb(200, 200, 200) 1px solid;
+    width: 480px;
+    //padding-left: 10px;
+    color: rgb(240, 240, 240);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+  }
   .legendBox {
     border: rgb(200, 200, 200) 1px solid;
     width: 480px;

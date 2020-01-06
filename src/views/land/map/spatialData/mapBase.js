@@ -27,6 +27,18 @@ var img_wLayer = new TileLayer({
     zindex: 1
 });
 
+//谷歌地图影像底图图层
+var img_wLayer_g = new TileLayer({
+    source: new XYZ({
+        url: "http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+    }),
+    name: '谷歌地图影像底图'
+    ,
+    zindex: 1
+});
+
+
+
 var vec_wLayer = new TileLayer({
     source: new XYZ({
         url: "https://t" + siteindex + ".tianditu.gov.cn/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=" + key
@@ -65,6 +77,7 @@ export default {
     vec_wLayer,
     ter_wLayer,
     cia_wLayer,
+    img_wLayer_g,
 
     geoserverURL,
     geoserver,
