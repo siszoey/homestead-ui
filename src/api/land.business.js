@@ -20,6 +20,14 @@ export function ApplicationForm(data) {
  * @param data
  */
 export function PageData(pageNum, pageSize, stageParam, queryForm) {
+  if(queryForm.sqsj && queryForm.sqsj.length > 0){
+    let start_sqrrq = queryForm.sqsj[0]
+    let end_sqrrq = queryForm.sqsj[1]
+    queryForm['start_sqrrq'] =start_sqrrq
+    queryForm['end_sqrrq'] =end_sqrrq
+    delete queryForm.sqsj
+  }
+
   return request({
     url: prefix + '/apply/form/list',
     method: 'get',
@@ -41,3 +49,15 @@ export function ApproalProcess(data) {
     data
   })
 }
+
+/**
+ * 获取最新项目状态
+ * @param data
+ */
+export function LastProcess(sqid) {
+  return request({
+    url: prefix + `/apply/form/max/${sqid}`,
+    method: 'get',
+  })
+}
+

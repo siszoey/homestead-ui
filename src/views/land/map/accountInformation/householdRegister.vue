@@ -25,6 +25,7 @@
               v-model="county"
               style="position:absolute;z-index:9999999;left:290px;width: 2rem !important;"
               class="select-item-xzq"
+              v-on:change="changeCounty(county)"
             >
               <el-option
                 v-for="item in counties"
@@ -37,14 +38,14 @@
               size="medium"
               type="primary"
               icon="el-icon-search"
-              style="margin-left:52%;margin-top: 8px;"
+              style="margin-left:52%;margin-top: 8px;display:none;"
               v-on:click="search()"
             >查询</el-button>
             <el-table
               ref="multipleTable"
               :data="tableData"
               tooltip-effect="dark"
-              style="width: 95%;margin-top: 11px;"
+              style="width: 95%;margin-top: 56px;"
             >
               <el-table-column prop="hzxm" label="户主姓名" sortable></el-table-column>
               <el-table-column prop="sfzh" label="身份证号" sortable></el-table-column>
@@ -75,65 +76,8 @@ export default {
       city: "",
       cities: [],
       county: "",
-      counties: "",
-      tableData: [
-        {
-          hzxm: "张清秀",
-          sfzh: "460100199102283210",
-          nl: "25",
-          jtzz: "海南省海口市龙华区街道56弄6号",
-          hkszd: "海南省海口市龙华区街道56弄6号",
-          jtzrs: "5"
-        },
-        {
-          hzxm: "李世三",
-          sfzh: "460100198803216576",
-          nl: "55",
-          jtzz: "海南省海口市琼山区街道87弄1号",
-          hkszd: "海南省海口市琼山区街道87弄1号",
-          jtzrs: "6"
-        },
-        {
-          hzxm: "王倾佩",
-          sfzh: "460100199802083219",
-          nl: "22",
-          jtzz: "海南省海口市美兰区街道6弄15号",
-          hkszd: "海南省海口市美兰区街道6弄15号",
-          jtzrs: "3"
-        },
-        {
-          hzxm: "赵子强",
-          sfzh: "460100199208181210",
-          nl: "32",
-          jtzz: "海南省海口市龙华区街道121弄55号",
-          hkszd: "海南省海口市龙华区街道121弄55号",
-          jtzrs: "7"
-        },
-        {
-          hzxm: "马龙",
-          sfzh: "460100199509111219",
-          nl: "67",
-          jtzz: "海南省海口市秀英区街道1000弄27号",
-          hkszd: "海南省海口市秀英区街道1000弄27号",
-          jtzrs: "5"
-        },
-        {
-          hzxm: "谢强",
-          sfzh: "460100197612211215",
-          nl: "67",
-          jtzz: "海南省海口市秀英区街道1666弄77号",
-          hkszd: "海南省海口市秀英区街道1666弄77号",
-          jtzrs: "3"
-        },
-        {
-          hzxm: "马龙",
-          sfzh: "460100195011118219",
-          nl: "67",
-          jtzz: "海南省海口市秀英区街道5644弄07号",
-          hkszd: "海南省海口市秀英区街道5644弄07号",
-          jtzrs: "8"
-        }
-      ],
+      counties: [],//update
+      tableData: [],
       ids: "",
       params: {
         title: ""
@@ -150,10 +94,14 @@ export default {
     //默认行政区为海口市
     this.city = "460100";
     //this.ajaxSync();
+    //初始化表格
+    let path = "test-data/map/accountInformation/householdRegister/city/haikou.json";
+    this.AjaxGetData(path);
   },
   methods: {
     changeCity(value) {
       let fileName = "";
+      let path = "";
       console.log(value);
       switch (value) {
         // case "420100":
@@ -202,17 +150,68 @@ export default {
         case "460100":
           fileName = "echarts-map/city/json/hainan/460100.json";
           this.requestAjax(fileName, 3);
+          path = "test-data/map/accountInformation/householdRegister/city/haikou.json";
+          this.AjaxGetData(path);
           break;
         case "460200":
           fileName = "echarts-map/city/json/hainan/460200.json";
           this.requestAjax(fileName, 3);
+          path = "test-data/map/accountInformation/householdRegister/city/sanya.json";
+          this.AjaxGetData(path);
           break;
         case "460300":
           fileName = "echarts-map/city/json/hainan/460300.json";
           this.requestAjax(fileName, 3);
+          path = "test-data/map/accountInformation/householdRegister/city/sansha.json";
+          this.AjaxGetData(path);
           break;
         default:
+          this.county = ""; //change时清空county
           this.counties = [];
+          this.tableData = [];
+          break;
+      }
+    },
+    changeCounty(value) {
+      let path = "";
+      console.log(value);
+      switch (value) {
+        case "460106":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/haikou/longhua.json";
+          this.AjaxGetData(path);
+          break;
+        case "460108":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/haikou/meilan.json";
+          this.AjaxGetData(path);
+          break;
+        case "460107":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/haikou/qiongshan.json";
+          this.AjaxGetData(path);
+          break;
+        case "460200":
+          path = "test-data/map/accountInformation/householdRegister/city/sanya.json";
+          this.AjaxGetData(path);
+          break;
+        case "460302":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/sansha/nanshaqundao.json";
+          this.AjaxGetData(path);
+          break;
+        case "460301":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/sansha/xishaqundao.json";
+          this.AjaxGetData(path);
+          break;
+        case "460303":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/sansha/zsqdddjjqhy.json";
+          this.AjaxGetData(path);
+          break;
+        default:
+          this.tableData = [];
           break;
       }
     },
@@ -225,10 +224,28 @@ export default {
         .then(response => {
           console.log(response.data.features); //[0].properties.name
           if (level == "3") {
+            _this.county="";//change时清空county
             _this.counties = response.data.features;
           } else if (level == "2") {
             _this.cities = response.data.features;
           }
+        })
+        //获取失败
+        .catch(error => {
+          console.log(error);
+          alert("网络错误，不能访问");
+        });
+    },
+    //ajax获取本地行政区划下json文件数据
+    AjaxGetData(path) {
+      let _this = this;
+      this.$axios
+        .get(path)
+        //then获取成功；response成功后的返回值（对象）
+        .then(response => {
+          console.log(response.data.result);
+          _this.tableData = [];
+          _this.tableData = response.data.result;
         })
         //获取失败
         .catch(error => {

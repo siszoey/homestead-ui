@@ -7,7 +7,7 @@
                 size="mini"
                 style="margin-bottom: -25px; padding: 0 20px">
             <el-form-item label="申请类型">
-                <el-select v-model="queryForm['sqlx']">
+                <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
@@ -22,6 +22,8 @@
                         v-model="queryForm['sqsj']"
                         type="daterange"
                         range-separator="至"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
                 </el-date-picker>
@@ -156,7 +158,7 @@
           pages: null
         },
         queryForm: {
-          sqlx: undefined,
+          jflx: undefined,
           sqid: undefined,
           sqmc: undefined,
           sqsj: undefined,
