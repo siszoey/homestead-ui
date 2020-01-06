@@ -62,7 +62,7 @@
                     width="55">
             </el-table-column>-->
 
-            <el-table-column align="center" label="项目编号">
+            <el-table-column align="center" label="项目编号" width="155">
                 <template slot-scope="scope">
                     <span>{{scope.row.jcxx.sqid}}</span>
                 </template>
@@ -99,7 +99,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column align="center" label="联系方式">
+            <el-table-column align="center" label="联系方式" width="120">
                 <template slot-scope="scope">
                     <span>{{scope.row.jcxx.lxdh}}</span>
                 </template>
@@ -215,7 +215,7 @@
             name: 'land-examine-detail',
             params: Object.assign({
               sqlx: 0,
-              sqid: 'xx',
+              sqid: row.zjdSqJl.sqid,
               applicationFormDisabled: true,
               appceptanceFormDisabled: true,
               approvalFormDisabled: true,

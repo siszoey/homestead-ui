@@ -10,7 +10,7 @@
               stroke-linecap="butt"
               :stroke-width="10"
               :width="110"
-              :percentage="progress.auditPercent"
+              :percentage="parseFloat(progress.auditPercent)"
               :color="progressColor[index]"
             ></el-progress>
             <!-- 自己定义的数据 -->

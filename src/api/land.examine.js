@@ -7,3 +7,11 @@ export function submitForm(data) {
         data
     })
 }
+
+export function submitAcceptance (data) {
+    return request({
+        url: prefix + 'appceptance',
+        method: 'post',
+        data
+    })
+}

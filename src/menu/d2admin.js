@@ -13,7 +13,7 @@ const map = {
         path: `${pre}/spatialData`,
         title: '空间数据',
         children: (pre => [
-            { path: `${pre}/test`, title: 'DEMO' },
+            // { path: `${pre}/test`, title: 'DEMO' },
             { path: `${pre}/survey`, title: '现状调查成果' },
             { path: `${pre}/plan`, title: '村庄规划编制成果' },
             { path: `${pre}/year`, title: '年度计划成果' },
@@ -54,7 +54,7 @@ const examine = {
             { path: `${pre}/comprehensive`, title: '综合管理' },
         ])('/land/examine/business')
     },
-    { path: `${pre}/search`, title: '归档查询' },
+    // { path: `${pre}/search`, title: '归档查询' },
     { path: `${pre}/statistics`, title: '统计分析' }
     ])('/land/examine')
 }
@@ -100,6 +100,18 @@ const examine = {
 //     {path: `${pre}/uploadview`, title: '需上传影像自行管理'}
 //   ])('/res/system')
 // }
+
+const system = {
+    path: '/land/system',
+    title: '系统设置',
+    alias: 'index',
+    icon: 'system',
+    children: (pre => [
+      {path: `${pre}/fileConfig`, title: '上传设置'},
+    ])('/land/system')
+  }
+
+
 // 菜单 侧栏
 export const menuAside = [
     // home,

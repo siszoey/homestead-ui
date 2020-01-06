@@ -13,7 +13,7 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="项目编号">
+            <el-form-item label="项目编号" >
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
@@ -54,7 +54,7 @@
                     width="55">
             </el-table-column>-->
 
-            <el-table-column align="center" label="项目编号">
+            <el-table-column align="center" label="项目编号" width="155">
                 <template slot-scope="scope">
                     <span>{{scope.row.jcxx.sqid}}</span>
                 </template>
@@ -91,7 +91,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column align="center" label="联系方式">
+            <el-table-column align="center" label="联系方式" width="120">
                 <template slot-scope="scope">
                     <span>{{scope.row.jcxx.lxdh}}</span>
                 </template>
