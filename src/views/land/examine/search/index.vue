@@ -22,6 +22,8 @@
                         v-model="queryForm['sqsj']"
                         type="daterange"
                         range-separator="至"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
                 </el-date-picker>
