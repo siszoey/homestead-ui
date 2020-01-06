@@ -56,7 +56,7 @@
         <el-col :span="8">
           <div class="grid-content bg-white">
             <p class="header-title">农房闲置情况分析</p>
-            <el-row :gutter="15">
+            <el-row style="height:70px">
               <el-col :span="24">
                 <div class="nfxzInfo bg-gray">
                   <span>
@@ -66,17 +66,17 @@
                 </div>
               </el-col>
             </el-row>
-            <el-row :gutter="15">
+            <el-row style="height:80px">
               <el-col :span="24">
-                <div class="nfxzInfo">
+                <div class="xzInfo">
                   <span>季节性闲置数量 {{nfxzData.jjxxzsl}}</span>
                   <el-progress :stroke-width="12" color="#58B8AE" :percentage="nfxzData.jjxxzzb"></el-progress>
                 </div>
               </el-col>
             </el-row>
-            <el-row :gutter="15">
+            <el-row style="height:100px">
               <el-col :span="24">
-                <div class="nfxzInfo">
+                <div class="xzInfo">
                   <span>长期性闲置数量 {{nfxzData.cqxxzzb}}</span>
                   <el-progress :stroke-width="12" color="#E7B33C" :percentage="nfxzData.cqxxzzb"></el-progress>
                 </div>
@@ -527,13 +527,21 @@ p {
 }
 .nfxzInfo {
   width: 90%;
-  height: 45px;
-  margin: 15px auto 0px auto;
+  height: 50px;
+  margin: 10px auto 10px auto;
   font-size: 16px;
   letter-spacing: 1px;
-  line-height: 45px;
+  line-height: 50px;
 }
-.nfxzInfo span {
+.xzInfo{
+  width: 90%;
+  height: 30px;
+  margin: 10px auto 10px auto;
+  font-size: 16px;
+  letter-spacing: 1px;
+  line-height: 30px;
+}
+.nfxzInfo span,.xzInfo span {
   margin-left: 10px;
 }
 .bg-gray {
