@@ -1,13 +1,271 @@
 <template>
-  <p>退件</p>
+    <d2-container>
+        <el-form
+                :inline="true"
+                :model="queryForm"
+                ref="queryForm"
+                size="mini"
+                style="margin-bottom: -25px; padding: 0 20px">
+            <el-form-item label="申请类型">
+                <el-select v-model="queryForm['sqlx']">
+                    <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
+                               :value="option.optCode" :key="oIndex"></el-option>
+                </el-select>
+            </el-form-item>
+
+            <el-form-item label="项目编号" >
+                <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
+            </el-form-item>
+
+            <el-form-item label="申请时间">
+                <el-date-picker
+                        v-model="queryForm['sqsj']"
+                        type="daterange"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                </el-date-picker>
+            </el-form-item>
+
+            <div style="float: right">
+                <el-form-item>
+                    <el-button type="success" @click="handleCreate">
+                        <d2-icon name="create"/>
+                        新建
+                    </el-button>
+                    <el-button type="primary" @click="getTableData">
+                        <d2-icon name="search"/>
+                        查询
+                    </el-button>
+                    <el-button type="default" @click="handleFormReset('queryForm')">
+                        <d2-icon name="refresh"/>
+                    </el-button>
+                </el-form-item>
+            </div>
+        </el-form>
+
+        <!-- table表格 -->
+        <el-table :key='table.key'
+                  :data="table.list"
+                  v-loading="table.listLoading"
+                  element-loading-text="拼命加载中..."
+                  highlight-current-row
+                  stripe
+                  style="width: 100%">
+
+            <!--<el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>-->
+
+            <el-table-column align="center" label="项目编号" width="155">
+                <template slot-scope="scope">
+                    <span>{{scope.row.jcxx.sqid}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="项目名称">
+                <template slot-scope="scope">
+                    <span>{{getOptName('建房类型', scope.row.nzjdqk.jflx)}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="申请类型">
+                <template slot-scope="scope">
+                    <span>{{getOptName('建房类型', scope.row.nzjdqk.jflx)}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="申请时间">
+                <template slot-scope="scope">
+                    <span>{{scope.row.qt.sqrrq}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="申请人">
+                <template slot-scope="scope">
+                    <span>{{scope.row.jcxx.xm}}</span>
+                </template>
+            </el-table-column>
+
+
+            <el-table-column align="center" label="申请面积">
+                <template slot-scope="scope">
+                    <span>{{scope.row.nzjdqk.zjdmj}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="联系方式" width="120">
+                <template slot-scope="scope">
+                    <span>{{scope.row.jcxx.lxdh}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="项目状态">
+                <template slot-scope="scope">
+                    <span>{{getOptName('项目状态', scope.row.zjdSqJl.xmzt)}}</span>
+                </template>
+            </el-table-column>
+
+
+            <el-table-column fixed="right" align="center" label="操作" width="300">
+                <template slot-scope="scope">
+                    <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
+                    </el-button>
+                    <el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
+                    </el-button>
+                </template>
+            </el-table-column>
+
+        </el-table>
+
+        <!-- footer 分页条 -->
+        <template slot="footer">
+            <el-pagination
+                    background
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="table.pageNum"
+                    :page-sizes="[10,20,30,50]"
+                    :page-size="table.pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="table.total"
+                    style="margin: -10px;">
+            </el-pagination>
+        </template>
+
+    </d2-container>
 </template>
 
 <script>
-export default {
-    name:'rollback'
-}
+  import {PageData} from "../../../../api/land.business"
+  import dictMixnis from "../../mixnis/dict-mixnis"
+  import processMixnis from "../../mixnis/process-mixnis"
+  import {mapState} from 'vuex'
+
+  export default {
+    name: 'examine-rollback',
+    components: {},
+    mixins: [
+      dictMixnis,
+      processMixnis
+    ],
+    data() {
+      return {
+        table: {
+          key: 0,
+          listLoading: false,
+          list: [],
+          total: null,
+          pageNum: 0,
+          pageSize: 10,
+          pages: null
+        },
+        queryForm: {
+          sqlx: undefined,
+          sqid: undefined,
+          sqmc: undefined,
+          sqsj: undefined,
+        },
+      }
+    },
+    created() {
+      this.getTableData()
+    },
+    computed: {
+      ...mapState('d2admin/user', [
+        'info'
+      ])
+    },
+    methods: {
+      getTableData() {
+        this.table.listLoading = true
+        let stageParam = {
+          blzt: this.getOptCode("办理状态", "退办"),
+          roleid: this.info.role.join("|")
+        }
+        PageData(this.table.pageNum, this.table.pageSize, stageParam, this.queryForm).then(res => {
+          this.table.list = res.records
+          this.table.total = res.total
+        }).catch(err => console.log(err)).finally(() => {
+          this.table.listLoading = false
+        })
+      },
+      handleSizeChange(pageSiz) {
+        this.table.pageSize = pageSiz
+        this.getTableData()
+      },
+      handleCurrentChange(pageNum) {
+        this.table.pageNum = pageNum
+        this.getTableData()
+      },
+      handleFormReset(formName) {
+        this.$refs[formName].resetFields()
+        this.getTableData()
+      },
+      handleCreate() {
+        this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
+      },
+      handleDetail(row) {
+        this.$router.push({
+            name: 'land-examine-detail',
+            params: Object.assign({
+              sqlx: 0,
+              sqid: 'xx',
+              applicationFormDisabled: true,
+              appceptanceFormDisabled: true,
+              approvalFormDisabled: true,
+              detail: row
+            })
+          }
+        )
+      },
+      handleUpdate(row) {
+      },
+      handleCheck(row) {
+        let confirm = {
+          distinguishCancelAndClose: true,
+          title: '办理结果, 是否继续?',
+          trueText: '已办',
+          falseText: '退办',
+        }
+        //第一个角色申请，只有已办，没有退办
+        if (row.zjdSqJl.roleid === this.getOptName("流程角色", "1")) {
+          confirm = Object.assign(confirm, {
+            distinguishCancelAndClose: false,
+            title: '办理结果, 是否继续?',
+            trueText: '已办',
+            falseText: '取消',
+          })
+        }
+        this.$confirm(confirm.title, '提示', {
+          distinguishCancelAndClose: confirm.distinguishCancelAndClose,
+          confirmButtonText: confirm.trueText,
+          cancelButtonText: confirm.falseText,
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '已办!'
+          })
+          this.processRequest(row.zjdSqJl, true)
+        }).catch(action => {
+          //不通过
+          if (confirm.distinguishCancelAndClose && action === 'cancel') {
+            this.$message({
+              type: 'info',
+              message: '退办!'
+            })
+            this.processRequest(row.zjdSqJl, false)
+          }
+        })
+      },
+
+    }
+  }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>

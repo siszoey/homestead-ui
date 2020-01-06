@@ -122,7 +122,16 @@ export default function(iotHeader) {
                     ismap: true,
                     title: '审批一张图'
                 }
-            }
+            },
+            {
+                path: 'leaderCockpit/index',
+                name: `${pre}index`,
+                component: _import('land/map/leaderCockpit/index.vue'),
+                meta: {
+                  ...meta,
+                  title: '领导驾驶舱'
+                }
+              },
         ])(),
     }
 }

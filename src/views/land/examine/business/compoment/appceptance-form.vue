@@ -5,12 +5,12 @@
       <el-row>
         <el-col :span="6">
           <el-form-item label="申请户主">
-            <el-input v-model="form.name" placeholder="申请户主"></el-input>
+            <el-input v-model="detail.jcxx.xm" placeholder="申请户主"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="身份证号">
-            <el-input v-model="form.idNum" placeholder="身份证号"></el-input>
+            <el-input v-model="detail.jcxx.sfzh" placeholder="身份证号"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -18,12 +18,12 @@
       <el-row>
         <el-col :span="6">
           <el-form-item label="乡村建设规划许可证">
-            <el-input v-model="form.planNum"></el-input>
+            <el-input v-model="form.ysyj.xkz"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="农村宅基地批准书号">
-            <el-input v-model="form.confirmNum"></el-input>
+            <el-input v-model="form.ysyj.pzsh"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -31,7 +31,7 @@
         <el-col :span="6">
           <el-form-item label="开工日期">
             <el-date-picker
-              v-model="form.startTime"
+              v-model="form.ysyj.kgrq"
               type="date"
               format="yyyy 年 MM 月 dd 日"
               value-format="yyyy-MM-dd"
@@ -42,7 +42,7 @@
         <el-col :span="6">
           <el-form-item label="竣工日期">
             <el-date-picker
-              v-model="form.endtime"
+              v-model="form.ysyj.jgrq"
               type="date"
               format="yyyy 年 MM 月 dd 日"
               value-format="yyyy-MM-dd"
@@ -54,53 +54,53 @@
       <el-row>
         <el-col :span="6">
           <el-form-item label="批准宅基地面积(㎡)">
-            <el-input v-model="form.confirmArea"></el-input>
+            <el-input v-model="form.ysyj.pzzjdmj"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="实用宅基地面积(㎡)">
-            <el-input v-model="form.usedArea"></el-input>
+            <el-input v-model="form.ysyj.syzjdmj"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="批准房基占地面积(㎡)">
-            <el-input v-model="form.confirmCoverArea"></el-input>
+            <el-input v-model="form.ysyj.pzfjzdmj"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="实际房基占地面积(㎡)">
-            <el-input v-model="form.usedCoverArea"></el-input>
+            <el-input v-model="form.ysyj.sjfjzdmj"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="6">
           <el-form-item label="批准层数">
-            <el-input v-model="form.confirmFloorCount"></el-input>
+            <el-input v-model="form.ysyj.pjcs"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="竣工层数">
-            <el-input v-model="form.usedFloorCount"></el-input>
+            <el-input v-model="form.ysyj.jgcs"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="批准高度(米)">
-            <el-input v-model="form.confirmHeight"></el-input>
+            <el-input v-model="form.ysyj.pjgd"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="竣工高度(米)">
-            <el-input v-model="form.usedHeight"></el-input>
+            <el-input v-model="form.ysyj.jggd"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="6">
           <el-form-item label="拆旧退还宅基地情况">
-            <el-select v-model="form.oldRefund" filterable placeholder="请选择">
+            <el-select v-model="form.ysyj.cjthzjdqk" filterable placeholder="请选择">
               <el-option
-                v-for="item in oldRefunds"
+                v-for="item in cjthzjdqk"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -113,82 +113,82 @@
       <el-row>
         <el-col :span="6">
           <el-form-item label="经办人">
-            <el-input v-model="form.endSketchPreson"></el-input>
+            <el-input v-model="form.ysyj.jgpmtjbr"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <h1>农业农村部门验收意见</h1>
-      <el-form-item label="验收意见">
-        <el-input v-model="form.ruralBranchView" type="textarea"></el-input>
-      </el-form-item>
       <el-row>
-        <el-col :span="6">
-          <el-form-item label="验收经办人">
-            <el-input v-model="form.ruralBranchPerson"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="验收时间">
-            <el-date-picker
-              v-model="form.ruralBranchTime"
-              type="date"
-              format="yyyy 年 MM 月 dd 日"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-col :span="14">
+            <el-form-item label="农业农村部门审查意见">
+              <el-input v-model="form.ysyj.nyncbyj" placeholder="农业农村部门审查意见"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="农业农村部门负责人">
+              <el-input v-model="form.ysyj.nyncbjbr" placeholder="农业农村部门负责人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="农业农村部门填写日期">
+              <el-date-picker
+                v-model="form.ysyj.nyncbrq"
+                type="date"
+                placeholder="选择日期" style="width:100%;">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       <h1>自然资源部门验收意见</h1>
-      <el-form-item label="验收意见">
-        <el-input v-model="form.resourceBranchView" type="textarea"></el-input>
-      </el-form-item>
       <el-row>
-        <el-col :span="6">
-          <el-form-item label="验收经办人">
-            <el-input v-model="form.resourceBranchPerson"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="验收时间">
-            <el-date-picker
-              v-model="form.resourceBranchTime"
-              type="date"
-              format="yyyy 年 MM 月 dd 日"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-col :span="14">
+            <el-form-item label="自然资源部门意见">
+              <el-input v-model="form.ysyj.zrzybmyj" placeholder="自然资源部门意见"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="自然资源部门负责人">
+              <el-input v-model="form.ysyj.zrzyjbr" placeholder="自然资源部门负责人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="自然资源部门填写日期">
+              <el-date-picker
+                v-model="form.ysyj.zrzyrq"
+                type="date"
+                placeholder="选择日期" style="width:100%;">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       <h1>乡镇政府验收意见</h1>
-      <el-form-item label="验收意见">
-        <el-input v-model="form.townBranchView" type="textarea"></el-input>
-      </el-form-item>
       <el-row>
-        <el-col :span="6">
-          <el-form-item label="验收经办人">
-            <el-input v-model="form.townBranchPerson"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="验收时间">
-            <el-date-picker
-              v-model="form.townBranchTime"
-              type="date"
-              format="yyyy 年 MM 月 dd 日"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-col :span="14">
+            <el-form-item label="乡镇政府审核批准意见">
+              <el-input v-model="form.ysyj.xzzfysyj" placeholder="乡镇政府审核批准意见"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="乡镇政府负责人">
+              <el-input v-model="form.ysyj.xzzffzr" placeholder="乡镇政府负责人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="乡镇政府填写日期">
+              <el-date-picker
+                v-model="form.ysyj.xzzfrq"
+                type="date"
+                placeholder="选择日期" style="width:100%;">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>  
       <el-form-item label="备注">
-        <el-input v-model="form.remark" type="textarea"></el-input>
+        <el-input v-model="form.ysyj.bz" type="textarea"></el-input>
       </el-form-item>
       <el-row>
         <el-form-item>
-          <el-button type="primary" @click="submit()">提交</el-button>
+          <el-button type="primary" @click="submitForm">提交</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -196,16 +196,54 @@
 </template>
 
 <script>
-import {
-  getAppceptcance,
-  setAppceptcance
-} from "../../../../../api/res.business";
+import {submitAcceptance} from '@/api/land.examine'
 export default {
   name: "appceptance-form",
+  props:{
+     disabled: {
+        type: Boolean,
+        default: false
+      },
+      detail: {
+        type: Object,
+        default: undefined
+      }
+  },
   data() {
     return {
-      form: {},
-      oldRefunds: [
+      form: {
+        //验收意见
+        ysyj: {
+          sqid: "",
+          sqhz: "",
+          sfzh: "",
+          xkz: "",
+          pzsh: "",
+          kgrq: "",
+          jgrq: "",
+          pzzjdmj: "",
+          syzjdmj: "",
+          pzfjzdmj: "",
+          sjfjzdmj: "",
+          pjcs: "",
+          pjgd: "",
+          jgcs: "",
+          jggd: "",
+          cjthzjdqk: "",
+          jgpmtjbr: "",
+          nyncbyj: "",
+          nyncbjbr: "",
+          nyncbrq: "",
+          zrzybmyj: "",
+          zrzyjbr: "",
+          zrzyrq: "",
+          xzzfysyj: "",
+          xzzffzr: "",
+          xzzfrq: "",
+          bz: ""
+        }
+      },
+      cjthzjdqk: [
         { value: "1", label: "1.不属于" },
         { value: "2", label: "2.属于，已落实" },
         { value: "3", label: "3.属于，尚未落实" }
@@ -213,30 +251,15 @@ export default {
     };
   },
   created() {
-    getAppceptcance()
-      .then(res => {
-        this.form = res;
-      })
-      .catch(err => console.log(err))
-      .finally(() => {});
+    
   },
   methods: {
-    submit() {
-      setAppceptcance(this.form)
-        .then(res => {
-          this.$message({
-            message: "提交成功",
-            type: "success"
-          });
+    submitForm () {
+        submitAcceptance(this.form.ysyj).then(res=>{
+          this.$message({type:'success',message:'提交成功'})
+          this.disabled = false
         })
-        .catch(() => {
-          this.$message({
-            message: "提交失败",
-            type: "error"
-          });
-        })
-        .finally(() => {});
-    }
+      }
   }
 };
 </script>

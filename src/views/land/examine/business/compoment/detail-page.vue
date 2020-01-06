@@ -1,39 +1,44 @@
 <template>
     <d2-container>
-        <el-steps :space="200" :active="active" finish-status="success">
-            <el-step title="已完成"></el-step>
-            <el-step title="进行中"></el-step>
-            <el-step title="步骤 3"></el-step>
+        <el-steps :active="active" finish-status="success" align-center>
+            <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
         </el-steps>
         <el-divider></el-divider>
         <el-tabs tab-position="left">
             <el-tab-pane label="申请表">
                 <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
             </el-tab-pane>
-            <el-tab-pane label="审批表">
+            <el-tab-pane label="审批表" v-if="detail">
                 <approvalForm :disabled="appceptanceFormDisabled" :detail="detail"></approvalForm>
             </el-tab-pane>
-            <el-tab-pane label="验收表">
+            <el-tab-pane label="验收表" v-if="detail">
                 <appceptanceForm :disabled="approvalFormDisabled" :detail="detail"></appceptanceForm>
             </el-tab-pane>
-            <el-tab-pane label="打印表单">定时任务补偿</el-tab-pane>
-            <el-tab-pane label="材料表单">定时任务补偿</el-tab-pane>
+            <el-tab-pane label="打印表单" v-if="detail">定时任务补偿</el-tab-pane>
+            <el-tab-pane label="材料表单">
+              <file-tree-view :key="xmbh" :xmbh="xmbh" :stage="stage"></file-tree-view>
+            </el-tab-pane>
         </el-tabs>
     </d2-container>
 </template>
 
 <script>
+  import dictMixins from '../../../mixnis/dict-mixnis'
   import applicationForm from './application-form'
   import appceptanceForm from './appceptance-form'
   import approvalForm from './approval-form'
-
+  import FileTreeView from '../../../components/filetreeview.vue'
   export default {
     name: 'detail-page',
     components: {
       applicationForm,
       approvalForm,
-      appceptanceForm
+      appceptanceForm,
+      FileTreeView
     },
+    mixins: [
+      dictMixins
+    ],
     props:{
       applicationFormDisabled: {
         type: Boolean,
@@ -53,14 +58,20 @@
       }
     },
     created(){
-      console.log(this.$router)
+      //console.log(this.detail)
+      if(this.detail){
+        this.xmbh=this.detail.zjdSqJl.sqid
+        this.stage=this.detail.zjdSqJl.xmzt
+      }
     },
     data() {
       return {
         active: 2,
-
+        xmbh: "",
+        stage: ""
       }
     },
+    
     methods: {}
   }
 </script>

@@ -17,7 +17,7 @@ export default {
     },
 
     getDictByOptCode(keyName, optCode) {
-      let dict = this.dictList.find(dict => dict.keyName == type && dict.optCode == optCode)
+      let dict = this.dictList.find(dict => dict.keyName == keyName && dict.optCode == optCode)
       if (dict == undefined) {
         this.$message({
           message: '数据字典不存在',
