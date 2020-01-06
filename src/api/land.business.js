@@ -41,3 +41,14 @@ export function ApproalProcess(data) {
     data
   })
 }
+
+/**
+ * 获取最新项目状态
+ * @param data
+ */
+export function LastProcess(sqid) {
+  return request({
+    url: prefix + `/apply/form/max/${sqid}`,
+    method: 'get',
+  })
+}
