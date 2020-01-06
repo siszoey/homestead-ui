@@ -54,7 +54,7 @@ const examine = {
             { path: `${pre}/comprehensive`, title: '综合管理' },
         ])('/land/examine/business')
     },
-    // { path: `${pre}/search`, title: '归档查询' },
+    { path: `${pre}/search`, title: '归档查询' },
     { path: `${pre}/statistics`, title: '统计分析' }
     ])('/land/examine')
 }
