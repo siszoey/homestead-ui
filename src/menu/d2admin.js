@@ -26,6 +26,9 @@ const map = {
         children: (pre => [
             { path: `${pre}/yearPlan`, title: '年度计划一览表' },
             { path: `${pre}/landIndex`, title: '用地指标一览表' },
+            { path: `${pre}/IllegalHouse`, title: '违法建房一览表' },
+            { path: `${pre}/revitalizeUse`, title: '盘活利用一览表' },
+            { path: `${pre}/householdRegister`, title: '户籍信息一览表' },
         ])('/land/map/accountInformation')
     },
     {
@@ -54,7 +57,7 @@ const examine = {
             { path: `${pre}/comprehensive`, title: '综合管理' },
         ])('/land/examine/business')
     },
-    // { path: `${pre}/search`, title: '归档查询' },
+    { path: `${pre}/search`, title: '归档查询' },
     { path: `${pre}/statistics`, title: '统计分析' }
     ])('/land/examine')
 }
@@ -107,9 +110,9 @@ const system = {
     alias: 'index',
     icon: 'system',
     children: (pre => [
-      {path: `${pre}/fileConfig`, title: '上传设置'},
+        { path: `${pre}/fileConfig`, title: '上传设置' },
     ])('/land/system')
-  }
+}
 
 
 // 菜单 侧栏
