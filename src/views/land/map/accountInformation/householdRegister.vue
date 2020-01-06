@@ -75,7 +75,7 @@ export default {
       city: "",
       cities: [],
       county: "",
-      counties: "",
+      counties: [],//update
       tableData: [
         {
           hzxm: "张清秀",
@@ -212,6 +212,7 @@ export default {
           this.requestAjax(fileName, 3);
           break;
         default:
+          this.county="";//change时清空county
           this.counties = [];
           break;
       }
@@ -225,6 +226,7 @@ export default {
         .then(response => {
           console.log(response.data.features); //[0].properties.name
           if (level == "3") {
+            _this.county="";//change时清空county
             _this.counties = response.data.features;
           } else if (level == "2") {
             _this.cities = response.data.features;

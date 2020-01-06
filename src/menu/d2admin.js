@@ -26,6 +26,9 @@ const map = {
         children: (pre => [
             { path: `${pre}/yearPlan`, title: '年度计划一览表' },
             { path: `${pre}/landIndex`, title: '用地指标一览表' },
+            { path: `${pre}/IllegalHouse`, title: '违法建房一览表' },
+            { path: `${pre}/revitalizeUse`, title: '盘活利用一览表' },
+            { path: `${pre}/householdRegister`, title: '户籍信息一览表' },
         ])('/land/map/accountInformation')
     },
     {
@@ -107,9 +110,9 @@ const system = {
     alias: 'index',
     icon: 'system',
     children: (pre => [
-      {path: `${pre}/fileConfig`, title: '上传设置'},
+        { path: `${pre}/fileConfig`, title: '上传设置' },
     ])('/land/system')
-  }
+}
 
 
 // 菜单 侧栏
