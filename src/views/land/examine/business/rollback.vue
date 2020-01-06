@@ -7,7 +7,7 @@
                 size="mini"
                 style="margin-bottom: -25px; padding: 0 20px">
             <el-form-item label="申请类型">
-                <el-select v-model="queryForm['sqlx']">
+                <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
@@ -29,10 +29,6 @@
 
             <div style="float: right">
                 <el-form-item>
-                    <el-button type="success" @click="handleCreate">
-                        <d2-icon name="create"/>
-                        新建
-                    </el-button>
                     <el-button type="primary" @click="getTableData">
                         <d2-icon name="search"/>
                         查询
@@ -162,7 +158,7 @@
           pages: null
         },
         queryForm: {
-          sqlx: undefined,
+          jflx: undefined,
           sqid: undefined,
           sqmc: undefined,
           sqsj: undefined,
