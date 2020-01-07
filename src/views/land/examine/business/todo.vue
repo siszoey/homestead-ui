@@ -210,14 +210,12 @@
         this.getTableData()
       },
       handleCreate() {
-        this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
+        this.$router.push({name: 'land-examine-todo-create', params: {}})
       },
       handleDetail(row) {
         this.$router.push({
             name: 'land-examine-detail',
             params: Object.assign({
-              sqlx: 0,
-              sqid: row.zjdSqJl.sqid,
               applicationFormDisabled: true,
               appceptanceFormDisabled: true,
               approvalFormDisabled: true,
