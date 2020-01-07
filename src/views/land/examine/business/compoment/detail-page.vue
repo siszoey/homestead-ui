@@ -4,94 +4,116 @@
             <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
         </el-steps>
         <el-divider></el-divider>
-        <el-tabs tab-position="left">
-            <el-tab-pane label="申请表">
-                <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
-            </el-tab-pane>
-            <el-tab-pane label="审批表" v-if="detail">
-                <approvalForm :disabled="appceptanceFormDisabled" :detail="detail"></approvalForm>
-            </el-tab-pane>
-            <el-tab-pane label="验收表" v-if="detail">
-                <appceptanceForm :disabled="approvalFormDisabled" :detail="detail"></appceptanceForm>
-            </el-tab-pane>
-            <el-tab-pane label="打印表单" v-if="detail">定时任务补偿</el-tab-pane>
-            <el-tab-pane label="材料表单">
-              <file-tree-view :key="xmbh" :xmbh="xmbh" :stage="stage"></file-tree-view>
-            </el-tab-pane>
-        </el-tabs>
+        <!--<el-radio-group v-model="isCollapse">
+            <el-radio-button :label="false">展开</el-radio-button>
+            <el-radio-button :label="true">收起</el-radio-button>
+        </el-radio-group>-->
+        <el-button type="primary" @click="showMap">
+            一张图
+        </el-button>
+        <el-row :gutter="20">
+            <el-col :span="4">
+                <el-menu default-active="1"
+                         class="el-menu-vertical-demo"
+                         @select="handleSelect"
+                         :collapse="isCollapse">
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <span slot="title">表单</span>
+                        </template>
+                        <el-menu-item index="applicationForm">申请表</el-menu-item>
+                        <el-menu-item v-if="this.detail" index="appceptanceForm">审批表</el-menu-item>
+                        <el-menu-item v-if="this.detail" index="approvalForm">验收表</el-menu-item>
+                    </el-submenu>
+                    <el-menu-item index="fileTreeView">
+                        <span slot="title">材料</span>
+                    </el-menu-item>
+                    <el-menu-item index="printView">
+                        <span slot="title">打印</span>
+                    </el-menu-item>
+                </el-menu>
+            </el-col>
+            <el-col :span="routerViewCol">
+                <router-view></router-view>
+            </el-col>
+            <el-col :span="mapCol">
+                <h1>一张图</h1>
+            </el-col>
+        </el-row>
     </d2-container>
 </template>
 
 <script>
   import dictMixins from '../../../mixnis/dict-mixnis'
-  import applicationForm from './application-form'
-  import appceptanceForm from './appceptance-form'
-  import approvalForm from './approval-form'
-  import FileTreeView from '../../../components/filetreeview.vue'
-  import {LastProcess} from "../../../../../api/land.business"
 
   export default {
     name: 'detail-page',
-    components: {
-      applicationForm,
-      approvalForm,
-      appceptanceForm,
-      FileTreeView
-    },
+    components: {},
     mixins: [
       dictMixins
     ],
-    props:{
-      applicationFormDisabled: {
-        type: Boolean,
-        default: false
-      },
-      appceptanceFormDisabled: {
-        type: Boolean,
-        default: false
-      },
-      approvalFormDisabled: {
-        type: Boolean,
-        default: false
-      },
-      detail: {
-        type: Object,
-        default: undefined
-      }
-    },
-    created(){
-      //console.log(this.detail)
-      if(this.detail){
-        this.xmbh=this.detail.zjdSqJl.sqid
-        this.stage=this.detail.zjdSqJl.xmzt
-      }
-      this.getLastXMZT();
+    created() {
+      this.getLastXMZT()
     },
     data() {
       return {
-        active: 2,
-        xmbh: "",
-        stage: ""
+        applicationFormDisabled: this.$route.params.applicationFormDisabled || false,
+        appceptanceFormDisabled: this.$route.params.appceptanceFormDisabled || false,
+        approvalFormDisabled: this.$route.params.approvalFormDisabled || false,
+        detail: this.$route.params.detail || undefined,
+
+        routerViewCol: 20,
+        mapCol: 0,
+        isCollapse: false,
+        active: 0,
       }
     },
 
     methods: {
-      getLastXMZT(){
+      showMap() {
+        console.log(this.mapCol)
+        if (this.mapCol == 0) {
+          this.mapCol = 10
+          this.routerViewCol = 10
+        } else {
+          this.mapCol = 0
+          this.routerViewCol = 20
+        }
+      },
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath)
+        let params = {}
+        if (key.indexOf('Form') != -1) {
+          params = Object.assign(params, {
+            disabled: this[`${key}Disabled`],
+            detail: this.detail
+          })
+        } else if (key == 'fileTreeView') {
+          params = Object.assign(params, {
+            xmbh: this.detail ? this.detail.jcxx.sqid : '',
+            stage: this.detail ? this.detail.zjdSqJl.xmzt : ''
+          })
+        } else if (key == 'printView') {
+
+        }
+        this.$router.push({
+          name: key,
+          params
+        })
+      },
+      getLastXMZT() {
         let currentXMZTCode = this.detail == undefined ? 1 : this.detail.zjdSqJl.xmzt
         this.active = currentXMZTCode - 1
-        /*if(currentXMZTCode){
-          LastProcess(currentXMZTCode).then(()=>{
-
-          }).catch(()=>{
-
-          })
-        }*/
-
       }
     }
   }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+    .el-menu-vertical-demo {
+        &:not(.el-menu--collapse) {
+            width: 200px;
+            min-height: 400px;
+        }
+    }
 </style>

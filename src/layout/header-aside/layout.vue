@@ -63,15 +63,15 @@
           <transition name="fade-scale">
             <div v-if="!searchActive" class="d2-theme-container-main-layer" flex="dir:top">
               <!-- tab -->
-              <div class="d2-theme-container-main-header main-header" flex-box="0">
+              <!--<div class="d2-theme-container-main-header main-header" flex-box="0">
                 <d2-tabs/>
-              </div>
+              </div>-->
               <!-- 页面 -->
               <div class="d2-theme-container-main-body body" flex-box="1">
                 <transition :name="transitionActive ? 'fade-transverse' : ''">
-                  <keep-alive :include="keepAlive">
+                  <!--<keep-alive :include="keepAlive">-->
                     <router-view class="el-col el-col-23" style="margin-top:20px;margin-left:20px;"/>
-                  </keep-alive>
+                  <!--</keep-alive>-->
                 </transition>
               </div>
             </div>
@@ -85,15 +85,15 @@
 <script>
 import d2MenuSide from './components/menu-side'
 import d2MenuHeader from './components/menu-header'
-import d2Tabs from './components/tabs'
+// import d2Tabs from './components/tabs'
 import d2HeaderFullscreen from './components/header-fullscreen'
-import d2HeaderLocales from './components/header-locales'
-import d2HeaderSearch from './components/header-search'
-import d2HeaderSize from './components/header-size'
-import d2HeaderTheme from './components/header-theme'
+// import d2HeaderLocales from './components/header-locales'
+// import d2HeaderSearch from './components/header-search'
+// import d2HeaderSize from './components/header-size'
+// import d2HeaderTheme from './components/header-theme'
 import d2HeaderUser from './components/header-user'
-import d2HeaderLog from './components/header-log'
-import d2HeaderColor from './components/header-color'
+// import d2HeaderLog from './components/header-log'
+// import d2HeaderColor from './components/header-color'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
 export default {
@@ -104,15 +104,15 @@ export default {
   components: {
     d2MenuSide,
     d2MenuHeader,
-    d2Tabs,
+    // d2Tabs,
     d2HeaderFullscreen,
-    d2HeaderLocales,
-    d2HeaderSearch,
-    d2HeaderSize,
-    d2HeaderTheme,
+    // d2HeaderLocales,
+    // d2HeaderSearch,
+    // d2HeaderSize,
+    // d2HeaderTheme,
     d2HeaderUser,
-    d2HeaderLog,
-    d2HeaderColor
+    // d2HeaderLog,
+    // d2HeaderColor
   },
   data () {
     return {
