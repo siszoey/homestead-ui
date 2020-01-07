@@ -34,7 +34,7 @@
                 <p class="zjdMjName">全省宅基地面积</p>
                 <p class="zjdMjNum">
                   {{zjdData.mj}}
-                  <span class="unit_span">公顷</span>
+                  <span class="unit_span">亩</span>
                 </p>
               </el-col>
               <el-col :span="12">
