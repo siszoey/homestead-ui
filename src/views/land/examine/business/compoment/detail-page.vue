@@ -83,11 +83,11 @@
       processMixnis
     ],
     created() {
-      if('待办' == this.$route.params.box){
+      if ('待办' == this.$route.params.box) {
         this.sendBtnDisabled = false
         this.backBtnDisabled = false
       }
-      if('退办' == this.$route.params.box){
+      if ('退办' == this.$route.params.box) {
         this.sendBtnDisabled = false
       }
       this.getLastXMZT()
@@ -101,6 +101,8 @@
 
         sendBtnDisabled: true,
         backBtnDisabled: true,
+        hadSend: false,
+        hadBack: false,
 
         showForm: true,
         formCol: 24,
@@ -125,7 +127,14 @@
 
     methods: {
       handleSend() {
-        if(!this.detail.zjdSqJl){
+        if (this.hadSend) {
+          this.$message({
+            type: 'warning',
+            message: '已发送'
+          })
+          return
+        }
+        if (!this.detail.zjdSqJl) {
           this.$message({
             type: 'warning',
             message: '项目编号丢失'
@@ -145,15 +154,20 @@
           type: 'warning',
           center: true
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '成功!'
-          })
           this.processRequest(this.detail.zjdSqJl, true)
-        }).catch(()=>{})
+          this.hadSend = true
+        }).catch(() => {
+        })
       },
       handleBack() {
-        if(!this.detail.zjdSqJl){
+        if (this.hadBack) {
+          this.$message({
+            type: 'warning',
+            message: '已回退'
+          })
+          return
+        }
+        if (!this.detail.zjdSqJl) {
           this.$message({
             type: 'warning',
             message: '项目编号丢失'
@@ -173,12 +187,10 @@
           type: 'warning',
           center: true
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '成功!'
-          })
           this.processRequest(this.detail.zjdSqJl, false)
-        }).catch(()=>{})
+          this.hadBack = true
+        }).catch(() => {
+        })
       },
       handleShowForm() {
         let flag = this.showForm
