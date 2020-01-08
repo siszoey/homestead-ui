@@ -75,30 +75,20 @@
           <!--        </el-row>-->
           <!--        <el-row>-->
           <!--          <el-col :span="5">-->
-          <label class="el-form-item__label">建房类型</label>
-          <div>
-              <el-select v-model="detailData.nzjdqk.jflx" placeholder="请选择" style="width:100%">
-                  <el-option
-                          v-for="item in formLabel.jflxoptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                  </el-option>
+          <el-form-item label="建房类型">
+              <el-select v-model="detailData.nzjdqk.jflx" placeholder="建房类型">
+                  <el-option v-for="(option, index) in getDicts('建房类型')" :label="option.optName"
+                             :value="option.optCode" :key="index"></el-option>
               </el-select>
-          </div>
+          </el-form-item>
           <!--          </el-col>-->
           <!--          <el-col :span="4">-->
-          <label class="el-form-item__label">地类</label>
-          <div>
-              <el-select v-model="detailData.nzjdqk.dl" placeholder="请选择" style="width:100%">
-                  <el-option
-                          v-for="item in formLabel.dloptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                  </el-option>
+          <el-form-item label="地类">
+              <el-select v-model="detailData.nzjdqk.dl" placeholder="地类">
+                  <el-option v-for="(option, index) in getDicts('地类')" :label="option.optName"
+                             :value="option.optCode" :key="index"></el-option>
               </el-select>
-          </div>
+          </el-form-item>
           <!--          </el-col>-->
           <!--          <el-col :span="5">-->
           <el-form-item label="住房建筑面积">
@@ -140,6 +130,7 @@
               <el-date-picker
                 v-model="formLabel.spyj.zrzybmrq"
                 type="date"
+                format="yyyy 年 MM 月 dd 日"
                 value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
@@ -167,6 +158,7 @@
               <el-date-picker
                 v-model="formLabel.spyj.nyncbrq"
                 type="date"
+                format="yyyy 年 MM 月 dd 日"
                 value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
@@ -189,6 +181,7 @@
               <el-date-picker
                 v-model="formLabel.spyj.xzzfrq"
                 type="date"
+                format="yyyy 年 MM 月 dd 日"
                 value-format="yyyy-MM-dd"
                 placeholder="选择日期" style="width:100%;">
               </el-date-picker>
@@ -206,10 +199,15 @@
 </template>
 
 <script>
-import {submitForm} from '@/api/land.examine'
-export default {
-    name:'approval-form',
-     props: {
+  import dictMixins from '../../../mixnis/dict-mixnis'
+  import {submitForm} from '@/api/land.examine'
+
+  export default {
+    name: 'approval-form',
+    mixins: [
+      dictMixins
+    ],
+    props: {
       disabled: {
         type: Boolean,
         default: false
@@ -219,10 +217,10 @@ export default {
         default: undefined
       }
     },
-     data() {
+    data() {
       return {
-        detailData:this.detail,
-        formLabel:{
+        detailData: this.detail,
+        formLabel: {
           // //申请户主信息
           // hzxx:{
           //   xm:"",
@@ -232,71 +230,53 @@ export default {
           //   sqly:""
           // },
           //拟批准宅基地及建房情况
-          jfqk:{
-            zjdmj:"",
-            fjzdmj:"",
-            dz:"",
-            szdz:"",
-            szxz:"",
-            szbz:"",
-            sznz:"",
-            zfjzmj:"",
-            jzcs:"",
-            jzgd:""
-          },
-          jflxoptions: [{
-            value: '选项1',
-            label: '原址翻建'
-          }, {
-            value: '选项2',
-            label: '改扩建'
-          }, {
-            value: '选项3',
-            label: '异址新建'
-          }],
-          jflxvalue:'',
-          dloptions: [{
-            value: '选项1',
-            label: '建设用地'
-          }, {
-            value: '选项2',
-            label: '未利用地'
-          }, {
-            value: '选项3',
-            label: '农用地(耕地,林地,草地,其他)'
-          }],
-          dlvalue:'',
+          // jfqk: {
+          //   zjdmj: "",
+          //   fjzdmj: "",
+          //   dz: "",
+          //   szdz: "",
+          //   szxz: "",
+          //   szbz: "",
+          //   sznz: "",
+          //   zfjzmj: "",
+          //   jzcs: "",
+          //   jzgd: ""
+          // },
+
+          jflxvalue: '',
+
+          dlvalue: '',
           //意见
-          spyj:{
-            sqid:this.detail.zjdSqJl.sqid,
-            zrzybmyj:"",
-            zrzybmfzr:"",
-            zrzybmrq:"",
-            qtbmyj:"",
-            nyncbscyj:"",
-            nyncbfzr:"",
-            nyncbrq:"",
-            xzzfshyj:"",
-            xzzffzr:"",
-            xzzfrq:""
+          spyj: {
+            sqid: this.detail.zjdSqJl.sqid,
+            zrzybmyj: "",
+            zrzybmfzr: "",
+            zrzybmrq: "",
+            qtbmyj: "",
+            nyncbscyj: "",
+            nyncbfzr: "",
+            nyncbrq: "",
+            xzzfshyj: "",
+            xzzffzr: "",
+            xzzfrq: ""
           }
         }
       }
     },
-    created () {
-      if(this.detail){
+    created() {
+      if (this.detail) {
         this.formLabel.spyj = JSON.parse(JSON.stringify(this.detail.qt))
       }
     },
-    methods:{
-      submitForm(){
-        submitForm(this.formLabel.spyj).then(res=>{
+    methods: {
+      submitForm() {
+        submitForm(this.formLabel.spyj).then(res => {
           console.log(1)
           console.log(res)
         })
       }
     }
-}
+  }
 </script>
 
 <style>
