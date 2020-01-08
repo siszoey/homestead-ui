@@ -4,60 +4,92 @@
             <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
         </el-steps>
         <el-divider></el-divider>
-        <!--<el-radio-group v-model="isCollapse">
-            <el-radio-button :label="false">展开</el-radio-button>
-            <el-radio-button :label="true">收起</el-radio-button>
-        </el-radio-group>-->
-        <el-button type="primary" size="mini" @click="showMap">
-            一张图
-        </el-button>
         <el-row :gutter="20">
-            <el-col :span="4">
-                <el-menu default-active="1"
-                         class="el-menu-vertical-demo"
-                         @select="handleSelect"
-                         :collapse="isCollapse">
-                    <el-submenu index="1">
-                        <template slot="title">
-                            <span slot="title">表单</span>
-                        </template>
-                        <el-menu-item index="applicationForm">申请表</el-menu-item>
-                        <el-menu-item v-if="this.detail" index="approvalForm">审批表</el-menu-item>
-                        <el-menu-item v-if="this.detail" index="appceptanceForm">验收表</el-menu-item>
-                    </el-submenu>
-                    <el-menu-item index="fileTreeView">
-                        <span slot="title">材料</span>
-                    </el-menu-item>
-                    <el-menu-item v-if="this.detail" index="printView">
-                        <span slot="title">打印</span>
-                    </el-menu-item>
-                </el-menu>
+            <el-col :span="6">
+                <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
+                    发送
+                </el-button>
+                <el-button type="primary" size="mini" @click="handleBack" :disabled="backBtnDisabled">
+                    回退
+                </el-button>
             </el-col>
-            <el-col :span="routerViewCol">
-                <router-view v-show="!showIframe"></router-view>
-                <div v-show="showIframe">
-                    <iframe
-                            :src="src"
-                            frameborder="0"/>
-                </div>
+
+            <el-col :span="6" :offset="12">
+                <el-button type="primary" size="mini" @click="handleShowForm">
+                    表单
+                </el-button>
+                <el-button type="primary" size="mini" @click="handleShowFileView">
+                    材料
+                </el-button>
+                <el-button type="primary" size="mini" @click="handleShowPrintView">
+                    打印
+                </el-button>
+                <el-button type="primary" size="mini" @click="handleShowMap">
+                    一张图
+                </el-button>
             </el-col>
-            <el-col :span="mapCol">
+        </el-row>
+
+        <el-row :gutter="20" style="padding: 0 20px;">
+            <!--表单-->
+            <el-col :span="showMap ? 12 : 24">
+                <el-tabs tab-position="top" v-show="showForm">
+                    <el-tab-pane label="申请表">
+                        <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
+                    </el-tab-pane>
+                    <el-tab-pane label="审批表" v-if="detail">
+                        <approvalForm :disabled="approvalFormDisabled" :detail="detail"></approvalForm>
+                    </el-tab-pane>
+                    <el-tab-pane label="验收表" v-if="detail">
+                        <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"></appceptanceForm>
+                    </el-tab-pane>
+                </el-tabs>
+            </el-col>
+            <!--材料-->
+            <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
+            <!--打印-->
+            <iframe
+                    v-show="showPrintView"
+                    :src="src"
+                    frameborder="0"/>
+            <!--一张图-->
+            <el-col :span="12" v-show="showMap">
                 <h1>一张图</h1>
             </el-col>
         </el-row>
+
     </d2-container>
 </template>
 
 <script>
   import dictMixins from '../../../mixnis/dict-mixnis'
+  import processMixnis from "../../../mixnis/process-mixnis"
+  import applicationForm from './application-form'
+  import appceptanceForm from './appceptance-form'
+  import approvalForm from './approval-form'
+  import FileTreeView from '../../../components/filetreeview.vue'
+  import {LastProcess} from "../../../../../api/land.business"
 
   export default {
     name: 'detail-page',
-    components: {},
+    components: {
+      applicationForm,
+      approvalForm,
+      appceptanceForm,
+      FileTreeView
+    },
     mixins: [
-      dictMixins
+      dictMixins,
+      processMixnis
     ],
     created() {
+      if('待办' == this.$route.params.box){
+        this.sendBtnDisabled = false
+        this.backBtnDisabled = false
+      }
+      if('退办' == this.$route.params.box){
+        this.sendBtnDisabled = false
+      }
       this.getLastXMZT()
     },
     data() {
@@ -67,25 +99,126 @@
         approvalFormDisabled: this.$route.params.approvalFormDisabled || false,
         detail: this.$route.params.detail || undefined,
 
+        sendBtnDisabled: true,
+        backBtnDisabled: true,
+
+        showForm: true,
+        formCol: 24,
+
+        showFileView: false,
+        xmbh: '',
+        stage: '',
+
+        showPrintView: false,
+        src: 'http://www.baidu.com',
+
+
+        showMap: false,
+
         routerViewCol: 20,
         mapCol: 0,
         isCollapse: false,
         active: 0,
         showIframe: false,
-        src: 'http://www.baidu.com'
       }
     },
 
     methods: {
-      showMap() {
-        console.log(this.mapCol)
-        if (this.mapCol == 0) {
-          this.mapCol = 10
-          this.routerViewCol = 10
-        } else {
-          this.mapCol = 0
-          this.routerViewCol = 20
+      handleSend() {
+        if(!this.detail.zjdSqJl){
+          this.$message({
+            type: 'warning',
+            message: '项目编号丢失'
+          })
+          return
         }
+        let confirm = Object.assign({}, {
+          distinguishCancelAndClose: false,
+          title: '发送给下个办理人, 是否继续?',
+          trueText: '确定',
+          falseText: '取消',
+        })
+        this.$confirm(confirm.title, '提示', {
+          distinguishCancelAndClose: confirm.distinguishCancelAndClose,
+          confirmButtonText: confirm.trueText,
+          cancelButtonText: confirm.falseText,
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '成功!'
+          })
+          this.processRequest(this.detail.zjdSqJl, true)
+        }).catch(()=>{})
+      },
+      handleBack() {
+        if(!this.detail.zjdSqJl){
+          this.$message({
+            type: 'warning',
+            message: '项目编号丢失'
+          })
+          return
+        }
+        let confirm = Object.assign({}, {
+          distinguishCancelAndClose: false,
+          title: '回退给上个办理人, 是否继续?',
+          trueText: '确定',
+          falseText: '取消',
+        })
+        this.$confirm(confirm.title, '提示', {
+          distinguishCancelAndClose: confirm.distinguishCancelAndClose,
+          confirmButtonText: confirm.trueText,
+          cancelButtonText: confirm.falseText,
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '成功!'
+          })
+          this.processRequest(this.detail.zjdSqJl, false)
+        }).catch(()=>{})
+      },
+      handleShowForm() {
+        let flag = this.showForm
+        let mapFlag = this.showMap
+        this.showFlag(false)
+        this.showMap = mapFlag
+        this.showForm = flag ? false : true
+      },
+      handleShowFileView() {
+        let flag = this.showFileView
+        this.showFlag(false)
+        this.showFileView = flag ? false : true
+      },
+      handleShowPrintView() {
+        let flag = this.showPrintView
+        this.showFlag(false)
+        this.showPrintView = flag ? false : true
+      },
+      showFlag(flag) {
+        this.showForm = flag
+        this.showFileView = flag
+        this.showPrintView = flag
+        this.showMap = flag
+      },
+      handleShowMap() {
+        let flag = this.showMap
+        let formFlag = this.showForm
+        this.showFlag(false)
+        this.showForm = formFlag
+        this.showMap = flag ? false : true
+
+
+        // console.lodg(this.mapCol)
+        // if (this.mapCol == 0) {
+        //   this.mapCol = 10
+        //   this.routerViewCol = 10
+        // } else {
+        //   this.mapCol = 0
+        //   this.routerViewCol = 20
+        // }
       },
       handleSelect(key, keyPath) {
         console.log(key, keyPath)
@@ -127,9 +260,11 @@
             min-height: 500px;
         }
     }
+
     iframe {
         min-height: 500px;
         /*height: calc(100% - 45px);*/
         width: 100%;
     }
 </style>
+

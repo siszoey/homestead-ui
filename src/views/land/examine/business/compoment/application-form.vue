@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-form
-                inline="true"
+                :inline="true"
                 :disabled="disabled"
                 :model="form"
                 label-position="top"
