@@ -22,8 +22,8 @@
                             <span slot="title">表单</span>
                         </template>
                         <el-menu-item index="applicationForm">申请表</el-menu-item>
-                        <el-menu-item v-if="this.detail" index="appceptanceForm">审批表</el-menu-item>
-                        <el-menu-item v-if="this.detail" index="approvalForm">验收表</el-menu-item>
+                        <el-menu-item v-if="this.detail" index="approvalForm">审批表</el-menu-item>
+                        <el-menu-item v-if="this.detail" index="appceptanceForm">验收表</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="fileTreeView">
                         <span slot="title">材料</span>
