@@ -216,9 +216,12 @@
         this.$router.push({
             name: 'land-examine-detail',
             params: Object.assign({
+              //申请表
               applicationFormDisabled: true,
-              appceptanceFormDisabled: true,
-              approvalFormDisabled: true,
+              //审批表
+              appceptanceFormDisabled: false,//this.info.role.includes(''),
+              //验收表
+              approvalFormDisabled: false,
               detail: row
             })
           }
