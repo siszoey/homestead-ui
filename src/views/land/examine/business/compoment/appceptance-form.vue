@@ -1,24 +1,24 @@
 <template>
     <div>
         <el-form
+                disabled
+                label-position="top"
+                inline="true">
+            <h2>申请户主信息</h2>
+            <el-form-item label="申请户主">
+                <el-input v-model="detail.jcxx.xm" placeholder="申请户主"></el-input>
+            </el-form-item>
+            <el-form-item label="身份证号">
+                <el-input v-model="detail.jcxx.sfzh" placeholder="身份证号"></el-input>
+            </el-form-item>
+        </el-form>
+
+        <el-form
                 :disabled="disabled"
                 inline="true"
                 ref="form"
                 :model="form"
                 label-position="top">
-            <h2>申请户主信息</h2>
-<!--            <el-row>-->
-<!--                <el-col :span="6">-->
-                    <el-form-item label="申请户主">
-                        <el-input v-model="detail.jcxx.xm" placeholder="申请户主" disabled></el-input>
-                    </el-form-item>
-<!--                </el-col>-->
-<!--                <el-col :span="6">-->
-                    <el-form-item label="身份证号">
-                        <el-input v-model="detail.jcxx.sfzh" placeholder="身份证号" disabled></el-input>
-                    </el-form-item>
-<!--                </el-col>-->
-<!--            </el-row>-->
             <h2>批准宅基地及建房情况</h2>
 <!--            <el-row>-->
 <!--                <el-col :span="6">-->
