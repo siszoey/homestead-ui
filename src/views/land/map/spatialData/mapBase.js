@@ -284,8 +284,9 @@ function BaseAddTruePoints(map, color) {
             format: new GeoJSON()
         })
     });
-
+    var clusters = null;
     vecLayer.getSource().on('change', function (evt) {
+
         var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
         if (source.getState() === 'ready') {
             var features = source.getFeatures();
@@ -305,7 +306,7 @@ function BaseAddTruePoints(map, color) {
             });
 
             var styleCache = {};
-            var clusters = new VectorLayer({
+            clusters = new VectorLayer({
                 source: clusterSource,
                 style: function (feature) {
                     var size = feature.get("features").length;

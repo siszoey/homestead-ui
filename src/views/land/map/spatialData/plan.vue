@@ -27,9 +27,6 @@
           <img src="../assets/sqgl.png" />
         </div>
         <div class="toolButton">
-          <img src="../assets/cad.png" />
-        </div>
-        <div class="toolButton">
           <img src="../assets/fpdb.png" />
         </div>
         <div class="toolButton bottom">

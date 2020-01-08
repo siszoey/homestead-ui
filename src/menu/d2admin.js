@@ -14,6 +14,7 @@ const map = {
         title: '空间数据',
         children: (pre => [
             // { path: `${pre}/test`, title: 'DEMO' },
+            { path: `${pre}/onemap`, title: '一张图' },
             { path: `${pre}/survey`, title: '现状调查成果' },
             { path: `${pre}/plan`, title: '国土空间规划' },
             { path: `${pre}/year`, title: '村庄规划' },

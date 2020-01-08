@@ -21,13 +21,13 @@ export default function(iotHeader) {
                 }
             },
             {
-                path: 'spatialData/test',
-                name: `${pre}test`,
-                component: _import('land/map/spatialData/test.vue'),
+                path: 'spatialData/onemap',
+                name: `${pre}onemap`,
+                component: _import('land/map/spatialData/onemap.vue'),
                 meta: {
                     ...meta,
                     ismap: true,
-                    title: 'DEMO页面'
+                    title: '一张图'
                 }
             },
             {
