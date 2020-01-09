@@ -1,5 +1,5 @@
 <template>
-    <d2-container better-scroll>
+    <d2-container>
         <el-steps :active="active" finish-status="success" align-center>
             <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
         </el-steps>
@@ -48,10 +48,9 @@
             <!--材料-->
             <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
             <!--打印-->
-            <iframe
-                    v-show="showPrintView"
-                    :src="src"
-                    frameborder="0"/>
+            <div v-bind="$attrs" v-show="showPrintView">
+                <iframe ref="refIframe" :src="src" frameborder="0" scrolling="auto" id="myIframe"></iframe>
+            </div>
             <!--一张图-->
             <el-col :span="12" v-show="showMap">
                 <h1>一张图</h1>
@@ -85,7 +84,7 @@
     created() {
       if ('待办' == this.$route.params.box) {
         this.sendBtnDisabled = false
-        if(this.processInfo && this.firstXMZT.optCode != this.processInfo.xmzt){
+        if (this.processInfo && this.firstXMZT.optCode != this.processInfo.xmzt) {
           this.backBtnDisabled = false
         }
       }
@@ -127,12 +126,35 @@
         showIframe: false,
       }
     },
-    computed:{
+    mounted() {
+      this.onloadIframe()
+    },
+    computed: {
       firstXMZT() {
-        return this.getDictByOptCode("项目状态", 1);
+        return this.getDictByOptCode("项目状态", 1)
       }
     },
     methods: {
+      /**
+       * iframe-宽高自适应显示
+       */
+      onloadIframe() {
+        let myIframe = this.$refs.refIframe
+        // myIframe.style.width = (Number(800)) + 'px'
+        myIframe.style.height = (Number(800) - 60) + 'px'
+        console.log(myIframe.style.width, myIframe.style.height)
+        /**
+         * 跨域问题
+         */
+        /*if (myIframe) {
+          let iframeWin = myIframe.contentWindow || myIframe.contentDocument.parentWindow
+          if (iframeWin.document.body) {
+
+            myIframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight
+            console.log(myIframe.height)
+          }
+        }*/
+      },
       handleSend() {
         if (this.hadSend) {
           this.$message({
