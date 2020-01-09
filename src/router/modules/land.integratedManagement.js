@@ -17,7 +17,7 @@ export default function (iotHeader) {
         component: _import('land/integratedManagement/supervise/dailyInspection.vue'),
         meta: {
           ...meta,
-          title: '日常巡查'
+          title: '日常巡查处置'
         }
       }
     ])('land-integratedManagement-'),

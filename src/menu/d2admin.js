@@ -79,7 +79,7 @@ const system = {
     icon: 'integratedManagement',
     children: (pre => [{
         path: `${pre}/supervise`,
-        title: '监督处理',
+        title: '监督处置',
         children: (pre => [
             { path: `${pre}/dailyInspection`, title: '日常巡查' }
         ])('/land/integratedManagement/supervise')
