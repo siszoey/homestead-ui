@@ -56,7 +56,7 @@
         <el-col :span="8">
           <div class="grid-content bg-white">
             <p class="header-title">农房闲置情况分析</p>
-            <el-row style="height:70px">
+            <el-row style="height:70px;margin:0px;">
               <el-col :span="24">
                 <div class="nfxzInfo bg-gray">
                   <span>
@@ -66,7 +66,7 @@
                 </div>
               </el-col>
             </el-row>
-            <el-row style="height:80px">
+            <el-row style="height:80px;margin:0px;">
               <el-col :span="24">
                 <div class="xzInfo">
                   <span>季节性闲置数量 {{nfxzData.jjxxzsl}}</span>
@@ -74,7 +74,7 @@
                 </div>
               </el-col>
             </el-row>
-            <el-row style="height:100px">
+            <el-row style="height:100px;margin:0px;">
               <el-col :span="24">
                 <div class="xzInfo">
                   <span>长期性闲置数量 {{nfxzData.cqxxzzb}}</span>
@@ -481,7 +481,7 @@ p {
   display: flex;
   height: 120px;
 }
-.header-info .el-col {
+.header-info{
   height: 80px;
   margin-top: 10px;
 }
