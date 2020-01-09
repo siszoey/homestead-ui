@@ -136,7 +136,7 @@ export default {
           message: '请求失败!'
         })
       }).finally(() => {
-        this.getTableData()
+        //this.getTableData()
       })
     }
 

@@ -189,7 +189,6 @@ function getProgress(config) {
     }
   ]
   })
-  debugger
   return progress
 }
 

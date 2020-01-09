@@ -118,8 +118,8 @@
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
                     </el-button>
-                    <el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
-                    </el-button>
+                    <!--<el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
+                    </el-button>-->
                 </template>
             </el-table-column>
 
@@ -210,7 +210,12 @@
         this.getTableData()
       },
       handleCreate() {
-        this.$router.push({name: 'land-examine-todo-create', params: {}})
+        this.$router.push({
+            name: 'land-examine-todo-create',
+            params: Object.assign({
+            })
+          }
+        )
       },
       handleDetail(row) {
         this.$router.push({
@@ -222,7 +227,9 @@
               appceptanceFormDisabled: false,//this.info.role.includes(''),
               //验收表
               approvalFormDisabled: false,
-              detail: row
+              detail: row,
+
+              box: '待办'
             })
           }
         )

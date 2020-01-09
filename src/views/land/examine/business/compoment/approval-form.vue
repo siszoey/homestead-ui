@@ -4,7 +4,7 @@
       <el-form
               disabled
               label-position="top"
-              inline="true">
+              :inline="true">
           <h2>申请户主信息</h2>
           <!--        <el-row>-->
           <!--          <el-col :span="3">-->
@@ -110,7 +110,7 @@
 
       <el-form
               :disabled="disabled"
-              inline="true"
+              :inline="true"
               label-position="top"
               :model="formLabel">
         <h2>理由和意见</h2>
