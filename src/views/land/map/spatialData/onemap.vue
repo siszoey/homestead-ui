@@ -4,7 +4,7 @@
       <el-menu
         default-active="1"
         class="el-menu"
-        unique-opened="true"
+        :unique-opened="true"
         style="height:100%;background-color: lightgrey;"
       >
         <el-submenu index="1">
@@ -86,7 +86,7 @@
             </el-scrollbar>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="4">
+        <el-menu-item index="4">
           <template slot="title">
             <div @click.stop="stop()">
               <el-switch
@@ -96,9 +96,21 @@
               ></el-switch>
             </div>
           </template>
-
-          <el-menu-item-group></el-menu-item-group>
-        </el-submenu>
+        </el-menu-item>
+        <el-menu-item index="5">
+          <template slot="title">
+            <div @click.stop="stop()">
+              <el-switch inactive-text="行政区" v-model="XZQ.Visible" @change="changeLayer('XZQ')"></el-switch>
+            </div>
+          </template>
+        </el-menu-item>
+        <el-menu-item index="6">
+          <template slot="title">
+            <div @click.stop="stop()">
+              <el-switch inactive-text="影像底图" v-model="DT.Visible" @change="changeLayer('DT')"></el-switch>
+            </div>
+          </template>
+        </el-menu-item>
       </el-menu>
     </div>
     <div id="maponemap" class="mapDiv"></div>
@@ -569,10 +581,34 @@ export default {
             name: "滩涂",
             code: "滩涂",
             checked: true
+          },
+          {
+            name: "水库水面",
+            code: "水库水面",
+            checked: true
+          },
+          {
+            name: "河流湖泊水面",
+            code: "未计入水库水面的河流湖泊水面",
+            checked: true
           }
         ]
       },
       NFJSFB: {
+        Layer: null,
+        Visible: true,
+        CheckAll: true,
+        Features: [],
+        Boxs: []
+      },
+      XZQ: {
+        Layer: null,
+        Visible: true,
+        CheckAll: true,
+        Features: [],
+        Boxs: []
+      },
+      DT: {
         Layer: null,
         Visible: true,
         CheckAll: true,
@@ -586,13 +622,14 @@ export default {
   },
   mounted() {
     this.map = BaseMap.BaseInitMap("maponemap");
-    this.map.addLayer(BaseMap.img_wLayer);
+
     this.InitLayer("XZDCCG");
     this.InitLayer("GTKJGH");
     this.InitLayer("CZGH");
     this.InitLayer("NFJSFB");
-    this.Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm);
-    this.Region_Layer.setZIndex(20);
+    this.InitLayer("XZQ");
+    this.InitLayer("DT");
+    this.XZQ.Layer.setZIndex(20);
   },
 
   methods: {
@@ -602,7 +639,7 @@ export default {
     stop() {},
     changeLayer(LayerName) {
       if (this[LayerName].Visible) {
-        this.InitLayer(LayerName);
+        this.map.addLayer(this[LayerName].Layer);
       } else {
         this.map.removeLayer(this[LayerName].Layer);
       }
@@ -635,6 +672,8 @@ export default {
         result += "'*'";
       } else {
         for (var i = 0; i < features.length; i++) {
+          if (features[i] == "0307") result += "'0307K',";
+          if (features[i] == "1104") result += "'1104A',";
           result += "'" + features[i] + "'";
           if (i != features.length - 1) {
             result += ",";
@@ -657,6 +696,10 @@ export default {
         this.CZGH.Layer = this.InitCZGH();
       } else if (LayerName == "NFJSFB") {
         this.NFJSFB.Layer = this.InitNFJSFB();
+      } else if (LayerName == "XZQ") {
+        this.XZQ.Layer = this.InitXZQ();
+      } else if (LayerName == "DT") {
+        this.DT.Layer = this.InitDT();
       }
     },
     InitXZDCCG() {
@@ -729,7 +772,7 @@ export default {
       var styleCache = {};
       var clusters = new VectorLayer({
         source: new Cluster({
-          distance: 50,
+          distance: 10,
           geometryFunction: function(features) {
             var coord = getCenter(features.getGeometry().getExtent());
             return new Feature(new Point(coord)).getGeometry();
@@ -768,6 +811,14 @@ export default {
       });
       this.map.addLayer(clusters);
       return clusters;
+    },
+    InitXZQ() {
+      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm);
+      return Region_Layer;
+    },
+    InitDT() {
+      this.map.addLayer(BaseMap.img_wLayer);
+      return BaseMap.img_wLayer;
     }
   }
 };
@@ -795,7 +846,7 @@ export default {
   opacity: 0.7;
   min-width: 230px;
   overflow: auto;
-  background-color: aqua;
+  background-color: lightgray;
 }
 .mapDiv {
   height: 100%;
@@ -883,5 +934,10 @@ export default {
 }
 .el-checkbox {
   margin: 3px;
+}
+</style>
+<style>
+.el-switch__label {
+  min-width: 85px !important;
 }
 </style>
