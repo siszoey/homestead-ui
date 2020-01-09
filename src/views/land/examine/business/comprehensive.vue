@@ -13,7 +13,7 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="项目编号" >
+            <el-form-item label="项目编号">
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
@@ -110,6 +110,8 @@
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
                     </el-button>
+                    <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除
+                    </el-button>
                 </template>
             </el-table-column>
 
@@ -134,7 +136,7 @@
 </template>
 
 <script>
-  import {PageData} from "../../../../api/land.business"
+  import {PageData, DeleteProcess} from "../../../../api/land.business"
   import dictMixnis from "../../mixnis/dict-mixnis"
   import processMixnis from "../../mixnis/process-mixnis"
   import {mapState} from 'vuex'
@@ -187,8 +189,8 @@
           this.table.listLoading = false
         })
       },
-      handleSizeChange(pageSiz) {
-        this.table.pageSize = pageSiz
+      handleSizeChange(pageSize) {
+        this.table.pageSize = pageSize
         this.getTableData()
       },
       handleCurrentChange(pageNum) {
@@ -200,7 +202,12 @@
         this.getTableData()
       },
       handleCreate() {
-        this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
+        this.$router.push({
+            name: 'land-examine-todo-create',
+            params: Object.assign({
+            })
+          }
+        )
       },
       handleDetail(row) {
         this.$router.push({
@@ -219,48 +226,29 @@
           }
         )
       },
-      handleUpdate(row) {
-      },
-      handleCheck(row) {
-        let confirm = {
-          distinguishCancelAndClose: true,
-          title: '办理结果, 是否继续?',
-          trueText: '已办',
-          falseText: '退办',
-        }
-        //第一次申请，只有已办，没有退办
-        if (this.info.role !== this.getOptName("流程角色", "sq-start")) {
-          confirm = Object.assign(confirm, {
-            distinguishCancelAndClose: false,
-            title: '办理结果, 是否继续?',
-            trueText: '已办',
-            falseText: '取消',
-          })
-        }
-        this.$confirm(confirm.title, '提示', {
-          distinguishCancelAndClose: confirm.distinguishCancelAndClose,
-          confirmButtonText: confirm.trueText,
-          cancelButtonText: confirm.falseText,
+      handleDelete(row) {
+        let sqid = row.zjdSqJl.sqid;
+        this.$confirm('确定删除这条项目记录？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning',
           center: true
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '已办!'
-          })
-          this.processRequest(row.zjdSqJl.id, row.zjdSqJl.sqid, row.zjdSqJl.xmzt, true)
-        }).catch(action => {
-          //不通过
-          if (confirm.distinguishCancelAndClose && action === 'cancel') {
+          DeleteProcess(sqid).then(() => {
             this.$message({
-              type: 'info',
-              message: '退办!'
+              type: 'success',
+              message: '删除成功!'
             })
-            this.processRequest(row.zjdSqJl.id, row.zjdSqJl.sqid, row.zjdSqJl.xmzt, false)
-          }
+            this.getTableData()
+          }).catch(() => {
+            this.$message({
+              type: 'error',
+              message: '删除失败!'
+            })
+          })
+        }).catch(() => {
         })
       },
-
     }
   }
 </script>
