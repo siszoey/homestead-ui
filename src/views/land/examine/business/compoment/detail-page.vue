@@ -107,23 +107,14 @@
         hadBack: false,
 
         showForm: true,
-        formCol: 24,
-
         showFileView: false,
         xmbh: '',
         stage: '',
-
         showPrintView: false,
         src: 'http://www.baidu.com',
-
-
         showMap: false,
 
-        routerViewCol: 20,
-        mapCol: 0,
-        isCollapse: false,
         active: 0,
-        showIframe: false,
       }
     },
     mounted() {
@@ -250,31 +241,6 @@
         this.showFlag(false)
         this.showForm = formFlag
         this.showMap = flag ? false : true
-      },
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath)
-        let params = {}
-        if (key.indexOf('Form') != -1) {
-          params = Object.assign(params, {
-            disabled: this[`${key}Disabled`],
-            detail: this.detail
-          })
-        } else if (key == 'fileTreeView') {
-          params = Object.assign(params, {
-            xmbh: this.detail ? this.detail.jcxx.sqid : '',
-            stage: this.processInfo ? this.processInfo.xmzt : ''
-          })
-        }
-
-        if (key != 'printView') {
-          this.$router.push({
-            name: key,
-            params
-          })
-          this.showIframe = false
-        } else {
-          this.showIframe = true
-        }
       },
       getLastXMZT() {
         let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
