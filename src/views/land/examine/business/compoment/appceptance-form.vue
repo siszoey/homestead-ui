@@ -3,7 +3,7 @@
         <el-form
                 disabled
                 label-position="top"
-                inline="true">
+                :inline="true">
             <h2>申请户主信息</h2>
             <el-form-item label="申请户主">
                 <el-input v-model="detail.jcxx.xm" placeholder="申请户主"></el-input>
@@ -15,7 +15,7 @@
 
         <el-form
                 :disabled="disabled"
-                inline="true"
+                :inline="true"
                 ref="form"
                 :model="form"
                 label-position="top">

@@ -110,8 +110,8 @@
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
                     </el-button>
-                    <el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
-                    </el-button>
+                    <!--<el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
+                    </el-button>-->
                 </template>
             </el-table-column>
 
@@ -208,12 +208,15 @@
         this.$router.push({
             name: 'land-examine-detail',
             params: Object.assign({
-              sqlx: 0,
-              sqid: 'xx',
+              //申请表
               applicationFormDisabled: true,
-              appceptanceFormDisabled: true,
+              //审批表
+              appceptanceFormDisabled: true,//this.info.role.includes(''),
+              //验收表
               approvalFormDisabled: true,
-              detail: row
+              detail: row,
+
+              box: '退办'
             })
           }
         )
