@@ -193,10 +193,14 @@ function BaseAddLayer(map, url, params) {
 }
 
 function BaseCreateRegionVectorFromServer(xzqhdm) {
+    var sjqy = '&typeName=TDLYXZ:SJXZQ';
     var xjqy = '&typeName=TDLYXZ:XZQ';
     var cjqy = '&typeName=TDLYXZ:CJDCQ';
     var finalurl = '';
-    if (xzqhdm.length === 6) {//县级，加载整个县的所有镇
+    if (xzqhdm.length === 2) {//省级，加载所有市
+        finalurl = geoserver + sjqy + "&CQL_FILTER=ADCODE99 LIKE %27" + xzqhdm + "%25%27";
+    }
+    else if (xzqhdm.length === 6) {//县级，加载整个县的所有镇
         finalurl = geoserver + xjqy;
     }
     else if (xzqhdm.length === 9) {//乡镇级，加载该乡镇的所有村
@@ -217,6 +221,8 @@ function BaseCreateRegionVectorFromServer(xzqhdm) {
             var name = feature.get('XZQMC');
             if (name === undefined)
                 name = feature.get('ZLDWMC');
+            if (name === undefined)
+                name = feature.get('LAST_NAME9');
             var style = BaseRegionStyle();
             style.getText().setText(name);
             //style.setText(name);

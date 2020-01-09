@@ -36,7 +36,7 @@
           <template slot="title">
             <div @click.stop="stop()">
               <el-switch
-                inactive-text="国土空间规划"
+                inactive-text="土地利用规划"
                 v-model="GTKJGH.Visible"
                 @change="changeLayer('GTKJGH')"
               ></el-switch>
