@@ -158,41 +158,12 @@ export default {
                 }
               ]
             }
-            // ,
-            //  {
-            //     year: "2018",
-            //     number: 20,
-            //     resData: [
-            //       {
-            //         name: "申请数",
-            //         value: "18"
-            //       },
-            //       {
-            //         name: "已建数",
-            //         value: "2"
-            //       }
-            //     ]
-            //   },
-            //   {
-            //     year: "2019",
-            //     number: 30,
-            //     resData: [
-            //       {
-            //         name: "申请数",
-            //         value: "22"
-            //       },
-            //       {
-            //         name: "已建数",
-            //         value: "5"
-            //       }
-            //     ]
-            //   }
         ],
         //饼状图数据显示
          pieChartDatas:[
-            {value:898, name:'项目申报'},
-            {value:1088, name:'项目审批'},
-            {value:735, name:'综合验收'}
+            {zjdmj:'', xmjd:'项目申报'},
+            {zjdmj:'', xmjd:'联合审批'},
+            {zjdmj:'', xmjd:'综合验收'}
           ],
       //搜索权限
       queryForm: {
@@ -317,14 +288,16 @@ export default {
 
       //饼状图
       IniPieChart() {
-      const _dataList = this.pieChartDatas;
+      GetBarChartDatas().then((res) =>
+      {  
+      const _dataList = res;
       this.pieChart = this.$echarts.init(this.$refs.pieMain);
       const option = {
         legend: {//环形图布局
           orient: "vertical",
           right: 60,
           bottom: "10%",
-          data: this.pieChartDatas.name,
+          data: this.pieChartDatas.xmjd,
           padding: [0, 0, 0, 0],
           selectedMode: false,
           itemWidth: 6,
@@ -363,18 +336,20 @@ export default {
           tooltip: {
             show: false
           },
-          formatter: function(name) {
+          formatter: function(xmjd) {
             let _index = 0;
             _dataList.forEach((item, i) => {
-              if (item.name == name) {
+              if (item.xmjd == xmjd) {
                 _index = i;
               }
             });
             let arr;
-            if (name == "项目申报") {
-              arr = ["{a|" + name + "}", "{b|" + _dataList[_index].value + "}"];
-            } else {
-              arr = ["{a|" + name + "}", "{c|" + _dataList[_index].value + "}"];
+            if (xmjd == "项目申报") {
+              arr = ["{a|" + xmjd + "}", "{b|" + _dataList[_index].zjdmj + "}"];
+            } else if(xmjd == "联合审批") {
+              arr = ["{a|" + xmjd + "}", "{c|" + _dataList[_index].zjdmj + "}"];
+            } else if(xmjd == "综合验收") {
+              arr = ["{a|" + xmjd + "}", "{c|" + _dataList[_index].zjdmj + "}"];
             }
             return arr.join("");
           }
@@ -411,6 +386,7 @@ export default {
       };
       // 使用刚指定的配置项和数据显示图表。
       this.pieChart.setOption(option);
+      })
     }
 
 
