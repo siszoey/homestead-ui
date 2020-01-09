@@ -19,6 +19,7 @@ import defaultRouter from './modules/default'
 import landMap from './modules/land.map'
 import landExamine from './modules/land.examine'
 import landSystem from './modules/land.system'
+import landIntegratedManagement from './modules/land.integratedManagement'
 
 /**
  * 在主框架内显示
@@ -34,7 +35,8 @@ const frameIn = [
 
     landMap(layHeader),
     landExamine(layHeader),
-    landSystem(layHeader)
+    landSystem(layHeader),
+    landIntegratedManagement(layHeader)
 ]
 
 /**
