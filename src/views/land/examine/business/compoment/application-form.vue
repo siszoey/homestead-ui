@@ -402,7 +402,6 @@
             let params = this.form
             if (valid) {
               ApplicationForm(params).then(res => {
-                debugger
                 ApproalProcess({
                   'sqid': res.sqid,
                   'next_blzt': this.getOptCode("办理状态", "待办"),
