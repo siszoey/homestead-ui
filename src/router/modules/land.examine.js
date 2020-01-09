@@ -6,8 +6,6 @@ const meta = {auth: true}
 export default function (iotHeader) {
   return {
     path: '/land/examine',
-    name: 'land-examine',
-    meta,
     redirect: {name: 'land-examine-business-todo'},
     component: iotHeader,
     children: (pre => [
@@ -21,7 +19,7 @@ export default function (iotHeader) {
         }
       },
       {
-        path: 'business/todo-create/:sqlx',
+        path: 'business/todo-create',
         name: `${pre}todo-create`,
         component: _import('land/examine/business/compoment/detail-page.vue'),
         meta: {
@@ -30,14 +28,35 @@ export default function (iotHeader) {
         }
       },
       {
-        path: 'business/detail/:sqlx/:sqid',
-        props: true,
+        path: 'business/detail',
         name: `${pre}detail`,
         component: _import('land/examine/business/compoment/detail-page.vue'),
-        meta: {
-          ...meta,
-          title: '详情'
-        }
+        children: [
+          {
+            path: `application-form`,
+            name: `applicationForm`,
+            component: _import('land/examine/business/compoment/application-form.vue'),
+            props: true
+          },
+          {
+            path: `appceptance-form`,
+            name: `appceptanceForm`,
+            component: _import('land/examine/business/compoment/appceptance-form.vue'),
+            props: true,
+          },
+          {
+            path: 'approval-form',
+            name: `approvalForm`,
+            component: _import('land/examine/business/compoment/approval-form.vue'),
+            props: true
+          },
+          {
+            path: 'filetreeview',
+            name: `fileTreeView`,
+            component: _import('land/components/filetreeview.vue'),
+            props: true
+          }
+        ]
       },
       {
         path: 'business/done',

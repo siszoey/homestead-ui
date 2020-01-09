@@ -16,7 +16,7 @@ export default function(iotHeader) {
                 meta: {
                     auth: true
                 },
-                component: _import('land/map/implementationProcess/examineList.vue')
+                component: _import('system/index')
             },
             // 系统 前端日志
             {

@@ -396,9 +396,9 @@ export default {
         .then(response => {
           console.log(response.data.features); //[0].properties.name
           if (level == "3") {
-            this.counties = response.data.features;
+            _this.counties = response.data.features;
           } else if (level == "2") {
-            this.cities = response.data.features;
+            _this.cities = response.data.features;
           }
         })
         //获取失败

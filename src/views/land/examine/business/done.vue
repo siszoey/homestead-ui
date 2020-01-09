@@ -7,7 +7,7 @@
                 size="mini"
                 style="margin-bottom: -25px; padding: 0 20px">
             <el-form-item label="申请类型">
-                <el-select v-model="queryForm['sqlx']">
+                <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
@@ -22,6 +22,8 @@
                         v-model="queryForm['sqsj']"
                         type="daterange"
                         range-separator="至"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
                 </el-date-picker>
@@ -156,7 +158,7 @@
           pages: null
         },
         queryForm: {
-          sqlx: undefined,
+          jflx: undefined,
           sqid: undefined,
           sqmc: undefined,
           sqsj: undefined,
@@ -198,7 +200,6 @@
         this.getTableData()
       },
       handleCreate() {
-        this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
       },
       handleDetail(row) {
         this.$router.push({
@@ -217,43 +218,6 @@
       handleUpdate(row) {
       },
       handleCheck(row) {
-        let confirm = {
-          distinguishCancelAndClose: true,
-          title: '办理结果, 是否继续?',
-          trueText: '已办',
-          falseText: '退办',
-        }
-        //第一次申请，只有已办，没有退办
-        if (this.info.role !== this.getOptName("流程角色", "sq-start")) {
-          confirm = Object.assign(confirm, {
-            distinguishCancelAndClose: false,
-            title: '办理结果, 是否继续?',
-            trueText: '已办',
-            falseText: '取消',
-          })
-        }
-        this.$confirm(confirm.title, '提示', {
-          distinguishCancelAndClose: confirm.distinguishCancelAndClose,
-          confirmButtonText: confirm.trueText,
-          cancelButtonText: confirm.falseText,
-          type: 'warning',
-          center: true
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '已办!'
-          })
-          this.processRequest(row.zjdSqJl.id, row.zjdSqJl.sqid, row.zjdSqJl.xmzt, true)
-        }).catch(action => {
-          //不通过
-          if (confirm.distinguishCancelAndClose && action === 'cancel') {
-            this.$message({
-              type: 'info',
-              message: '退办!'
-            })
-            this.processRequest(row.zjdSqJl.id, row.zjdSqJl.sqid, row.zjdSqJl.xmzt, false)
-          }
-        })
       },
 
     }

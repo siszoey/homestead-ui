@@ -7,7 +7,7 @@
                 size="mini"
                 style="margin-bottom: -25px; padding: 0 20px">
             <el-form-item label="申请类型">
-                <el-select v-model="queryForm['sqlx']">
+                <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
@@ -26,6 +26,8 @@
                         v-model="queryForm['sqsj']"
                         type="daterange"
                         range-separator="至"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
                 </el-date-picker>
@@ -166,7 +168,7 @@
           pages: null
         },
         queryForm: {
-          sqlx: undefined,
+          jflx: undefined,
           sqid: undefined,
           sqmc: undefined,
           sqsj: undefined,
@@ -208,17 +210,18 @@
         this.getTableData()
       },
       handleCreate() {
-        this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
+        this.$router.push({name: 'land-examine-todo-create', params: {}})
       },
       handleDetail(row) {
         this.$router.push({
             name: 'land-examine-detail',
             params: Object.assign({
-              sqlx: 0,
-              sqid: row.zjdSqJl.sqid,
+              //申请表
               applicationFormDisabled: true,
-              appceptanceFormDisabled: true,
-              approvalFormDisabled: true,
+              //审批表
+              appceptanceFormDisabled: false,//this.info.role.includes(''),
+              //验收表
+              approvalFormDisabled: false,
               detail: row
             })
           }
