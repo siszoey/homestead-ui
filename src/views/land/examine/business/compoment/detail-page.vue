@@ -85,7 +85,9 @@
     created() {
       if ('待办' == this.$route.params.box) {
         this.sendBtnDisabled = false
-        this.backBtnDisabled = false
+        if(this.processInfo && this.firstXMZT.optCode != this.processInfo.xmzt){
+          this.backBtnDisabled = false
+        }
       }
       if ('退办' == this.$route.params.box) {
         this.sendBtnDisabled = false
@@ -98,6 +100,7 @@
         appceptanceFormDisabled: this.$route.params.appceptanceFormDisabled || false,
         approvalFormDisabled: this.$route.params.approvalFormDisabled || false,
         detail: this.$route.params.detail || undefined,
+        processInfo: this.$route.params.detail ? this.$route.params.detail.zjdSqJl : undefined,
 
         sendBtnDisabled: true,
         backBtnDisabled: true,
@@ -124,7 +127,11 @@
         showIframe: false,
       }
     },
-
+    computed:{
+      firstXMZT() {
+        return this.getDictByOptCode("项目状态", 1);
+      }
+    },
     methods: {
       handleSend() {
         if (this.hadSend) {
@@ -134,7 +141,7 @@
           })
           return
         }
-        if (!this.detail.zjdSqJl) {
+        if (undefined == this.processInfo) {
           this.$message({
             type: 'warning',
             message: '项目编号丢失'
@@ -154,7 +161,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          this.processRequest(this.detail.zjdSqJl, true)
+          this.processRequest(this.processInfo, true)
           this.hadSend = true
         }).catch(() => {
         })
@@ -167,7 +174,7 @@
           })
           return
         }
-        if (!this.detail.zjdSqJl) {
+        if (undefined == this.processInfo) {
           this.$message({
             type: 'warning',
             message: '项目编号丢失'
@@ -187,7 +194,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          this.processRequest(this.detail.zjdSqJl, false)
+          this.processRequest(this.processInfo, false)
           this.hadBack = true
         }).catch(() => {
         })
@@ -221,16 +228,6 @@
         this.showFlag(false)
         this.showForm = formFlag
         this.showMap = flag ? false : true
-
-
-        // console.lodg(this.mapCol)
-        // if (this.mapCol == 0) {
-        //   this.mapCol = 10
-        //   this.routerViewCol = 10
-        // } else {
-        //   this.mapCol = 0
-        //   this.routerViewCol = 20
-        // }
       },
       handleSelect(key, keyPath) {
         console.log(key, keyPath)
@@ -243,7 +240,7 @@
         } else if (key == 'fileTreeView') {
           params = Object.assign(params, {
             xmbh: this.detail ? this.detail.jcxx.sqid : '',
-            stage: this.detail ? this.detail.zjdSqJl.xmzt : ''
+            stage: this.processInfo ? this.processInfo.xmzt : ''
           })
         }
 
@@ -258,7 +255,7 @@
         }
       },
       getLastXMZT() {
-        let currentXMZTCode = this.detail == undefined ? 1 : this.detail.zjdSqJl.xmzt
+        let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
         this.active = currentXMZTCode - 1
       }
     }

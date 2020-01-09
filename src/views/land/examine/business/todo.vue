@@ -210,7 +210,12 @@
         this.getTableData()
       },
       handleCreate() {
-        this.$router.push({name: 'land-examine-todo-create', params: {}})
+        this.$router.push({
+            name: 'land-examine-todo-create',
+            params: Object.assign({
+            })
+          }
+        )
       },
       handleDetail(row) {
         this.$router.push({
