@@ -112,7 +112,7 @@
 <!--            <el-row>-->
 <!--                <el-col :span="8">-->
                     <el-form-item label="宅基地面积" prop="nzjdqk.zjdmj">
-                        <el-input v-model.number="form.nzjdqk['zjdmj']" placeholder="姓名"></el-input>
+                        <el-input v-model.number="form.nzjdqk['zjdmj']" placeholder="宅基地面积"></el-input>
                     </el-form-item>
 <!--                </el-col>-->
 <!--                <el-col :span="8">-->
@@ -193,7 +193,7 @@
 <!--            </el-row>-->
 
             <h2>理由和意见</h2>
-<!--            <el-row>-->
+            <el-row>
 <!--                <el-col :span="14">-->
                     <el-form-item label="申请理由" prop="qt.sqly">
                         <el-input type="textarea" v-model="form.qt['sqly']" placeholder="申请理由"></el-input>
@@ -215,8 +215,8 @@
                         </el-date-picker>
                     </el-form-item>
 <!--                </el-col>-->
-<!--            </el-row>-->
-<!--            <el-row>-->
+            </el-row>
+            <el-row>
 <!--                <el-col :span="14">-->
                     <el-form-item label="村民小组意见" prop="qt.cmxzyj">
                         <el-input type="textarea" v-model="form.qt['cmxzyj']" placeholder="申请理由"></el-input>
@@ -238,8 +238,8 @@
                         </el-date-picker>
                     </el-form-item>
 <!--                </el-col>-->
-<!--            </el-row>-->
-<!--            <el-row>-->
+            </el-row>
+            <el-row>
 <!--                <el-col :span="14">-->
                     <el-form-item label="村集体经济组织或村民委员会意见" prop="qt.cmwyhyj">
                         <el-input type="textarea" v-model="form.qt['cmwyhyj']" placeholder="村集体经济组织或村民委员会意见"></el-input>
@@ -261,7 +261,7 @@
                         </el-date-picker>
                     </el-form-item>
 <!--                </el-col>-->
-<!--            </el-row>-->
+            </el-row>
 
             <el-row>
                 <el-form-item>
