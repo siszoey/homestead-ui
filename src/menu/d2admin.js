@@ -71,6 +71,21 @@ const system = {
     ])('/land/system')
 }
 
+  //综合监管
+ const integratedManagement = {
+    path: '/land/integratedManagement',
+    title: '综合监管',
+    alias: 'index',
+    icon: 'integratedManagement',
+    children: (pre => [{
+        path: `${pre}/supervise`,
+        title: '监督处理',
+        children: (pre => [
+            { path: `${pre}/dailyInspection`, title: '日常巡查' }
+        ])('/land/integratedManagement/supervise')
+    },
+    ])('/land/integratedManagement')
+}
 
 
 // 菜单 侧栏
