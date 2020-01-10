@@ -2,11 +2,11 @@
   <div>
     <div class="wrap-middle">
       <p class="header-title">日常巡查列表</p>
-      <el-row >
+      <el-row>
         <el-col>
           <el-form :inline="true" size="mini">
 
-            <el-form-item label="项目名称">
+            <el-form-item label="项目名称" style="margin-left:30px">
               <el-input v-model="xmmc" placeholder="项目名称"></el-input>
             </el-form-item>
             <!-- <el-form-item label="监察人">
