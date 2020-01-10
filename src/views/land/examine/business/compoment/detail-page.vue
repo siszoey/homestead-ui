@@ -48,7 +48,7 @@
             <!--材料-->
             <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
             <!--打印-->
-            <div v-bind="$attrs" v-if="showPrintView">
+            <div v-bind="$attrs" v-show="showPrintView">
 <!--                <iframe ref="refIframe" :src="src" frameborder="0" scrolling="auto" id="myIframe"></iframe>-->
                 <el-tabs tab-position="top">
                     <el-tab-pane label="申请表">
@@ -73,7 +73,7 @@
             </div>
             <!--一张图-->
             <el-col :span="12" v-show="showMap">
-                <h1>一张图</h1>
+               <oneMap></oneMap>
             </el-col>
         </el-row>
 
@@ -87,6 +87,7 @@
   import appceptanceForm from './appceptance-form'
   import approvalForm from './approval-form'
   import FileTreeView from '../../../components/filetreeview.vue'
+  import OneMap from '../../../../land/map/spatialData/onemap.vue'
   import {LastProcess} from "../../../../../api/land.business"
 
   export default {
@@ -95,7 +96,8 @@
       applicationForm,
       approvalForm,
       appceptanceForm,
-      FileTreeView
+      FileTreeView,
+      OneMap
     },
     mixins: [
       dictMixins,
@@ -135,7 +137,7 @@
         showPrintView: false,
         rdpPrefix: process.env.VUE_APP_RDP_URL + '/rdppage/show/',
 
-        showMap: false,
+        showMap: true,
 
         active: 0,
       }
@@ -177,7 +179,6 @@
       onloadIframe() {
         for(let key in this.$refs){
           let ref = this.$refs[key];
-          debugger
           // ref.style.width = (Number(800)) + 'px'
           ref.style.height = (Number(1100) - 60) + 'px'
           console.log(ref.style.width, ref.style.height)
