@@ -123,7 +123,7 @@
 
 <script>
 import dictMixnis from "../../mixnis/dict-mixnis"
-import { getTableList,pieChartDatas,GetBarChartDatas } from "../../../../api/res.business";
+import { getTableList,GetPieChartDatas,GetBarChartDatas } from "../../../../api/res.business";
 import { color } from "echarts/lib/export";
 export default {
   name: "land-map-implementationProcess",
@@ -288,7 +288,7 @@ export default {
 
       //饼状图
       IniPieChart() {
-      GetBarChartDatas().then((res) =>
+      GetPieChartDatas().then((res) =>
       {  
       const _dataList = res;
       this.pieChart = this.$echarts.init(this.$refs.pieMain);
