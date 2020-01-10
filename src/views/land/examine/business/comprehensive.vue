@@ -139,6 +139,7 @@
   import {PageData, DeleteProcess} from "../../../../api/land.business"
   import dictMixnis from "../../mixnis/dict-mixnis"
   import processMixnis from "../../mixnis/process-mixnis"
+  import pageMixins from "../../mixnis/page-mixnis"
   import {mapState} from 'vuex'
 
   export default {
@@ -146,19 +147,11 @@
     components: {},
     mixins: [
       dictMixnis,
+      pageMixins,
       processMixnis
     ],
     data() {
       return {
-        table: {
-          key: 0,
-          listLoading: false,
-          list: [],
-          total: null,
-          pageNum: 0,
-          pageSize: 10,
-          pages: null
-        },
         queryForm: {
           jflx: undefined,
           sqid: undefined,
@@ -178,36 +171,33 @@
     methods: {
       getTableData() {
         this.table.listLoading = true
-        let stageParam = {
-          // blzt: this.getOptCode("办理状态", "已办"),
-          // roleid: this.info.role.join("|")
-        }
-        PageData(this.table.pageNum, this.table.pageSize, stageParam, this.queryForm).then(res => {
-          this.table.list = res.records
+        PageData(this.getTableDataParam()).then(res => {
+          this.table.list = res.records || res.list || res.data
           this.table.total = res.total
         }).catch(err => console.log(err)).finally(() => {
           this.table.listLoading = false
         })
       },
-      handleSizeChange(pageSize) {
-        this.table.pageSize = pageSize
-        this.getTableData()
-      },
-      handleCurrentChange(pageNum) {
-        this.table.pageNum = pageNum
-        this.getTableData()
-      },
-      handleFormReset(formName) {
-        this.$refs[formName].resetFields()
-        this.getTableData()
-      },
-      handleCreate() {
-        this.$router.push({
-            name: 'land-examine-todo-create',
-            params: Object.assign({
-            })
-          }
-        )
+      //其他参数
+      getTableDataParam(){
+        //根据业务修改补充
+        let otherParam = {
+              // blzt: this.getOptCode("办理状态", "已办"),
+              // roleid: this.info.role.join("|")
+        }
+        //时间区间字段，调整
+        let newQueryForm = Object.assign({}, this.queryForm)
+        if(newQueryForm.sqsj && newQueryForm.sqsj.length > 0) {
+          let start_sqrrq = newQueryForm.sqsj[0]
+          let end_sqrrq = newQueryForm.sqsj[1]
+          newQueryForm['start_sqrrq'] = start_sqrrq
+          newQueryForm['end_sqrrq'] = end_sqrrq
+          delete newQueryForm.sqsj
+        }
+        return Object.assign({
+          pageNum: this.table.pageNum,
+          pageSize: this.table.pageSize
+        }, newQueryForm/*this.queryForm*/, otherParam)
       },
       handleDetail(row) {
         this.$router.push({
