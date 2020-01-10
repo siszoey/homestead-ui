@@ -9,14 +9,16 @@ export default function(iotHeader) {
         redirect: { name: 'index' },
         component: iotHeader,
         children: [
-            // 系统首页
+            // // 系统首页
             {
                 path: 'index',
                 name: 'index',
                 meta: {
-                    auth: true
+                    auth: true,
+                    fullMainZone: true
                 },
-                component: _import('system/index')
+                // component: _import('system/index')
+                component: _import('land/map/spatialData/mappanel.vue')
             },
             // 系统 前端日志
             {
