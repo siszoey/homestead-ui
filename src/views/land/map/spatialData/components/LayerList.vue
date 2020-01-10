@@ -1,6 +1,6 @@
 <template>
   <div class="bubble">
-    <el-row class="tac">
+    <el-row class="tac" style="width: 210px;">
       <el-col :span="24">
         <el-menu
           default-active="2"

@@ -24,54 +24,28 @@ export default function(iotHeader) {
                     ismap: true,
                     title: '空间数据'
                 },
-                children: [{
-                    path: 'survey',
-                    name: `${pre}spatialData-survey`,
-                    component: _import('land/map/spatialData/survey.vue'),
-                    meta: {
-                        ...meta,
-                        ismap: true,
-                        title: '现状调查成果'
-                    }
-                },
-                {
-                    path: 'test',
-                    name: `${pre}spatialData-test`,
-                    component: _import('land/map/spatialData/test.vue'),
-                    meta: {
-                        ...meta,
-                        ismap: true,
-                        title: 'DEMO页面'
-                    }
-                },
-                {
-                    path: 'plan',
-                    name: `${pre}spatialData-plan`,
-                    component: _import('land/map/spatialData/plan.vue'),
-                    meta: {
-                        ...meta,
-                        title: '国土空间规划'
-                    }
-                },
-                {
-                    path: 'year',
-                    name: `${pre}spatialData-year`,
-                    component: _import('land/map/spatialData/year.vue'),
-                    meta: {
-                        ...meta,
-                        title: '村庄规划'
-                    }
-                },
-                {
-                    path: 'build',
-                    name: `${pre}spatialData-build`,
-                    component: _import('land/map/spatialData/build.vue'),
-                    meta: {
-                        ...meta,
-                        title: '农房建设分布'
-                    }
-                }
-              ]
+                children: (pre => [
+                    {
+                        path: 'mappanel',
+                        name: `${pre}mappanel`,
+                        component: _import('land/map/spatialData/mappanel.vue'),
+                        meta: {
+                            ...meta,
+                            ismap: true,
+                            title: '首页一张图'
+                        }
+                    },
+                    {
+                        path: 'onemap',
+                        name: `${pre}onemap`,
+                        component: _import('land/map/spatialData/onemap.vue'),
+                        meta: {
+                            ...meta,
+                            ismap: true,
+                            title: '一张图'
+                        }
+                    }             
+              ])('land-map-spatialData-')
             },
             {
                 path:'accountInformation',
