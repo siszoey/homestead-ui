@@ -96,7 +96,7 @@ export function getTableList(queryForm,current, size) {
 
 
 // 项目所处阶段统计
-export function pieChartDatas(params) {
+export function GetPieChartDatas(params) {
   return request({
     url: '/statistics/xmscjdtj',
     method: 'get',
