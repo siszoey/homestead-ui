@@ -140,7 +140,7 @@
                 <el-image
                   style="width: 45px; height: 45px"
                   :src="`${$baseUrl}image/leaderCockpit/yzxj_yuan.png`"
-                  :fit="fit"
+                  fit="fit"
                 ></el-image>
                 <p class="state">原址新建</p>
                 <p class="num">{{glxspsl.yzxj_yuan}}</p>
@@ -152,7 +152,7 @@
                 <el-image
                   style="width: 45px; height: 45px"
                   :src="`${$baseUrl}image/leaderCockpit/gkj.png`"
-                  :fit="fit"
+                  fit="fit"
                 ></el-image>
                 <p class="state">改扩建</p>
                 <p class="num">{{glxspsl.gkj}}</p>
@@ -161,7 +161,7 @@
                 <el-image
                   style="width: 45px; height: 45px"
                   :src="`${$baseUrl}image/leaderCockpit/yzxj_yi.png`"
-                  :fit="fit"
+                  fit="fit"
                 ></el-image>
                 <p class="state">异址新建</p>
                 <p class="num">{{glxspsl.yzxj_yi}}</p>
@@ -172,7 +172,7 @@
                 <el-image
                   style="width: 45px; height: 45px"
                   :src="`${$baseUrl}image/leaderCockpit/zjdlz.png`"
-                  :fit="fit"
+                  fit="fit"
                 ></el-image>
                 <p class="state">宅基地流转</p>
                 <p class="num">{{glxspsl.zjdlz}}</p>
@@ -184,7 +184,7 @@
                 <el-image
                   style="width: 45px; height: 45px"
                   :src="`${$baseUrl}image/leaderCockpit/zjdtc.png`"
-                  :fit="fit"
+                  fit="fit"
                 ></el-image>
                 <p class="state">宅基地退出</p>
                 <p class="num">{{glxspsl.zjdtc}}</p>
@@ -452,6 +452,12 @@ p {
   height: 50px;
   line-height: 50px;
 }
+
+.wrap-top .el-row {
+  margin-top: 0
+}
+
+
 .areaName,
 .townName,
 .villageName {

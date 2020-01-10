@@ -40,6 +40,7 @@
       <div class="d2-theme-container" flex-box="1" flex>
         <!-- 主体 侧边栏 -->
         <div
+          v-if="!fullMainZone"
           flex-box="0"
           ref="aside"
           class="d2-theme-container-aside slide"
@@ -63,14 +64,15 @@
           <transition name="fade-scale">
             <div v-if="!searchActive" class="d2-theme-container-main-layer" flex="dir:top">
               <!-- tab -->
-              <!--<div class="d2-theme-container-main-header main-header" flex-box="0">
-                <d2-tabs/>
-              </div>-->
+              <div v-if="!fullMainZone" class="d2-theme-container-main-header main-header" flex-box="0">
+                <!-- <d2-tabs/> -->
+                <d2-breadcrumb/>
+              </div>
               <!-- 页面 -->
               <div class="d2-theme-container-main-body body" flex-box="1">
                 <transition :name="transitionActive ? 'fade-transverse' : ''">
                   <!--<keep-alive :include="keepAlive">-->
-                    <router-view class="el-col el-col-23" style="margin-top:20px;margin-left:20px;"/>
+                    <router-view class="el-col el-col-23" style="margin-top:10px;margin-left:20px;"/>
                   <!--</keep-alive>-->
                 </transition>
               </div>
@@ -94,8 +96,10 @@ import d2HeaderFullscreen from './components/header-fullscreen'
 import d2HeaderUser from './components/header-user'
 // import d2HeaderLog from './components/header-log'
 // import d2HeaderColor from './components/header-color'
+import d2Breadcrumb from './components/breadcrumb'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
+import { stat } from 'fs'
 export default {
   name: 'd2-layout-header-aside',
   mixins: [
@@ -113,6 +117,7 @@ export default {
     d2HeaderUser,
     // d2HeaderLog,
     // d2HeaderColor
+    d2Breadcrumb
   },
   data () {
     return {
@@ -127,7 +132,8 @@ export default {
       keepAlive: state => state.page.keepAlive,
       grayActive: state => state.gray.active,
       transitionActive: state => state.transition.active,
-      asideCollapse: state => state.menu.asideCollapse
+      asideCollapse: state => state.menu.asideCollapse,
+      fullMainZone: state => state.page.fullMainZone
     }),
     ...mapGetters('d2admin', {
       themeActiveSetting: 'theme/activeSetting'

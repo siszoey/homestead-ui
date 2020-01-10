@@ -14,10 +14,8 @@ const map = {
         title: '空间数据',
         children: (pre => [
             // { path: `${pre}/test`, title: 'DEMO' },
-            { path: `${pre}/survey`, title: '现状调查成果' },
-            { path: `${pre}/plan`, title: '村庄规划编制成果' },
-            { path: `${pre}/year`, title: '年度计划成果' },
-            { path: `${pre}/build`, title: '宅基地建设成果' },
+            { path: `${pre}/onemap`, title: '一张图' },
+            { path: `${pre}/mappanel`, title: '首页一张图' },
         ])('/land/map/spatialData')
     },
     {
@@ -61,48 +59,6 @@ const examine = {
     { path: `${pre}/statistics`, title: '统计分析' }
     ])('/land/examine')
 }
-// const search = {
-//   path: '/res/search',
-//   title: '归档查询',
-//   alias: 'index',
-//   icon: 'search',
-//   children: (pre => [
-//     {path: `${pre}/filesSearch`, title: '归档查询'},
-//   ])('/res/search')
-// }
-// const message = {
-//   path: '/res/message',
-//   title: '信息动态',
-//   alias: 'index',
-//   icon: 'area-chart',
-//   children: (pre => [
-//     {path: `${pre}/mesManager`, title: '信息管理'},
-//   ])('/res/message')
-// }
-// const analyse = {
-//   path: '/res/analyse',
-//   title: '数据分析',
-//   alias: 'index',
-//   icon: 'codepen',
-//   children: (pre => [
-//     {path: `${pre}/analyse`, title: '数据分析'},
-
-//   ])('/res/analyse')
-// }
-// const system = {
-//   path: '/res/system',
-//   title: '系统管理',
-//   alias: 'index',
-//   icon: 'cog',
-//   children: (pre => [
-//     {path: process.env.VUE_APP_SSO_URL, title: '账户权限'},
-//     {path: `${pre}/journal`, title: '操作日志'},
-//     {path: `${pre}/password`, title: '密码修改'},
-//     {path: `${pre}/safe`, title: '安全管理'},
-//     {path: `${pre}/wechart`, title: '微信模板信息提醒'},
-//     {path: `${pre}/uploadview`, title: '需上传影像自行管理'}
-//   ])('/res/system')
-// }
 
 const system = {
     path: '/land/system',
@@ -115,29 +71,43 @@ const system = {
 }
 
 
+
 // 菜单 侧栏
 export const menuAside = [
-    // home,
     map,
     examine,
     system
-    // business,
-    // search,
-    // message,
-    // analyse,
-    // system
-
 ]
+
+// // 菜单 顶栏
+// export const menuHeader = [
+//     // home,
+//     map,
+//     examine,
+//     system
+//     // business,
+//     // search,
+//     // message,
+//     // analyse,
+//     // system
+// ]
 
 // 菜单 顶栏
 export const menuHeader = [
-    // home,
-    map,
-    examine,
-    system
-    // business,
-    // search,
-    // message,
-    // analyse,
-    // system
+  {
+    path: '/index',
+    title: '首页'
+  },
+  {
+    path: '/land/map',
+    title: '一张图'
+  },
+  {
+    path: '/land/examine',
+    title: '联合审批'
+  },
+  {
+    path: '/land/system',
+    title: '系统设置'
+  }
 ]
