@@ -7,7 +7,10 @@ export default function (iotHeader) {
   return {
     path: '/land/integratedManagement',
     name: 'land-integratedManagement',
-    meta,
+    meta: {
+      ...meta,
+      title: '综合监管'
+    },
     redirect: {name: 'land-integratedManagement-supervise-dailyInspection'},
     component: iotHeader,
     children: (pre => [
