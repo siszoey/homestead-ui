@@ -15,7 +15,7 @@ const map = {
         children: (pre => [
             // { path: `${pre}/test`, title: 'DEMO' },
             { path: `${pre}/onemap`, title: '一张图' },
-            { path: `${pre}/mappanel`, title: '首页一张图' },
+            // { path: `${pre}/mappanel`, title: '首页一张图' },
             { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
         ])('/land/map/spatialData')
     },
