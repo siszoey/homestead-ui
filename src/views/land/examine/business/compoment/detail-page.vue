@@ -75,7 +75,7 @@
             <!--一张图-->
             <el-col :span="12" v-show="showMap">
                 <div style="width: 570px;height:800px">
-                    <oneMap :disabled="true"></oneMap>
+                    <oneMap :hiddenToolbar="true"></oneMap>
                 </div>
             </el-col>
         </el-row>
