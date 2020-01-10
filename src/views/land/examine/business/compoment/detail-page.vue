@@ -6,15 +6,6 @@
         <el-divider></el-divider>
         <el-row :gutter="20">
             <el-col :span="6">
-                <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
-                    发送
-                </el-button>
-                <el-button type="primary" size="mini" @click="handleBack" :disabled="backBtnDisabled">
-                    回退
-                </el-button>
-            </el-col>
-
-            <el-col :span="6" :offset="12">
                 <el-button type="primary" size="mini" @click="handleShowForm">
                     表单
                 </el-button>
@@ -24,16 +15,25 @@
                 <el-button type="primary" size="mini" @click="handleShowPrintView">
                     打印
                 </el-button>
+            </el-col>
+
+            <el-col :span="5" :offset="13">
                 <el-button type="primary" size="mini" @click="handleShowMap">
                     一张图
+                </el-button>
+                <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
+                    发送
+                </el-button>
+                <el-button type="primary" size="mini" @click="handleBack" :disabled="backBtnDisabled">
+                    回退
                 </el-button>
             </el-col>
         </el-row>
 
-        <el-row :gutter="20" style="padding: 0 20px;">
+        <el-row>
             <!--表单-->
             <el-col :span="showMap ? 12 : 24">
-                <el-tabs tab-position="top" v-show="showForm">
+                <el-tabs tab-position="left" v-show="showForm">
                     <el-tab-pane label="申请表">
                         <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
                     </el-tab-pane>
@@ -44,36 +44,39 @@
                         <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"></appceptanceForm>
                     </el-tab-pane>
                 </el-tabs>
+                <!--材料-->
+                <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
+
+                <!--打印-->
+                <div v-bind="$attrs" v-show="showPrintView">
+                    <el-tabs tab-position="left">
+                        <el-tab-pane label="申请表">
+                            <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
+                        </el-tab-pane>
+                        <el-tab-pane label="审批表">
+                            <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
+                        </el-tab-pane>
+                        <el-tab-pane label="验收意见表">
+                            <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
+                        </el-tab-pane>
+                        <el-tab-pane label="批准书">
+                            <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
+                        </el-tab-pane>
+                        <el-tab-pane label="建设规划书">
+                            <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
+                        </el-tab-pane>
+                        <el-tab-pane label="附图">
+                            <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>
+                        </el-tab-pane>
+                    </el-tabs>
+                </div>
             </el-col>
-            <!--材料-->
-            <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
-            <!--打印-->
-            <div v-bind="$attrs" v-show="showPrintView">
-<!--                <iframe ref="refIframe" :src="src" frameborder="0" scrolling="auto" id="myIframe"></iframe>-->
-                <el-tabs tab-position="top">
-                    <el-tab-pane label="申请表">
-                        <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
-                    </el-tab-pane>
-                    <el-tab-pane label="审批表">
-                        <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
-                    </el-tab-pane>
-                    <el-tab-pane label="验收意见表">
-                        <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
-                    </el-tab-pane>
-                    <el-tab-pane label="批准书">
-                        <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
-                    </el-tab-pane>
-                    <el-tab-pane label="建设规划书">
-                        <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
-                    </el-tab-pane>
-                    <el-tab-pane label="附图">
-                        <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>
-                    </el-tab-pane>
-                </el-tabs>
-            </div>
+
             <!--一张图-->
             <el-col :span="12" v-show="showMap">
-               <oneMap></oneMap>
+                <div style="width: 570px;height:800px">
+                    <oneMap :disabled="true"></oneMap>
+                </div>
             </el-col>
         </el-row>
 
@@ -88,7 +91,7 @@
   import approvalForm from './approval-form'
   import FileTreeView from '../../../components/filetreeview.vue'
   import OneMap from '../../../../land/map/spatialData/onemap.vue'
-  import {LastProcess} from "../../../../../api/land.business"
+  // import {LastProcess} from "../../../../../api/land.business"
 
   export default {
     name: 'detail-page',
@@ -137,7 +140,7 @@
         showPrintView: false,
         rdpPrefix: process.env.VUE_APP_RDP_URL + '/rdppage/show/',
 
-        showMap: true,
+        showMap: false,
 
         active: 0,
       }
@@ -149,25 +152,25 @@
       firstXMZT() {
         return this.getDictByOptCode("项目状态", 1)
       },
-      currentSqid(){
+      currentSqid() {
         return this.processInfo ? this.processInfo.sqid : 'xx'
       },
-      iframeSrc1(){
+      iframeSrc1() {
         return `${this.rdpPrefix}fa74c31f2cab38dd6f58e1ac6ca13992?sqid=${this.currentSqid}`
       },
-      iframeSrc2(){
+      iframeSrc2() {
         return `${this.rdpPrefix}d382fe82b5dee5793ab0421bcb481998?sqid=${this.currentSqid}`
       },
-      iframeSrc3(){
+      iframeSrc3() {
         return `${this.rdpPrefix}eb5e0b7f30c3150ddaab238a5004b84b?sqid=${this.currentSqid}`
       },
-      iframeSrc4(){
+      iframeSrc4() {
         return `${this.rdpPrefix}e7a24623c37c4239db40a2a8421d0022?sqid=${this.currentSqid}`
       },
-      iframeSrc5(){
+      iframeSrc5() {
         return `${this.rdpPrefix}9278279b461a04ec55d648b84388e9f4?sqid=${this.currentSqid}`
       },
-      iframeSrc6(){
+      iframeSrc6() {
         return `${this.rdpPrefix}264a33447c53e7dccef2e01c476c90d9?sqid=${this.currentSqid}`
       },
 
@@ -177,11 +180,11 @@
        * iframe-宽高自适应显示
        */
       onloadIframe() {
-        for(let key in this.$refs){
-          let ref = this.$refs[key];
+        for (let key in this.$refs) {
+          let ref = this.$refs[key]
           // ref.style.width = (Number(800)) + 'px'
           ref.style.height = (Number(1100) - 60) + 'px'
-          console.log(ref.style.width, ref.style.height)
+          //console.log(ref.style.width, ref.style.height)
           /**
            * 跨域问题
            */
@@ -194,7 +197,7 @@
                 console.log(ref.height)
               }
             }*/
-          } catch (err){
+          } catch (err) {
             console.error('跨域报错')
           }
 
@@ -268,34 +271,41 @@
         })
       },
       handleShowForm() {
-        let flag = this.showForm
-        let mapFlag = this.showMap
         this.showFlag(false)
-        this.showMap = mapFlag
-        this.showForm = flag ? false : true
+        this.showForm = true;
+        // let flag = this.showForm
+        // let mapFlag = this.showMap
+        // this.showFlag(false)
+        // this.showMap = mapFlag
+        // this.showForm = flag ? false : true
       },
       handleShowFileView() {
-        let flag = this.showFileView
         this.showFlag(false)
-        this.showFileView = flag ? false : true
+        this.showFileView = true;
+        // let flag = this.showFileView
+        // this.showFlag(false)
+        // this.showFileView = flag ? false : true
       },
       handleShowPrintView() {
-        let flag = this.showPrintView
         this.showFlag(false)
-        this.showPrintView = flag ? false : true
+        this.showPrintView = true;
+        // let flag = this.showPrintView
+        // this.showFlag(false)
+        // this.showPrintView = flag ? false : true
       },
       showFlag(flag) {
         this.showForm = flag
         this.showFileView = flag
         this.showPrintView = flag
-        this.showMap = flag
+        // this.showMap = flag
       },
       handleShowMap() {
-        let flag = this.showMap
-        let formFlag = this.showForm
-        this.showFlag(false)
-        this.showForm = formFlag
-        this.showMap = flag ? false : true
+        this.showMap = this.showMap ? false : true
+        // let flag = this.showMap
+        // let formFlag = this.showForm
+        // this.showFlag(false)
+        // this.showForm = formFlag
+        // this.showMap = flag ? false : true
       },
       getLastXMZT() {
         let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
