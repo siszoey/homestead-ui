@@ -17,7 +17,7 @@ export default function (iotHeader) {
       {
         path: 'business',
         name: `${pre}business`,
-        component: _import(''),
+        component: _import('land/components/blankrouterview.vue'),
         meta: {
           ...meta,
           title: '业务办理'
