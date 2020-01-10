@@ -40,7 +40,7 @@
                     <el-tab-pane label="审批表" v-if="detail">
                         <approvalForm :disabled="approvalFormDisabled" :detail="detail"></approvalForm>
                     </el-tab-pane>
-                    <el-tab-pane label="验收表" v-if="detail">
+                    <el-tab-pane label="验收意见表" v-if="detail">
                         <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"></appceptanceForm>
                     </el-tab-pane>
                 </el-tabs>
@@ -49,7 +49,27 @@
             <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
             <!--打印-->
             <div v-bind="$attrs" v-show="showPrintView">
-                <iframe ref="refIframe" :src="src" frameborder="0" scrolling="auto" id="myIframe"></iframe>
+<!--                <iframe ref="refIframe" :src="src" frameborder="0" scrolling="auto" id="myIframe"></iframe>-->
+                <el-tabs tab-position="top">
+                    <el-tab-pane label="申请表">
+                        <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
+                    </el-tab-pane>
+                    <el-tab-pane label="审批表">
+                        <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
+                    </el-tab-pane>
+                    <el-tab-pane label="验收意见表">
+                        <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
+                    </el-tab-pane>
+                    <el-tab-pane label="批准书">
+                        <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
+                    </el-tab-pane>
+                    <el-tab-pane label="建设规划书">
+                        <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
+                    </el-tab-pane>
+                    <el-tab-pane label="附图">
+                        <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>
+                    </el-tab-pane>
+                </el-tabs>
             </div>
             <!--一张图-->
             <el-col :span="12" v-show="showMap">
@@ -107,11 +127,14 @@
         hadBack: false,
 
         showForm: true,
+
         showFileView: false,
         xmbh: '',
         stage: '',
+
         showPrintView: false,
-        src: 'http://www.baidu.com',
+        rdpPrefix: process.env.VUE_APP_RDP_URL + '/rdppage/show/',
+
         showMap: false,
 
         active: 0,
@@ -123,28 +146,59 @@
     computed: {
       firstXMZT() {
         return this.getDictByOptCode("项目状态", 1)
-      }
+      },
+      currentSqid(){
+        return this.processInfo ? this.processInfo.sqid : 'xx'
+      },
+      iframeSrc1(){
+        return `${this.rdpPrefix}fa74c31f2cab38dd6f58e1ac6ca13992?sqid=${this.currentSqid}`
+      },
+      iframeSrc2(){
+        return `${this.rdpPrefix}d382fe82b5dee5793ab0421bcb481998?sqid=${this.currentSqid}`
+      },
+      iframeSrc3(){
+        return `${this.rdpPrefix}eb5e0b7f30c3150ddaab238a5004b84b?sqid=${this.currentSqid}`
+      },
+      iframeSrc4(){
+        return `${this.rdpPrefix}e7a24623c37c4239db40a2a8421d0022?sqid=${this.currentSqid}`
+      },
+      iframeSrc5(){
+        return `${this.rdpPrefix}9278279b461a04ec55d648b84388e9f4?sqid=${this.currentSqid}`
+      },
+      iframeSrc6(){
+        return `${this.rdpPrefix}264a33447c53e7dccef2e01c476c90d9?sqid=${this.currentSqid}`
+      },
+
     },
     methods: {
       /**
        * iframe-宽高自适应显示
        */
       onloadIframe() {
-        let myIframe = this.$refs.refIframe
-        // myIframe.style.width = (Number(800)) + 'px'
-        myIframe.style.height = (Number(800) - 60) + 'px'
-        console.log(myIframe.style.width, myIframe.style.height)
-        /**
-         * 跨域问题
-         */
-        /*if (myIframe) {
-          let iframeWin = myIframe.contentWindow || myIframe.contentDocument.parentWindow
-          if (iframeWin.document.body) {
+        for(let key in this.$refs){
+          let ref = this.$refs[key];
+          debugger
+          // ref.style.width = (Number(800)) + 'px'
+          ref.style.height = (Number(1100) - 60) + 'px'
+          console.log(ref.style.width, ref.style.height)
+          /**
+           * 跨域问题
+           */
+          try {
+            /*if (ref) {
+              let iframeWin = ref.contentWindow || ref.contentDocument.parentWindow
+              if (iframeWin.document.body) {
 
-            myIframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight
-            console.log(myIframe.height)
+                ref.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight
+                console.log(ref.height)
+              }
+            }*/
+          } catch (err){
+            console.error('跨域报错')
           }
-        }*/
+
+        }
+
       },
       handleSend() {
         if (this.hadSend) {

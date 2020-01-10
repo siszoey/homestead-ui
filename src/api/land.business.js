@@ -19,22 +19,11 @@ export function ApplicationForm(data) {
  * 项目列表
  * @param data
  */
-export function PageData(pageNum, pageSize, stageParam, queryForm) {
-  if(queryForm.sqsj && queryForm.sqsj.length > 0){
-    let start_sqrrq = queryForm.sqsj[0]
-    let end_sqrrq = queryForm.sqsj[1]
-    queryForm['start_sqrrq'] =start_sqrrq
-    queryForm['end_sqrrq'] =end_sqrrq
-    delete queryForm.sqsj
-  }
-
+export function PageData(params) {
   return request({
     url: prefix + '/apply/form/list',
     method: 'get',
-    params: Object.assign({
-      pageNum,
-      pageSize,
-    }, stageParam, queryForm)
+    params
   })
 }
 
@@ -52,7 +41,7 @@ export function ApproalProcess(data) {
 
 /**
  * 获取最新项目状态
- * @param data
+ * @param sqid
  */
 export function LastProcess(sqid) {
   return request({
@@ -61,3 +50,13 @@ export function LastProcess(sqid) {
   })
 }
 
+/**
+ * 删除记录
+ * @param sqid
+ */
+export function DeleteProcess(sqid) {
+  return request({
+    url: prefix + `/apply/form/delete/${sqid}`,
+    method: 'delete',
+  })
+}
