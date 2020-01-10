@@ -17,7 +17,7 @@
         </div>
         <div class="page-login--content-main" flex="dir:top main:center cross:center">
           <div class="cardBody">
-            <div class="cardDiv" @click="JumpPage('/land/map/leaderCockpit/index')">
+            <div class="cardDiv" @click="JumpPage('/index')">
               <img src="./image/oneMap.png" width="88px" height="63px" />
               <span>宅基地一张图</span>
             </div>
