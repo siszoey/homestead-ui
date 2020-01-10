@@ -1,5 +1,5 @@
 <template>
-    <d2-container>
+    <d2-container v-loading="pageLoading">
         <el-steps :active="active" finish-status="success" align-center>
             <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
         </el-steps>
@@ -30,7 +30,7 @@
             </el-col>
         </el-row>
 
-        <el-row>
+        <el-row :gutter="5">
             <!--表单-->
             <el-col :span="showMap ? 12 : 24">
                 <el-tabs tab-position="left" v-show="showForm">
@@ -90,17 +90,17 @@
   import appceptanceForm from './appceptance-form'
   import approvalForm from './approval-form'
   import FileTreeView from '../../../components/filetreeview.vue'
-  import OneMap from '../../../../land/map/spatialData/onemap.vue'
+  // import OneMap from '../../../../land/map/spatialData/onemap.vue'
   // import {LastProcess} from "../../../../../api/land.business"
 
   export default {
     name: 'detail-page',
     components: {
       applicationForm,
-      approvalForm,
-      appceptanceForm,
-      FileTreeView,
-      OneMap
+      approvalForm: ()=> import('./approval-form'),
+      appceptanceForm: ()=> import('./appceptance-form'),
+      FileTreeView: ()=> import('../../../components/filetreeview.vue'),
+      OneMap: ()=> import('../../../../land/map/spatialData/onemap.vue')
     },
     mixins: [
       dictMixins,
@@ -117,6 +117,10 @@
         this.sendBtnDisabled = false
       }
       this.getLastXMZT()
+      let that = this;
+      setTimeout(function () {
+        that.pageLoading = false
+      }, 2000)
     },
     data() {
       return {
@@ -140,9 +144,10 @@
         showPrintView: false,
         rdpPrefix: process.env.VUE_APP_RDP_URL + '/rdppage/show/',
 
-        showMap: false,
+        showMap: true,
 
         active: 0,
+        pageLoading: true
       }
     },
     mounted() {

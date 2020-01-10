@@ -5,7 +5,7 @@
                 :model="queryForm"
                 ref="queryForm"
                 size="mini"
-                style="margin-bottom: -25px; padding: 0 20px">
+                style="margin-bottom: -25px;">
             <el-form-item label="申请类型">
                 <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
