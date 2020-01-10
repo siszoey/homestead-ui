@@ -24,6 +24,8 @@ export default {
     header: [],
     // 侧栏菜单
     aside: [],
+    // 所有菜单
+    allMenus: [],
     // 侧边栏收缩
     asideCollapse: setting.menu.asideCollapse
   },
@@ -103,6 +105,9 @@ export default {
     asideSet (state, menu) {
       // store 赋值
       state.aside = supplementMenuPath(menu)
+    },
+    allMenusSet (state, menus) {
+      state.allMenus = supplementMenuPath(menus)
     }
   }
 }

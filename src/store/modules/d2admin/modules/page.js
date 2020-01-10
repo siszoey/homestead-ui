@@ -15,9 +15,11 @@ export default {
     // 已经加载多标签页数据 https://github.com/d2-projects/d2-admin/issues/201
     openedLoaded: false,
     // 当前页面
-    current: '',
+    f: '',
     // 需要缓存的页面 name
-    keepAlive: []
+    keepAlive: [],
+    // 当前页面铺满header下面
+    fullMainZone: false
   },
   actions: {
     /**
@@ -414,6 +416,15 @@ export default {
       }
       push(routes)
       state.pool = pool
+    },
+    /**
+     * @class fullMainZone
+     * @description 修改 fullMainZone 是否铺满整个header下方区域（不显示左侧菜单与面包屑导航或tabs）
+     * @param {Object} state state
+     * @param {Array} val fullMainZone
+     */
+    fullMainZoneSet (state, val) {
+      state.fullMainZone = val
     }
   }
 }
