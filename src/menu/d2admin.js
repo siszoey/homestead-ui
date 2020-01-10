@@ -81,15 +81,15 @@ const system = {
         path: `${pre}/supervise`,
         title: '监督处置',
         children: (pre => [
-            { path: `${pre}/dailyInspection`, title: '日常巡查' }
+            { path: `${pre}/dailyInspection`, title: '日常巡查处置' }
         ])('/land/integratedManagement/supervise')
     },
     ])('/land/integratedManagement')
 }
 
-
 // 菜单 侧栏
 export const menuAside = [
+    // home,
     map,
     examine,
     system
@@ -121,6 +121,10 @@ export const menuHeader = [
   {
     path: '/land/examine',
     title: '联合审批'
+  },
+  {
+    path: '/land/integratedManagement',
+    title: '综合监管'
   },
   {
     path: '/land/system',
