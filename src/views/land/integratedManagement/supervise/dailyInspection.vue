@@ -2,16 +2,16 @@
   <div>
     <div class="wrap-middle">
       <p class="header-title">日常巡查列表</p>
-      <el-row class="queryForm">
+      <el-row >
         <el-col>
-          <el-form :inline="true" :model="queryForm" ref="queryForm" size="mini">
+          <el-form :inline="true" size="mini">
 
             <el-form-item label="项目名称">
-              <el-input v-model="queryForm['xmmc']" placeholder="项目名称"></el-input>
+              <el-input v-model="xmmc" placeholder="项目名称"></el-input>
             </el-form-item>
-            <el-form-item label="监察人">
+            <!-- <el-form-item label="监察人">
               <el-input v-model="queryForm['jcr']" placeholder="监察人"></el-input>
-            </el-form-item>
+            </el-form-item> -->
 
             <div style="float: right">
               <el-form-item>
@@ -28,8 +28,6 @@
           <el-table
             :key="table.key"
             :data="table.list"
-            v-loading="table.listLoading"
-            element-loading-text="拼命加载中..."
             highlight-current-row
             border
             :header-cell-style="{background:'#F5F5F5',color:'#666666'}"
@@ -65,7 +63,7 @@
                     </el-table-column>
           </el-table>
           <!-- footer 分页条 -->
-          <el-pagination
+          <!-- <el-pagination
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -74,7 +72,7 @@
             layout="total, prev, pager, next, jumper"
             :total="table.total"
             style="margin-top:35px;text-align:center"
-          ></el-pagination>
+          ></el-pagination> -->
         </el-col>
       </el-row>
     </div>
@@ -82,55 +80,71 @@
 </template>
 
 <script>
-// import { getTableList } from "../../../../api/res.business";
+// import { getTableList } from "../../../../api/res.supervise";
 export default {
   name: "land-map-implementationProcess",
   data() {
     return {
       table: {
         key: 0,
-        listLoading: false,
+        //listLoading: false,
         list: [],
-        total: null,
-        current: 1,
-        size: 10,
+        //total: null,
+        // current: 1,
+        // size: 10,
         pages: null
       },
+      xmmc:"",
       //搜索权限
-      queryForm: {
-        xmmc: "",
-        jcr: ""      
-      }
+    //   queryForm: {
+    //     xmmc: "",
+    //     jcr: ""      
+    //   }
     };
   },
   mounted() {
-    //this.getTableData();
+    console.log(123);
+    this.getTableData();
   },
   methods: {
+      
     getTableData() {
-      this.table.listLoading = true;
-      getTableList(
-        this.queryForm,//查询条件
-        this.table.current,//当前页
-        this.table.size//每页数量       
-      )
-        .then(res => {
-          this.table.list = res.records;
-          this.table.total = res.total;
-        })
-        .catch(err => console.log(err))
-        .finally(() => {
-          this.table.listLoading = false;
+    let params = {
+        xmmc: this.xmmc
+        };    
+      var _this = this;
+      this.$axios
+        .get("http://rlcmr.weixin-api.dunnching.top/api/homestead/rcxc/rcxc_List", { params })
+        .then(res => (_this.table.list = res.data.AppendData))
+        .catch(function(error) {
+          // 请求失败处理
+          console.log(error);
         });
     },
-    handleSizeChange(pageSiz) {
-      this.table.size = pageSiz;
-      this.getTableData();
-    },
-    handleCurrentChange(current) {
-      this.table.current = current;
-      this.getTableData();
-    },
+    // getTableData() {
+    //   this.table.listLoading = true;
+    //   getTableList(
+    //     this.queryForm,//查询条件
+    //     this.table.current,//当前页
+    //     this.table.size//每页数量       
+    //   )
+    //     .then(res => {
+    //       this.table.list = res.records;
+    //       this.table.total = res.total;
+    //     })
+    //     .catch(err => console.log(err))
+    //     .finally(() => {
+    //       this.table.listLoading = false;
+    //     });
+    // },
+    // handleSizeChange(pageSiz) {
+    //   this.table.size = pageSiz;
+    //   this.getTableData();
+    // },
+    // handleCurrentChange(current) {
+    //   this.table.current = current;
+    //   this.getTableData();
+    // },
 
   }
 };
