@@ -4,7 +4,7 @@
 
     <div class="toolbarContainer">
       <div class="toolbar">
-        <div class="toolButton top">
+        <div class="toolButton top" title="切换图例显示" @click="show = !show">
           <img src="../assets/sldt.png" />
         </div>
         <div class="toolButton bottom highlight">
@@ -27,9 +27,6 @@
           <img src="../assets/sqgl.png" />
         </div>
         <div class="toolButton">
-          <img src="../assets/cad.png" />
-        </div>
-        <div class="toolButton">
           <img src="../assets/fpdb.png" />
         </div>
         <div class="toolButton bottom">
@@ -38,7 +35,7 @@
       </div>
     </div>
 
-    <div class="legendContainer">
+    <div class="legendContainer"  v-show="show">
       <div class="legendBox">
         <div class="title">图例</div>
         <div class="legendItem">
@@ -78,11 +75,12 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 export default {
-  name: "survey",
+  name: "land-map-spatialData-survey",
   data() {
     return {
       map: null,
-      layerOn: false
+      layerOn: false,
+      show:true
     };
   },
   components: {

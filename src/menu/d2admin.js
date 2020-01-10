@@ -14,10 +14,8 @@ const map = {
         title: '空间数据',
         children: (pre => [
             // { path: `${pre}/test`, title: 'DEMO' },
-            { path: `${pre}/survey`, title: '现状调查成果' },
-            { path: `${pre}/plan`, title: '村庄规划编制成果' },
-            { path: `${pre}/year`, title: '年度计划成果' },
-            { path: `${pre}/build`, title: '宅基地建设成果' },
+            { path: `${pre}/onemap`, title: '一张图' },
+            { path: `${pre}/mappanel`, title: '首页一张图' },
         ])('/land/map/spatialData')
     },
     {

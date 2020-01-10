@@ -17,6 +17,9 @@ module.exports = {
   // 根据你的实际情况更改这里
   publicPath,
   lintOnSave: true,
+  configureWebpack: {
+    devtool: 'source-map'
+  },
   devServer: {
     publicPath, // 和 publicPath 保持一致
     port: 8999,

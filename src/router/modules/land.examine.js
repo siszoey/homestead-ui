@@ -6,84 +6,100 @@ const meta = {auth: true}
 export default function (iotHeader) {
   return {
     path: '/land/examine',
+    name: 'land-examine',
+    meta: {
+      ...meta,
+      title: '联合审批'
+    },
     redirect: {name: 'land-examine-business-todo'},
     component: iotHeader,
     children: (pre => [
       {
-        path: 'business/todo',
-        name: `${pre}todo`,
-        component: _import('land/examine/business/todo.vue'),
+        path: 'business',
+        name: `${pre}business`,
+        component: _import('land/components/blankrouterview.vue'),
         meta: {
           ...meta,
-          title: '待办箱'
-        }
-      },
-      {
-        path: 'business/todo-create',
-        name: `${pre}todo-create`,
-        component: _import('land/examine/business/compoment/detail-page.vue'),
-        meta: {
-          ...meta,
-          title: '新建申报'
-        }
-      },
-      {
-        path: 'business/detail',
-        name: `${pre}detail`,
-        component: _import('land/examine/business/compoment/detail-page.vue'),
-        children: [
+          title: '业务办理'
+        },
+        children: (pre => [
           {
-            path: `application-form`,
-            name: `applicationForm`,
-            component: _import('land/examine/business/compoment/application-form.vue'),
-            props: true
+            path: 'todo',
+            name: `${pre}todo`,
+            component: _import('land/examine/business/todo.vue'),
+            meta: {
+              ...meta,
+              title: '待办箱'
+            }
           },
           {
-            path: `appceptance-form`,
-            name: `appceptanceForm`,
-            component: _import('land/examine/business/compoment/appceptance-form.vue'),
-            props: true,
+            path: 'todo-create',
+            name: `${pre}todo-create`,
+            component: _import('land/examine/business/compoment/detail-page.vue'),
+            meta: {
+              ...meta,
+              title: '新建申报'
+            }
           },
           {
-            path: 'approval-form',
-            name: `approvalForm`,
-            component: _import('land/examine/business/compoment/approval-form.vue'),
-            props: true
+            path: 'detail',
+            name: `${pre}detail`,
+            component: _import('land/examine/business/compoment/detail-page.vue'),
+            children: [
+              {
+                path: `application-form`,
+                name: `applicationForm`,
+                component: _import('land/examine/business/compoment/application-form.vue'),
+                props: true
+              },
+              {
+                path: `appceptance-form`,
+                name: `appceptanceForm`,
+                component: _import('land/examine/business/compoment/appceptance-form.vue'),
+                props: true,
+              },
+              {
+                path: 'approval-form',
+                name: `approvalForm`,
+                component: _import('land/examine/business/compoment/approval-form.vue'),
+                props: true
+              },
+              {
+                path: 'filetreeview',
+                name: `fileTreeView`,
+                component: _import('land/components/filetreeview.vue'),
+                props: true
+              }
+            ]
           },
           {
-            path: 'filetreeview',
-            name: `fileTreeView`,
-            component: _import('land/components/filetreeview.vue'),
-            props: true
-          }
-        ]
-      },
-      {
-        path: 'business/done',
-        name: `${pre}done`,
-        component: _import('land/examine/business/done.vue'),
-        meta: {
-          ...meta,
-          title: '已办箱'
-        }
-      },
-      {
-        path: 'business/rollback',
-        name: `${pre}rollback`,
-        component: _import('land/examine/business/rollback.vue'),
-        meta: {
-          ...meta,
-          title: '退件箱'
-        }
-      },
-      {
-        path: 'business/comprehensive',
-        name: `${pre}comprehensive`,
-        component: _import('land/examine/business/comprehensive.vue'),
-        meta: {
-          ...meta,
-          title: '综合管理'
-        }
+            path: 'done',
+            name: `${pre}done`,
+            component: _import('land/examine/business/done.vue'),
+            meta: {
+              ...meta,
+              title: '已办箱'
+            }
+          },
+          {
+            path: 'rollback',
+            name: `${pre}rollback`,
+            component: _import('land/examine/business/rollback.vue'),
+            meta: {
+              ...meta,
+              title: '退件箱'
+            }
+          },
+          {
+            path: 'comprehensive',
+            name: `${pre}comprehensive`,
+            component: _import('land/examine/business/comprehensive.vue'),
+            meta: {
+              ...meta,
+              title: '综合管理'
+            }
+          }    
+        ])('land-examine-business-')
       },
       {
         path: 'search',
@@ -103,6 +119,6 @@ export default function (iotHeader) {
           title: '统计分析'
         }
       }
-    ])('land-examine-'),
+    ])('land-examine-')
   }
 }

@@ -63,9 +63,10 @@
           <transition name="fade-scale">
             <div v-if="!searchActive" class="d2-theme-container-main-layer" flex="dir:top">
               <!-- tab -->
-              <!--<div class="d2-theme-container-main-header main-header" flex-box="0">
-                <d2-tabs/>
-              </div>-->
+              <div class="d2-theme-container-main-header main-header" flex-box="0">
+                <!-- <d2-tabs/> -->
+                <d2-breadcrumb/>
+              </div>
               <!-- 页面 -->
               <div class="d2-theme-container-main-body body" flex-box="1">
                 <transition :name="transitionActive ? 'fade-transverse' : ''">
@@ -94,6 +95,7 @@ import d2HeaderFullscreen from './components/header-fullscreen'
 import d2HeaderUser from './components/header-user'
 // import d2HeaderLog from './components/header-log'
 // import d2HeaderColor from './components/header-color'
+import d2Breadcrumb from './components/breadcrumb'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
 export default {
@@ -113,6 +115,7 @@ export default {
     d2HeaderUser,
     // d2HeaderLog,
     // d2HeaderColor
+    d2Breadcrumb
   },
   data () {
     return {
