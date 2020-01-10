@@ -200,7 +200,7 @@
 
       handleDetail(row) {
         this.$router.push({
-            name: 'land-examine-detail',
+            name: 'land-examine-business-detail',
             params: Object.assign({
               //申请表
               applicationFormDisabled: true,

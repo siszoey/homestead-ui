@@ -48,7 +48,7 @@
             <!--材料-->
             <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
             <!--打印-->
-            <div v-bind="$attrs" v-show="showPrintView">
+            <div v-bind="$attrs" v-if="showPrintView">
 <!--                <iframe ref="refIframe" :src="src" frameborder="0" scrolling="auto" id="myIframe"></iframe>-->
                 <el-tabs tab-position="top">
                     <el-tab-pane label="申请表">
