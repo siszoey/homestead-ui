@@ -9,6 +9,7 @@ import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
+import {defaults as defaultControls, Control} from 'ol/control';
 
 
 //访问天地图网站的序号
@@ -105,6 +106,8 @@ function BaseInitMap(div) {
         div = "map";
     var map = new Map({
         target: div,
+        controls: defaultControls({zoom: false}),
+        attribution: false,
         layers: [
         ],
         view: new View({
