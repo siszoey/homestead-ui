@@ -625,12 +625,12 @@ export default {
   /* margin-top: 2.8%; */
 }
 
-.select-item-year input {
+.select-item-year {
   height: 35px !important;
   width: 100px !important;
   /* margin-top: 5%; */
 }
-.select-item-xzq input {
+.select-item-xzq {
   height: 35px !important;
   width:160px;
   /* margin-top: 2.5%; */

@@ -637,11 +637,11 @@ export default {
   /* margin-left: 1.8rem; */
 }
 
-.select-item-year input {
+.select-item-year {
   height: 35px !important;
   width: 100px !important;
 }
-.select-item-xzq input {
+.select-item-xzq {
   width:160px;
   height: 35px !important;
 }
