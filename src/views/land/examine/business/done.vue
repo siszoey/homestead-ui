@@ -205,12 +205,15 @@
         this.$router.push({
             name: 'land-examine-detail',
             params: Object.assign({
-              sqlx: 0,
-              sqid: 'xx',
+              //申请表
               applicationFormDisabled: true,
-              appceptanceFormDisabled: true,
+              //审批表
+              appceptanceFormDisabled: true,//this.info.role.includes(''),
+              //验收表
               approvalFormDisabled: true,
-              detail: row
+              detail: row,
+
+              box: '已办'
             })
           }
         )
