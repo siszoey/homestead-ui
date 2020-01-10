@@ -61,6 +61,13 @@
                             <span>{{scope.row.wfsy}}</span>
                         </template>
                     </el-table-column>
+                        <el-table-column fixed="right" align="center" label="操作" width="300">
+                        <template slot-scope="scope">
+                            <el-button size="mini" type="primary" @click="handleUpdate(scope.row)"
+                                       icon="el-icon-edit">查看详情
+                            </el-button>
+                        </template>
+                    </el-table-column>
           </el-table>
           <!-- footer 分页条 -->
           <!-- <el-pagination
@@ -73,6 +80,47 @@
             :total="table.total"
             style="margin-top:35px;text-align:center"
           ></el-pagination> -->
+
+              <!-- 详情弹框 -->
+          <el-dialog title="日常巡查详情信息" :visible.sync="editFormVisible" top="5vh">
+              <el-form :model="editForm" label-width="80px" ref="editForm">
+                <el-form-item label="项目名称" prop="xmmc">
+                  <el-input v-model="editForm.xmmc" auto-complete="off" readonly></el-input>
+                </el-form-item>
+                 <el-form-item label="违法地址" prop="wfdz">
+                  <el-input v-model="editForm.wfdz" auto-complete="off" readonly></el-input>
+                </el-form-item>
+                <el-form-item label="监察人" prop="jcr">
+                  <el-input v-model="editForm.jcr" auto-complete="off" readonly></el-input>
+                </el-form-item>
+                <el-form-item label="监察时间" prop="jcsj">
+                  <el-input v-model="editForm.jcsj" auto-complete="off" readonly></el-input>
+                </el-form-item>
+                <el-form-item label="违法事由" prop="wfsy">
+                  <el-input v-model="editForm.wfsy" auto-complete="off" readonly></el-input>
+                </el-form-item>
+                  <el-form-item label="创建时间" prop="createdtime">
+                  <el-input v-model="editForm.createdtime" auto-complete="off" readonly></el-input>
+                </el-form-item>
+                  <el-form-item label="创建人" prop="createdby">
+                  <el-input v-model="editForm.createdby" auto-complete="off" readonly></el-input>
+                </el-form-item>
+                <el-form-item label="备注" prop="bz">
+                  <el-input v-model="editForm.bz" auto-complete="off" readonly></el-input>
+                </el-form-item>
+                <el-form-item label="附件" prop="wjlj">
+                  <!-- <el-input v-model="editForm.wjlj" auto-complete="off" ></el-input>   -->
+                  <ul>
+                      <li v-for="item in editForm.wjlj">
+                          <img src="require(`域名/item.WJLJ`)" />
+                      </li>
+                  </ul>
+                </el-form-item>                        
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click.native="editFormVisible = false">确定</el-button>
+              </div>
+          </el-dialog>
         </el-col>
       </el-row>
     </div>
@@ -80,7 +128,6 @@
 </template>
 
 <script>
-// import { getTableList } from "../../../../api/res.supervise";
 export default {
   name: "land-map-implementationProcess",
   data() {
@@ -94,20 +141,34 @@ export default {
         // size: 10,
         pages: null
       },
+      readonly: true,
       xmmc:"",
       //搜索权限
     //   queryForm: {
     //     xmmc: "",
     //     jcr: ""      
     //   }
+     editFormVisible: false,//详情界面是否显示
+     //详情界面数据
+			editForm: {
+				xmmc: '',
+        wfdz: '',
+        jcr:'',
+        jcsj:'',
+        wfsy:'',
+        createdtime:'',
+        createdby:'',
+        bz:'',
+        wjlj:''
+			},
     };
   },
   mounted() {
     console.log(123);
     this.getTableData();
   },
-  methods: {
-      
+  methods: {      
+    //获取列表数据
     getTableData() {
     let params = {
         xmmc: this.xmmc
@@ -121,6 +182,35 @@ export default {
           console.log(error);
         });
     },
+    //详情
+    handleUpdate(row) {
+       let params = {
+        id: row.INTERNALID
+        };    
+      this.$axios
+        .get("http://rlcmr.weixin-api.dunnching.top/api/homestead/rcxc/rcxc_detail", { params })
+        .then(res => {
+          const obj={};
+          obj.xmmc= res.data.AppendData.xmmc;
+          obj.wfdz= res.data.AppendData.wfdz;
+          obj.jcr= res.data.AppendData.jcr;
+          obj.jcsj=res.data.AppendData.jcsj;
+          obj.wfsy=res.data.AppendData.wfsy;
+          obj.createdtime=res.data.AppendData.createdtime;
+          obj.createdby=res.data.AppendData.createdby;
+          obj.bz=res.data.AppendData.bz;
+          obj.wjlj=res.data.AppendData.wjlj;
+          this.editFormVisible = true;
+          this.editForm = Object.assign({},obj);
+        })
+
+        .catch(function(error) {
+          // 请求失败处理
+          console.log(error);
+        });
+
+      },
+
     // getTableData() {
     //   this.table.listLoading = true;
     //   getTableList(
