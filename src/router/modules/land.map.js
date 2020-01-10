@@ -11,50 +11,23 @@ export default function(iotHeader) {
         redirect: { name: 'land-map-spatialData-survey' },
         component: iotHeader,
         children: (pre => [{
-                path: 'spatialData/survey',
-                name: `${pre}survey`,
-                component: _import('land/map/spatialData/survey.vue'),
+                path: 'spatialData/mappanel',
+                name: `${pre}mappanel`,
+                component: _import('land/map/spatialData/mappanel.vue'),
                 meta: {
                     ...meta,
                     ismap: true,
-                    title: '现状调查成果'
+                    title: '首页一张图'
                 }
             },
             {
-                path: 'spatialData/test',
-                name: `${pre}test`,
-                component: _import('land/map/spatialData/test.vue'),
+                path: 'spatialData/onemap',
+                name: `${pre}onemap`,
+                component: _import('land/map/spatialData/onemap.vue'),
                 meta: {
                     ...meta,
                     ismap: true,
-                    title: 'DEMO页面'
-                }
-            },
-            {
-                path: 'spatialData/plan',
-                name: `${pre}plan`,
-                component: _import('land/map/spatialData/plan.vue'),
-                meta: {
-                    ...meta,
-                    title: '国土空间规划'
-                }
-            },
-            {
-                path: 'spatialData/year',
-                name: `${pre}year`,
-                component: _import('land/map/spatialData/year.vue'),
-                meta: {
-                    ...meta,
-                    title: '村庄规划'
-                }
-            },
-            {
-                path: 'spatialData/build',
-                name: `${pre}build`,
-                component: _import('land/map/spatialData/build.vue'),
-                meta: {
-                    ...meta,
-                    title: '农房建设分布'
+                    title: '一张图'
                 }
             },
             {
