@@ -7,7 +7,10 @@ export default function (iotHeader) {
   return {
     path: '/land/system',
     name: 'land-system',
-    meta,
+    meta:{
+      ...meta,
+      title: '系统设置'
+    },
     redirect: { name: 'land-system-fileConfig' },
     component: iotHeader,
     children: (pre => [
