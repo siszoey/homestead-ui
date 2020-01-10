@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="wrap-top">
-      <p class="header-title">项目审批进度选择</p>
+      <p class="header-title">项目审批进度</p>
       <el-row :gutter="20" class="progress-box">
         <el-col :span="progressWidth" v-for="(progress,index) in progressList" :key="index">
           <div class="grid-content">
@@ -182,7 +182,38 @@ export default {
       },
       barChartDatas: [],
       pieChartDatas: [],
-      progressList: [],
+      progressList: [
+        {
+          auditNum: 1200,
+          auditPercent: "46",
+          auditType: "原址新建"
+        },
+        {
+          auditNum: 586,
+          auditPercent: "30",
+          auditType: "改建"
+        },
+        {
+          auditNum: 500,
+          auditPercent: "22",
+          auditType: "扩建"
+        },
+        {
+          auditNum: 235,
+          auditPercent: "10",
+          auditType: "异址新建"
+        },
+        {
+          auditNum: 144,
+          auditPercent: "5",
+          auditType: "宅基地流转"
+        },
+        {
+          auditNum: 56,
+          auditPercent: "2",
+          auditType: "宅基地退出"
+        }
+      ],
       progressColor: [
         "#7ECBFC",
         "#3D96F4",
@@ -262,15 +293,17 @@ export default {
     //页面头部的审核进度
     getProgressData() {
       //访问api得到的数据
-      GetAuditProgress()
-        .then(res => {
-          this.progressList = res;
-          this.progressWidth = 24 / this.progressList.length;
-        })
-        .catch(err => console.log(err))
-        .finally(() => {
-          this.table.listLoading = false;
-        });
+      // GetAuditProgress()
+      //   .then(res => {
+      //     this.progressList = res;
+      //     this.progressWidth = 24 / this.progressList.length;
+      //   })
+      //   .catch(err => console.log(err))
+      //   .finally(() => {
+      //     this.table.listLoading = false;
+      //   });
+      //自己模拟数据
+      this.progressWidth = 24 / this.progressList.length;
     },
     handleSizeChange(size) {
       this.table.size = size;
