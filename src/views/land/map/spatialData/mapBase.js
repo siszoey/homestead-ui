@@ -9,7 +9,7 @@ import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
-
+import {defaults} from "ol/control"
 
 //访问天地图网站的序号
 var siteindex = Math.round(Math.random() * 7);
@@ -109,8 +109,9 @@ function BaseInitMap(div) {
         ],
         view: new View({
             center: [0, 0],
-            zoom: 10
-        })
+            zoom: 7
+        }),
+        controls: defaults({ attribution: false, zoom: false, rotate: false })
     });
     //$('#' + div).css("background-color", "#00161F");
     return map;
@@ -349,14 +350,17 @@ function BaseAddTruePoints(map, color) {
 }
 
 
-function BaseChangeRegionVector(map, xzqhdm, currentRegionLayer) {
+function BaseChangeRegionVector(map, xzqhdm, currentRegionLayer, onLoaded) {
     map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
 
     currentRegionLayer.getSource().on('change', function (evt) {
         var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
         if (source.getState() === 'ready') {
-            map.values_.view.fit(source.getExtent());//自动缩放
+           map.values_.view.fit(source.getExtent());//自动缩放
+           if(onLoaded){
+              onLoaded()
+           }
         }
     });
     map.addLayer(currentRegionLayer);//加载图层

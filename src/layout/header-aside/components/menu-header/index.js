@@ -20,7 +20,7 @@ export default {
       }, [
         createElement('div', {
           attrs: { class: 'd2-theme-header-menu__scroll', 'flex-box': '0' },
-          style: { transform: `translateX(${this.currentTranslateX}px)` },
+          style: { transform: `translateX(${this.currentTranslateX}px)`, width: '100%', display: 'flex', justifyContent: 'center' },
           ref: 'scroll'
         }, [
           createElement('el-menu', {
