@@ -114,7 +114,7 @@ function BaseInitMap(div) {
             center: [0, 0],
             zoom: 7
         }),
-        controls: defaults({ attribution: false, zoom: false, rotate: false })
+        //controls: defaults({ attribution: false, zoom: false, rotate: false })
     });
     //$('#' + div).css("background-color", "#00161F");
     return map;
