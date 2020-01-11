@@ -1,35 +1,35 @@
 <template>
-  <div id="app">
+  <div id="app" style="width:97%;height:96%">
     <div class="left-side">
-      <label class="year-column-r">年份</label>
-      <el-select
-        v-model="year"
-        style="position:absolute;z-index:9999999;left:45px;"
-        class="select-item-year"
-      >
-        <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
-      </el-select>
-      <label class="xzq-column-r">行政区</label>
-      <el-select
-        v-model="city"
-        style="position:absolute;z-index:9999999;left:234px;width: 2rem !important;"
-        class="select-item-xzq"
-        v-on:change="changeCity(city)"
-      >
-        <el-option
-          v-for="item in cities"
-          :key="item.id"
-          :label="item.properties.name"
-          :value="item.id"
-        ></el-option>
-      </el-select>
       <!-- <hr /> -->
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span class="card-title">各县市用地情况统计排行</span>
         </div>
         <div class="text item">
-        <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <label class="year-column-r">年份</label>
+          <el-select
+            v-model="year"
+            class="select-item-year"
+          >
+            <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
+          <label class="xzq-column-r">行政区</label>
+          <el-select
+            v-model="city"
+            class="select-item-xzq"
+            v-on:change="changeCity(city)"
+          >
+            <el-option
+              v-for="item in cities"
+              :key="item.id"
+              :label="item.properties.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </div>
+        <div class="text item">
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
           <span class="demonstration">龙华区（平方米）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
@@ -45,11 +45,11 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="90" style="width:417px"></el-progress>
-          <el-progress :percentage="33" color="#FFBB3B" style="width:417px"></el-progress>
+          <el-progress :percentage="90"></el-progress>
+          <el-progress :percentage="33" color="#FFBB3B"></el-progress>
         </div>
         <div class="text item">
-        <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
           <span class="demonstration">美兰区（平方米）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
@@ -65,11 +65,11 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="33" style="width:417px"></el-progress>
-          <el-progress :percentage="56" color="#FFBB3B" style="width:417px"></el-progress>
+          <el-progress :percentage="33"></el-progress>
+          <el-progress :percentage="56" color="#FFBB3B"></el-progress>
         </div>
         <div class="text item">
-        <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
           <span class="demonstration">琼山区（平方米）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
@@ -85,11 +85,11 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="55" style="width:417px"></el-progress>
-          <el-progress :percentage="23" color="#FFBB3B" style="width:417px"></el-progress>
+          <el-progress :percentage="55"></el-progress>
+          <el-progress :percentage="23" color="#FFBB3B"></el-progress>
         </div>
         <div class="text item">
-        <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
           <span class="demonstration">秀英区（平方米）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
@@ -105,11 +105,11 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="76" style="width:417px"></el-progress>
-          <el-progress :percentage="32" color="#FFBB3B" style="width:417px"></el-progress>
+          <el-progress :percentage="76"></el-progress>
+          <el-progress :percentage="32" color="#FFBB3B"></el-progress>
         </div>
         <div class="text item">
-        <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
           <span class="demonstration">琼山区（平方米）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
@@ -125,16 +125,18 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="59" style="width:417px"></el-progress>
-          <el-progress :percentage="38" color="#FFBB3B" style="width:417px"></el-progress>
+          <el-progress :percentage="59"></el-progress>
+          <el-progress :percentage="38" color="#FFBB3B"></el-progress>
+        </div>
+        <div class="text item" style="visibility: collapse;">
+          <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+            <el-table-column prop="xzq" label="行政区"></el-table-column>
+            <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
+            <el-table-column prop="xzyd" label="闲置用地"></el-table-column>
+            <el-table-column prop="phyd" label="盘活用地"></el-table-column>
+          </el-table>
         </div>
       </el-card>
-      <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-        <el-table-column prop="xzq" label="行政区"></el-table-column>
-        <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
-        <el-table-column prop="xzyd" label="闲置用地"></el-table-column>
-        <el-table-column prop="phyd" label="盘活用地"></el-table-column>
-      </el-table>
     </div>
     <div id="maprevitalizeuse" class="mapDiv"></div>
     <timeline></timeline>
@@ -338,7 +340,7 @@ export default {
   mounted() {
     var currentRegionLayer;
     var xzqhdm = "469005115201";
-    this.map = BaseMap.BaseInitMap("mapillgalhouse");
+    this.map = BaseMap.BaseInitMap("maprevitalizeuse");
     this.map.addLayer(BaseMap.img_wLayer);
 
     currentRegionLayer = BaseMap.BaseChangeRegionVector(
@@ -602,7 +604,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-table .warning-row {
   background: oldlace;
 }
@@ -655,47 +657,46 @@ export default {
 
 .box-card {
   width: 99.5%;
-  margin-top: 11%;
+  height: 99.5%;
+  /* margin-top: 11%; */
   background-color: #f7f7f7d1;
-}
-hr {
-  margin-top: 11%;
 }
 .left-side {
   position: absolute;
   z-index: 99;
-  width: 33.5%;
-  height: 98%;
+  width: 25%;
+  height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
-  margin-top: -0.1rem;
+  /* margin-top: -0.1rem; */
 }
 .year-column-r {
-  position: absolute;
+  /* position: absolute; */
   z-index: 9999999;
   font-size: 16px;
   color: #303133;
   margin: 7px;
-  margin-top: 2.8%;
+  /* margin-top: 2.8%; */
 }
 .xzq-column-r {
-  position: absolute;
+  /* position: absolute; */
   z-index: 9999999;
   font-size: 16px;
   color: #303133;
   margin: 7px;
-  margin-left: 1.8rem;
-  margin-top: 2.8%;
+  /* margin-left: 1.8rem; */
+  /* margin-top: 2.8%; */
 }
 
-.select-item-year input {
+.select-item-year {
   height: 35px !important;
   width: 100px !important;
-  margin-top: 5%;
+  /* margin-top: 5%; */
 }
-.select-item-xzq input {
+.select-item-xzq {
   height: 35px !important;
-  margin-top: 2.5%;
+  width:160px;
+  /* margin-top: 2.5%; */
 }
 .o-echarts {
   min-width: 30px;
@@ -703,5 +704,15 @@ hr {
   width: 100%;
   height: 100%;
   margin-top: -10px;
+}
+.mapDiv {
+  height: 100%;
+  padding: 0px;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
 }
 </style>

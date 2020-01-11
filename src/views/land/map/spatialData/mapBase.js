@@ -9,7 +9,8 @@ import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
-import {defaults} from "ol/control"
+import {defaults as defaultControls, Control} from 'ol/control';
+
 
 //访问天地图网站的序号
 var siteindex = Math.round(Math.random() * 7);
@@ -105,13 +106,15 @@ function BaseInitMap(div) {
         div = "map";
     var map = new Map({
         target: div,
+        controls: defaultControls({zoom: false}),
+        attribution: false,
         layers: [
         ],
         view: new View({
             center: [0, 0],
             zoom: 7
         }),
-        controls: defaults({ attribution: false, zoom: false, rotate: false })
+        //controls: defaults({ attribution: false, zoom: false, rotate: false })
     });
     //$('#' + div).css("background-color", "#00161F");
     return map;
