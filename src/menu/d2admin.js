@@ -126,6 +126,11 @@ export const menuHeader = [
     path: '/land/integratedManagement',
     title: '综合监管'
   },
+
+  {
+    path: '/land/system',
+    title: '盘活利用'
+  },
   {
     path: '/land/system',
     title: '系统设置'
