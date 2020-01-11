@@ -122,14 +122,13 @@
 </template>
 
 <script>
-import dictMixnis from "../../mixnis/dict-mixnis"
+
 import { getTableList,GetPieChartDatas,GetBarChartDatas } from "../../../../api/res.business";
+import dictMixnis from "../../mixnis/dict-mixnis"
 import { color } from "echarts/lib/export";
 export default {
   name: "land-map-implementationProcess",
-  mixins: [
-      dictMixnis
-  ],
+  mixins: [ dictMixnis],
   data() {
     return {
       table: {
@@ -141,9 +140,10 @@ export default {
         size: 10,
         pages: null
       },
-    
-          //柱状图数据显示
-          barDatas:[
+      //饼状图数据显示
+      pieChartDatas:[],
+      //柱状图数据显示
+      barChartDatas:[
             {
               sqnf: "",
               number: 28,
@@ -159,12 +159,7 @@ export default {
               ]
             }
         ],
-        //饼状图数据显示
-         pieChartDatas:[
-            {zjdmj:'', xmjd:'项目申报'},
-            {zjdmj:'', xmjd:'联合审批'},
-            {zjdmj:'', xmjd:'综合验收'}
-          ],
+
       //搜索权限
       queryForm: {
         sqid: "",
@@ -189,9 +184,28 @@ export default {
   },
   methods: {
     getChartData() {
-      this.InitChart();
-      this.IniPieChart();
+      //柱状图请求方法
+      GetBarChartDatas()
+        .then(res => {
+          this.barChartDatas = res;
+          this.InitChart();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.table.listLoading = false;
+        });
+      //饼状图请求方法
+      GetPieChartDatas()
+        .then(res => {
+          this.pieChartDatas = res;
+          this.IniPieChart();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.table.listLoading = false;
+        });
     },
+    //获取表格数据
     getTableData() {
       this.table.listLoading = true;
       getTableList(
@@ -218,11 +232,9 @@ export default {
     },
     //柱状统计图
     InitChart() {
-      GetBarChartDatas().then((res) =>
-      {  
-      const _dataList = res;
+      const _dataList = this.barChartDatas;
       this.barChart = this.$echarts.init(this.$refs.barMain);
-      if (_dataList != null) {
+      if (_dataList.length > 0) {
         const serieSqs = {
           name: "申请数",
           type: "bar",
@@ -283,14 +295,11 @@ export default {
         // 使用刚指定的配置项和数据显示图表。
         this.barChart.setOption(option);
       }
-    })
     },
 
-      //饼状图
-      IniPieChart() {
-      GetPieChartDatas().then((res) =>
-      {  
-      const _dataList = res;
+    //扇形统计图
+    IniPieChart() {
+      const _dataList = this.pieChartDatas;
       this.pieChart = this.$echarts.init(this.$refs.pieMain);
       const option = {
         legend: {//环形图布局
@@ -298,7 +307,7 @@ export default {
           right: 60,
           bottom: "10%",
           data: this.pieChartDatas.xmjd,
-          padding: [0, 0, 0, 0],
+          padding: [0, 60, 0, 0],
           selectedMode: false,
           itemWidth: 6,
           itemHeight: 30,
@@ -345,11 +354,11 @@ export default {
             });
             let arr;
             if (xmjd == "项目申报") {
-              arr = ["{a|" + xmjd + "}", "{b|" + _dataList[_index].zjdmj + "}"];
-            } else if(xmjd == "联合审批") {
-              arr = ["{a|" + xmjd + "}", "{c|" + _dataList[_index].zjdmj + "}"];
-            } else if(xmjd == "综合验收") {
-              arr = ["{a|" + xmjd + "}", "{c|" + _dataList[_index].zjdmj + "}"];
+              arr = ["{a|项目申报}", "{b|" + _dataList[_index].zjdmj + "}"];
+            } else if (xmjd == "项目审批") {
+              arr = ["{a|项目审批}", "{c|" + _dataList[_index].zjdmj + "}"];
+            } else if (xmjd == "综合验收") {
+              arr = ["{a|综合验收}", "{c|" + _dataList[_index].zjdmj + "}"];
             }
             return arr.join("");
           }
@@ -358,7 +367,7 @@ export default {
           {
             type: "pie",
             radius: ["35%", "75%"],//调整环形图的大小
-            center: [170, 125],//调整环形图位置：距离右边距、上边距
+            center: [250, 125],//调整环形图位置：距离右边距、上边距
             avoidLabelOverlap: false,
             hoverAnimation: false,
             legendHoverLink: false,
@@ -376,7 +385,7 @@ export default {
             },
             itemStyle: {
               color: function(params) {
-                var colorList = ["#51CEE6", "#2D80E8", "#009AF6"];
+                var colorList = ["#51CEE6", "#2D80E8", "#04BE7D"];
                 return colorList[params.dataIndex];
               }
             },
@@ -386,11 +395,7 @@ export default {
       };
       // 使用刚指定的配置项和数据显示图表。
       this.pieChart.setOption(option);
-      })
     }
-
-
-
   }
 };
 </script>
