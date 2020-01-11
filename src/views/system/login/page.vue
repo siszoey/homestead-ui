@@ -14,11 +14,16 @@
       <div
         class="page-login--content"
         flex="dir:top main:justify cross:stretch box:justify">
-        <!-- <div class="page-login--content-header">
-          <p class="page-login--content-header-motto">
-            时间是一切财富中最宝贵的财富
-          </p>
-        </div> -->
+        <div class="page-login--content-header">
+          <div class="login-btn">
+            <div class="login-text" @click="JumpPage('/login')">
+              <i>
+                <img src="./image/login_icon.png" width="50px" height="50px" />
+              </i>
+              <span>取消登录</span>
+            </div>
+          </div>
+        </div>
         <div
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
@@ -82,7 +87,7 @@
         </div>
         <div class="page-login--content-footer">
           <p class="page-login--content-footer-locales">
-            Copyright © http://www.51jianku.com/51jianku/.
+            Copyright © http://www.51jianku.com/51jianku/
           </p>
           <p class="page-login--content-footer-copyright">
             上海飞未信息技术有限公司
@@ -189,6 +194,10 @@ export default {
     refreshTime () {
       this.time = dayjs().format('HH:mm:ss')
     },
+    //跳转页面
+    JumpPage(url){
+        this.$router.push({path:url})
+    },
     /**
      * @description 接收选择一个用户快速登录的事件
      * @param {Object} user 用户信息
@@ -233,9 +242,11 @@ export default {
   // background-color: $backgroundColor;
   height: 100%;
   position: relative;
-  background-color: rgba(0, 102, 255, 1);
-    background-image: url(./image/background.png);
-    background-position: right top;
+  //background-color: rgba(0, 102, 255, 1);
+    // background-image: url(./image/background.png);
+    // background-position: right top;
+    background-image: url(./image/background_img.png);
+    background-position: right bottom;
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-size: cover;
@@ -265,12 +276,41 @@ export default {
   // header
   .page-login--content-header {
     padding: 1em 0;
-    .page-login--content-header-motto {
-      margin: 0px;
-      padding: 0px;
-      color: $color-text-normal;
-      text-align: center;
-      font-size: 12px;
+    .login-title {
+      position: absolute;
+      top: 25px;
+      left: 60px;
+      width: 30%;
+      img {
+        width: 100%;
+      }
+    }
+    .login-btn {
+      width: 180px;
+      height: 70px;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 0px 0px 0px 100px;
+      .login-text {
+        position: relative;
+        top: 50%;
+        left: 55%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        width: max-content;
+        letter-spacing: 1px;
+        img {
+          width: 18px;
+          height: 18px;
+        }
+        span {
+          margin-left: 8px;
+          font-size: 18px;
+          color: #fff;
+        }
+      }
     }
   }
   // main
@@ -356,7 +396,7 @@ export default {
       padding: 0px;
       margin: 0px;
       margin-bottom: 15px;
-      font-size: 12px;
+      font-size: 14px;
       line-height: 12px;
       text-align: center;
       color: white;

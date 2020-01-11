@@ -15,10 +15,11 @@
         }"
         flex-box="0"
         flex>
-        <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
+        <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth }" flex-box="0">
           <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/logo-icon.png`" style="height:40px;margin-top:10px;">
-          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/logo-all.png`" style="width:160px;height:40px;margin-top:10px;">
+          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/logo-all.png`" style="height:40px;margin-top:10px;">
         </div>
+        <!-- 取消toggle -->
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
           <d2-icon name="bars"/>
         </div>
@@ -40,11 +41,12 @@
       <div class="d2-theme-container" flex-box="1" flex>
         <!-- 主体 侧边栏 -->
         <div
+          v-if="!fullMainZone"
           flex-box="0"
           ref="aside"
           class="d2-theme-container-aside slide"
           :style="{
-            width: asideCollapse ? asideWidthCollapse : asideWidth,
+            width: asideCollapse ? asideWidthCollapse : asideMenuWidth,
             opacity: this.searchActive ? 0.5 : 1
           }">
           <d2-menu-side/>
@@ -63,15 +65,16 @@
           <transition name="fade-scale">
             <div v-if="!searchActive" class="d2-theme-container-main-layer" flex="dir:top">
               <!-- tab -->
-              <div class="d2-theme-container-main-header main-header" flex-box="0">
-                <d2-tabs/>
+              <div v-if="!fullMainZone" class="d2-theme-container-main-header main-header" flex-box="0">
+                <!-- <d2-tabs/> -->
+                <d2-breadcrumb/>
               </div>
               <!-- 页面 -->
               <div class="d2-theme-container-main-body body" flex-box="1">
                 <transition :name="transitionActive ? 'fade-transverse' : ''">
-                  <keep-alive :include="keepAlive">
-                    <router-view class="el-col el-col-23" style="margin-top:20px;margin-left:20px;"/>
-                  </keep-alive>
+                  <!--<keep-alive :include="keepAlive">-->
+                    <router-view  :class="{unifidStyle : !fullMainZone}"/>
+                  <!--</keep-alive>-->
                 </transition>
               </div>
             </div>
@@ -85,17 +88,19 @@
 <script>
 import d2MenuSide from './components/menu-side'
 import d2MenuHeader from './components/menu-header'
-import d2Tabs from './components/tabs'
+// import d2Tabs from './components/tabs'
 import d2HeaderFullscreen from './components/header-fullscreen'
-import d2HeaderLocales from './components/header-locales'
-import d2HeaderSearch from './components/header-search'
-import d2HeaderSize from './components/header-size'
-import d2HeaderTheme from './components/header-theme'
+// import d2HeaderLocales from './components/header-locales'
+// import d2HeaderSearch from './components/header-search'
+// import d2HeaderSize from './components/header-size'
+// import d2HeaderTheme from './components/header-theme'
 import d2HeaderUser from './components/header-user'
-import d2HeaderLog from './components/header-log'
-import d2HeaderColor from './components/header-color'
+// import d2HeaderLog from './components/header-log'
+// import d2HeaderColor from './components/header-color'
+import d2Breadcrumb from './components/breadcrumb'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
+import { stat } from 'fs'
 export default {
   name: 'd2-layout-header-aside',
   mixins: [
@@ -104,20 +109,22 @@ export default {
   components: {
     d2MenuSide,
     d2MenuHeader,
-    d2Tabs,
+    // d2Tabs,
     d2HeaderFullscreen,
-    d2HeaderLocales,
-    d2HeaderSearch,
-    d2HeaderSize,
-    d2HeaderTheme,
+    // d2HeaderLocales,
+    // d2HeaderSearch,
+    // d2HeaderSize,
+    // d2HeaderTheme,
     d2HeaderUser,
-    d2HeaderLog,
-    d2HeaderColor
+    // d2HeaderLog,
+    // d2HeaderColor
+    d2Breadcrumb
   },
   data () {
     return {
       // [侧边栏宽度] 正常状态
-      asideWidth: '200px',
+      asideWidth: '300px',
+      asideMenuWidth: '180px',
       // [侧边栏宽度] 折叠状态
       asideWidthCollapse: '65px'
     }
@@ -127,7 +134,8 @@ export default {
       keepAlive: state => state.page.keepAlive,
       grayActive: state => state.gray.active,
       transitionActive: state => state.transition.active,
-      asideCollapse: state => state.menu.asideCollapse
+      asideCollapse: state => state.menu.asideCollapse,
+      fullMainZone: state => state.page.fullMainZone
     }),
     ...mapGetters('d2admin', {
       themeActiveSetting: 'theme/activeSetting'
@@ -160,6 +168,11 @@ export default {
 <style lang="scss">
 // 注册主题
 @import '~@/assets/style/theme/register.scss';
+.unifidStyle {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
 .d2-theme-container-main-body{
   height: 100%;
 }

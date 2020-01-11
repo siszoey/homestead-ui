@@ -75,7 +75,7 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 export default {
-  name: "survey",
+  name: "land-map-spatialData-survey",
   data() {
     return {
       map: null,

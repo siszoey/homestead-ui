@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="wrap-top">
-      <p class="header-title">项目审批进度选择</p>
+      <p class="header-title">项目审批进度</p>
       <el-row :gutter="20" class="progress-box">
         <el-col :span="progressWidth" v-for="(progress,index) in progressList" :key="index">
           <div class="grid-content">
@@ -14,7 +14,7 @@
               :color="progressColor[index]"
             ></el-progress>
             <!-- 自己定义的数据 -->
-            <p class="state">{{getOptName('建房类型', progress.auditType)}}</p>
+            <p class="state">{{progress.auditType}}</p>
             <!-- 访问api得到的数据 -->
             <!-- <p class="state">{{getDictByOptCode("建房类型",progress.auditType)}}</p> -->
             <p class="num">{{progress.auditNum}}</p>
@@ -27,8 +27,8 @@
       <el-row class="queryForm">
         <el-col>
           <el-form :inline="true" :model="queryForm" ref="queryForm" size="mini">
-            <el-form-item label="申请类型">
-              <el-select v-model="queryForm['sqlx']" placeholder="申请类型" style="width:120px">
+            <el-form-item label="申请类型" prop="jflx">
+              <el-select v-model="queryForm['jflx']" placeholder="申请类型" style="width:120px">
                 <el-option
                   v-for="(option, index) in getDicts('建房类型')"
                   :label="option.optName"
@@ -38,27 +38,27 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="项目名称">
+            <!-- <el-form-item label="项目名称">
               <el-input v-model="queryForm['xmmc']" placeholder="项目名称"></el-input>
+            </el-form-item>-->
+
+            <el-form-item label="项目编号" prop="sqid">
+              <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
-            <el-form-item label="项目编号">
-              <el-input v-model="queryForm['xmbh']" placeholder="项目编号"></el-input>
-            </el-form-item>
-
-            <el-form-item label="申请时间">
+            <el-form-item label="申请时间" prop="sqsj">
               <el-date-picker
                 v-model="sqsj"
-                type="month"
-                format="yyyy-MM"
-                value-format="yyyy-MM"
-                placeholder="选择时间"
-                @change="setSqsj"
-                style="width:120px"
+                type="daterange"
+                range-separator="至"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
               ></el-date-picker>
             </el-form-item>
 
-            <el-form-item label="项目状态">
+            <el-form-item label="项目状态" prop="xmzt">
               <el-select v-model="queryForm['xmzt']" placeholder="项目状态" style="width:120px">
                 <el-option
                   v-for="(option, index) in getDicts('办理状态')"
@@ -91,38 +91,38 @@
             :header-cell-style="{background:'#F5F5F5',color:'#666666'}"
             style="width: 100%;"
           >
-            <el-table-column align="center" label="项目编号" width="150" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="项目编号" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                <span>{{scope.row.xmbh}}</span>
+                <span>{{scope.row.sqid}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="项目名称" width="130" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="项目名称" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                <span>{{scope.row.xmmc}}</span>
+                <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="申请类型" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="申请类型" width="90" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                <span>{{getOptName('建房类型', scope.row.sqlx)}}</span>
+                <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="申请时间" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="申请时间" width="100" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <!-- <span>{{getOptName('户口性质', scope.row.residenceType)}}</span> -->
-                <span>{{scope.row.sqsj}}</span>
+                <span>{{scope.row.sqrrq}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="项目状态" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="项目状态" width="90" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{getOptName('办理状态', scope.row.xmzt)}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="申请人" width="100" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="申请人" width="90" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
               </template>
@@ -133,15 +133,15 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page.sync="table.pageNum"
-            :page-size="table.pageSize"
+            :current-page.sync="table.current"
+            :page-size="table.size"
             layout="total, prev, pager, next, jumper"
             :total="table.total"
             style="margin-top:35px;text-align:center"
           ></el-pagination>
         </el-col>
         <el-col :span="12" style="padding:0px 25px 0px 5px;height:610px;">
-          <el-row>
+          <el-row style="margin-top:0px">
             <el-col :span="24" style="height:300px;border:1px solid #F2F2F2">
               <p class="header-title">不同时间统计</p>
               <div ref="barMain" :style="{width: '100%',height:'250px',margin:'0 auto'}"></div>
@@ -158,7 +158,12 @@
 </template>
 
 <script>
-import { getAuditTableDatas,GetAuditProgress,GetAuditSituation,GetYearAuditSituation } from "../../../../api/map";
+import {
+  getAuditTableDatas,
+  GetAuditProgress,
+  GetAuditSituation,
+  GetYearAuditSituation
+} from "../../../../api/map";
 import dictMixins from "../../mixnis/dict-mixnis";
 import { color } from "echarts/lib/export";
 export default {
@@ -171,41 +176,44 @@ export default {
         listLoading: false,
         list: [],
         total: null,
-        pageNum: 0,
-        pageSize: 10,
+        current: 0,
+        size: 10,
         pages: null
       },
-      progressDatas: [
-        {
-          uid: 0,
-          auditType: "原址新建",
-          auditPercent: 46,
-          auditNum: 1200
-        },
-        { uid: 1, auditType: "改建", auditPercent: 30, auditNum: 586 },
-        { uid: 2, auditType: "扩建", auditPercent: 22, auditNum: 500 },
-        {
-          uid: 3,
-          auditType: "异址新建",
-          auditPercent: 10,
-          auditNum: 235
-        },
-        {
-          uid: 4,
-          auditType: "宅基地流转",
-          auditPercent: 5,
-          auditNum: 144
-        },
-        {
-          uid: 5,
-          auditType: "宅基地退出",
-          auditPercent: 2,
-          auditNum: 56
-        }
-      ],
       barChartDatas: [],
       pieChartDatas: [],
-      progressList: [],
+      progressList: [
+        {
+          auditNum: 1200,
+          auditPercent: "46",
+          auditType: "原址新建"
+        },
+        {
+          auditNum: 586,
+          auditPercent: "30",
+          auditType: "改建"
+        },
+        {
+          auditNum: 500,
+          auditPercent: "22",
+          auditType: "扩建"
+        },
+        {
+          auditNum: 235,
+          auditPercent: "10",
+          auditType: "异址新建"
+        },
+        {
+          auditNum: 144,
+          auditPercent: "5",
+          auditType: "宅基地流转"
+        },
+        {
+          auditNum: 56,
+          auditPercent: "2",
+          auditType: "宅基地退出"
+        }
+      ],
       progressColor: [
         "#7ECBFC",
         "#3D96F4",
@@ -216,14 +224,12 @@ export default {
       ],
       progressWidth: "",
       queryForm: {
-        xmbh: "",
-        xmmc: "",
+        roleid: "",
+        sqid: "",
         xmzt: "",
-        sqlx: "",
-        sqsj_y: "",
-        sqsj_m: ""
+        jflx: ""
       },
-      sqsj:"",
+      sqsj: "",
       pieChart: {},
       barChart: {}
     };
@@ -239,21 +245,10 @@ export default {
     });
   },
   methods: {
-    setSqsj(){
-      if(this.sqsj!="" && this.sqsj!=null){
-        const sqsjArr = this.sqsj.split('-');
-        this.queryForm['sqsj_y'] = sqsjArr[0];
-        this.queryForm['sqsj_m'] = sqsjArr[1];
-      }else{
-        this.queryForm['sqsj_y'] = "";
-        this.queryForm['sqsj_m'] = "";
-      }
-    },
     getChartData() {
       //饼状图请求方法
-      GetAuditSituation().then(res => {
-          console.log("饼状图请求结果")
-          console.log(res)
+      GetAuditSituation()
+        .then(res => {
           this.pieChartDatas = res;
           this.IniPieChart();
         })
@@ -261,10 +256,9 @@ export default {
         .finally(() => {
           this.table.listLoading = false;
         });
-        //柱状图请求方法
-        GetYearAuditSituation().then(res => {
-          console.log("柱状图请求结果")
-          console.log(res)
+      //柱状图请求方法
+      GetYearAuditSituation()
+        .then(res => {
           this.barChartDatas = res;
           this.InitChart();
         })
@@ -276,7 +270,13 @@ export default {
     //获取表格数据
     getTableData() {
       this.table.listLoading = true;
-      getAuditTableDatas(this.table.pageNum,this.table.pageSize,this.queryForm).then(res => {
+      getAuditTableDatas(
+        this.table.current,
+        this.table.size,
+        this.sqsj,
+        this.queryForm
+      )
+        .then(res => {
           this.table.list = res.records;
           this.table.total = res.total;
         })
@@ -286,31 +286,31 @@ export default {
         });
     },
     //点击查询按钮请求的方法
-    queryTableData(){
-      this.table.pageNum = 1;
-      this.getTableData()
+    queryTableData() {
+      this.table.current = 1;
+      this.getTableData();
     },
     //页面头部的审核进度
     getProgressData() {
       //访问api得到的数据
-      GetAuditProgress().then(res => {
-          this.progressList = res;
-          this.progressWidth = 24 / this.progressList.length;
-        })
-        .catch(err => console.log(err))
-        .finally(() => {
-          this.table.listLoading = false;
-        });
-      //自己定义的数据
-      // this.progressList = this.progressDatas;
-      // this.progressWidth = 24 / this.progressList.length;
+      // GetAuditProgress()
+      //   .then(res => {
+      //     this.progressList = res;
+      //     this.progressWidth = 24 / this.progressList.length;
+      //   })
+      //   .catch(err => console.log(err))
+      //   .finally(() => {
+      //     this.table.listLoading = false;
+      //   });
+      //自己模拟数据
+      this.progressWidth = 24 / this.progressList.length;
     },
-    handleSizeChange(pageSiz) {
-      this.table.pageSize = pageSiz;
+    handleSizeChange(size) {
+      this.table.size = size;
       this.getTableData();
     },
-    handleCurrentChange(pageNum) {
-      this.table.pageNum = pageNum;
+    handleCurrentChange(current) {
+      this.table.current = current;
       this.getTableData();
     },
     //柱状统计图
@@ -463,9 +463,9 @@ export default {
             let arr;
             if (name == "1") {
               arr = ["{a|待办}", "{b|" + _dataList[_index].value + "}"];
-            } else if(name == "2") {
+            } else if (name == "2") {
               arr = ["{a|已办}", "{c|" + _dataList[_index].value + "}"];
-            } else if(name == "3") {
+            } else if (name == "3") {
               arr = ["{a|退办}", "{c|" + _dataList[_index].value + "}"];
             }
             return arr.join("");

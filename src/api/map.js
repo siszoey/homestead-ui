@@ -1,5 +1,9 @@
 import request from '@/plugin/axios'
 
+// const prefix = '/mock'
+
+const prefix = ''
+
 export function queryCode () {
   return request({
     url: '/map/queryCode',
@@ -62,11 +66,33 @@ export function getMapQueryZjdLnLx(data) {
   })
 }
 
-export function getAuditTableDatas(current,size,data) {
+// export function getAuditTableDatas(current,size,data) {
+//   return request({
+//     url: `/map/page/${current}/${size}`,
+//     method: 'get',
+//     params:data
+//   })
+// }
+
+export function getAuditTableDatas(current, size, sqsj, queryForm) {
+
+  if(sqsj && sqsj.length > 0){
+    let start_sqrrq = sqsj[0]
+    let end_sqrrq = sqsj[1]
+    queryForm['start_sqrrq'] =start_sqrrq
+    queryForm['end_sqrrq'] =end_sqrrq
+  }else{
+    queryForm['start_sqrrq'] ="";
+    queryForm['end_sqrrq'] ="";
+  }
+
   return request({
-    url: `/map/page/${current}/${size}`,
+    url: prefix + '/map/page',
     method: 'get',
-    params:data
+    params: Object.assign({
+      current,
+      size,
+    }, queryForm)
   })
 }
 
