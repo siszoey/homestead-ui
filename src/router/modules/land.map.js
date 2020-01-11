@@ -11,7 +11,7 @@ export default function(iotHeader) {
             ...meta,
             title: '一张图'
         },
-        redirect: { name: 'land-map-leaderCockpit-index' },
+        redirect: { name: 'land-map-spatialData-onemap' },
         component: iotHeader,
         children: (pre => [
             {

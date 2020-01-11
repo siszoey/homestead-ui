@@ -825,8 +825,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 98%;
-  height: 96%;
+  width: 100%;
+  height: 100%;
   padding: 0px;
   margin: 0px;
   position: relative;
@@ -858,6 +858,7 @@ export default {
   left: 0px;
   top: 0px;
 }
+
 .toolbarContainer {
   right: 30px;
   top: 10px;
