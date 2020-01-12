@@ -122,7 +122,12 @@
 </template>
 
 <script>
-
+import {
+  getAuditTableDatas,
+  GetAuditProgress,
+  GetAuditSituation,
+  GetYearAuditSituation
+} from "../../../../api/map";
 import { getTableList,GetPieChartDatas,GetBarChartDatas } from "../../../../api/res.business";
 import dictMixnis from "../../mixnis/dict-mixnis"
 import { color } from "echarts/lib/export";
@@ -173,7 +178,6 @@ export default {
     };
   },
   mounted() {
-    console.log(888);
     this.getChartData();
     this.getTableData();
     //当页面大小发生变化时，echarts统计图根据画布大小自动重新绘制
@@ -299,14 +303,21 @@ export default {
 
     //扇形统计图
     IniPieChart() {
-      const _dataList = this.pieChartDatas;
+      var datalist = [];
+      this.pieChartDatas.forEach(item => {
+        var list = {};
+        list["name"] = item.xmjd;
+        list["value"] = item.zjdmj;
+        datalist.push(list);
+      });
+      const _dataList = datalist;
       this.pieChart = this.$echarts.init(this.$refs.pieMain);
       const option = {
         legend: {//环形图布局
           orient: "vertical",
           right: 60,
           bottom: "10%",
-          data: this.pieChartDatas.xmjd,
+          data: datalist.name,
           padding: [0, 60, 0, 0],
           selectedMode: false,
           itemWidth: 6,
@@ -345,20 +356,20 @@ export default {
           tooltip: {
             show: false
           },
-          formatter: function(xmjd) {
+          formatter: function(name) {
             let _index = 0;
             _dataList.forEach((item, i) => {
-              if (item.xmjd == xmjd) {
+              if (item.name == name) {
                 _index = i;
               }
             });
             let arr;
-            if (xmjd == "项目申报") {
-              arr = ["{a|项目申报}", "{b|" + _dataList[_index].zjdmj + "}"];
-            } else if (xmjd == "项目审批") {
-              arr = ["{a|项目审批}", "{c|" + _dataList[_index].zjdmj + "}"];
-            } else if (xmjd == "综合验收") {
-              arr = ["{a|综合验收}", "{c|" + _dataList[_index].zjdmj + "}"];
+            if (name == "项目申报") {
+              arr = ["{a|项目申报}", "{b|" + _dataList[_index].value + "}"];
+            } else if (name == "联合审批") {
+              arr = ["{a|联合审批}", "{c|" + _dataList[_index].value + "}"];
+            } else if (name == "综合验收") {
+              arr = ["{a|综合验收}", "{c|" + _dataList[_index].value + "}"];
             }
             return arr.join("");
           }
@@ -389,7 +400,7 @@ export default {
                 return colorList[params.dataIndex];
               }
             },
-            data: this.pieChartDatas
+            data: datalist
           }
         ]
       };
