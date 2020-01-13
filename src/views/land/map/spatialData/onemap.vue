@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="mapPanel">
+    <div class="mapPanel" id="mapPanel">
       <el-menu
         default-active="1"
         class="el-menu"
@@ -168,6 +168,12 @@ import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
 
 export default {
+  props: {
+    hiddenToolbar: {
+      type: Boolean,
+      default: false
+    }
+  },
   name: "survey",
   data() {
     return {
@@ -622,7 +628,11 @@ export default {
   },
   mounted() {
     this.map = BaseMap.BaseInitMap("maponemap");
-
+    if (this.hiddenToolbar) {
+      document.getElementById("mapPanel").style.visibility = "collapse";
+    } else {
+      document.getElementById("mapPanel").style.visibility = "visible";
+    }
     this.InitLayer("XZDCCG");
     this.InitLayer("GTKJGH");
     this.InitLayer("CZGH");
