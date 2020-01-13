@@ -87,9 +87,9 @@
   import dictMixins from '../../../mixnis/dict-mixnis'
   import processMixnis from "../../../mixnis/process-mixnis"
   import applicationForm from './application-form'
-  import appceptanceForm from './appceptance-form'
-  import approvalForm from './approval-form'
-  import FileTreeView from '../../../components/filetreeview.vue'
+  // import appceptanceForm from './appceptance-form'
+  // import approvalForm from './approval-form'
+  // import FileTreeView from '../../../components/filetreeview.vue'
   // import OneMap from '../../../../land/map/spatialData/onemap.vue'
   // import {LastProcess} from "../../../../../api/land.business"
 
@@ -120,7 +120,7 @@
       let that = this;
       setTimeout(function () {
         that.pageLoading = false
-      }, 2000)
+      }, 3000)
     },
     data() {
       return {
