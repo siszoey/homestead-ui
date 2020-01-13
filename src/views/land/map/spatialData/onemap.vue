@@ -621,15 +621,19 @@ export default {
     LayerList
   },
   mounted() {
-    this.map = BaseMap.BaseInitMap("maponemap");
+    this.$nextTick(function () {
+       this.map = BaseMap.BaseInitMap("maponemap");
+        this.InitLayer("XZDCCG");
+        this.InitLayer("GTKJGH");
+        this.InitLayer("CZGH");
+        this.InitLayer("NFJSFB");
+        this.InitLayer("XZQ");
+        this.InitLayer("DT");
+        this.XZQ.Layer.setZIndex(20);
+    })
+   
 
-    this.InitLayer("XZDCCG");
-    this.InitLayer("GTKJGH");
-    this.InitLayer("CZGH");
-    this.InitLayer("NFJSFB");
-    this.InitLayer("XZQ");
-    this.InitLayer("DT");
-    this.XZQ.Layer.setZIndex(20);
+   
   },
 
   methods: {

@@ -3,7 +3,7 @@
     <div id="mapmappanel" class="mapDiv"></div>
 
     <div class="leftcontainer">
-      <div class="panel" style="height:20%;margin-top:0px;">
+      <div class="panel" style="height:1.2rem;margin-top:0px;">
         <div class="title">辖区行政单位</div>
         <div class="layout-h" style="height:100px">
           <div class="xzq-item">
@@ -151,7 +151,7 @@
     <div class="rightcontainer">
       <div class="panel" style="height:2rem;margin-top:0px;">
         <div class="title">农村闲置宅基地开发利用情况</div>
-        <div id="piechart" style="width:100%;height:100%;"></div>
+        <div id="piechart" style="width:100%;height:1.8rem;"></div>
       </div>
 
       <div class="panel" style="height:2.5rem">
@@ -262,14 +262,17 @@ export default {
     };
   },
   mounted() {
-    this.map = BaseMap.BaseInitMap("mapmappanel");
-    this.map.addLayer(BaseMap.img_wLayer);
-    var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm,null,()=>{
-        this.map.getView().setZoom(7)
-    });
+    this.$nextTick(function(){
+      this.map = BaseMap.BaseInitMap("mapmappanel");
+      this.map.addLayer(BaseMap.img_wLayer);
+      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm,null,()=>{
+          this.map.getView().setZoom(7)
+      });
+      
+      this.drawPieChart();
+      this.drawbarchart();
+    })
     
-    this.drawPieChart();
-    this.drawbarchart();
   },
   methods: {
     drawPieChart: function() {
@@ -474,14 +477,14 @@ export default {
   left: 10px;
   top: 10px;
   width: 30%;
-  height:96%;
+  height:6.5rem;
 }
 .rightcontainer {
   position: absolute;
   right: 30px;
   top: 10px;
   width: 30%;
-  height:96%;
+  height:6.5rem;
 }
 .panel {
   background: url("../assets/panel-rectangle.png") no-repeat;

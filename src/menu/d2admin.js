@@ -77,14 +77,9 @@ const system = {
     title: '综合监管',
     alias: 'index',
     icon: 'integratedManagement',
-    children: (pre => [{
-        path: `${pre}/supervise`,
-        title: '监督处置',
-        children: (pre => [
-            { path: `${pre}/dailyInspection`, title: '日常巡查处置' }
-        ])('/land/integratedManagement/supervise')
-    },
-    ])('/land/integratedManagement')
+    children: (pre => [
+        { path: `${pre}/dailyInspection`, title: '日常巡查处置' }
+    ])('/land/integratedManagement/supervise')
 }
 
 // 菜单 侧栏
@@ -92,7 +87,8 @@ export const menuAside = [
     // home,
     map,
     examine,
-    system
+    system,
+    integratedManagement
 ]
 
 // // 菜单 顶栏

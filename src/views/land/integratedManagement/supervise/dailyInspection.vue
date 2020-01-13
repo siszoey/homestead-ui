@@ -1,10 +1,9 @@
 <template>
-  <div>
     <div class="wrap-middle">
-      <p class="header-title">日常巡查列表</p>
+      <!-- <p class="header-title">日常巡查列表</p> -->
       <el-row>
         <el-col>
-          <el-form :inline="true" size="mini">
+          <el-form :inline="true" size="mini" style="margin-top: 20px;">
 
             <el-form-item label="项目名称" style="margin-left:30px">
               <el-input v-model="xmmc" placeholder="项目名称"></el-input>
@@ -23,7 +22,7 @@
           </el-form>
         </el-col>
       </el-row>
-      <el-row style="padding-bottom:25px">
+      <el-row >
         <el-col :span="24" style="padding: 0px 5px 0px 25px">
           <el-table
             :key="table.key"
@@ -124,7 +123,6 @@
         </el-col>
       </el-row>
     </div>
-  </div>
 </template>
 
 <script>
@@ -286,10 +284,13 @@ p {
   color: #606060;
 }
 .wrap-middle {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  // margin-top: 20px;
+  // margin-bottom: 20px;
   background: #fff;
-  height: auto;
+  height: 100%;
+  .el-row {
+    margin-bottom: 0px;
+  }
 }
 .queryForm {
   padding: 25px 15px 10px 25px;

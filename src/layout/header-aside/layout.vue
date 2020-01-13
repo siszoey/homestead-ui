@@ -47,7 +47,8 @@
           class="d2-theme-container-aside slide"
           :style="{
             width: asideCollapse ? asideWidthCollapse : asideMenuWidth,
-            opacity: this.searchActive ? 0.5 : 1
+            opacity: this.searchActive ? 0.5 : 1,
+            borderRight: '1px solid rgb(207, 215, 229)'
           }">
           <d2-menu-side/>
         </div>
@@ -65,9 +66,9 @@
           <transition name="fade-scale">
             <div v-if="!searchActive" class="d2-theme-container-main-layer" flex="dir:top">
               <!-- tab -->
-              <div v-if="!fullMainZone" class="d2-theme-container-main-header main-header" flex-box="0">
+              <div v-if="!fullMainZone" class="d2-theme-container-main-header main-header" flex-box="0" style="border-bottom: 1px solid rgb(207, 215, 229)">
                 <!-- <d2-tabs/> -->
-                <d2-breadcrumb/>
+                <d2-breadcrumb />
               </div>
               <!-- 页面 -->
               <div class="d2-theme-container-main-body body" flex-box="1">
@@ -169,9 +170,11 @@ export default {
 // 注册主题
 @import '~@/assets/style/theme/register.scss';
 .unifidStyle {
-  margin-top: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+  // margin-top: 10px;
+  // margin-left: 20px;
+  // margin-right: 20px;
+  // border-top: 1px solid rgb(207, 215, 229);
+  // border-left: 1px solid rgb(207, 215, 229);
 }
 .d2-theme-container-main-body{
   height: 100%;

@@ -16,7 +16,7 @@ export default function (iotHeader) {
     children: (pre => [
       {
         path: 'supervise/dailyInspection',
-        name: `${pre}dailyInspection`,
+        name: `${pre}supervise-dailyInspection`,
         component: _import('land/integratedManagement/supervise/dailyInspection.vue'),
         meta: {
           ...meta,
