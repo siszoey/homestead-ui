@@ -8,18 +8,11 @@
         </div>
         <div class="text item">
           <label class="year-column-r">年份</label>
-          <el-select
-            v-model="year"
-            class="select-item-year"
-          >
+          <el-select v-model="year" class="select-item-year">
             <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <label class="xzq-column-r">行政区</label>
-          <el-select
-            v-model="city"
-            class="select-item-xzq"
-            v-on:change="changeCity(city)"
-          >
+          <el-select v-model="city" class="select-item-xzq" v-on:change="changeCity(city)">
             <el-option
               v-for="item in cities"
               :key="item.id"
@@ -30,7 +23,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">龙华区（平方米）</span>
+          <span class="demonstration">龙华区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -50,7 +43,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">美兰区（平方米）</span>
+          <span class="demonstration">美兰区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -70,7 +63,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration">琼山区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -90,7 +83,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">秀英区（平方米）</span>
+          <span class="demonstration">秀英区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -110,7 +103,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration">琼山区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -665,6 +658,7 @@ export default {
   position: absolute;
   z-index: 99;
   width: 25%;
+  min-width: 415px;
   height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
@@ -695,7 +689,7 @@ export default {
 }
 .select-item-xzq {
   height: 35px !important;
-  width:160px;
+  width: 160px;
   /* margin-top: 2.5%; */
 }
 .o-echarts {

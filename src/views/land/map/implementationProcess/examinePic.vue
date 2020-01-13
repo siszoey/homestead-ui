@@ -251,6 +251,7 @@ export default {
   position: absolute;
   z-index: 99;
   width: 26%;
+  min-width:415px;
   height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */

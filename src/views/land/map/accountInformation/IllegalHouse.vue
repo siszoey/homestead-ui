@@ -23,7 +23,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">龙华区（平方米）</span>
+          <span class="demonstration">龙华区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -36,7 +36,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">美兰区（平方米）</span>
+          <span class="demonstration">美兰区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -49,7 +49,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration">琼山区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -62,7 +62,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">秀英区（平方米）</span>
+          <span class="demonstration">秀英区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -75,7 +75,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration">琼山区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -616,6 +616,7 @@ export default {
   position: absolute;
   z-index: 99;
   width: 25%;
+    min-width:415px;
   height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
