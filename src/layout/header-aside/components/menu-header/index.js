@@ -20,7 +20,7 @@ export default {
       }, [
         createElement('div', {
           attrs: { class: 'd2-theme-header-menu__scroll', 'flex-box': '0' },
-          style: { transform: `translateX(${this.currentTranslateX}px)` },
+          style: { transform: `translateX(${this.currentTranslateX}px)`, width: '100%', display: 'flex', justifyContent: 'center' },
           ref: 'scroll'
         }, [
           createElement('el-menu', {
@@ -64,7 +64,7 @@ export default {
     '$route.matched': {
       handler (val) {
         // this.active = val[val.length - 1].path
-        console.log(val)
+        // console.log(val)
         let page = val[0].path === '' ? val[1] : val[0]
         if (page.meta.fullMainZone) {
           this.$store.commit('d2admin/page/fullMainZoneSet', page.meta.fullMainZone)

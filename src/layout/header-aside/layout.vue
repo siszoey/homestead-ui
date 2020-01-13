@@ -15,10 +15,11 @@
         }"
         flex-box="0"
         flex>
-        <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
+        <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth }" flex-box="0">
           <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/logo-icon.png`" style="height:40px;margin-top:10px;">
-          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/logo-all.png`" style="width:160px;height:40px;margin-top:10px;">
+          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/logo-all.png`" style="height:40px;margin-top:10px;">
         </div>
+        <!-- 取消toggle -->
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
           <d2-icon name="bars"/>
         </div>
@@ -45,7 +46,7 @@
           ref="aside"
           class="d2-theme-container-aside slide"
           :style="{
-            width: asideCollapse ? asideWidthCollapse : asideWidth,
+            width: asideCollapse ? asideWidthCollapse : asideMenuWidth,
             opacity: this.searchActive ? 0.5 : 1
           }">
           <d2-menu-side/>
@@ -72,7 +73,7 @@
               <div class="d2-theme-container-main-body body" flex-box="1">
                 <transition :name="transitionActive ? 'fade-transverse' : ''">
                   <!--<keep-alive :include="keepAlive">-->
-                    <router-view class="el-col el-col-23" style="margin-top:10px;margin-left:20px;"/>
+                    <router-view  :class="{unifidStyle : !fullMainZone}"/>
                   <!--</keep-alive>-->
                 </transition>
               </div>
@@ -122,7 +123,8 @@ export default {
   data () {
     return {
       // [侧边栏宽度] 正常状态
-      asideWidth: '200px',
+      asideWidth: '300px',
+      asideMenuWidth: '180px',
       // [侧边栏宽度] 折叠状态
       asideWidthCollapse: '65px'
     }
@@ -166,6 +168,11 @@ export default {
 <style lang="scss">
 // 注册主题
 @import '~@/assets/style/theme/register.scss';
+.unifidStyle {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
 .d2-theme-container-main-body{
   height: 100%;
 }

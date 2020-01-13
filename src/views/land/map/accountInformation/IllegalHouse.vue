@@ -1,32 +1,25 @@
 <template>
-  <div id="app">
+  <div id="app" style="width:97%;height:96%">
     <div class="left-side">
-      <label class="year-column-l">年份</label>
-      <el-select
-        v-model="year"
-        style="position:absolute;z-index:9999999;left:45px;"
-        class="select-item-year"
-      >
-        <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
-      </el-select>
-      <label class="xzq-column-l">行政区</label>
-      <el-select
-        v-model="city"
-        style="position:absolute;z-index:9999999;left:234px;width: 2rem !important;"
-        class="select-item-xzq"
-        v-on:change="changeCity(city)"
-      >
-        <el-option
-          v-for="item in cities"
-          :key="item.id"
-          :label="item.properties.name"
-          :value="item.id"
-        ></el-option>
-      </el-select>
       <!-- <hr /> -->
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span class="card-title">各县市用地情况统计排行</span>
+          <span class="card-title">各县市违法建房情况统计排行</span>
+        </div>
+        <div class="text item">
+          <label class="year-column-l">年份</label>
+          <el-select v-model="year" class="select-item-year">
+            <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
+          <label class="xzq-column-l">行政区</label>
+          <el-select v-model="city" class="select-item-xzq" v-on:change="changeCity(city)">
+            <el-option
+              v-for="item in cities"
+              :key="item.id"
+              :label="item.properties.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
@@ -39,7 +32,7 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="39" color="#E85754" style="width:417px"></el-progress>
+          <el-progress :percentage="39" color="#E85754"></el-progress>
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
@@ -52,7 +45,7 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="25" color="#E85754" style="width:417px"></el-progress>
+          <el-progress :percentage="25" color="#E85754"></el-progress>
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
@@ -65,7 +58,7 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="67" color="#E85754" style="width:417px"></el-progress>
+          <el-progress :percentage="67" color="#E85754"></el-progress>
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
@@ -78,7 +71,7 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="21" color="#E85754" style="width:417px"></el-progress>
+          <el-progress :percentage="21" color="#E85754"></el-progress>
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
@@ -91,15 +84,17 @@
           <span class="demonstration" style="float:right">
             <div class="color-box-gray"></div>住宅用地
           </span>
-          <el-progress :percentage="56" color="#E85754" style="width:417px"></el-progress>
+          <el-progress :percentage="56" color="#E85754"></el-progress>
+        </div>
+        <div class="text item">
+          <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+            <el-table-column prop="xzq" label="行政区"></el-table-column>
+            <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
+            <el-table-column prop="wfzd" label="违法占地"></el-table-column>
+            <el-table-column prop="szbl" label="所占比例"></el-table-column>
+          </el-table>
         </div>
       </el-card>
-      <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-        <el-table-column prop="xzq" label="行政区"></el-table-column>
-        <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
-        <el-table-column prop="wfzd" label="违法占地"></el-table-column>
-        <el-table-column prop="szbl" label="所占比例"></el-table-column>
-      </el-table>
     </div>
 
     <div id="mapillgalhouse" class="mapDiv"></div>
@@ -568,7 +563,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-table .warning-row {
   background: oldlace;
 }
@@ -613,47 +608,42 @@ export default {
 
 .box-card {
   width: 99.5%;
-  margin-top: 11%;
+  /* margin-top: 11%; */
+  height:99.5%;
   background-color: #f7f7f7d1;
-}
-hr {
-  margin-top: 11%;
 }
 .left-side {
   position: absolute;
   z-index: 99;
-  width: 33.5%;
-  height: 98%;
+  width: 25%;
+  height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
-  margin-top: -0.1rem;
+  /* margin-top: -0.1rem; */
 }
 .year-column-l {
-  position: absolute;
+  /* position: absolute; */
   z-index: 9999999;
   font-size: 16px;
   color: #303133;
   margin: 7px;
-  margin-top: 2.8%;
 }
 .xzq-column-l {
-  position: absolute;
+  /* position: absolute; */
   z-index: 9999999;
   font-size: 16px;
   color: #303133;
   margin: 7px;
-  margin-left: 1.8rem;
-  margin-top: 2.8%;
+  /* margin-left: 1.8rem; */
 }
 
-.select-item-year input {
+.select-item-year {
   height: 35px !important;
   width: 100px !important;
-  margin-top: 5%;
 }
-.select-item-xzq input {
+.select-item-xzq {
+  width:160px;
   height: 35px !important;
-  margin-top: 2.5%;
 }
 .o-echarts {
   min-width: 30px;
@@ -661,5 +651,15 @@ hr {
   width: 100%;
   height: 100%;
   margin-top: -10px;
+}
+.mapDiv {
+  height: 100%;
+  padding: 0px;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
 }
 </style>
