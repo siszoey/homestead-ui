@@ -379,9 +379,9 @@ export default {
             type: "pie",
             radius: ["35%", "75%"],//调整环形图的大小
             center: [250, 125],//调整环形图位置：距离右边距、上边距
-            avoidLabelOverlap: false,
-            hoverAnimation: false,
-            legendHoverLink: false,
+            avoidLabelOverlap: true,//是否启用防止标签重叠策略
+            hoverAnimation: true,//是否开启 hover 在扇区上的放大动画效果
+            legendHoverLink: true,//是否启用图例 hover 时的联动高亮
             silent: false,
             label: {
               formatter: "{b}\n{d}%",
