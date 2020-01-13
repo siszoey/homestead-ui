@@ -73,7 +73,7 @@
             </el-col>
 
             <!--一张图-->
-            <el-col :span="12" v-show="showMap">
+            <el-col :span="12" v-if="showMap">
                 <div style="width: 570px;height:800px">
                     <oneMap :hiddenToolbar="true"></oneMap>
                 </div>
@@ -144,7 +144,7 @@
         showPrintView: false,
         rdpPrefix: process.env.VUE_APP_RDP_URL + '/rdppage/show/',
 
-        showMap: true,
+        showMap: false,
 
         active: 0,
         pageLoading: true
