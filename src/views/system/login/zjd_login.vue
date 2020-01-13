@@ -181,10 +181,10 @@ export default {
       .login-text {
         position: relative;
         top: 50%;
-        left: 55%;
+        left: 75%;
         transform: translate(-50%, -50%);
         cursor: pointer;
-        width: max-content;
+        // width: max-content;
         letter-spacing: 1px;
         img {
           width: 18px;
