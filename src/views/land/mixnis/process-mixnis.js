@@ -2,6 +2,7 @@ import {mapState} from 'vuex'
 
 import dictMixnis from "./dict-mixnis"
 import {ApproalProcess} from "../../../api/land.business"
+import {processRoles} from '../../../mock/data/land.role'
 
 export default {
 
@@ -25,8 +26,12 @@ export default {
    * 流程的相关状态按字段表Code有序进行
    */
   methods: {
-    isFirstProcess(){
-     return this.info.role.includes(this.getOptName("流程角色", "1"))
+    getProcessRole(roleId) {
+      let role = processRoles.find(r => r.role == roleId)
+      return role ? `${role.stage}人员` : ''
+    },
+    isFirstProcess() {
+      return this.info.role.includes(this.getOptName("流程角色", "1"))
     },
     /**
      * 获取下个流程的项目状态

@@ -112,6 +112,12 @@
                 </template>
             </el-table-column>
 
+            <el-table-column align="center" label="办理角色">
+                <template slot-scope="scope">
+                    <span>{{getProcessRole(scope.row.zjdSqJl.roleid)}}</span>
+                </template>
+            </el-table-column>
+
             <el-table-column align="center" label="项目状态">
                 <template slot-scope="scope">
                     <span>{{getOptName('项目状态', scope.row.zjdSqJl.xmzt)}}</span>
