@@ -6,21 +6,21 @@
                 ref="queryForm"
                 size="mini"
                 style="margin-bottom: -25px;">
-            <el-form-item label="申请类型">
+            <el-form-item label="申请类型" prop="jflx">
                 <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="办理状态">
+            <el-form-item label="办理状态" prop="blzt">
                 <el-select v-model="queryForm['blzt']">
                     <el-option v-for="(option, oIndex) in getDicts('办理状态')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="项目编号">
+            <el-form-item label="项目编号" prop="sqid">
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
