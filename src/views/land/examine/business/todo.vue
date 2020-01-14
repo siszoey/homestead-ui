@@ -6,7 +6,7 @@
                 ref="queryForm"
                 size="mini"
                 style="margin-bottom: -25px;">
-            <el-form-item label="申请类型">
+            <el-form-item label="申请类型" prop="jflx">
                 <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
@@ -17,11 +17,11 @@
                 <el-input v-model="queryForm['sqmc']" placeholder="项目名称"></el-input>
             </el-form-item>-->
 
-            <el-form-item label="项目编号">
+            <el-form-item label="项目编号" prop="sqid">
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
-            <el-form-item label="申请时间">
+            <el-form-item label="申请时间" prop="sqsj">
                 <el-date-picker
                         v-model="queryForm['sqsj']"
                         type="daterange"
@@ -140,6 +140,27 @@
             </el-pagination>
         </template>
 
+        <el-dialog title="请选择申请类型" width="35%" :visible.sync="createBeforeDialogVisible">
+            <div class="dialog-content">
+                <div class="content">
+                    <div class="content-box" v-for="option in getDicts('建房类型')"
+                         @click="toCreateView(option.optCode)">
+                        <img :src="`image/examine/jflx_${option.optCode}.png`" :alt="option.optName">
+                        <p>{{option.optName}}</p>
+                    </div>
+                </div>
+                <!--<div class="content">
+                    <div class="content-box" @click="toCreateView(4)">
+                        <img src="image/examine/jflx_4.png" alt="">
+                        <p>宅基地流转</p>
+                    </div>
+                    <div class="content-box" @click="toCreateView(5)">
+                        <img src="image/examine/jflx_5.png" alt="">
+                        <p>宅基地退出</p>
+                    </div>
+                </div>-->
+            </div>
+        </el-dialog>
     </d2-container>
 </template>
 
@@ -166,6 +187,8 @@
           sqmc: undefined,
           sqsj: undefined,
         },
+
+        createBeforeDialogVisible: false,
       }
     },
     created() {
@@ -208,9 +231,14 @@
         }, newQueryForm/*this.queryForm*/, otherParam)
       },
       handleCreate() {
+        this.createBeforeDialogVisible = true
+      },
+      toCreateView(jflx) {
         this.$router.push({
             name: 'land-examine-business-todo-create',
-            params: Object.assign({})
+            params: Object.assign({
+              jflx
+            })
           }
         )
       },
@@ -278,5 +306,28 @@
 </script>
 
 <style lang="scss" scoped>
+    .dialog-content {
+        .content {
+            display: flex;
+            margin-bottom: 10px;
+        }
+    }
+
+    .content-box {
+        cursor: pointer;
+        width: 110px;
+        height: 110px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        background: #E7E9EC;
+        padding: 10px 10px;
+        margin-left: 20px;
+
+        img {
+            width: 60px;
+        }
+    }
 
 </style>
