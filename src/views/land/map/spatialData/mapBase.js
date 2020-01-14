@@ -23,7 +23,8 @@ var img_wLayer = new TileLayer({
     source: new XYZ({
         url: "https://t" + siteindex + ".tianditu.gov.cn/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=" + key
     }),
-    name: '天地图影像底图'
+    name: '天地图影像底图',
+    maxZoom: 20
     ,
     zindex: 1
 });

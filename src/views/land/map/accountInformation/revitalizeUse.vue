@@ -8,11 +8,15 @@
         </div>
         <div class="text item">
           <label class="year-column-r">年份</label>
-          <el-select v-model="year" class="select-item-year">
+          <el-select v-model="year" class="select-item-year panelitem">
             <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <label class="xzq-column-r">行政区</label>
-          <el-select v-model="city" class="select-item-xzq" v-on:change="changeCity(city)">
+          <el-select
+            v-model="city"
+            class="select-item-xzq panelitem"
+            v-on:change="changeCity(city)"
+          >
             <el-option
               v-for="item in cities"
               :key="item.id"
@@ -121,8 +125,13 @@
           <el-progress :percentage="59"></el-progress>
           <el-progress :percentage="38" color="#FFBB3B"></el-progress>
         </div>
-        <div class="text item" style="visibility: collapse;">
-          <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+        <div class="text item">
+          <el-table
+            :data="tableData"
+            style="width: 100%"
+            class="panelitem"
+            :row-class-name="tableRowClassName"
+          >
             <el-table-column prop="xzq" label="行政区"></el-table-column>
             <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
             <el-table-column prop="xzyd" label="闲置用地"></el-table-column>
@@ -608,23 +617,26 @@ export default {
 .color-box-blue {
   width: 13px;
   height: 13px;
-  position: absolute;
-  margin: 3px -20px;
+  display: inline-flex;
+  margin-left: 5px;
+  margin-right: 5px;
   background-color: #409eff;
 }
 .color-box-yellow {
   width: 13px;
   height: 13px;
-  position: absolute;
-  margin: 3px -20px;
+  display: inline-flex;
+  margin-left: 5px;
+  margin-right: 5px;
   background-color: #ffbb3b;
 }
 
 .color-box-gray {
   width: 13px;
   height: 13px;
-  position: absolute;
-  margin: 4px -20px;
+  display: inline-flex;
+  margin-left: 5px;
+  margin-right: 5px;
   background-color: #ebeef5;
 }
 .el-card__header {
@@ -653,12 +665,13 @@ export default {
   height: 99.5%;
   /* margin-top: 11%; */
   background-color: #f7f7f7d1;
+  overflow-y: auto;
 }
 .left-side {
   position: absolute;
   z-index: 99;
   width: 25%;
-  min-width: 415px;
+  min-width: 435px;
   height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
@@ -699,6 +712,9 @@ export default {
   height: 100%;
   margin-top: -10px;
 }
+.panelitem {
+  opacity: 0.7;
+}
 .mapDiv {
   height: 100%;
   padding: 0px;
@@ -708,5 +724,8 @@ export default {
   position: absolute;
   left: 0px;
   top: 0px;
+}
+.card-title {
+  font-size: 14px;
 }
 </style>

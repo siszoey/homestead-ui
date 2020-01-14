@@ -46,7 +46,7 @@
               </el-menu-item-group>
             </el-submenu>
 
-            <el-menu-item index="4">
+            <el-submenu index="4">
               <template slot="title">
                 <div @click.stop="stop()">
                   <el-switch
@@ -56,7 +56,21 @@
                   ></el-switch>
                 </div>
               </template>
-            </el-menu-item>
+              <el-menu-item-group>
+                <div class="itembox">
+                  <div class="listItem">
+                    <el-checkbox @change="checkALL('NFJSFB')" v-model="NFJSFB.CheckAll[0]"></el-checkbox>
+                    <span class="img" style="visibility: hidden;"></span>
+                    全选
+                  </div>
+                  <div class="listItem" v-for="box in NFJSFB.Boxs[0]" :key="box.code">
+                    <el-checkbox v-model="box.checked"></el-checkbox>
+                    <span class="img" :style="box.icon"></span>
+                    {{box.name}}
+                  </div>
+                </div>
+              </el-menu-item-group>
+            </el-submenu>
           </el-submenu>
           <el-submenu index="1-2">
             <template slot="title">土地规划数据</template>
@@ -172,6 +186,16 @@
               </template>
             </el-menu-item>
           </el-submenu>
+          <!-- <el-menu-item index="7">
+              <template slot="title">
+                <div @click.stop="stop()">
+                  <el-switch
+                    inactive-text="基本农田"
+                    v-model="XZQ.Visible"
+                  ></el-switch>
+                </div>
+              </template>
+            </el-menu-item> -->
         </el-menu>
       </div>
     </div>
@@ -674,7 +698,44 @@ export default {
         Visible: true,
         CheckAll: [true],
         Features: [],
-        Boxs: []
+        Boxs: [          [
+            {
+              name: "农村住宅",
+              code: "02",
+              icon: "background-color:#FAFF14",
+              checked: true
+            },
+            {
+              name: "季节性闲置住宅",
+              code: "03",
+              icon: "background-color:#3DB344",
+              checked: true
+            },
+            {
+              name: "常年闲置住宅",
+              code: "04",
+              icon: "background-color:#6FE020",
+              checked: true
+            },
+            {
+              name: "盘活利用住宅",
+              code: "05",
+              icon: "background-color:#D6FCC7",
+              checked: true
+            },
+            {
+              name: "一户多宅",
+              code: "01",
+              icon: "background-color:#F58D8B",
+              checked: true
+            },
+            {
+              name: "一宅超限",
+              code: "06",
+              icon: "background-color:#4169E1",
+              checked: true
+            }
+          ]]
       },
       XZQ: {
         Layer: null,
