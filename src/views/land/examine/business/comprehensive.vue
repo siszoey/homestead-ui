@@ -13,21 +13,28 @@
                 </el-select>
             </el-form-item>
 
+            <el-form-item label="办理状态">
+                <el-select v-model="queryForm['blzt']">
+                    <el-option v-for="(option, oIndex) in getDicts('办理状态')" :label="option.optName"
+                               :value="option.optCode" :key="oIndex"></el-option>
+                </el-select>
+            </el-form-item>
+
             <el-form-item label="项目编号">
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
-            <el-form-item label="申请时间">
-                <el-date-picker
-                        v-model="queryForm['sqsj']"
-                        type="daterange"
-                        range-separator="至"
-                        format="yyyy 年 MM 月 dd 日"
-                        value-format="yyyy-MM-dd"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                </el-date-picker>
-            </el-form-item>
+<!--            <el-form-item label="申请时间">-->
+<!--                <el-date-picker-->
+<!--                        v-model="queryForm['sqsj']"-->
+<!--                        type="daterange"-->
+<!--                        range-separator="至"-->
+<!--                        format="yyyy 年 MM 月 dd 日"-->
+<!--                        value-format="yyyy-MM-dd"-->
+<!--                        start-placeholder="开始日期"-->
+<!--                        end-placeholder="结束日期">-->
+<!--                </el-date-picker>-->
+<!--            </el-form-item>-->
 
             <div style="float: right">
                 <el-form-item>
@@ -62,11 +69,11 @@
                 </template>
             </el-table-column>
 
-            <el-table-column align="center" label="项目名称">
-                <template slot-scope="scope">
-                    <span>{{getOptName('建房类型', scope.row.nzjdqk.jflx)}}</span>
-                </template>
-            </el-table-column>
+<!--            <el-table-column align="center" label="项目名称">-->
+<!--                <template slot-scope="scope">-->
+<!--                    <span>{{getOptName('建房类型', scope.row.nzjdqk.jflx)}}</span>-->
+<!--                </template>-->
+<!--            </el-table-column>-->
 
             <el-table-column align="center" label="申请类型">
                 <template slot-scope="scope">
@@ -96,6 +103,12 @@
             <el-table-column align="center" label="联系方式" width="120">
                 <template slot-scope="scope">
                     <span>{{scope.row.jcxx.lxdh}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="办理状态">
+                <template slot-scope="scope">
+                    <span>{{getOptName('办理状态', scope.row.zjdSqJl.blzt)}}</span>
                 </template>
             </el-table-column>
 
