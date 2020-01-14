@@ -202,7 +202,7 @@
         //根据业务修改补充
         let otherParam = {
               // blzt: this.getOptCode("办理状态", "已办"),
-              // roleid: this.info.role.join("|")
+              roleid: this.info.role.join("|")
         }
         //时间区间字段，调整
         let newQueryForm = Object.assign({}, this.queryForm)
