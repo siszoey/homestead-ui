@@ -145,8 +145,8 @@
 
 <script>
   import {PageData} from "../../../../api/land.business"
-  import dictMixnis from "../../mixnis/dict-mixnis"
-  import processMixnis from "../../mixnis/process-mixnis"
+  import dictMixins from "../../mixnis/dict-mixnis"
+  import processMixins from "../../mixnis/process-mixnis"
   import pageMixins from "../../mixnis/page-mixnis"
   import {mapState} from 'vuex'
 
@@ -154,9 +154,9 @@
     name: 'examine-todo',
     components: {},
     mixins: [
-      dictMixnis,
+      dictMixins,
       pageMixins,
-      processMixnis
+      processMixins
     ],
     data() {
       return {
