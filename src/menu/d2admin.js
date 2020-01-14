@@ -5,19 +5,19 @@ const map = {
     title: '一张图',
     alias: 'index',
     icon: 'map',
-    children: (pre => [{
-        path: `${pre}/leaderCockpit/index`,
-        title: '领导驾驶舱'
-    },
+    children: (pre => [
+    // {
+    //     path: `${pre}/leaderCockpit/index`,
+    //     title: '领导驾驶舱'
+    // },
     {
-        path: `${pre}/spatialData`,
+        path: `${pre}/spatialData/onemap`,
         title: '空间数据',
-        children: (pre => [
-            // { path: `${pre}/test`, title: 'DEMO' },
-            { path: `${pre}/onemap`, title: '一张图' },
-            // { path: `${pre}/mappanel`, title: '首页一张图' },
-            { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
-        ])('/land/map/spatialData')
+        // children: (pre => [
+        //     // { path: `${pre}/test`, title: 'DEMO' },
+        //     { path: `${pre}/onemap`, title: '一张图' },
+        //     // { path: `${pre}/mappanel`, title: '首页一张图' },
+        // ])('/land/map/spatialData')
     },
     {
         path: `${pre}/accountInformation`,
@@ -78,7 +78,7 @@ const system = {
     alias: 'index',
     icon: 'integratedManagement',
     children: (pre => [
-        { path: `${pre}/dailyInspection`, title: '日常巡查处置' }
+        { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
     ])('/land/integratedManagement/supervise')
 }
 

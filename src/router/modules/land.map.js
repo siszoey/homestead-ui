@@ -32,19 +32,9 @@ export default function(iotHeader) {
                         meta: {
                             ...meta,
                             ismap: true,
-                            title: '一张图'
+                            // title: '一张图'
                         }
-                    },
-                    {
-                        path: 'ygdc_dbfx',
-                        name: `${pre}spatialData-ygdc_dbfx`,
-                        component: _import('land/map/spatialData/ygdc_dbfx.vue'),
-                        meta: {
-                            ...meta,
-                            ismap: true,
-                            title: '对比分析'
-                        }
-                    },            
+                    },       
                 {
                     path: 'survey',
                     name: `${pre}spatialData-survey`,
@@ -151,7 +141,7 @@ export default function(iotHeader) {
                 meta: {
                     ...meta,
                     ismap: true,
-                    title: '台账信息'
+                    title: '实施过程'
                 },
                 children:(pre => [
                     {

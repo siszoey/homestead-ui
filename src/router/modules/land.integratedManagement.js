@@ -22,7 +22,17 @@ export default function (iotHeader) {
           ...meta,
           title: '日常巡查处置'
         }
-      }
+      },
+        {
+          path: 'supervise/ygdc_dbfx',
+          name: `${pre}ygdc_dbfx`,
+          component: _import('land/map/spatialData/ygdc_dbfx.vue'),
+          meta: {
+              ...meta,
+              ismap: true,
+              title: '对比分析'
+          }
+      }    
     ])('land-integratedManagement-'),
   }
 }

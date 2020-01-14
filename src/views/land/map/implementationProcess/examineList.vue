@@ -2,7 +2,8 @@
   <div>
     <div class="wrap-top">
       <p class="header-title">项目审批进度</p>
-      <el-row :gutter="20" class="progress-box">
+      <!-- <el-row :gutter="10" class="progress-box"> -->
+      <el-row class="progress-box">
         <el-col :span="progressWidth" v-for="(progress,index) in progressList" :key="index">
           <div class="grid-content">
             <el-progress
