@@ -136,7 +136,6 @@
 <script>
   import {PageData} from "../../../../api/land.business"
   import dictMixins from "../../mixnis/dict-mixnis"
-  import processMixins from "../../mixnis/process-mixnis"
   import pageMixins from "../../mixnis/page-mixnis"
   import {mapState} from 'vuex'
 
@@ -146,7 +145,6 @@
     mixins: [
       dictMixins,
       pageMixins,
-      processMixins
     ],
     data() {
       return {
