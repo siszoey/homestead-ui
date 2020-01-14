@@ -140,6 +140,27 @@
             </el-pagination>
         </template>
 
+        <el-dialog title="请选择申请类型" width="35%" :visible.sync="createBeforeDialogVisible">
+            <div class="dialog-content">
+                <div class="content">
+                    <div class="content-box" v-for="option in getDicts('建房类型')"
+                         @click="toCreateView(option.optCode)">
+                        <img :src="`image/examine/jflx_${option.optCode}.png`" :alt="option.optName">
+                        <p>{{option.optName}}</p>
+                    </div>
+                </div>
+                <!--<div class="content">
+                    <div class="content-box" @click="toCreateView(4)">
+                        <img src="image/examine/jflx_4.png" alt="">
+                        <p>宅基地流转</p>
+                    </div>
+                    <div class="content-box" @click="toCreateView(5)">
+                        <img src="image/examine/jflx_5.png" alt="">
+                        <p>宅基地退出</p>
+                    </div>
+                </div>-->
+            </div>
+        </el-dialog>
     </d2-container>
 </template>
 
@@ -166,6 +187,8 @@
           sqmc: undefined,
           sqsj: undefined,
         },
+
+        createBeforeDialogVisible: false,
       }
     },
     created() {
@@ -208,9 +231,14 @@
         }, newQueryForm/*this.queryForm*/, otherParam)
       },
       handleCreate() {
+        this.createBeforeDialogVisible = true
+      },
+      toCreateView(jflx) {
         this.$router.push({
             name: 'land-examine-business-todo-create',
-            params: Object.assign({})
+            params: Object.assign({
+              jflx
+            })
           }
         )
       },
@@ -278,5 +306,28 @@
 </script>
 
 <style lang="scss" scoped>
+    .dialog-content {
+        .content {
+            display: flex;
+            margin-bottom: 10px;
+        }
+    }
+
+    .content-box {
+        cursor: pointer;
+        width: 110px;
+        height: 110px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        background: #E7E9EC;
+        padding: 10px 10px;
+        margin-left: 20px;
+
+        img {
+            width: 60px;
+        }
+    }
 
 </style>

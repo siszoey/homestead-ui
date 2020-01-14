@@ -324,7 +324,7 @@
             szbz: '',
             sznz: '',
             dl: '',
-            jflx: '',
+            jflx: this.$route.params.jflx ? this.$route.params.jflx : '',
             zfjzmj: '',
             jzcs: '',
             jzgd: '',
