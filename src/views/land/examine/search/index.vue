@@ -6,18 +6,18 @@
                 ref="queryForm"
                 size="mini"
                 style="margin-bottom: -25px;">
-            <el-form-item label="申请类型">
+            <el-form-item label="申请类型" prop="jflx">
                 <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="项目编号" >
+            <el-form-item label="项目编号" prop="sqid">
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
-            <el-form-item label="申请时间">
+            <el-form-item label="申请时间" prop="sqsj">
                 <el-date-picker
                         v-model="queryForm['sqsj']"
                         type="daterange"
@@ -136,7 +136,6 @@
 <script>
   import {PageData} from "../../../../api/land.business"
   import dictMixins from "../../mixnis/dict-mixnis"
-  import processMixins from "../../mixnis/process-mixnis"
   import pageMixins from "../../mixnis/page-mixnis"
   import {mapState} from 'vuex'
 
@@ -146,7 +145,6 @@
     mixins: [
       dictMixins,
       pageMixins,
-      processMixins
     ],
     data() {
       return {

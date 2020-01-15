@@ -324,7 +324,7 @@
             szbz: '',
             sznz: '',
             dl: '',
-            jflx: '',
+            jflx: this.$route.params.jflx ? this.$route.params.jflx : '',
             zfjzmj: '',
             jzcs: '',
             jzgd: '',
@@ -415,14 +415,11 @@
                 })
               }).catch(() => {
                 this.$message({
-                  message: this.isCreateView ? '创建失败' : '修改失败',
+                  message: '创建失败',
                   type: 'error'
                 })
               }).finally(() => {
-                if (this.isCreateView) {
                   this.resetForm(formName)
-                }
-
               })
             } else {
               this.$message({

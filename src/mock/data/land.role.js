@@ -4,7 +4,7 @@
  * @type {string[]}
  */
 
-export const process = [
+export const processRoles = [
   {
     seq: 1,
     role: 'sq-start',
@@ -18,7 +18,7 @@ export const process = [
   {
     seq: 3,
     role: 'sp-start',
-    stage: '村民申请',
+    stage: '乡镇受理',
   },
   {
     seq: 4,
