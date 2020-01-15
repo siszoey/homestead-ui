@@ -31,7 +31,7 @@
         <div class="layout-h" style="height:120px">
           <div class="zjdmj-item">
             <div class="icon">
-              <img src="../assets/农村宅基地面积.png" />
+              <img src="/image/mapicon/农村宅基地面积.png" />
             </div>
             <div class="content">
               <div class="label">农村宅基地面积</div>
@@ -43,7 +43,7 @@
           </div>
           <div class="zjdmj-item">
             <div class="icon">
-              <img src="../assets/农村宅基地数量.png" />
+              <img src="/image/mapicon/农村宅基地数量.png" />
             </div>
             <div class="content">
               <div class="label">农村住宅数量</div>
@@ -58,7 +58,7 @@
         <div class="layout-h" style="height:120px">
           <div class="zjdmj-item">
             <div class="icon">
-              <img src="../assets/农业人口总数.png" />
+              <img src="/image/mapicon/农业人口总数.png" />
             </div>
             <div class="content">
               <div class="label">农业人口总数</div>
@@ -70,7 +70,7 @@
           </div>
           <div class="zjdmj-item">
             <div class="icon">
-              <img src="../assets/总户数.png" />
+              <img src="/image/mapicon/总户数.png" />
             </div>
             <div class="content">
               <div class="label">总户数</div>
@@ -85,7 +85,7 @@
         <div class="layout-h" style="height:120px">
           <div class="zjdmj-item">
             <div class="icon">
-              <img src="../assets/户均宅基地面积.png" />
+              <img src="/image/mapicon/户均宅基地面积.png" />
             </div>
             <div class="content">
               <div class="label">户均宅基地面积</div>
@@ -97,7 +97,7 @@
           </div>
           <div class="zjdmj-item">
             <div class="icon">
-              <img src="../assets/人均宅基地面积.png" />
+              <img src="/image/mapicon/人均宅基地面积.png" />
             </div>
             <div class="content">
               <div class="label">人均宅基地面积</div>
@@ -164,7 +164,7 @@
         <div class="zjdsp-container">
           <div class="zjdsp-item">
             <div class="icon">
-              <img src="../assets/原址新建.png" />
+              <img src="/image/mapicon/原址新建.png" />
             </div>
             <div class="content">
               <div class="label">原址新建</div>
@@ -179,7 +179,7 @@
           </div>
           <div class="zjdsp-item">
             <div class="icon">
-              <img src="../assets/改扩建.png" />
+              <img src="/image/mapicon/改扩建.png" />
             </div>
             <div class="content">
               <div class="label">改扩建</div>
@@ -196,7 +196,7 @@
         <div class="zjdsp-container">
           <div class="zjdsp-item">
             <div class="icon">
-              <img src="../assets/异址新建.png" />
+              <img src="/image/mapicon/异址新建.png" />
             </div>
             <div class="content">
               <div class="label">异址新建</div>
@@ -211,7 +211,7 @@
           </div>
           <div class="zjdsp-item">
             <div class="icon">
-              <img src="../assets/宅基地流转.png" />
+              <img src="/image/mapicon/宅基地流转.png" />
             </div>
             <div class="content">
               <div class="label">宅基地流转</div>
@@ -228,7 +228,7 @@
         <div class="zjdsp-container">
           <div class="zjdsp-item">
             <div class="icon">
-              <img src="../assets/改扩建.png" />
+              <img src="/image/mapicon/改扩建.png" />
             </div>
             <div class="content">
               <div class="label">宅基地退出</div>
@@ -482,7 +482,7 @@ export default {
   height:96%;
 }
 .panel {
-  background: url("../assets/panel-rectangle.png") no-repeat;
+  background: url("/image/mapicon/panel-rectangle.png") no-repeat;
   background-size: 100% 100%;
   box-sizing: border-box;
   padding: 15px;

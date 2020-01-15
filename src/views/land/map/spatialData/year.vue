@@ -4,38 +4,38 @@
 
     <div class="toolbarContainer">
       <div class="toolbar">
-        <div class="toolButton top" title="切换图例显示" @click="show = !show">
-          <img src="../assets/sldt.png" />
+        <div class="toolButton top">
+          <img :src="`${$baseUrl}image/mapicon/sldt.png`" />
         </div>
         <div class="toolButton bottom highlight">
-          <img src="../assets/yxdt.png" />
+          <img :src="`${$baseUrl}image/mapicon/yxdt.png`" />
         </div>
       </div>
       <div class="toolbar" style="margin-top:10px">
         <div class="toolButton top">
-          <img src="../assets/sjjc.png" />
+          <img :src="`${$baseUrl}image/mapicon/sjjc.png`" />
         </div>
         <div class="toolButton bottom">
-          <img src="../assets/cggx.png" />
+          <img :src="`${$baseUrl}image/mapicon/cggx.png`" />
         </div>
       </div>
       <div class="toolbar" style="margin-top:10px">
         <div :class="layerOn ?'toolButton top selected':'toolButton top '" @click="showLayer">
-          <img src="../assets/tcgl.png" />
+          <img :src="`${$baseUrl}image/mapicon/tcgl.png`" />
         </div>
         <div class="toolButton">
-          <img src="../assets/sqgl.png" />
+          <img :src="`${$baseUrl}image/mapicon/sqgl.png`" />
         </div>
         <div class="toolButton">
-          <img src="../assets/fpdb.png" />
+          <img :src="`${$baseUrl}image/mapicon/fpdb.png`" />
         </div>
         <div class="toolButton bottom">
-          <img src="../assets/zbdw.png" />
+          <img :src="`${$baseUrl}image/mapicon/zbdw.png`" />
         </div>
       </div>
     </div>
 
-    <div class="legendContainer"  v-show="show">
+    <!-- <div class="legendContainer"  v-show="show">
       <div class="legendBox">
         <div class="title">图例</div>
         <div class="legendItem">
@@ -87,7 +87,7 @@
           <img class="img" src="../assets/czghstyle/自然保留地.png" />自然保留地
         </div>
       </div>
-    </div>
+    </div> -->
 
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
