@@ -43,7 +43,7 @@
 <td colspan="3" class="s15 has_filled" >{{detailData.nzjdqk.szdz}}</td>
 <td class="s15">南至：</td>
 <td colspan="2" class="s15 has_filled">{{detailData.nzjdqk.szxz}}</td>
-<td colspan="3" rowspan="3" class="s15">性质</td>
+<td colspan="3" rowspan="3" class="s15 has_filled">性质:<span v-text="getDicts('建房类型').find(r=>r.optCode==detailData.nzjdqk.jflx).optName"></span></td>
 </tr>
 <tr style="height:38px;">
 <td colspan="2" class="s15">西至：</td>
