@@ -42,6 +42,12 @@
     </div>
 
     <div id="pic-map" class="mapDiv"></div>
+    <el-card class="box-card" id="popup">
+      <div class="text item">{{'坐落：' + ZJDInfo.Zl }}</div>
+      <div class="text item">{{'宗地面积：' + ZJDInfo.Zdmj+'(㎡)' }}</div>
+      <div class="text item">{{'宗地用途：' + ZJDInfo.Ytmc }}</div>
+      <div class="text item">{{'权利人名称：' + ZJDInfo.Qlrmc }}</div>
+    </el-card>
     <timeline></timeline>
   </div>
 </template>
@@ -57,6 +63,8 @@ import { TileWMS } from "ol/source";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
+import { getCenter, getBottomRight } from "ol/extent";
+import { Overlay } from "ol";
 
 export default {
   name: "examinePic",
@@ -69,6 +77,14 @@ export default {
       city: "",
       year: "",
       currentZD: null,
+      popup: null,
+      popupvisible: false,
+      ZJDInfo: {
+        Zl: "",
+        Zdmj: "",
+        Ytmc: "",
+        Qlrmc: ""
+      },
       tableData: [
         {
           project: "宅基地申请",
@@ -111,6 +127,20 @@ export default {
           address: "东村村民小组",
           status: "联合审批",
           zddm: "469005115003JC02310"
+        },
+        {
+          project: "宅基地申请",
+          proposer: "卢文瑞",
+          address: "东塔村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC01551"
+        },
+        {
+          project: "宅基地申请",
+          proposer: "潘秀荣",
+          address: "南林村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC02046"
         }
       ]
     };
@@ -174,8 +204,27 @@ export default {
       this.currentZD.getSource().on("change", function(evt) {
         var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
         if (source.getState() === "ready") {
-          _this.map.getView().fit(source.getExtent()); //自动缩放
-          _this.map.getView().setZoom(18);
+          var center = getCenter(source.getExtent());
+          _this.map.getView().animate(
+            {
+              zoom: 16,
+              duration: 1500
+            },
+            {
+              center: center,
+              duration: 2000
+            },
+            {
+              zoom: 20,
+              duration: 1500
+            }
+          );
+          var element = _this.popup.getElement();
+          var data = source.getFeatures()[0].getProperties();
+          _this.popup.setPosition(getBottomRight(source.getExtent()));
+          _this.ZJDInfo = data;
+          //_this.map.getView().fit(source.getExtent()); //自动缩放
+          //_this.map.getView().setZoom(21);
         }
       });
       this.map.addLayer(this.currentZD);
@@ -185,7 +234,7 @@ export default {
     var currentRegionLayer;
     var xzqhdm = "469005115201";
     this.map = BaseMap.BaseInitMap("pic-map");
-    this.map.addLayer(BaseMap.img_wLayer);
+    this.map.addLayer(BaseMap.img_DPCLayer);
     currentRegionLayer = BaseMap.BaseChangeRegionVector(
       this.map,
       xzqhdm,
@@ -205,6 +254,11 @@ export default {
     //默认年份为上一年度
     this.year = tYear - 1;
     //floatOnMap();
+
+    this.popup = new Overlay({
+      element: document.getElementById("popup")
+    });
+    this.map.addOverlay(this.popup);
   }
 };
 </script>
@@ -242,6 +296,7 @@ export default {
   /* margin-top: 11%; */
   height: 99.5%;
   background-color: #f7f7f7d1;
+  overflow-y: auto;
 }
 .year-column-l {
   /* position: absolute; */

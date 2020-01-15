@@ -4,12 +4,13 @@ import View from "ol/View";
 import GeoJSON from "ol/format/GeoJSON";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
-import { XYZ, TileWMS, Cluster } from "ol/source";
+import { XYZ, TileWMS, Cluster, ImageWMS } from "ol/source";
 import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
-import {defaults as defaultControls, Control} from 'ol/control';
+import { defaults as defaultControls, Control } from 'ol/control';
+import ImageLayer from "ol/layer/Image";
 
 
 //访问天地图网站的序号
@@ -74,12 +75,30 @@ var geoserverURL = 'http://101.91.199.54:8060/geoserver/';
 var geoserver = geoserverURL + 'TDLYXZ/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson';
 var dkserver = geoserverURL + 'TDLYXZ/wms';
 
+//东坡村影像底图
+var img_DPCLayer = new TileLayer({
+    source: new TileWMS({
+        url: geoserverURL + "TDLYXZ/wms",
+        params: {
+            'FORMAT': 'image/png',
+            'VERSION': '1.1.1',
+            tiled: true,
+            "LAYERS": 'TDLYXZ:Puqian',
+            "exceptions": 'application/vnd.ogc.se_inimage'
+        },
+    }),
+    name: '东坡村影像底图'
+    ,
+    zindex: 1
+});
+
 export default {
     img_wLayer,
     vec_wLayer,
     ter_wLayer,
     cia_wLayer,
     img_wLayer_g,
+    img_DPCLayer,
 
     geoserverURL,
     geoserver,
@@ -107,7 +126,7 @@ function BaseInitMap(div) {
         div = "map";
     var map = new Map({
         target: div,
-        controls: defaultControls({zoom: false}),
+        controls: defaultControls({ zoom: false }),
         attribution: false,
         layers: [
         ],
