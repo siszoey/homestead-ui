@@ -205,23 +205,10 @@
           } catch (err) {
             console.error('跨域报错')
           }
-
         }
-
       },
       handleSend() {
-        if (this.hadSend) {
-          this.$message({
-            type: 'warning',
-            message: '已发送'
-          })
-          return
-        }
-        if (undefined == this.processInfo) {
-          this.$message({
-            type: 'warning',
-            message: '项目编号丢失'
-          })
+        if(this.confirmDone()){
           return
         }
         let confirm = Object.assign({}, {
@@ -243,20 +230,10 @@
         })
       },
       handleBack() {
-        if (this.hadBack) {
-          this.$message({
-            type: 'warning',
-            message: '已回退'
-          })
+        if(this.confirmDone()){
           return
         }
-        if (undefined == this.processInfo) {
-          this.$message({
-            type: 'warning',
-            message: '项目编号丢失'
-          })
-          return
-        }
+
         let confirm = Object.assign({}, {
           distinguishCancelAndClose: false,
           title: '回退给上个办理人, 是否继续?',
@@ -311,6 +288,30 @@
         // this.showFlag(false)
         // this.showForm = formFlag
         // this.showMap = flag ? false : true
+      },
+      confirmDone(){
+        if (this.hadSend) {
+          this.$message({
+            type: 'warning',
+            message: '已发送'
+          })
+          return true;
+        }
+        if (this.hadBack) {
+          this.$message({
+            type: 'warning',
+            message: '已回退'
+          })
+          return true;
+        }
+        if (undefined == this.processInfo) {
+          this.$message({
+            type: 'warning',
+            message: '项目编号丢失'
+          })
+          return true
+        }
+        return false
       },
       getLastXMZT() {
         let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
