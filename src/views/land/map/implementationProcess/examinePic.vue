@@ -43,7 +43,7 @@
 
     <div id="pic-map" class="mapDiv"></div>
     <el-card class="box-card" id="popup">
-      <div class="text item">{{'坐落：' + ZJDInfo.Zl }}</div>
+      <div class="text item">{{'坐落：' + ZJDInfo.Szz }}</div>
       <div class="text item">{{'宗地面积：' + ZJDInfo.Zdmj+'(㎡)' }}</div>
       <div class="text item">{{'宗地用途：' + ZJDInfo.Ytmc }}</div>
       <div class="text item">{{'权利人名称：' + ZJDInfo.Qlrmc }}</div>
@@ -80,7 +80,7 @@ export default {
       popup: null,
       popupvisible: false,
       ZJDInfo: {
-        Zl: "",
+        Szz: "",
         Zdmj: "",
         Ytmc: "",
         Qlrmc: ""
@@ -217,17 +217,20 @@ export default {
             {
               zoom: 20,
               duration: 1500
-            }
+            },
+            _this.animateDone
           );
           var element = _this.popup.getElement();
           var data = source.getFeatures()[0].getProperties();
           _this.popup.setPosition(getBottomRight(source.getExtent()));
           _this.ZJDInfo = data;
-          //_this.map.getView().fit(source.getExtent()); //自动缩放
-          //_this.map.getView().setZoom(21);
+          document.getElementById("popup").style.visibility = "hidden";
         }
       });
       this.map.addLayer(this.currentZD);
+    },
+    animateDone() {
+      document.getElementById("popup").style.visibility = "visible";
     }
   },
   mounted() {
