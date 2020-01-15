@@ -1,84 +1,86 @@
 <template>
     <d2-container v-loading="pageLoading">
-        <el-steps :active="active" finish-status="success" align-center>
+        <el-steps :active="active" finish-status="success" align-center direction="vertical">
             <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
         </el-steps>
-        <el-divider></el-divider>
-        <el-row :gutter="20">
-            <el-col :span="6">
-                <el-button type="primary" size="mini" @click="handleShowForm">
-                    表单
-                </el-button>
-                <el-button type="primary" size="mini" @click="handleShowFileView">
-                    材料
-                </el-button>
-                <el-button type="primary" size="mini" @click="handleShowPrintView">
-                    打印
-                </el-button>
-            </el-col>
+        <div class="detail-content">
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-button type="primary" size="mini" @click="handleShowForm">
+                        表单
+                    </el-button>
+                    <el-button type="primary" size="mini" @click="handleShowFileView">
+                        材料
+                    </el-button>
+                    <el-button type="primary" size="mini" @click="handleShowPrintView">
+                        打印
+                    </el-button>
+                </el-col>
 
-            <el-col :span="5" :offset="13">
-                <el-button type="primary" size="mini" @click="handleShowMap">
-                    一张图
-                </el-button>
-                <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
-                    发送
-                </el-button>
-                <el-button type="primary" size="mini" @click="handleBack" :disabled="backBtnDisabled">
-                    回退
-                </el-button>
-            </el-col>
-        </el-row>
+                <el-col :span="5" :offset="13">
+                    <el-button type="primary" size="mini" @click="handleShowMap">
+                        查看地图
+                    </el-button>
+                    <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
+                        发送
+                    </el-button>
+                    <el-button type="primary" size="mini" @click="handleBack" :disabled="backBtnDisabled">
+                        回退
+                    </el-button>
+                </el-col>
+            </el-row>
 
-        <el-row :gutter="5">
-            <!--表单-->
-            <el-col :span="showMap ? 12 : 24">
-                <el-tabs tab-position="left" v-show="showForm">
-                    <el-tab-pane label="申请表">
-                        <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
-                    </el-tab-pane>
-                    <el-tab-pane label="审批表" v-if="detail">
-                        <approvalForm :disabled="approvalFormDisabled" :detail="detail"></approvalForm>
-                    </el-tab-pane>
-                    <el-tab-pane label="验收意见表" v-if="detail">
-                        <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"></appceptanceForm>
-                    </el-tab-pane>
-                </el-tabs>
-                <!--材料-->
-                <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
-
-                <!--打印-->
-                <div v-bind="$attrs" v-show="showPrintView">
-                    <el-tabs tab-position="left">
+            <el-row :gutter="5">
+                <!--表单-->
+                <el-col :span="showMap ? 12 : 24">
+                    <el-tabs tab-position="left" v-show="showForm">
                         <el-tab-pane label="申请表">
-                            <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
+                            <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
                         </el-tab-pane>
-                        <el-tab-pane label="审批表">
-                            <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
+                        <el-tab-pane label="审批表" v-if="detail">
+                            <approvalForm :disabled="approvalFormDisabled" :detail="detail"></approvalForm>
                         </el-tab-pane>
-                        <el-tab-pane label="验收意见表">
-                            <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
-                        </el-tab-pane>
-                        <el-tab-pane label="批准书">
-                            <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
-                        </el-tab-pane>
-                        <el-tab-pane label="建设规划书">
-                            <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
-                        </el-tab-pane>
-                        <el-tab-pane label="附图">
-                            <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>
+                        <el-tab-pane label="验收意见表" v-if="detail">
+                            <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"></appceptanceForm>
                         </el-tab-pane>
                     </el-tabs>
-                </div>
-            </el-col>
+                    <!--材料-->
+                    <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
 
-            <!--一张图-->
-            <el-col :span="12" v-if="showMap">
-                <div style="width: 570px;height:800px">
-                    <oneMap :hiddenToolbar="true"></oneMap>
-                </div>
-            </el-col>
-        </el-row>
+                    <!--打印-->
+                    <div v-bind="$attrs" v-show="showPrintView">
+                        <el-tabs tab-position="left">
+                            <el-tab-pane label="申请表">
+                                <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
+                            </el-tab-pane>
+                            <el-tab-pane label="审批表">
+                                <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
+                            </el-tab-pane>
+                            <el-tab-pane label="验收意见表">
+                                <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
+                            </el-tab-pane>
+                            <el-tab-pane label="批准书">
+                                <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
+                            </el-tab-pane>
+                            <el-tab-pane label="建设规划书">
+                                <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
+                            </el-tab-pane>
+                            <el-tab-pane label="附图">
+                                <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </div>
+                </el-col>
+
+                <!--一张图-->
+                <el-col :span="12" v-if="showMap">
+                    <div style="width: 570px;height:800px">
+                        <oneMap :hiddenToolbar="true"></oneMap>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+
 
     </d2-container>
 </template>
@@ -333,6 +335,19 @@
         min-height: 500px;
         /*height: calc(100% - 45px);*/
         width: 100%;
+    }
+
+    .el-steps{
+        position: absolute;
+        top: 0;
+        left: 90%;
+        right: 0;
+        padding-top: 20px;
+        padding-right: 20px;
+        height: 200%;
+    }
+    .detail-content{
+        margin-right: 10%;
     }
 </style>
 
