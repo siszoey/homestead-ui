@@ -8,18 +8,11 @@
         </div>
         <div class="text item">
           <label class="year-column-x">年份</label>
-          <el-select
-            v-model="year"
-            class="select-item-year"
-          >
+          <el-select v-model="year" class="select-item-year panelitem">
             <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <label class="xzq-column-x">行政区</label>
-          <el-select
-            v-model="city"
-            class="select-item-xzq"
-            v-on:change="changeCity(city)"
-          >
+          <el-select v-model="city" class="select-item-xzq panelitem" v-on:change="changeCity(city)">
             <el-option
               v-for="item in cities"
               :key="item.id"
@@ -30,20 +23,20 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">龙华区（平方米）</span>
+          <span class="demonstration">龙华区（亩）</span>
           <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>实际用地
+            <span class="color-box-blue"></span>实际用地
           </span>
           <br />
           <span class="demonstration">1518.69</span>
           <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>计划用地
+            <span class="color-box-gray"></span>计划用地
           </span>
           <el-progress :percentage="11"></el-progress>
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">美兰区（平方米）</span>
+          <span class="demonstration">美兰区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>实际用地
           </span>
@@ -56,7 +49,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration">琼山区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>实际用地
           </span>
@@ -69,7 +62,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">秀英区（平方米）</span>
+          <span class="demonstration">秀英区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>实际用地
           </span>
@@ -82,7 +75,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration">琼山区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>实际用地
           </span>
@@ -94,7 +87,7 @@
           <el-progress :percentage="15"></el-progress>
         </div>
         <div class="text item">
-          <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+          <el-table :data="tableData" style="width: 100%" class="panelitem" :row-class-name="tableRowClassName">
             <el-table-column prop="xzq" label="行政区"></el-table-column>
             <el-table-column prop="jhyd" label="计划用地"></el-table-column>
             <el-table-column prop="sjyd" label="实际用地"></el-table-column>
@@ -103,7 +96,8 @@
         </div>
       </el-card>
     </div>
-    <div :id="id" class="o-echarts" style="background-color:white;height:100%"></div>
+    <div id="maplandindex" class="mapDiv"></div>
+    <timeline></timeline>
   </div>
 </template>
 
@@ -128,6 +122,9 @@ import JSON_WHS from "@/plugin/echarts-map/city/json/hainan/460100.json"; //海�
 import JSON_HSS from "@/plugin/echarts-map/city/json/hainan/460200.json"; //三亚市
 import JSON_SYS from "@/plugin/echarts-map/city/json/hainan/460300.json"; //三沙市
 import JSON_YCS from "@/plugin/echarts-map/city/json/hainan/469000.json"; //其它自治市县
+
+import timeline from "../spatialData/components/timeline";
+import BaseMap from "../spatialData/mapBase.js";
 
 export default {
   name: "echart-map",
@@ -294,6 +291,9 @@ export default {
       }
     };
   },
+  components: {
+    timeline
+  },
   mounted() {
     //获取海南市级行政区
     let sj_fileName = "echarts-map/province/json/hainan.json";
@@ -371,22 +371,17 @@ export default {
     this.year = tYear - 1;
     console.log(this.years);
     // this.echartObj = echarts.init(document.getElementById(this.id));
-    this.JSON_Data = JSON_WHS;
-    this.initMaps(this.JSON_Data);
-    // echarts.registerMap("武汉市", this.JSON_Data);
-    // this.echartObj.setOption(this.getOptions(), true);
-    this.echartObj.on("legendselectchanged", params => {
-      this.radioActive = Object.keys(this.radioList).filter(
-        item => this.radioList[item] === params.name
-      )[0];
-      this.echartObj.clear();
-      this.echartObj.setOption(this.getOptions());
-    });
-    window.addEventListener("resize", () => {
-      if (this.echartObj && this.echartObj.resize) {
-        this.echartObj.resize();
-      }
-    });
+    var currentRegionLayer;
+    var xzqhdm = "469005115201";
+    this.map = BaseMap.BaseInitMap("maplandindex");
+    this.map.addLayer(BaseMap.img_wLayer);
+
+    currentRegionLayer = BaseMap.BaseChangeRegionVector(
+      this.map,
+      xzqhdm,
+      currentRegionLayer
+    );
+    BaseMap.BaseAddTruePoints(this.map, "#F28965");
   },
   methods: {
     //ajax获取本地json文件行政区划
@@ -561,15 +556,17 @@ export default {
 .color-box-blue {
   width: 13px;
   height: 13px;
-  position: absolute;
-  margin: 3px -20px;
+  display: inline-flex;
+  margin-left: 5px;
+  margin-right: 5px;
   background-color: #409eff;
 }
 .color-box-gray {
   width: 13px;
   height: 13px;
-  position: absolute;
-  margin: 4px -20px;
+  display: inline-flex;
+    margin-left: 5px;
+  margin-right: 5px;
   background-color: #ebeef5;
 }
 .el-card__header {
@@ -595,17 +592,21 @@ export default {
 
 .box-card {
   width: 99.5%;
+  height: 99.5%;
   /* margin-top: 11%; */
   background-color: #f7f7f7d1;
+  overflow-y: auto;
 }
 .left-side {
   position: absolute;
   z-index: 99;
-  width: 25%;
-  height: 98%;
+  /* width: 25%; */
+  min-width: 435px;
+  height: 100%;
   color: white;
+  
   /* background-color: #f7f7f7d1; */
-  margin-top: -0.1rem;
+  /* margin-top: -0.1rem; */
 }
 .year-column-x {
   /* position: absolute; */
@@ -625,6 +626,10 @@ export default {
   /* margin-top: 2.8%; */
 }
 
+.panelitem{
+  opacity: 0.7;
+}
+
 .select-item-year {
   height: 35px !important;
   width: 100px !important;
@@ -632,7 +637,7 @@ export default {
 }
 .select-item-xzq {
   height: 35px !important;
-  width:160px;
+  width: 160px;
   /* margin-top: 2.5%; */
 }
 .o-echarts {
@@ -641,5 +646,19 @@ export default {
   width: 100%;
   /* height: 100%; */
   margin-top: -10px;
+}
+.mapDiv {
+  height: 100%;
+  padding: 0px;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.card-title{
+  font-size: 14px;
 }
 </style>
