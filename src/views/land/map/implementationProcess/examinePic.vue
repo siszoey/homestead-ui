@@ -8,11 +8,15 @@
         </div>
         <div class="text item">
           <label class="year-column-l">年份</label>
-          <el-select v-model="year" class="select-item-year">
+          <el-select v-model="year" class="select-item-year panelitem">
             <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <label class="xzq-column-l">行政区</label>
-          <el-select v-model="city" class="select-item-xzq" v-on:change="changeCity(city)">
+          <el-select
+            v-model="city"
+            class="select-item-xzq panelitem"
+            v-on:change="changeCity(city)"
+          >
             <el-option
               v-for="item in cities"
               :key="item.id"
@@ -22,7 +26,7 @@
           </el-select>
         </div>
         <div class="text item">
-          <el-table :data="tableData" style="width: 100%">
+          <el-table :data="tableData" style="width: 100%" class="panelitem" @row-click="zoomtoZD">
             <el-table-column prop="project" label="项目名称" />
             <el-table-column prop="proposer" label="申请人" />
             <el-table-column prop="address" label="地址" />
@@ -31,7 +35,7 @@
               <template slot-scope="scope">
                 <el-checkbox v-model="scope.row.checked"></el-checkbox>
               </template>
-            </el-table-column> -->
+            </el-table-column>-->
           </el-table>
         </div>
       </el-card>
@@ -46,6 +50,13 @@
 import BaseMap from "../spatialData/mapBase.js";
 import timeline from "../spatialData/components/timeline";
 import { getExaminePic } from "../../../../api/res.implprocess";
+import Point from "ol/geom/Point";
+import { fromLonLat } from "ol/proj";
+import TileLayer from "ol/layer/Tile";
+import { TileWMS } from "ol/source";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import GeoJSON from "ol/format/GeoJSON";
 
 export default {
   name: "examinePic",
@@ -57,48 +68,49 @@ export default {
       cities: [],
       city: "",
       year: "",
+      currentZD: null,
       tableData: [
         {
           project: "宅基地申请",
-          proposer: "王小虎",
-          address: "上海市",
-          status: "联合审批"
+          proposer: "叶世芳",
+          address: "东坡坡村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC02307"
         },
         {
           project: "宅基地申请",
-          proposer: "王小虎",
-          address: "上海市",
-          status: "联合审批"
+          proposer: "叶兹文",
+          address: "东坡坡村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC01950"
         },
         {
           project: "宅基地申请",
-          proposer: "王小虎",
-          address: "上海市",
-          status: "联合审批"
+          proposer: "吴坤桔",
+          address: "东排坡村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC99012"
         },
         {
           project: "宅基地申请",
-          proposer: "王小虎",
-          address: "上海市",
-          status: "联合审批"
+          proposer: "吴兰英",
+          address: "东排坡村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC02419"
         },
         {
           project: "宅基地申请",
-          proposer: "王小虎",
-          address: "上海市",
-          status: "联合审批"
+          proposer: "潘正欣",
+          address: "东村村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC01329"
         },
         {
           project: "宅基地申请",
-          proposer: "王小虎",
-          address: "上海市",
-          status: "联合审批"
-        },
-        {
-          project: "宅基地申请",
-          proposer: "王小虎",
-          address: "上海市",
-          status: "联合审批"
+          proposer: "潘成金",
+          address: "东村村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC02310"
         }
       ]
     };
@@ -144,21 +156,29 @@ export default {
           this.table.listLoading = false;
         });
     },
-    floatOnMap() {
-      let map = this.$refs.rootmap;
-      let container = map.querySelector("div.ol-overlaycontainer-stopevent");
-      let len = map.childNodes.length;
-
-      var floatNodes = [];
-      for (let i = 0; i < len; i++) {
-        const node = map.childNodes[i];
-        if (node.id.startsWith("float-on-"))
-          floatNodes[floatNodes.length] = node;
-      }
-      for (let i = 0; i < floatNodes.length; i++) {
-        const node = floatNodes[i];
-        container.appendChild(node);
-      }
+    zoomtoZD(row) {
+      let _this = this;
+      if (this.currentZD != null) this.map.removeLayer(this.currentZD);
+      this.currentZD = new VectorLayer({
+        source: new VectorSource({
+          url:
+            BaseMap.geoserver +
+            "&typeName=TDLYXZ:ZD" +
+            "&CQL_FILTER=zddm_bf = %27" +
+            row.zddm +
+            "%27",
+          format: new GeoJSON()
+        }),
+        zIndex: 20
+      });
+      this.currentZD.getSource().on("change", function(evt) {
+        var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === "ready") {
+          _this.map.getView().fit(source.getExtent()); //自动缩放
+          _this.map.getView().setZoom(18);
+        }
+      });
+      this.map.addLayer(this.currentZD);
     }
   },
   mounted() {
@@ -251,6 +271,7 @@ export default {
   position: absolute;
   z-index: 99;
   width: 26%;
+  min-width: 435px;
   height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
@@ -265,5 +286,13 @@ export default {
   position: absolute;
   left: 0px;
   top: 0px;
+}
+
+.panelitem {
+  opacity: 0.7;
+}
+
+.card-title {
+  font-size: 14px;
 }
 </style>

@@ -3,32 +3,32 @@
     <div id="mapmappanel" class="mapDiv"></div>
 
     <div class="leftcontainer">
-      <div class="panel" style="height:1.2rem;margin-top:0px;">
+      <div class="panel" style="height:20%;margin-top:0px;">
         <div class="title">辖区行政单位</div>
         <div class="layout-h" style="height:100px">
           <div class="xzq-item">
-            <div class="label">4</div>
+            <div class="label">17</div>
             <div class="unit">市（州、林区）</div>
           </div>
           <div class="xzq-item">
-            <div class="label">23</div>
+            <div class="label">103</div>
             <div class="unit">县（市、区）</div>
           </div>
           <div class="xzq-item">
-            <div class="label">218</div>
+            <div class="label">1249</div>
             <div class="unit">乡镇（街道）</div>
           </div>
           <div class="xzq-item">
-            <div class="label" style="color:rgb(0,216,255)">12000</div>
+            <div class="label" style="color:rgb(0,216,255)">26085</div>
             <div class="unit">行政村</div>
           </div>
         </div>
       </div>
 
-      <div class="panel" style="height:2.8rem">
+      <div class="panel" style="height:50%">
         <div class="title">农村宅基地面积及户数统计</div>
 
-        <div class="layout-h" style="height:0.8rem">
+        <div class="layout-h" style="height:120px">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="../assets/农村宅基地面积.png" />
@@ -36,7 +36,7 @@
             <div class="content">
               <div class="label">农村宅基地面积</div>
               <div>
-                <div class="value">45</div>
+                <div class="value">228</div>
                 <div class="unit">万亩</div>
               </div>
             </div>
@@ -48,14 +48,14 @@
             <div class="content">
               <div class="label">农村住宅数量</div>
               <div>
-                <div class="value">150</div>
+                <div class="value">1103</div>
                 <div class="unit">万</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="layout-h" style="height:0.8rem">
+        <div class="layout-h" style="height:120px">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="../assets/农业人口总数.png" />
@@ -63,7 +63,7 @@
             <div class="content">
               <div class="label">农业人口总数</div>
               <div>
-                <div class="value">382.51</div>
+                <div class="value">2349.05</div>
                 <div class="unit">万</div>
               </div>
             </div>
@@ -75,14 +75,14 @@
             <div class="content">
               <div class="label">总户数</div>
               <div>
-                <div class="value">115.32</div>
+                <div class="value">886.2</div>
                 <div class="unit">万</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="layout-h" style="height:0.8rem">
+        <div class="layout-h" style="height:120px">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="../assets/户均宅基地面积.png" />
@@ -90,7 +90,7 @@
             <div class="content">
               <div class="label">户均宅基地面积</div>
               <div>
-                <div class="value">175</div>
+                <div class="value">140</div>
                 <div class="unit">平方米</div>
               </div>
             </div>
@@ -102,7 +102,7 @@
             <div class="content">
               <div class="label">人均宅基地面积</div>
               <div>
-                <div class="value">75</div>
+                <div class="value">45</div>
                 <div class="unit">平方米</div>
               </div>
             </div>
@@ -110,19 +110,19 @@
         </div>
       </div>
 
-      <div class="panel" style="height: 2.4rem;">
+      <div class="panel" style="height:30%;">
         <div class="title">农村闲置宅基地和闲置住宅统计</div>
         <div class="xzzjd-container" style="margin-top:10px">
           <div class="xzzjd-item">
             <span class="label">农村闲置住宅</span>
-            <span class="value">22.5</span>
+            <span class="value">174</span>
             <span class="unit">万套</span>
           </div>
         </div>
 
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置宅基地</span>
-          <span class="value">2.25</span>
+          <span class="value">11.4</span>
           <span class="unit">万亩</span>
         </div>
 
@@ -135,7 +135,7 @@
 
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置住宅</span>
-          <span class="value">22.5</span>
+          <span class="value">174</span>
           <span class="unit">万套</span>
         </div>
 
@@ -149,17 +149,17 @@
     </div>
 
     <div class="rightcontainer">
-      <div class="panel" style="height:2rem;margin-top:0px;">
+      <div class="panel" style="height:30%;margin-top:0px;">
         <div class="title">农村闲置宅基地开发利用情况</div>
-        <div id="piechart" style="width:100%;height:1.8rem;"></div>
+        <div id="piechart" style="width:100%;height:210px;"></div>
       </div>
 
-      <div class="panel" style="height:2.5rem">
+      <div class="panel" style="height:35%">
         <div class="title">农村宅基地违法用地统计</div>
-        <div id="barchart" style="width:100%;height:2.1rem"></div>
+        <div id="barchart" style="width:100%;height:220px;"></div>
       </div>
 
-      <div class="panel" style="height:2rem;">
+      <div class="panel" style="height:35%;">
         <div class="title">农村宅基地审批统计</div>
         <div class="zjdsp-container">
           <div class="zjdsp-item">
@@ -262,23 +262,18 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(function(){
-      this.map = BaseMap.BaseInitMap("mapmappanel");
-      this.map.addLayer(BaseMap.img_wLayer);
-      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm,null,()=>{
-          this.map.getView().setZoom(7)
-      });
-      
-      this.drawPieChart();
-      this.drawbarchart();
-    })
-    
+    this.map = BaseMap.BaseInitMap("mapmappanel");
+    this.map.addLayer(BaseMap.img_wLayer);
+    var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm);
+
+    this.drawPieChart();
+    this.drawbarchart();
   },
   methods: {
     drawPieChart: function() {
       let myChart = this.$echarts.init(document.getElementById("piechart"));
       let datas = [];
-      let legends = ["休闲农业", "乡村旅游", "餐饮民宿", "文化体验", "创意办公", "电子商务"];
+      let legends = ["民宿", "家庭工坊", "手工作坊", "其它"];
       let seriesname = "住宅开发利用情况";
       legends.forEach(c => {
         datas.push({
@@ -286,7 +281,7 @@ export default {
           value: 5
         });
       });
-      let colorList = ["#12B1EB", "#29EEDF", "#45B043", "#F2B705", "#800080", "#6A5ACD"];
+      let colorList = ["#12B1EB", "#29EEDF", "#45B043", "#F2B705"];
       let option = {
         tooltip: {
           trigger: "item",
@@ -445,8 +440,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 100%;
-  height: 100%;
+  width: 98%;
+  height: 96%;
   padding: 0px;
   margin: 0px;
   text-align: center;
@@ -477,20 +472,20 @@ export default {
   left: 10px;
   top: 10px;
   width: 30%;
-  height:6.5rem;
+  height:96%;
 }
 .rightcontainer {
   position: absolute;
   right: 30px;
   top: 10px;
   width: 30%;
-  height:6.5rem;
+  height:96%;
 }
 .panel {
   background: url("../assets/panel-rectangle.png") no-repeat;
   background-size: 100% 100%;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 15px;
   width: 100%;
   margin-top: 10px;
   .title {
@@ -586,20 +581,20 @@ export default {
   display: flex;
   justify-content: start;
   align-items: center;
-  height: 0.5rem;
+  height: 80px;
   .zjdsp-item {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     .icon {
-      width: 0.4rem;
-      height: 0.4rem;
+      width: 50px;
+      height: 50px;
       padding: 3px;
       box-sizing: border-box;
       float: left;
       img {
-        width: 100%;
+        width: 44px;
       }
     }
     .content {

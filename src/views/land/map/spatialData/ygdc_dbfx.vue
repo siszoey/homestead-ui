@@ -63,7 +63,7 @@
         <el-menu-item index="5">
           <template slot="title">
             <div @click.stop="stop()">
-              <el-switch inactive-text="行政区" v-model="XZQ.Visible" @change="changeLayer('XZQ')"></el-switch>
+              <el-switch inactive-text="行政区划" v-model="XZQ.Visible" @change="changeLayer('XZQ')"></el-switch>
             </div>
           </template>
         </el-menu-item>
@@ -530,8 +530,8 @@ export default {
   margin: 3px;
 }
 </style>
-<style>
+<style scoped>
 .el-switch__label {
-  min-width: 85px !important;
+  min-width: 85px;
 }
 </style>

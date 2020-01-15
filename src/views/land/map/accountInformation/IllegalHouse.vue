@@ -8,11 +8,11 @@
         </div>
         <div class="text item">
           <label class="year-column-l">年份</label>
-          <el-select v-model="year" class="select-item-year">
+          <el-select v-model="year" class="select-item-year panelitem">
             <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <label class="xzq-column-l">行政区</label>
-          <el-select v-model="city" class="select-item-xzq" v-on:change="changeCity(city)">
+          <el-select v-model="city" class="select-item-xzq panelitem" v-on:change="changeCity(city)">
             <el-option
               v-for="item in cities"
               :key="item.id"
@@ -23,7 +23,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">龙华区（平方米）</span>
+          <span class="demonstration">龙华区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -36,7 +36,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">美兰区（平方米）</span>
+          <span class="demonstration">美兰区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -49,7 +49,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration">琼山区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -62,7 +62,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">秀英区（平方米）</span>
+          <span class="demonstration">秀英区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -75,7 +75,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（平方米）</span>
+          <span class="demonstration">琼山区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -87,7 +87,7 @@
           <el-progress :percentage="56" color="#E85754"></el-progress>
         </div>
         <div class="text item">
-          <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+          <el-table :data="tableData" style="width: 100%" class=" panelitem" :row-class-name="tableRowClassName">
             <el-table-column prop="xzq" label="行政区"></el-table-column>
             <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
             <el-table-column prop="wfzd" label="违法占地"></el-table-column>
@@ -574,15 +574,17 @@ export default {
 .color-box-orange {
   width: 13px;
   height: 13px;
-  position: absolute;
-  margin: 3px -20px;
+  display: inline-flex;
+  margin-left: 5px;
+  margin-right: 5px;
   background-color: #e85754;
 }
 .color-box-gray {
   width: 13px;
   height: 13px;
-  position: absolute;
-  margin: 4px -20px;
+  display: inline-flex;
+  margin-left: 5px;
+  margin-right: 5px;
   background-color: #ebeef5;
 }
 .el-card__header {
@@ -609,13 +611,15 @@ export default {
 .box-card {
   width: 99.5%;
   /* margin-top: 11%; */
-  height:99.5%;
+  height: 99.5%;
   background-color: #f7f7f7d1;
+  overflow-y: auto;
 }
 .left-side {
   position: absolute;
   z-index: 99;
   width: 25%;
+  min-width: 435px;
   height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
@@ -637,12 +641,16 @@ export default {
   /* margin-left: 1.8rem; */
 }
 
+.panelitem {
+  opacity: 0.7;
+}
+
 .select-item-year {
   height: 35px !important;
   width: 100px !important;
 }
 .select-item-xzq {
-  width:160px;
+  width: 160px;
   height: 35px !important;
 }
 .o-echarts {
@@ -661,5 +669,9 @@ export default {
   position: absolute;
   left: 0px;
   top: 0px;
+}
+
+.card-title {
+  font-size: 14px;
 }
 </style>

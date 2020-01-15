@@ -1,118 +1,205 @@
 <template>
   <div class="container">
-    <div class="mapPanel">
-      <el-menu
-        default-active="1"
-        class="el-menu"
-        :unique-opened="true"
-        style="height:100%;background-color: lightgrey;"
-      >
-        <el-submenu index="1">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch
-                inactive-text="现状调查成果"
-                v-model="XZDCCG.Visible"
-                @change="changeLayer('XZDCCG')"
-              ></el-switch>
-            </div>
-          </template>
-          <el-menu-item-group>
-            <div class="itembox">
-              <div class="listItem">
-                <el-checkbox @change="checkALL('XZDCCG')" v-model="XZDCCG.CheckAll"></el-checkbox>
-                <span class="img" style="visibility: hidden;"></span>
-                全选
-              </div>
-              <div class="listItem" v-for="box in XZDCCG.Boxs" :key="box.code">
-                <el-checkbox @change="changeFeature('XZDCCG',box.code)" v-model="box.checked"></el-checkbox>
-                <span class="img" :style="box.icon"></span>
-                {{box.name}}
-              </div>
-            </div>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch
-                inactive-text="土地利用规划"
-                v-model="GTKJGH.Visible"
-                @change="changeLayer('GTKJGH')"
-              ></el-switch>
-            </div>
-          </template>
+    <div class="mapPanel" id="leftPanel">
+      <div style="text-align:center">
+        <el-switch
+          style="height:50px;"
+          inactive-text="展开菜单"
+          active-text="收起菜单"
+          v-model="hiddenToolbar"
+          @change="changeToolbar()"
+        ></el-switch>
+      </div>
 
-          <el-menu-item-group>
-            <div class="itembox">
-              <div class="listItem">
-                <el-checkbox @change="checkALL('GTKJGH')" v-model="GTKJGH.CheckAll"></el-checkbox>
-                <span class="img" style="visibility: hidden;"></span>
-                全选
-              </div>
-              <div class="listItem" v-for="box in GTKJGH.Boxs" :key="box.code">
-                <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
-                <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
-                {{box.name}}
-              </div>
-            </div>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch
-                inactive-text="村庄用地规划"
-                v-model="CZGH.Visible"
-                @change="changeLayer('CZGH')"
-              ></el-switch>
-            </div>
-          </template>
+      <div id="mapPanel">
+        <el-menu
+          default-active="1"
+          class="el-menu"
+          :unique-opened="true"
+          style="height:100%;background-color: lightgrey;"
+        >
+          <el-submenu index="1-1">
+            <template slot="title">现状调查数据</template>
+            <el-submenu index="1">
+              <template slot="title">
+                <div @click.stop="stop()">
+                  <el-switch
+                    inactive-text="农村宅基地情况"
+                    v-model="XZDCCG.Visible"
+                    @change="changeLayer('XZDCCG')"
+                  ></el-switch>
+                </div>
+              </template>
+              <el-menu-item-group>
+                <div class="itembox">
+                  <div class="listItem">
+                    <el-checkbox @change="checkALL('XZDCCG')" v-model="XZDCCG.CheckAll[0]"></el-checkbox>
+                    <span class="img" style="visibility: hidden;"></span>
+                    全选
+                  </div>
+                  <div class="listItem" v-for="box in XZDCCG.Boxs[0]" :key="box.code">
+                    <el-checkbox @change="changeFeature('XZDCCG',box.code)" v-model="box.checked"></el-checkbox>
+                    <span class="img" :style="box.icon"></span>
+                    {{box.name}}
+                  </div>
+                </div>
+              </el-menu-item-group>
+            </el-submenu>
 
-          <el-menu-item-group>
-            <el-scrollbar>
-              <div class="itembox">
-                <div class="listItem">
-                  <el-checkbox @change="checkALL('CZGH')" v-model="CZGH.CheckAll"></el-checkbox>
-                  <span class="img" style="visibility: hidden;"></span>
-                  全选
+            <el-submenu index="4">
+              <template slot="title">
+                <div @click.stop="stop()">
+                  <el-switch
+                    inactive-text="农村住宅情况"
+                    v-model="NFJSFB.Visible"
+                    @change="changeLayer('NFJSFB')"
+                  ></el-switch>
                 </div>
-                <div class="listItem" v-for="box in CZGH.Boxs" :key="box.code">
-                  <el-checkbox @change="changeFeature('CZGH',box.code)" v-model="box.checked"></el-checkbox>
-                  <img class="img" :src="`${$baseUrl}image/czghstyle/`+box.name+'.png'" />
-                  {{box.name}}
+              </template>
+              <el-menu-item-group>
+                <div class="itembox">
+                  <div class="listItem">
+                    <el-checkbox @change="checkALL('NFJSFB')" v-model="NFJSFB.CheckAll[0]"></el-checkbox>
+                    <span class="img" style="visibility: hidden;"></span>
+                    全选
+                  </div>
+                  <div class="listItem" v-for="box in NFJSFB.Boxs[0]" :key="box.code">
+                    <el-checkbox v-model="box.checked"></el-checkbox>
+                    <span class="img" :style="box.icon"></span>
+                    {{box.name}}
+                  </div>
                 </div>
-              </div>
-            </el-scrollbar>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-menu-item index="4">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch
-                inactive-text="农房建设分布"
-                v-model="NFJSFB.Visible"
-                @change="changeLayer('NFJSFB')"
-              ></el-switch>
-            </div>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="5">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch inactive-text="行政区" v-model="XZQ.Visible" @change="changeLayer('XZQ')"></el-switch>
-            </div>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="6">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch inactive-text="影像底图" v-model="DT.Visible" @change="changeLayer('DT')"></el-switch>
-            </div>
-          </template>
-        </el-menu-item>
-      </el-menu>
+              </el-menu-item-group>
+            </el-submenu>
+          </el-submenu>
+          <el-submenu index="1-2">
+            <template slot="title">土地规划数据</template>
+            <el-submenu index="2">
+              <template slot="title">
+                <div @click.stop="stop()">
+                  <el-switch
+                    inactive-text="土地利用规划"
+                    v-model="GTKJGH.Visible"
+                    @change="changeLayer('GTKJGH')"
+                  ></el-switch>
+                </div>
+              </template>
+              <el-submenu index="2-1">
+                <template slot="title">农用地</template>
+                <el-menu-item-group>
+                  <div class="itembox">
+                    <div class="listItem">
+                      <el-checkbox @change="checkALL('GTKJGH',0)" v-model="GTKJGH.CheckAll[0]"></el-checkbox>
+                      <span class="img" style="visibility: hidden;"></span>
+                      全选
+                    </div>
+                    <div class="listItem" v-for="box in GTKJGH.Boxs[0]" :key="box.code">
+                      <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
+                      <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
+                      {{box.name}}
+                    </div>
+                  </div>
+                </el-menu-item-group>
+              </el-submenu>
+              <el-submenu index="2-2">
+                <template slot="title">建设用地</template>
+                <el-menu-item-group>
+                  <div class="itembox">
+                    <div class="listItem">
+                      <el-checkbox @change="checkALL('GTKJGH',1)" v-model="GTKJGH.CheckAll[1]"></el-checkbox>
+                      <span class="img" style="visibility: hidden;"></span>
+                      全选
+                    </div>
+                    <div class="listItem" v-for="box in GTKJGH.Boxs[1]" :key="box.code">
+                      <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
+                      <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
+                      {{box.name}}
+                    </div>
+                  </div>
+                </el-menu-item-group>
+              </el-submenu>
+              <el-submenu index="2-3">
+                <template slot="title">未利用地</template>
+                <el-menu-item-group>
+                  <div class="itembox">
+                    <div class="listItem">
+                      <el-checkbox @change="checkALL('GTKJGH',2)" v-model="GTKJGH.CheckAll[2]"></el-checkbox>
+                      <span class="img" style="visibility: hidden;"></span>
+                      全选
+                    </div>
+                    <div class="listItem" v-for="box in GTKJGH.Boxs[2]" :key="box.code">
+                      <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
+                      <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
+                      {{box.name}}
+                    </div>
+                  </div>
+                </el-menu-item-group>
+              </el-submenu>
+            </el-submenu>
+            <el-submenu index="3">
+              <template slot="title">
+                <div @click.stop="stop()">
+                  <el-switch
+                    inactive-text="村庄用地规划"
+                    v-model="CZGH.Visible"
+                    @change="changeLayer('CZGH')"
+                  ></el-switch>
+                </div>
+              </template>
+
+              <el-menu-item-group>
+                <el-scrollbar>
+                  <div class="itembox">
+                    <div class="listItem">
+                      <el-checkbox @change="checkALL('CZGH')" v-model="CZGH.CheckAll[0]"></el-checkbox>
+                      <span class="img" style="visibility: hidden;"></span>
+                      全选
+                    </div>
+                    <div class="listItem" v-for="box in CZGH.Boxs[0]" :key="box.code">
+                      <el-checkbox @change="changeFeature('CZGH',box.code)" v-model="box.checked"></el-checkbox>
+                      <img class="img" :src="`${$baseUrl}image/czghstyle/`+box.name+'.png'" />
+                      {{box.name}}
+                    </div>
+                  </div>
+                </el-scrollbar>
+              </el-menu-item-group>
+            </el-submenu>
+          </el-submenu>
+          <el-submenu index="1-3">
+            <template slot="title">其他数据</template>
+            <el-menu-item index="5">
+              <template slot="title">
+                <div @click.stop="stop()">
+                  <el-switch
+                    inactive-text="行政区划"
+                    v-model="XZQ.Visible"
+                    @change="changeLayer('XZQ')"
+                  ></el-switch>
+                </div>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="6">
+              <template slot="title">
+                <div @click.stop="stop()">
+                  <el-switch inactive-text="影像底图" v-model="DT.Visible" @change="changeLayer('DT')"></el-switch>
+                </div>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <!-- <el-menu-item index="7">
+              <template slot="title">
+                <div @click.stop="stop()">
+                  <el-switch
+                    inactive-text="基本农田"
+                    v-model="XZQ.Visible"
+                  ></el-switch>
+                </div>
+              </template>
+            </el-menu-item> -->
+        </el-menu>
+      </div>
     </div>
+
     <div id="maponemap" class="mapDiv"></div>
 
     <div class="toolbarContainer">
@@ -168,450 +255,499 @@ import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
 
 export default {
+  props: {
+    hiddenToolbar: {
+      type: Boolean,
+      default: false
+    }
+  },
   name: "survey",
   data() {
     return {
       map: null,
       layerOn: false,
-      NFJSFB_Layer: null,
-      Region_Layer: null,
-      zdLayer: null,
       xzqhdm: "469005115201",
       XZDCCG: {
-        Layer: null,
-        Visible: true,
-        CheckAll: true,
-        Features: [],
+        Layer: null, //图层
+        Visible: true, //可见性
+        CheckAll: [true], //全选（全不选不等于不可见）
+        Features: [], //当前未选中类别
         Boxs: [
-          {
-            name: "未批已建",
-            code: "01",
-            icon: "background-color:#F58D8B",
-            checked: true
-          },
-          {
-            name: "已建无人居",
-            code: "02",
-            icon: "background-color:#FAFF14",
-            checked: true
-          },
-          {
-            name: "已批未建",
-            code: "03",
-            icon: "background-color:#3DB344",
-            checked: true
-          },
-          {
-            name: "已建季节性居住",
-            code: "04",
-            icon: "background-color:#6FE020",
-            checked: true
-          },
-          {
-            name: "已批已建",
-            code: "05",
-            icon: "background-color:#D6FCC7",
-            checked: true
-          }
+          //选项列表
+          [
+            {
+              name: "农村宅基地",
+              code: "02",
+              icon: "background-color:#FAFF14",
+              checked: true
+            },
+            {
+              name: "闲置宅基地",
+              code: "03",
+              icon: "background-color:#3DB344",
+              checked: true
+            },
+            {
+              name: "未批先建",
+              code: "04",
+              icon: "background-color:#6FE020",
+              checked: true
+            },
+            {
+              name: "已批已建",
+              code: "05",
+              icon: "background-color:#D6FCC7",
+              checked: true
+            },
+            {
+              name: "已批未建",
+              code: "01",
+              icon: "background-color:#F58D8B",
+              checked: true
+            }
+          ]
         ]
       },
       GTKJGH: {
         Layer: null,
         Visible: true,
-        CheckAll: true,
+        CheckAll: [true, true, true],
         Features: [],
         Boxs: [
-          {
-            name: "水田",
-            code: "0101",
-            checked: true
-          },
-          {
-            name: "水浇地",
-            code: "0102",
-            checked: true
-          },
-          {
-            name: "旱地",
-            code: "0103",
-            checked: true
-          },
-          {
-            name: "果园 ",
-            code: "0201",
-            checked: true
-          },
-          {
-            name: "茶园",
-            code: "0202",
-            checked: true
-          },
-          {
-            name: "橡胶园",
-            code: "0203",
-            checked: true
-          },
-          {
-            name: "其他园地",
-            code: "0204",
-            checked: true
-          },
-          {
-            name: "乔木林地",
-            code: "0301",
-            checked: true
-          },
-          {
-            name: "竹林地",
-            code: "0302",
-            checked: true
-          },
-          {
-            name: "红树林地",
-            code: "0303",
-            checked: true
-          },
-          {
-            name: "森林沼泽",
-            code: "0304",
-            checked: true
-          },
-          {
-            name: "灌木林地",
-            code: "0305",
-            checked: true
-          },
-          {
-            name: "灌丛沼泽",
-            code: "0306",
-            checked: true
-          },
-          {
-            name: "其他林地",
-            code: "0307",
-            checked: true
-          },
-          {
-            name: "天然牧草地",
-            code: "0401",
-            checked: true
-          },
-          {
-            name: "沼泽草地",
-            code: "0402",
-            checked: true
-          },
-          {
-            name: "人工牧草地",
-            code: "0403",
-            checked: true
-          },
-          {
-            name: "农村道路",
-            code: "1006",
-            checked: true
-          },
-          {
-            name: "水库水面",
-            code: "1103",
-            checked: true
-          },
-          {
-            name: "坑塘水面",
-            code: "1104",
-            checked: true
-          },
-          {
-            name: "沟渠",
-            code: "1107",
-            checked: true
-          },
-          {
-            name: "设施农用地",
-            code: "1202",
-            checked: true
-          },
-          {
-            name: "田坎",
-            code: "1203",
-            checked: true
-          },
-
-          {
-            name: "商业服务业设施用地",
-            code: "05H1",
-            checked: true
-          },
-          {
-            name: "物流仓储用地",
-            code: "0508",
-            checked: true
-          },
-          {
-            name: "工业用地",
-            code: "0601",
-            checked: true
-          },
-          {
-            name: "采矿用地",
-            code: "0602",
-            checked: true
-          },
-          {
-            name: "盐田",
-            code: "0603",
-            checked: true
-          },
-          {
-            name: "城镇住宅用地",
-            code: "0701",
-            checked: true
-          },
-          {
-            name: "农村宅基地",
-            code: "0702",
-            checked: true
-          },
-          {
-            name: "机关团体新闻出版用地",
-            code: "08H1",
-            checked: true
-          },
-          {
-            name: "科教文卫用地",
-            code: "08H2",
-            checked: true
-          },
-          {
-            name: "公用设施用地",
-            code: "0809",
-            checked: true
-          },
-          {
-            name: "公园与绿地",
-            code: "0810",
-            checked: true
-          },
-          {
-            name: "特殊用地",
-            code: "09",
-            checked: true
-          },
-          {
-            name: "铁路用地",
-            code: "1001",
-            checked: true
-          },
-          {
-            name: "轨道交通用地",
-            code: "1002",
-            checked: true
-          },
-          {
-            name: "公路用地",
-            code: "1003",
-            checked: true
-          },
-          {
-            name: "城镇村道路用地",
-            code: "1004",
-            checked: true
-          },
-          {
-            name: "交通服务场站用地",
-            code: "1005",
-            checked: true
-          },
-          {
-            name: "机场用地",
-            code: "1007",
-            checked: true
-          },
-          {
-            name: "港口码头用地",
-            code: "1008",
-            checked: true
-          },
-          {
-            name: "管道运输用地",
-            code: "1009",
-            checked: true
-          },
-          {
-            name: "水工建筑用地",
-            code: "1109",
-            checked: true
-          },
-          {
-            name: "空闲地",
-            code: "1201",
-            checked: true
-          },
-
-          {
-            name: "其他草地",
-            code: "0404",
-            checked: true
-          },
-          {
-            name: "河流水面",
-            code: "1101",
-            checked: true
-          },
-          {
-            name: "湖泊水面",
-            code: "1102",
-            checked: true
-          },
-          {
-            name: "沿海滩涂",
-            code: "1105",
-            checked: true
-          },
-          {
-            name: "内陆滩涂",
-            code: "1106",
-            checked: true
-          },
-          {
-            name: "沼泽地",
-            code: "1108",
-            checked: true
-          },
-          {
-            name: "冰川及永久积雪",
-            code: "1110",
-            checked: true
-          },
-          {
-            name: "盐碱地",
-            code: "1204",
-            checked: true
-          },
-          {
-            name: "沙地",
-            code: "1205",
-            checked: true
-          },
-          {
-            name: "裸土地",
-            code: "1206",
-            checked: true
-          },
-          {
-            name: "裸岩石砾地",
-            code: "1207",
-            checked: true
-          }
+          [
+            {
+              name: "水田",
+              code: "0101",
+              checked: true
+            },
+            {
+              name: "水浇地",
+              code: "0102",
+              checked: true
+            },
+            {
+              name: "旱地",
+              code: "0103",
+              checked: true
+            },
+            {
+              name: "果园 ",
+              code: "0201",
+              checked: true
+            },
+            {
+              name: "茶园",
+              code: "0202",
+              checked: true
+            },
+            {
+              name: "橡胶园",
+              code: "0203",
+              checked: true
+            },
+            {
+              name: "其他园地",
+              code: "0204",
+              checked: true
+            },
+            {
+              name: "乔木林地",
+              code: "0301",
+              checked: true
+            },
+            {
+              name: "竹林地",
+              code: "0302",
+              checked: true
+            },
+            {
+              name: "红树林地",
+              code: "0303",
+              checked: true
+            },
+            {
+              name: "森林沼泽",
+              code: "0304",
+              checked: true
+            },
+            {
+              name: "灌木林地",
+              code: "0305",
+              checked: true
+            },
+            {
+              name: "灌丛沼泽",
+              code: "0306",
+              checked: true
+            },
+            {
+              name: "其他林地",
+              code: "0307",
+              checked: true
+            },
+            {
+              name: "天然牧草地",
+              code: "0401",
+              checked: true
+            },
+            {
+              name: "沼泽草地",
+              code: "0402",
+              checked: true
+            },
+            {
+              name: "人工牧草地",
+              code: "0403",
+              checked: true
+            },
+            {
+              name: "农村道路",
+              code: "1006",
+              checked: true
+            },
+            {
+              name: "水库水面",
+              code: "1103",
+              checked: true
+            },
+            {
+              name: "坑塘水面",
+              code: "1104",
+              checked: true
+            },
+            {
+              name: "沟渠",
+              code: "1107",
+              checked: true
+            },
+            {
+              name: "设施农用地",
+              code: "1202",
+              checked: true
+            },
+            {
+              name: "田坎",
+              code: "1203",
+              checked: true
+            }
+          ],
+          [
+            {
+              name: "商业服务业设施用地",
+              code: "05H1",
+              checked: true
+            },
+            {
+              name: "物流仓储用地",
+              code: "0508",
+              checked: true
+            },
+            {
+              name: "工业用地",
+              code: "0601",
+              checked: true
+            },
+            {
+              name: "采矿用地",
+              code: "0602",
+              checked: true
+            },
+            {
+              name: "盐田",
+              code: "0603",
+              checked: true
+            },
+            {
+              name: "城镇住宅用地",
+              code: "0701",
+              checked: true
+            },
+            {
+              name: "农村宅基地",
+              code: "0702",
+              checked: true
+            },
+            {
+              name: "机关团体新闻出版用地",
+              code: "08H1",
+              checked: true
+            },
+            {
+              name: "科教文卫用地",
+              code: "08H2",
+              checked: true
+            },
+            {
+              name: "公用设施用地",
+              code: "0809",
+              checked: true
+            },
+            {
+              name: "公园与绿地",
+              code: "0810",
+              checked: true
+            },
+            {
+              name: "特殊用地",
+              code: "09",
+              checked: true
+            },
+            {
+              name: "铁路用地",
+              code: "1001",
+              checked: true
+            },
+            {
+              name: "轨道交通用地",
+              code: "1002",
+              checked: true
+            },
+            {
+              name: "公路用地",
+              code: "1003",
+              checked: true
+            },
+            {
+              name: "城镇村道路用地",
+              code: "1004",
+              checked: true
+            },
+            {
+              name: "交通服务场站用地",
+              code: "1005",
+              checked: true
+            },
+            {
+              name: "机场用地",
+              code: "1007",
+              checked: true
+            },
+            {
+              name: "港口码头用地",
+              code: "1008",
+              checked: true
+            },
+            {
+              name: "管道运输用地",
+              code: "1009",
+              checked: true
+            },
+            {
+              name: "水工建筑用地",
+              code: "1109",
+              checked: true
+            },
+            {
+              name: "空闲地",
+              code: "1201",
+              checked: true
+            }
+          ],
+          [
+            {
+              name: "其他草地",
+              code: "0404",
+              checked: true
+            },
+            {
+              name: "河流水面",
+              code: "1101",
+              checked: true
+            },
+            {
+              name: "湖泊水面",
+              code: "1102",
+              checked: true
+            },
+            {
+              name: "沿海滩涂",
+              code: "1105",
+              checked: true
+            },
+            {
+              name: "内陆滩涂",
+              code: "1106",
+              checked: true
+            },
+            {
+              name: "沼泽地",
+              code: "1108",
+              checked: true
+            },
+            {
+              name: "冰川及永久积雪",
+              code: "1110",
+              checked: true
+            },
+            {
+              name: "盐碱地",
+              code: "1204",
+              checked: true
+            },
+            {
+              name: "沙地",
+              code: "1205",
+              checked: true
+            },
+            {
+              name: "裸土地",
+              code: "1206",
+              checked: true
+            },
+            {
+              name: "裸岩石砾地",
+              code: "1207",
+              checked: true
+            }
+          ]
         ]
       },
       CZGH: {
         Layer: null,
         Visible: true,
-        CheckAll: true,
+        CheckAll: [true],
         Features: [],
         Boxs: [
-          {
-            name: "一般耕地",
-            code: "一般耕地",
-            checked: true
-          },
-          {
-            name: "乡村建设用地",
-            code: "乡村建设用地",
-            checked: true
-          },
-          {
-            name: "保护林地",
-            code: "保护林地",
-            checked: true
-          },
-          {
-            name: "公路用地",
-            code: "公路用地",
-            checked: true
-          },
+          [
+            {
+              name: "一般耕地",
+              code: "一般耕地",
+              checked: true
+            },
+            {
+              name: "乡村建设用地",
+              code: "乡村建设用地",
+              checked: true
+            },
+            {
+              name: "保护林地",
+              code: "保护林地",
+              checked: true
+            },
+            {
+              name: "公路用地",
+              code: "公路用地",
+              checked: true
+            },
 
-          {
-            name: "其他农用地",
-            code: "其他农用地",
-            checked: true
-          },
-          {
-            name: "其他独立建设用地",
-            code: "其他独立建设用地",
-            checked: true
-          },
-          {
-            name: "其他设施用地",
-            code: "其他设施用地",
-            checked: true
-          },
-          {
-            name: "后备林地",
-            code: "后备林地",
-            checked: true
-          },
-          {
-            name: "园地",
-            code: "园地",
-            checked: true
-          },
-          {
-            name: "基本农田",
-            code: "基本农田",
-            checked: true
-          },
-          {
-            name: "旅游建设用地",
-            code: "旅游建设用地",
-            checked: true
-          },
-          {
-            name: "水工建筑用地",
-            code: "水工建筑用地",
-            checked: true
-          },
-          {
-            name: "自然保留地",
-            code: "自然保留地",
-            checked: true
-          },
-          {
-            name: "滩涂",
-            code: "滩涂",
-            checked: true
-          },
-          {
-            name: "水库水面",
-            code: "水库水面",
-            checked: true
-          },
-          {
-            name: "河流湖泊水面",
-            code: "未计入水库水面的河流湖泊水面",
-            checked: true
-          }
+            {
+              name: "其他农用地",
+              code: "其他农用地",
+              checked: true
+            },
+            {
+              name: "其他独立建设用地",
+              code: "其他独立建设用地",
+              checked: true
+            },
+            {
+              name: "其他设施用地",
+              code: "其他设施用地",
+              checked: true
+            },
+            {
+              name: "后备林地",
+              code: "后备林地",
+              checked: true
+            },
+            {
+              name: "园地",
+              code: "园地",
+              checked: true
+            },
+            {
+              name: "基本农田",
+              code: "基本农田",
+              checked: true
+            },
+            {
+              name: "旅游建设用地",
+              code: "旅游建设用地",
+              checked: true
+            },
+            {
+              name: "水工建筑用地",
+              code: "水工建筑用地",
+              checked: true
+            },
+            {
+              name: "自然保留地",
+              code: "自然保留地",
+              checked: true
+            },
+            {
+              name: "滩涂",
+              code: "滩涂",
+              checked: true
+            },
+            {
+              name: "水库水面",
+              code: "水库水面",
+              checked: true
+            },
+            {
+              name: "河流湖泊水面",
+              code: "未计入水库水面的河流湖泊水面",
+              checked: true
+            }
+          ]
         ]
       },
       NFJSFB: {
         Layer: null,
         Visible: true,
-        CheckAll: true,
+        CheckAll: [true],
         Features: [],
-        Boxs: []
+        Boxs: [          [
+            {
+              name: "农村住宅",
+              code: "02",
+              icon: "background-color:#FAFF14",
+              checked: true
+            },
+            {
+              name: "季节性闲置住宅",
+              code: "03",
+              icon: "background-color:#3DB344",
+              checked: true
+            },
+            {
+              name: "常年闲置住宅",
+              code: "04",
+              icon: "background-color:#6FE020",
+              checked: true
+            },
+            {
+              name: "盘活利用住宅",
+              code: "05",
+              icon: "background-color:#D6FCC7",
+              checked: true
+            },
+            {
+              name: "一户多宅",
+              code: "01",
+              icon: "background-color:#F58D8B",
+              checked: true
+            },
+            {
+              name: "一宅超限",
+              code: "06",
+              icon: "background-color:#4169E1",
+              checked: true
+            }
+          ]]
       },
       XZQ: {
         Layer: null,
         Visible: true,
-        CheckAll: true,
+        CheckAll: [true],
         Features: [],
         Boxs: []
       },
       DT: {
         Layer: null,
         Visible: true,
-        CheckAll: true,
+        CheckAll: [true],
         Features: [],
         Boxs: []
       }
@@ -622,18 +758,20 @@ export default {
   },
   mounted() {
     this.$nextTick(function () {
-       this.map = BaseMap.BaseInitMap("maponemap");
-        this.InitLayer("XZDCCG");
-        this.InitLayer("GTKJGH");
-        this.InitLayer("CZGH");
-        this.InitLayer("NFJSFB");
-        this.InitLayer("XZQ");
-        this.InitLayer("DT");
-        this.XZQ.Layer.setZIndex(20);
+      //初始化地图
+      this.map = BaseMap.BaseInitMap("maponemap");
+      //是否显示工具栏
+      this.changeToolbar();
+      //初始化图层
+      this.InitLayer("XZDCCG");
+      this.InitLayer("GTKJGH");
+      this.InitLayer("CZGH");
+      this.InitLayer("NFJSFB");
+      this.InitLayer("XZQ");
+      this.InitLayer("DT");
+      //行政区置顶
+      this.XZQ.Layer.setZIndex(20);
     })
-   
-
-   
   },
 
   methods: {
@@ -641,6 +779,17 @@ export default {
       //this.layerOn = !this.layerOn;
     },
     stop() {},
+    //切换面板显示
+    changeToolbar() {
+      if (this.hiddenToolbar) {
+        document.getElementById("mapPanel").style.display = "none";
+        document.getElementById("leftPanel").style.height = "50px";
+      } else {
+        document.getElementById("mapPanel").style.display = "block";
+        document.getElementById("leftPanel").style.height = "100%";
+      }
+    },
+    //切换图层显示
     changeLayer(LayerName) {
       if (this[LayerName].Visible) {
         this.map.addLayer(this[LayerName].Layer);
@@ -648,17 +797,25 @@ export default {
         this.map.removeLayer(this[LayerName].Layer);
       }
     },
-    checkALL(LayerName) {
+    //全选（全不选）
+    checkALL(LayerName, index = 0) {
       var config = this[LayerName];
+      //设定该分组的选中状态
+      for (var j = 0; j < config.Boxs[index].length; j++) {
+        config.Boxs[index][j].checked = config.CheckAll[index];
+      }
+      //根据选中状态重新计算整个图层的查询条件
       config.Features = [];
       for (var i = 0; i < config.Boxs.length; i++) {
-        if (!config.CheckAll) {
-          config.Features.push(config.Boxs[i].code);
+        for (var j = 0; j < config.Boxs[i].length; j++) {
+          if (!config.CheckAll[i]) {
+            config.Features.push(config.Boxs[i][j].code);
+          }
         }
-        config.Boxs[i].checked = config.CheckAll;
       }
       this.InitLayer(LayerName);
     },
+    //修改查询条件
     changeFeature(LayerName, Code) {
       var features = this[LayerName].Features;
       var index = features.indexOf(Code);
@@ -669,6 +826,7 @@ export default {
       }
       this.InitLayer(LayerName);
     },
+    //获取并拼接查询条件
     getFeatures(LayerName) {
       var result = " NOT IN (";
       var features = this[LayerName].Features;
@@ -676,6 +834,7 @@ export default {
         result += "'*'";
       } else {
         for (var i = 0; i < features.length; i++) {
+          //添加子类型
           if (features[i] == "0307") result += "'0307K',";
           if (features[i] == "1104") result += "'1104A',";
           result += "'" + features[i] + "'";
@@ -688,6 +847,7 @@ export default {
       result += ")";
       return result;
     },
+    //初始化图层
     InitLayer(LayerName) {
       if (!this[LayerName].Visible) {
         return;
@@ -706,6 +866,7 @@ export default {
         this.DT.Layer = this.InitDT();
       }
     },
+    //现状调查成果（宅基地宗地）
     InitXZDCCG() {
       this.map.removeLayer(this.XZDCCG.Layer);
       var wmsLayer = new TileLayer({
@@ -724,6 +885,7 @@ export default {
       this.map.addLayer(wmsLayer);
       return wmsLayer;
     },
+    //土地利用规划（三调）
     InitGTKJGH() {
       this.map.removeLayer(this.GTKJGH.Layer);
       var wmsLayer = new TileLayer({
@@ -747,6 +909,7 @@ export default {
       this.map.addLayer(wmsLayer);
       return wmsLayer;
     },
+    //村庄规划
     InitCZGH() {
       this.map.removeLayer(this.CZGH.Layer);
       var wmsLayer = new TileLayer({
@@ -770,6 +933,7 @@ export default {
       this.map.addLayer(wmsLayer);
       return wmsLayer;
     },
+    //农房建设分布（宅基地数据聚合）
     InitNFJSFB() {
       this.map.removeLayer(this.NFJSFB.Layer);
       var color = "#3399CC";
@@ -816,10 +980,12 @@ export default {
       this.map.addLayer(clusters);
       return clusters;
     },
+    //行政区边界
     InitXZQ() {
       var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm);
       return Region_Layer;
     },
+    //天地图底图
     InitDT() {
       this.map.addLayer(BaseMap.img_wLayer);
       return BaseMap.img_wLayer;
@@ -943,6 +1109,6 @@ export default {
 </style>
 <style>
 .el-switch__label {
-  min-width: 85px !important;
+  min-width: 15px;
 }
 </style>
