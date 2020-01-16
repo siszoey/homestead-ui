@@ -11,9 +11,18 @@ export default function (iotHeader) {
       ...meta,
       title: '联合审批'
     },
-    redirect: {name: 'land-examine-business-todo'},
+    redirect: {name: 'land-examine-examineList'},
     component: iotHeader,
     children: (pre => [
+      {
+        path: 'examineList',
+        name: `${pre}examineList`,
+        component: _import('land/map/implementationProcess/examineList.vue'),
+        meta: {
+          ...meta,
+          title: '审批总览'
+        }
+      },
       {
         path: 'business',
         name: `${pre}business`,

@@ -144,16 +144,16 @@ export default function(iotHeader) {
                     title: '实施过程'
                 },
                 children:(pre => [
-                    {
-                        path: 'examineList',
-                        name: `${pre}examineList`,
-                        component: _import('land/map/implementationProcess/examineList.vue'),
-                        meta: {
-                            ...meta,
-                            ismap: true,
-                            title: '审批一览表'
-                        }
-                    },
+                    // {
+                    //     path: 'examineList',
+                    //     name: `${pre}examineList`,
+                    //     component: _import('land/map/implementationProcess/examineList.vue'),
+                    //     meta: {
+                    //         ...meta,
+                    //         ismap: true,
+                    //         title: '审批一览表'
+                    //     }
+                    // },
                     {
                         path: 'examinePic',
                         name: `${pre}examinePic`,

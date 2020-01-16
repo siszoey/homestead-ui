@@ -46,9 +46,9 @@
           </div>
         </div>
         <div class="page-login--content-footer">
-          <p
+          <!-- <p
             class="page-login--content-footer-locales"
-          >Copyright © http://www.51jianku.com/51jianku/</p>
+          >Copyright © http://www.51jianku.com/51jianku/</p> -->
           <p class="page-login--content-footer-copyright">上海飞未信息技术有限公司</p>
           <!-- <p class="page-login--content-footer-options">
             <a href="#">帮助</a>

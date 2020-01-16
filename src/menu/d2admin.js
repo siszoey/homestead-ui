@@ -34,7 +34,7 @@ const map = {
         path: `${pre}/implementationProcess`,
         title: '实施过程',
         children: (pre => [
-            { path: `${pre}/examineList`, title: '审批一览表' },
+            // { path: `${pre}/examineList`, title: '审批一览表' },
             { path: `${pre}/examinePic`, title: '审批一张图' },
         ])('/land/map/implementationProcess')
     }
@@ -46,7 +46,12 @@ const examine = {
     title: '联合审批',
     alias: 'real-examine',
     icon: 'align-left',
-    children: (pre => [{
+    children: (pre => [
+      {
+         path: `${pre}/examineList`, 
+         title: '审批总览'
+      },
+      {
         path: `${pre}/business`,
         title: '业务办理',
         children: (pre => [
@@ -79,7 +84,10 @@ const system = {
     icon: 'integratedManagement',
     children: (pre => [
         { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
-        { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+        { path: `${pre}/complaintHandling`, title: '信访举报处置'},
+        { path: `${pre}/registrationDisposal`, title: '闲置登记处置'},
+        { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置'},
+        { path: `${pre}/ygdc_dbfx`, title: '对比分析' }
     ])('/land/integratedManagement/supervise')
 }
 
