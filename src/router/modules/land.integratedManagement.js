@@ -23,6 +23,34 @@ export default function (iotHeader) {
           title: '日常巡查处置'
         }
       },
+      {
+        path: `supervise/complaintHandling`,
+        name: `${pre}supervise-complaintHandling`,
+        component: _import('land/integratedManagement/supervise/complaintHandling.vue'),
+        meta: {
+          ...meta,
+          title: '信访举报处置'
+        }
+        
+      },
+      {
+        path: `supervise/registrationDisposal`,
+        name: `${pre}supervise-registrationDisposal`,
+        component: _import('land/integratedManagement/supervise/registrationDisposal.vue'),
+        meta: {
+          ...meta,
+          title: '闲置登记处置'
+        }
+      },
+      { 
+        path: `supervise/disputesArbitration`, 
+        component: _import('land/integratedManagement/supervise/disputesArbitration.vue'),
+        meta: {
+          ...meta,
+          title: '纠纷仲裁处置'
+        }
+        
+      },
         {
           path: 'supervise/ygdc_dbfx',
           name: `${pre}ygdc_dbfx`,

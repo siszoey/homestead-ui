@@ -84,7 +84,10 @@ const system = {
     icon: 'integratedManagement',
     children: (pre => [
         { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
-        { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+        { path: `${pre}/complaintHandling`, title: '信访举报处置'},
+        { path: `${pre}/registrationDisposal`, title: '闲置登记处置'},
+        { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置'},
+        { path: `${pre}/ygdc_dbfx`, title: '对比分析' }
     ])('/land/integratedManagement/supervise')
 }
 
