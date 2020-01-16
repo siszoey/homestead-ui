@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="wrap-top">
-      <p class="header-title">项目审批进度</p>
+      <p class="header-title">业务类型审批数量</p>
       <!-- <el-row :gutter="10" class="progress-box"> -->
       <el-row class="progress-box">
         <el-col :span="progressWidth" v-for="(progress,index) in progressList" :key="index">
@@ -144,11 +144,11 @@
         <el-col :span="12" style="padding:0px 25px 0px 5px;height:610px;">
           <el-row style="margin-top:0px">
             <el-col :span="24" style="height:300px;border:1px solid #F2F2F2">
-              <p class="header-title">不同时间统计</p>
+              <p class="header-title">年度分析</p>
               <div ref="barMain" :style="{width: '100%',height:'250px',margin:'0 auto'}"></div>
             </el-col>
             <el-col :span="24" style="height:300px;margin-top:10px;border:1px solid #F2F2F2">
-              <p class="header-title">不同地区统计</p>
+              <p class="header-title">办理统计</p>
               <div ref="pieMain" :style="{width: '100%',height:'250px',margin:'0 auto'}"></div>
             </el-col>
           </el-row>
@@ -185,19 +185,19 @@ export default {
       pieChartDatas: [],
       progressList: [
         {
-          auditNum: 1200,
-          auditPercent: "46",
-          auditType: "原址新建"
+          auditNum: 1500,
+          auditPercent: "100",
+          auditType: "全部"
         },
         {
-          auditNum: 586,
+          auditNum: 565,
           auditPercent: "30",
-          auditType: "改建"
+          auditType: "原址新建"
         },
         {
           auditNum: 500,
           auditPercent: "22",
-          auditType: "扩建"
+          auditType: "改扩建"
         },
         {
           auditNum: 235,

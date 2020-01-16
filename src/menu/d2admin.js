@@ -34,7 +34,7 @@ const map = {
         path: `${pre}/implementationProcess`,
         title: '实施过程',
         children: (pre => [
-            { path: `${pre}/examineList`, title: '审批一览表' },
+            // { path: `${pre}/examineList`, title: '审批一览表' },
             { path: `${pre}/examinePic`, title: '审批一张图' },
         ])('/land/map/implementationProcess')
     }
@@ -46,7 +46,12 @@ const examine = {
     title: '联合审批',
     alias: 'real-examine',
     icon: 'align-left',
-    children: (pre => [{
+    children: (pre => [
+      {
+         path: `${pre}/examineList`, 
+         title: '审批总览'
+      },
+      {
         path: `${pre}/business`,
         title: '业务办理',
         children: (pre => [

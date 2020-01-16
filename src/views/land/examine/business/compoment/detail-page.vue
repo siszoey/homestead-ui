@@ -5,7 +5,7 @@
         </el-steps>
         <div class="detail-content">
             <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :span="12">
                     <el-button type="primary" size="mini" @click="handleShowForm">
                         表单
                     </el-button>
@@ -17,7 +17,7 @@
                     </el-button>
                 </el-col>
 
-                <el-col :span="5" :offset="13">
+                <el-col :span="12" style="text-align:right">
                     <el-button type="primary" size="mini" @click="handleShowMap">
                         查看地图
                     </el-button>
@@ -344,7 +344,7 @@
         right: 0;
         padding-top: 20px;
         padding-right: 20px;
-        height: 200%;
+        // height: 200%;
     }
     .detail-content{
         margin-right: 10%;
