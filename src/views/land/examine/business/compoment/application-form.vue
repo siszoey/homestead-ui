@@ -47,7 +47,7 @@
       <tr v-for="(cyItem,index) in form.jtcy" style="height:38px;">
       <td colspan="3" class="s18" style="font-size:1px;"><el-input v-model="cyItem['xm']"></el-input></td>
       <td colspan="4" class="s18" style="font-size:1px;">
-        <el-form-item 
+        <el-form-item
                       :prop="'jtcy.' + index + '.nl'"
                       :rules="{type: 'number', message: '必须为数字值'}">
             <el-input v-model.number="cyItem['nl']"></el-input>
@@ -181,7 +181,7 @@
       <tr style="height:38px;">
       <td colspan="11" class="s10" style="font-size:1px;">&nbsp;</td>
       <td colspan="11" class="s11"><el-form-item  prop="qt.cmxzfzr"><div class="flex_v_center"><span class="flex_label">负责人:</span><el-input v-model="form.qt['cmxzfzr']" placeholder="村民小组负责人"></el-input></div></el-form-item></td>
-      <td colspan="3" class="s12" style="font-size:1px;"> 
+      <td colspan="3" class="s12" style="font-size:1px;">
          <el-form-item  prop="qt.cmxzrq">
           <el-date-picker
                   v-model="form.qt['cmxzrq']"
@@ -224,10 +224,10 @@
 
 
 
-  
+
    <el-form-item style="text-align: center;">
-      <el-button type="primary" @click="submitForm('form')">创建</el-button>
-      <el-button type="primary" @click="resetForm('form')">重置</el-button>
+      <el-button type="primary" @click="submitForm('form')">保存</el-button>
+      <el-button type="primary" @click="handlePutTempData">测试数据</el-button>
   </el-form-item>
   </el-form>
 </div>
@@ -236,6 +236,7 @@
 <script>
   import dictMixins from '../../../mixnis/dict-mixnis'
   import {ApplicationForm, ApproalProcess} from '@/api/land.business'
+  import {applicationFormTempData} from "./temp_data"
 
   export default {
     name: 'application-form',
@@ -308,11 +309,41 @@
       }
     },
     created() {
-      if (this.disabled && this.detail != undefined) {
-        this.form = this.detail
-        let length = this.form.jtcy.length;
-        if(length<4){
-          for(let index = 0 ; index < (4-length); index++){
+      this.initJTCY()
+      this.formValidate()
+    },
+    watch:{
+    },
+    methods: {
+      handlePutTempData(){
+        this.form = {
+          jcxx: Object.assign({}, applicationFormTempData.jcxx),
+          jtcy: Object.assign([], applicationFormTempData.jtcy),
+          xzjxqk: Object.assign({}, applicationFormTempData.xzjxqk),
+          nzjdqk: Object.assign({}, applicationFormTempData.nzjdqk),
+          qt: Object.assign({}, applicationFormTempData.qt)
+        }
+      },
+      initJTCY(){
+        if (this.disabled && this.detail != undefined) {
+          this.form = this.detail
+          let length = this.form.jtcy.length
+          if (length < 4) {
+            for (let index = 0; index < (4 - length); index++) {
+              this.form.jtcy.push({
+                xm: '',
+                nl: '',
+                yhzgx: '',
+                sfzh: '',
+                hkszd: '',
+                //区分对象
+                key: Date.now()
+              })
+            }
+          }
+        } else {
+          this.form.jtcy = []
+          for (let index = 0; index < 4; index++) {
             this.form.jtcy.push({
               xm: '',
               nl: '',
@@ -324,22 +355,7 @@
             })
           }
         }
-      }else{
-        for(let index =0;index < 4; index++){
-          this.form.jtcy.push({
-            xm: '',
-            nl: '',
-            yhzgx: '',
-            sfzh: '',
-            hkszd: '',
-            //区分对象
-            key: Date.now()
-          })
-        }
-      }
-      this.formValidate()
-    },
-    methods: {
+      },
       addJTCYDomain() {
         this.form.jtcy.push({
           xm: '',
@@ -407,7 +423,8 @@
                   type: 'error'
                 })
               }).finally(() => {
-                  this.resetForm(formName)
+                this.resetForm(formName)
+                this.initJTCY()
               })
             } else {
               this.$message({

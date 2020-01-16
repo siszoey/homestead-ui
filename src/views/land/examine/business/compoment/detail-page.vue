@@ -65,9 +65,9 @@
                             <el-tab-pane label="建设规划书">
                                 <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
-                            <el-tab-pane label="附图">
-                                <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>
-                            </el-tab-pane>
+<!--                            <el-tab-pane label="附图">-->
+<!--                                <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>-->
+<!--                            </el-tab-pane>-->
                         </el-tabs>
                     </div>
                 </el-col>

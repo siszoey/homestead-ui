@@ -30,7 +30,7 @@
           </tr>
           <tr style="height:38px;">
           <td colspan="6" class="s21">农村宅基地批准书号</td>
-          <td colspan="10" class="s17" style="font-size:1px;"> 
+          <td colspan="10" class="s17" style="font-size:1px;">
             <el-form-item >
                 <el-input v-model="form.ysyj.pzsh"></el-input>
             </el-form-item>
@@ -226,7 +226,8 @@
           </tr>
           </table>
            <el-form-item style="text-align:center">
-                <el-button type="primary" @click="submitForm">提交</el-button>
+                <el-button type="primary" @click="submitForm">保存</el-button>
+                <el-button type="primary" @click="handlePutTempData">测试数据</el-button>
             </el-form-item>
       </el-form>
     </div>
@@ -234,7 +235,7 @@
 
 <script>
   import {submitAcceptance} from '@/api/land.examine'
-
+  import {appceptanceFormTempData} from "./temp_data"
   export default {
     name: "appceptance-form",
     props: {
@@ -292,9 +293,15 @@
 
     },
     methods: {
+      handlePutTempData(){
+        this.form = Object.assign({}, this.form, appceptanceFormTempData)
+      },
       submitForm() {
         submitAcceptance(this.form.ysyj).then(res => {
-          this.$message({type: 'success', message: '提交成功'})
+          this.$message({
+            message: '申请成功',
+            type: 'success'
+          })
           this.disabled = false
         })
       }

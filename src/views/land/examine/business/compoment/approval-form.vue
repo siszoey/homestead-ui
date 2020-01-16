@@ -23,7 +23,7 @@
 <tr style="height:38px;" class="has_filled">
 <td colspan="3" class="s15" >{{detailData.jcxx.xm}}</td>
 <td colspan="2" class="s15" v-text="getDicts('性别').find(r=>r.optCode==detailData.jcxx.xb).optName">
- 
+
 <td colspan="3" class="s15">{{detailData.jcxx.sfzh}}</td>
 <td colspan="3" class="s15" >{{detailData.jcxx.jtzz}}</td>
 <td colspan="4" class="s15">{{detailData.qt.sqly}}</td>
@@ -146,7 +146,8 @@
 </table>
 
       <el-form-item style="text-align:center">
-          <el-button type="primary" @click="submitForm">提交</el-button>
+          <el-button type="primary" @click="submitForm">保存</el-button>
+          <el-button type="primary" @click="handlePutTempData">测试数据</el-button>
       </el-form-item>
 
      </el-form>
@@ -156,6 +157,7 @@
 <script>
   import dictMixins from '../../../mixnis/dict-mixnis'
   import {submitForm} from '@/api/land.examine'
+  import {approvalFormTempData} from "./temp_data"
 
   export default {
     name: 'approval-form',
@@ -175,6 +177,7 @@
     data() {
       return {
         detailData: this.detail,
+        rules:{},
         formLabel: {
           // //申请户主信息
           // hzxx:{
@@ -224,10 +227,16 @@
       }
     },
     methods: {
+      handlePutTempData(){
+        this.formLabel.spyj = Object.assign({}, approvalFormTempData.spyj)
+        this.formLabel.spyj.sqid = this.detail.zjdSqJl.sqid
+      },
       submitForm() {
         submitForm(this.formLabel.spyj).then(res => {
-          console.log(1)
-          console.log(res)
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          })
         })
       }
     }
