@@ -143,22 +143,19 @@
         <el-dialog title="请选择申请类型" width="35%" :visible.sync="createBeforeDialogVisible">
             <div class="dialog-content">
                 <div class="content">
-                    <div class="content-box" v-for="option in getDicts('建房类型')"
+                    <div class="content-box" v-for="(option, index) in getDicts('建房类型')" v-if="index < 3"
                          @click="toCreateView(option.optCode)">
                         <img :src="`image/examine/jflx_${option.optCode}.png`" :alt="option.optName">
                         <p>{{option.optName}}</p>
                     </div>
                 </div>
-                <!--<div class="content">
-                    <div class="content-box" @click="toCreateView(4)">
-                        <img src="image/examine/jflx_4.png" alt="">
-                        <p>宅基地流转</p>
+                <div class="content">
+                    <div class="content-box" v-for="(option, index) in getDicts('建房类型')" v-if="index >= 3"
+                         @click="toCreateView(option.optCode)">
+                        <img :src="`image/examine/jflx_${option.optCode}.png`" :alt="option.optName">
+                        <p>{{option.optName}}</p>
                     </div>
-                    <div class="content-box" @click="toCreateView(5)">
-                        <img src="image/examine/jflx_5.png" alt="">
-                        <p>宅基地退出</p>
-                    </div>
-                </div>-->
+                </div>
             </div>
         </el-dialog>
     </d2-container>
