@@ -42,7 +42,7 @@
     </div>
 
     <div id="pic-map" class="mapDiv"></div>
-    <el-card class="box-card" id="popup">
+    <el-card class="box-card right-side" id="popup">
       <div slot="header" class="clearfix">
         <span>申请信息</span>
         <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
@@ -56,9 +56,7 @@
       <el-image
         style="width: 300px; height: 150px"
         src="/image/mapicon/testimage1.png"
-        :fit="contain"
         :preview-src-list="srcList"
-        z-index:9999
       ></el-image>
     </el-card>
     <timeline></timeline>
@@ -170,7 +168,7 @@ export default {
   },
   methods: {
     closeCard() {
-      document.getElementById("popup_onemap").style.visibility = "hidden";
+      document.getElementById("popup").style.visibility = "hidden";
     },
     //ajax获取本地json文件行政区划
     requestAjax(fileName, level) {
@@ -237,9 +235,9 @@ export default {
             },
             _this.animateDone
           );
-          var element = _this.popup.getElement();
+          // var element = _this.popup.getElement();
           var data = source.getFeatures()[0].getProperties();
-          _this.popup.setPosition(getTopRight(source.getExtent()));
+          // _this.popup.setPosition(getTopRight(source.getExtent()));
           _this.ZJDInfo = data;
           document.getElementById("popup").style.visibility = "hidden";
         }
@@ -275,10 +273,10 @@ export default {
     this.year = tYear - 1;
     //floatOnMap();
 
-    this.popup = new Overlay({
-      element: document.getElementById("popup")
-    });
-    this.map.addOverlay(this.popup);
+    // this.popup = new Overlay({
+    //   element: document.getElementById("popup")
+    // });
+    // this.map.addOverlay(this.popup);
   }
 };
 </script>
@@ -320,14 +318,14 @@ export default {
 }
 .year-column-l {
   /* position: absolute; */
-  z-index: 9999999;
+  /* z-index: 9999999; */
   font-size: 16px;
   color: #303133;
   margin: 7px;
 }
 .xzq-column-l {
   /* position: absolute; */
-  z-index: 9999999;
+  /* z-index: 9999999; */
   font-size: 16px;
   color: #303133;
   margin: 7px;
@@ -344,13 +342,24 @@ export default {
 }
 .left-side {
   position: absolute;
-  z-index: 99;
+  z-index: 9;
   width: 26%;
   min-width: 435px;
   height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
   /* margin-top: -0.1rem; */
+}
+
+.right-side {
+  position: absolute;
+  z-index: 9;
+  right: 1px;
+  width: 350px;
+  height: 450px;
+  visibility: hidden;
+  font-size: 14px;
+  /* opacity: 0.7; */
 }
 .mapDiv {
   height: 100%;
@@ -361,6 +370,7 @@ export default {
   position: absolute;
   left: 0px;
   top: 0px;
+  /* z-index:10; */
 }
 
 .panelitem {
@@ -377,5 +387,11 @@ export default {
   text-overflow: ellipsis; /*超出内容用省略号*/
   overflow: hidden; /*内容超出后隐藏*/
   white-space: nowrap; /*文本不进行换行*/
+}
+
+.el-image-viewer__close {
+  color: red;
+  top: 60px;
+  right: 100px;
 }
 </style>
