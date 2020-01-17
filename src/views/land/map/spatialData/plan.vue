@@ -1,42 +1,41 @@
 <template>
   <div class="container">
     <div id="mapsurvey" class="mapDiv"></div>
-
     <div class="toolbarContainer">
       <div class="toolbar">
-        <div class="toolButton top" title="切换图例显示" @click="show = !show">
-          <img src="../assets/sldt.png" />
+        <div class="toolButton top">
+          <img :src="`${$baseUrl}image/mapicon/sldt.png`" />
         </div>
         <div class="toolButton bottom highlight">
-          <img src="../assets/yxdt.png" />
+          <img :src="`${$baseUrl}image/mapicon/yxdt.png`" />
         </div>
       </div>
       <div class="toolbar" style="margin-top:10px">
         <div class="toolButton top">
-          <img src="../assets/sjjc.png" />
+          <img :src="`${$baseUrl}image/mapicon/sjjc.png`" />
         </div>
         <div class="toolButton bottom">
-          <img src="../assets/cggx.png" />
+          <img :src="`${$baseUrl}image/mapicon/cggx.png`" />
         </div>
       </div>
       <div class="toolbar" style="margin-top:10px">
-        <div :class="layerOn ?'toolButton top selected':'toolButton top '" @click="showLayer"  title="选择图层">
-          <img src="../assets/tcgl.png" />
+        <div :class="layerOn ?'toolButton top selected':'toolButton top '" @click="showLayer">
+          <img :src="`${$baseUrl}image/mapicon/tcgl.png`" />
         </div>
         <div class="toolButton">
-          <img src="../assets/sqgl.png" />
+          <img :src="`${$baseUrl}image/mapicon/sqgl.png`" />
         </div>
         <div class="toolButton">
-          <img src="../assets/fpdb.png" />
+          <img :src="`${$baseUrl}image/mapicon/fpdb.png`" />
         </div>
         <div class="toolButton bottom">
-          <img src="../assets/zbdw.png" />
+          <img :src="`${$baseUrl}image/mapicon/zbdw.png`" />
         </div>
       </div>
     </div>
 
     <div class="legendContainer"  v-show="show" id="legendContainer">
-      <div class="legendBox">
+      <!-- <div class="legendBox">
         <div class="title">农用地</div>
         <div class="legendItem">
           <img class="img" src="../assets/dltbstyle/0101.png" />水田
@@ -216,7 +215,7 @@
         <div class="legendItem">
           <img class="img" src="../assets/dltbstyle/1110.png" />冰川及永久积雪
         </div>
-      </div>
+      </div> -->
     </div>
 
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
