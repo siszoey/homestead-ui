@@ -91,13 +91,25 @@ const system = {
     ])('/land/integratedManagement/supervise')
 }
 
+  //盘活利用
+  const utilize = {
+    path: '/land/utilize',
+    title: '盘活利用',
+    alias: 'index',
+    icon: 'utilize',
+    children: (pre => [
+        { path: `${pre}/InformationStatistics`, title: '信息统计' }
+    ])('/land/utilize')
+}
+
 // 菜单 侧栏
 export const menuAside = [
     // home,
     map,
     examine,
     system,
-    integratedManagement
+    integratedManagement,
+    utilize
 ]
 
 // // 菜单 顶栏
@@ -133,7 +145,7 @@ export const menuHeader = [
   },
 
   {
-    path: '/land/system',
+    path: '/land/utilize',
     title: '盘活利用'
   },
   {
