@@ -237,7 +237,7 @@
     </div>
 
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
-    <el-card class="box-card" id="popup_onemap">
+    <el-card class="box-card  right-side" id="popup_onemap">
       <div slot="header" class="clearfix">
         <span>地块信息</span>
         <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
@@ -252,7 +252,6 @@
       <el-image
         style="width: 300px; height: 150px"
         src="/image/mapicon/testimage.png"
-        fit="fit"
         :preview-src-list="srcList"
         z-index:9999
       ></el-image>
@@ -805,10 +804,10 @@ export default {
       //行政区置顶
       this.XZQ.Layer.setZIndex(20);
 
-      this.popup = new Overlay({
-        element: document.getElementById("popup_onemap")
-      });
-      this.map.addOverlay(this.popup);
+      // this.popup = new Overlay({
+      //   element: document.getElementById("popup_onemap")
+      // });
+      // this.map.addOverlay(this.popup);
       //点击事件
       let _this = this;
       this.map.on("singleclick", function(evt) {
@@ -831,8 +830,8 @@ export default {
           })
             .then(res => {
               _this.CZGHInfo = res.data.features[0].properties;
-              var element = _this.popup.getElement();
-              _this.popup.setPosition(evt.coordinate);
+              // var element = _this.popup.getElement();
+              // _this.popup.setPosition(evt.coordinate);
               document.getElementById("popup_onemap").style.visibility =
                 "visible";
             })
@@ -1179,9 +1178,34 @@ export default {
 .el-checkbox {
   margin: 3px;
 }
+
+.box-card {
+  width: 99.5%;
+  /* margin-top: 11%; */
+  height: 99.5%;
+  background-color: #f7f7f7d1;
+  overflow-y: auto;
+}
+
+.right-side {
+  position: absolute;
+  z-index: 9;
+  right:1px;
+  width: 350px;
+  height: 400px;
+  visibility: hidden;
+  font-size: 14px;
+  // opacity: 0.7;
+}
+
+
+
 </style>
 <style>
 .el-switch__label {
   min-width: 15px;
 }
+
+
+
 </style>
