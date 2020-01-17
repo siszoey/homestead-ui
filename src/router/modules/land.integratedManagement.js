@@ -11,55 +11,105 @@ export default function (iotHeader) {
       ...meta,
       title: '综合监管'
     },
-    redirect: { name: 'land-integratedManagement-supervise-dailyInspection' },
+    redirect: { name: 'land-integratedManagement-monitoring_analysis' },
     component: iotHeader,
     children: (pre => [
       {
-        path: 'supervise/dailyInspection',
-        name: `${pre}supervise-dailyInspection`,
-        component: _import('land/integratedManagement/supervise/dailyInspection.vue'),
+        path: 'supervise',
+        name: `${pre}supervise`,
         meta: {
           ...meta,
-          title: '日常巡查处置'
-        }
+          title: '监督处置'
+        },
+        component: _import('land/components/blankrouterview.vue'),
+        children: (pre => [
+          {
+            path: 'dailyInspection',
+            name: `${pre}dailyInspection`,
+            component: _import('land/integratedManagement/supervise/dailyInspection.vue'),
+            meta: {
+              ...meta,
+              title: '日常巡查处置'
+            }
+          },
+          {
+            path: `complaintHandling`,
+            name: `${pre}complaintHandling`,
+            component: _import('land/integratedManagement/supervise/complaintHandling.vue'),
+            meta: {
+              ...meta,
+              title: '信访举报处置'
+            }
+          },
+          {
+            path: `registrationDisposal`,
+            name: `${pre}registrationDisposal`,
+            component: _import('land/integratedManagement/supervise/registrationDisposal.vue'),
+            meta: {
+              ...meta,
+              title: '闲置登记处置'
+            }
+          },
+          {
+            path: `disputesArbitration`,
+            component: _import('land/integratedManagement/supervise/disputesArbitration.vue'),
+            meta: {
+              ...meta,
+              title: '纠纷仲裁处置'
+            }
+          }
+        ])('land-integratedManagement-supervise-')
       },
       {
-        path: `supervise/complaintHandling`,
-        name: `${pre}supervise-complaintHandling`,
-        component: _import('land/integratedManagement/supervise/complaintHandling.vue'),
+        path: 'monitor',
+        name: `${pre}monitor`,
         meta: {
           ...meta,
-          title: '信访举报处置'
-        }
-
-      },
-      {
-        path: `supervise/registrationDisposal`,
-        name: `${pre}supervise-registrationDisposal`,
-        component: _import('land/integratedManagement/supervise/registrationDisposal.vue'),
-        meta: {
-          ...meta,
-          title: '闲置登记处置'
-        }
-      },
-      {
-        path: `supervise/disputesArbitration`,
-        component: _import('land/integratedManagement/supervise/disputesArbitration.vue'),
-        meta: {
-          ...meta,
-          title: '纠纷仲裁处置'
-        }
-
-      },
-      {
-        path: 'supervise/ygdc_dbfx',
-        name: `${pre}ygdc_dbfx`,
-        component: _import('land/map/spatialData/ygdc_dbfx.vue'),
-        meta: {
-          ...meta,
-          ismap: true,
-          title: '对比分析'
-        }
+          title: '遥感监测'
+        },
+        component: _import('land/components/blankrouterview.vue'),
+        children: (pre => [
+          {
+            path: 'ygdc_dbfx',
+            name: `${pre}ygdc_dbfx`,
+            component: _import('land/map/spatialData/ygdc_dbfxmain.vue'),
+            meta: {
+              ...meta,
+              ismap: true,
+              title: '对比分析'
+            }
+          },
+          {
+            path: 'ygdc_jcsb',
+            name: `${pre}ygdc_jcsb`,
+            component: _import('land/integratedManagement/monitor/ygdc_jcsb.vue'),
+            meta: {
+              ...meta,
+              ismap: true,
+              title: '监测识别'
+            }
+          },
+          {
+            path: 'ygdc_wfdx',
+            name: `${pre}ygdc_wfdx`,
+            component: _import('land/integratedManagement/monitor/ygdc_wfdx.vue'),
+            meta: {
+              ...meta,
+              ismap: true,
+              title: '违法定性'
+            }
+          },
+          {
+            path: 'ygdc_czgz',
+            name: `${pre}ygdc_czgz`,
+            component: _import('land/integratedManagement/monitor/ygdc_czgz.vue'),
+            meta: {
+              ...meta,
+              ismap: true,
+              title: '处置跟踪'
+            }
+          }
+        ])('land-integratedManagement-supervise-monitor')
       },
       {
         path: 'supervise/monitoring_analysis',
@@ -71,6 +121,6 @@ export default function (iotHeader) {
           title: '监测分析'
         }
       }
-    ])('land-integratedManagement-'),
+    ])('land-integratedManagement-')
   }
 }

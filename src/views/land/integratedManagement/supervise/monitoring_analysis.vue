@@ -51,14 +51,14 @@
         data() {
             return {
                 barDatas: [
-                    { name: "文城镇", value: "24" },
-                    { name: "重兴镇", value: "17" },
-                    { name: "蓬莱镇", value: "36" },
+                    { name: "东路镇", value: "24" },
+                    { name: "东郊镇", value: "17" },
+                    { name: "东阁镇", value: "36" },
                     { name: "会文镇", value: "28" },
-                    { name: "东路镇", value: "29" },
-                    { name: "东阁镇", value: "29" },
-                    { name: "文教镇", value: "24" },
-                    { name: "东郊镇", value: "10" }
+                    { name: "公坡镇", value: "29" },
+                    { name: "冯坡镇", value: "29" },
+                    { name: "抱罗镇", value: "24" },
+                    { name: "文城镇", value: "10" }
                 ],
                 lineDatas: [
                     { name: "2012", value: "146" },
@@ -246,7 +246,7 @@
 
 <style lang="scss" scoped>
     .contents {
-        width: 99.5%;
+        width: 100%;
         height: 99%;
         float: right;
         background: #FFF;

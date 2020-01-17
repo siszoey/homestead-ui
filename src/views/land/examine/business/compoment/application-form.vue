@@ -49,7 +49,8 @@
       <td colspan="4" class="s18" style="font-size:1px;">
         <el-form-item
                       :prop="'jtcy.' + index + '.nl'"
-                      :rules="{type: 'number', message: '必须为数字值'}">
+                      >
+<!--            :rules="{type: 'number', message: '必须为数字值'}">-->
             <el-input v-model.number="cyItem['nl']"></el-input>
         </el-form-item></td>
       <td colspan="6" class="s18" style="font-size:1px;"><el-input v-model="cyItem['yhzgx']"></el-input></td>
@@ -318,10 +319,14 @@
       handlePutTempData(){
         this.form = {
           jcxx: Object.assign({}, applicationFormTempData.jcxx),
-          jtcy: Object.assign([], applicationFormTempData.jtcy),
+          // jtcy: Object.assign([], applicationFormTempData.jtcy),
           xzjxqk: Object.assign({}, applicationFormTempData.xzjxqk),
           nzjdqk: Object.assign({}, applicationFormTempData.nzjdqk),
           qt: Object.assign({}, applicationFormTempData.qt)
+        }
+        this.form.jtcy = []
+        for (let index = 0; index < 4; index++) {
+          this.form.jtcy.push(Object.assign({}, applicationFormTempData.jtcy[index]))
         }
       },
       initJTCY(){

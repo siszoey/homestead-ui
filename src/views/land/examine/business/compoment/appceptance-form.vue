@@ -116,7 +116,14 @@
           </tr>
           <tr style="height:38px;">
           <td colspan="5" class="s21">拆旧退还宅基地情况</td>
-          <td colspan="11" class="s17" style="font-size:1px;">&nbsp;</td>
+          <td colspan="11" class="s17" style="font-size:1px;">
+              <el-form-item >
+                  <el-select v-model="form.ysyj['cjthzjdqk']">
+                      <el-option v-for="(option, index) in getDicts('拆旧退还宅基地情况')" :label="option.optName"
+                                 :value="option.optCode" :key="index"></el-option>
+                  </el-select>
+              </el-form-item>
+          </td>
           </tr>
           <tr style="height:76px;">
           <td rowspan="2" class="s21">竣工平<br>面简图<br>（标注<br>长宽及<br>四至）</td>
@@ -234,10 +241,14 @@
 </template>
 
 <script>
+  import dictMixins from '../../../mixnis/dict-mixnis'
   import {submitAcceptance} from '@/api/land.examine'
   import {appceptanceFormTempData} from "./temp_data"
   export default {
     name: "appceptance-form",
+    mixins: [
+      dictMixins
+    ],
     props: {
       disabled: {
         type: Boolean,
@@ -290,11 +301,15 @@
       }
     },
     created() {
+      if (this.detail && this.detail.zjdYsyj) {
+        this.form.ysyj = this.detail.zjdYsyj
 
+      }
     },
     methods: {
       handlePutTempData(){
         this.form = Object.assign({}, this.form, appceptanceFormTempData)
+        this.form.ysyj.sqid = this.detail.zjdSqJl.sqid
       },
       submitForm() {
         submitAcceptance(this.form.ysyj).then(res => {

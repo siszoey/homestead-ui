@@ -12,7 +12,11 @@
             <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <label class="xzq-column-l">行政区</label>
-          <el-select v-model="city" class="select-item-xzq panelitem" v-on:change="changeCity(city)">
+          <el-select
+            v-model="city"
+            class="select-item-xzq panelitem"
+            v-on:change="changeCity(city)"
+          >
             <el-option
               v-for="item in cities"
               :key="item.id"
@@ -87,7 +91,12 @@
           <el-progress :percentage="56" color="#E85754"></el-progress>
         </div>
         <div class="text item">
-          <el-table :data="tableData" style="width: 100%" class=" panelitem" :row-class-name="tableRowClassName">
+          <el-table
+            :data="tableData"
+            style="width: 100%"
+            class="panelitem"
+            :row-class-name="tableRowClassName"
+          >
             <el-table-column prop="xzq" label="行政区"></el-table-column>
             <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
             <el-table-column prop="wfzd" label="违法占地"></el-table-column>
@@ -641,9 +650,9 @@ export default {
   /* margin-left: 1.8rem; */
 }
 
-.panelitem {
-  opacity: 0.7;
-}
+/* .panelitem {
+  background-color: transparent;
+} */
 
 .select-item-year {
   height: 35px !important;
@@ -673,5 +682,15 @@ export default {
 
 .card-title {
   font-size: 14px;
+}
+
+.panelitem {
+  background-color: transparent;
+}
+</style>
+<style>
+.el-table th,
+.el-table tr {
+  background-color: transparent;
 }
 </style>
