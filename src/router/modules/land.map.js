@@ -31,9 +31,9 @@ export default function (iotHeader) {
             }
         },
         {
-            path: 'spatialData/ygdc_dbfx',
-            name: `${pre}ygdc_dbfx`,
-            component: _import('land/map/spatialData/ygdc_dbfx.vue'),
+            path: 'spatialData/ygdc_dbfxmain',
+            name: `${pre}ygdc_dbfxmain`,
+            component: _import('land/map/spatialData/ygdc_dbfxmain.vue'),
             meta: {
                 ...meta,
                 ismap: true,

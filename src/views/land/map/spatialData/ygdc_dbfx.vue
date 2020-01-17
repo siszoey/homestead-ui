@@ -1,84 +1,95 @@
 <template>
   <div class="container">
-    <div class="mapPanel">
-      <el-menu
-        default-active="1"
-        class="el-menu"
-        :unique-opened="true"
-        style="height:100%;background-color: lightgrey;"
-      >
-        <el-submenu index="1">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch
-                inactive-text="现状调查成果"
-                v-model="XZDCCG.Visible"
-                @change="changeLayer('XZDCCG')"
-              ></el-switch>
-            </div>
-          </template>
-          <el-menu-item-group>
-            <div class="itembox">
-              <div class="listItem">
-                <el-checkbox @change="checkALL('XZDCCG')" v-model="XZDCCG.CheckAll"></el-checkbox>
-                <span class="img" style="visibility: hidden;"></span>
-                全选
+    <div class="mapPanel" ref="leftPanel">
+      <div style="text-align:center">
+        <el-switch
+          style="height:50px;"
+          inactive-text="展开菜单"
+          active-text="收起菜单"
+          v-model="hiddenToolbar"
+          @change="changeToolbar()"
+        ></el-switch>
+      </div>
+      <div ref="mapPanel">
+        <el-menu
+          default-active="1"
+          class="el-menu"
+          :unique-opened="true"
+          style="height:100%;background-color: lightgrey;"
+        >
+          <el-submenu index="1">
+            <template slot="title">
+              <div @click.stop="stop()">
+                <el-switch
+                  inactive-text="现状调查成果"
+                  v-model="XZDCCG.Visible"
+                  @change="changeLayer('XZDCCG')"
+                ></el-switch>
               </div>
-              <div class="listItem" v-for="box in XZDCCG.Boxs" :key="box.code">
-                <el-checkbox @change="changeFeature('XZDCCG',box.code)" v-model="box.checked"></el-checkbox>
-                <span class="img" :style="box.icon"></span>
-                {{box.name}}
-              </div>
-            </div>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch
-                inactive-text="村庄用地规划"
-                v-model="CZGH.Visible"
-                @change="changeLayer('CZGH')"
-              ></el-switch>
-            </div>
-          </template>
-
-          <el-menu-item-group>
-            <el-scrollbar>
+            </template>
+            <el-menu-item-group>
               <div class="itembox">
                 <div class="listItem">
-                  <el-checkbox @change="checkALL('CZGH')" v-model="CZGH.CheckAll"></el-checkbox>
+                  <el-checkbox @change="checkALL('XZDCCG')" v-model="XZDCCG.CheckAll"></el-checkbox>
                   <span class="img" style="visibility: hidden;"></span>
                   全选
                 </div>
-                <div class="listItem" v-for="box in CZGH.Boxs" :key="box.code">
-                  <el-checkbox @change="changeFeature('CZGH',box.code)" v-model="box.checked"></el-checkbox>
-                  <img class="img" :src="`${$baseUrl}image/czghstyle/`+box.name+'.png'" />
+                <div class="listItem" v-for="box in XZDCCG.Boxs" :key="box.code">
+                  <el-checkbox @change="changeFeature('XZDCCG',box.code)" v-model="box.checked"></el-checkbox>
+                  <span class="img" :style="box.icon"></span>
                   {{box.name}}
                 </div>
               </div>
-            </el-scrollbar>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-menu-item index="5">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch inactive-text="行政区划" v-model="XZQ.Visible" @change="changeLayer('XZQ')"></el-switch>
-            </div>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="6">
-          <template slot="title">
-            <div @click.stop="stop()">
-              <el-switch inactive-text="影像底图" v-model="DT.Visible" @change="changeLayer('DT')"></el-switch>
-            </div>
-          </template>
-        </el-menu-item>
-      </el-menu>
-    </div>
-    <div id="mapdbfx" class="mapDiv"></div>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title">
+              <div @click.stop="stop()">
+                <el-switch
+                  inactive-text="村庄用地规划"
+                  v-model="CZGH.Visible"
+                  @change="changeLayer('CZGH')"
+                ></el-switch>
+              </div>
+            </template>
 
-    <div class="toolbarContainer">
+            <el-menu-item-group>
+              <el-scrollbar>
+                <div class="itembox">
+                  <div class="listItem">
+                    <el-checkbox @change="checkALL('CZGH')" v-model="CZGH.CheckAll"></el-checkbox>
+                    <span class="img" style="visibility: hidden;"></span>
+                    全选
+                  </div>
+                  <div class="listItem" v-for="box in CZGH.Boxs" :key="box.code">
+                    <el-checkbox @change="changeFeature('CZGH',box.code)" v-model="box.checked"></el-checkbox>
+                    <img class="img" :src="`${$baseUrl}image/czghstyle/`+box.name+'.png'" />
+                    {{box.name}}
+                  </div>
+                </div>
+              </el-scrollbar>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-menu-item index="5">
+            <template slot="title">
+              <div @click.stop="stop()">
+                <el-switch inactive-text="行政区划" v-model="XZQ.Visible" @change="changeLayer('XZQ')"></el-switch>
+              </div>
+            </template>
+          </el-menu-item>
+          <el-menu-item index="6">
+            <template slot="title">
+              <div @click.stop="stop()">
+                <el-switch inactive-text="影像底图" v-model="DT.Visible" @change="changeLayer('DT')"></el-switch>
+              </div>
+            </template>
+          </el-menu-item>
+        </el-menu>
+      </div>
+    </div>
+    <div :id="mapid" class="mapDiv"></div>
+
+    <!-- <div class="toolbarContainer">
       <div class="toolbar">
         <div class="toolButton top">
           <img :src="`${$baseUrl}image/mapicon/sldt.png`" />
@@ -109,7 +120,7 @@
           <img :src="`${$baseUrl}image/mapicon/zbdw.png`" />
         </div>
       </div>
-    </div>
+    </div>-->
 
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
@@ -131,7 +142,14 @@ import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
 
 export default {
-  name: "survey",
+  name: "ygdc_dbfx",
+  props: {
+    hiddenToolbar: {
+      type: Boolean,
+      default: false
+    },
+    mapid: String
+  },
   data() {
     return {
       map: null,
@@ -216,11 +234,14 @@ export default {
     LayerList
   },
   mounted() {
-    this.map = BaseMap.BaseInitMap("mapdbfx");
+    //是否显示工具栏
+    //this.changeToolbar();
+    this.map = BaseMap.BaseInitMap(this.mapid);
+    //console.log(this.map);
     this.checkALL("XZDCCG");
     this.checkALL("CZGH");
-    //this.InitLayer("XZDCCG");
-    //this.InitLayer("CZGH");
+    this.InitLayer("XZDCCG");
+    this.InitLayer("CZGH");
     this.InitLayer("XZQ");
     this.InitLayer("DT");
     this.XZQ.Layer.setZIndex(20);
@@ -236,6 +257,20 @@ export default {
         this.map.addLayer(this[LayerName].Layer);
       } else {
         this.map.removeLayer(this[LayerName].Layer);
+      }
+    },
+    //切换面板显示
+    changeToolbar() {
+      if (this.hiddenToolbar) {
+        this.$refs.mapPanel.style.display = "none";
+        this.$refs.leftPanel.style.height = "50px";
+        //document.getElementById("mapPanel").style.display = "none";
+        //document.getElementById("leftPanel").style.height = "50px";
+      } else {
+        this.$refs.mapPanel.style.display = "block";
+        this.$refs.leftPanel.style.height = "100%";
+        //document.getElementById("mapPanel").style.display = "block";
+        //document.getElementById("leftPanel").style.height = "100%";
       }
     },
     checkALL(LayerName) {
@@ -407,20 +442,43 @@ export default {
       return clusters;
     },
     InitXZQ() {
-      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm);
+      var _this = this;
+      if (this.XZQ.Layer != null) this.map.removeLayer(this.XZQ.Layer);
+      var Region_Layer = BaseMap.BaseCreateRegionVectorFromServer(this.xzqhdm);
+      Region_Layer.getSource().on("change", function(evt) {
+        var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === "ready") {
+          _this.map.values_.view.fit(source.getExtent()); //自动缩放
+        }
+      });
+      this.map.addLayer(Region_Layer); //加载图层
       return Region_Layer;
     },
     InitDT() {
-      this.map.addLayer(BaseMap.img_wLayer);
-      return BaseMap.img_wLayer;
+      let layer = new TileLayer({
+        source: new TileWMS({
+          url: BaseMap.geoserverURL + "TDLYXZ/wms",
+          params: {
+            FORMAT: "image/png",
+            VERSION: "1.1.1",
+            tiled: true,
+            LAYERS: "TDLYXZ:Puqian",
+            exceptions: "application/vnd.ogc.se_inimage"
+          }
+        }),
+        name: "东坡村影像底图",
+        zindex: 1
+      });
+      this.map.addLayer(layer);
+      return layer;
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 98%;
-  height: 96%;
+  width: 100%;
+  height: 100%;
   padding: 0px;
   margin: 0px;
   position: relative;
