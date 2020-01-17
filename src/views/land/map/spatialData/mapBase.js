@@ -99,6 +99,7 @@ export default {
     cia_wLayer,
     img_wLayer_g,
     img_DPCLayer,
+    key,
 
     geoserverURL,
     geoserver,
