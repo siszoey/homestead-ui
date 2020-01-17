@@ -87,7 +87,8 @@ const system = {
         { path: `${pre}/complaintHandling`, title: '信访举报处置'},
         { path: `${pre}/registrationDisposal`, title: '闲置登记处置'},
         { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置'},
-        { path: `${pre}/ygdc_dbfx`, title: '对比分析' }
+        { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+        { path: `${pre}/monitoring_analysis`, title: '监测分析' }
     ])('/land/integratedManagement/supervise')
 }
 

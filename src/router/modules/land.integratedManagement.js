@@ -1,7 +1,7 @@
 // 由于懒加载页面太多的话会造成webpack热更新太慢，所以开发环境不使用懒加载，只有生产环境使用懒加载
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 
-const meta = {auth: true}
+const meta = { auth: true }
 
 export default function (iotHeader) {
   return {
@@ -11,7 +11,7 @@ export default function (iotHeader) {
       ...meta,
       title: '综合监管'
     },
-    redirect: {name: 'land-integratedManagement-supervise-dailyInspection'},
+    redirect: { name: 'land-integratedManagement-supervise-dailyInspection' },
     component: iotHeader,
     children: (pre => [
       {
@@ -31,7 +31,7 @@ export default function (iotHeader) {
           ...meta,
           title: '信访举报处置'
         }
-        
+
       },
       {
         path: `supervise/registrationDisposal`,
@@ -42,25 +42,35 @@ export default function (iotHeader) {
           title: '闲置登记处置'
         }
       },
-      { 
-        path: `supervise/disputesArbitration`, 
+      {
+        path: `supervise/disputesArbitration`,
         component: _import('land/integratedManagement/supervise/disputesArbitration.vue'),
         meta: {
           ...meta,
           title: '纠纷仲裁处置'
         }
-        
+
       },
-        {
-          path: 'supervise/ygdc_dbfx',
-          name: `${pre}ygdc_dbfx`,
-          component: _import('land/map/spatialData/ygdc_dbfx.vue'),
-          meta: {
-              ...meta,
-              ismap: true,
-              title: '对比分析'
-          }
-      }    
+      {
+        path: 'supervise/ygdc_dbfx',
+        name: `${pre}ygdc_dbfx`,
+        component: _import('land/map/spatialData/ygdc_dbfx.vue'),
+        meta: {
+          ...meta,
+          ismap: true,
+          title: '对比分析'
+        }
+      },
+      {
+        path: 'supervise/monitoring_analysis',
+        name: `${pre}monitoring_analysis`,
+        component: _import('land/integratedManagement/supervise/monitoring_analysis.vue'),
+        meta: {
+          ...meta,
+          ismap: true,
+          title: '监测分析'
+        }
+      }
     ])('land-integratedManagement-'),
   }
 }
