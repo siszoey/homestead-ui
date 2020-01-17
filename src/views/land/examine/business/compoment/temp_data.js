@@ -37,7 +37,15 @@ export const applicationFormTempData = {
       //区分对象
       key: Date.now()
     },
-    {}
+    {
+      xm: '',
+      nl: '',
+      yhzgx: '',
+      sfzh: '',
+      hkszd: '',
+      //区分对象
+      key: Date.now()
+    }
   ],
   //现宅基地情况
   xzjxqk: {
