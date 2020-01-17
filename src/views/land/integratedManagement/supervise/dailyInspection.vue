@@ -37,13 +37,13 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column align="center" label="监察人"  width="120">
+                    <el-table-column align="center" label="监察人"  width="100">
                         <template slot-scope="scope">
                             <span>{{scope.row.jcr}}</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column align="center" label="监察时间"  width="120">
+                    <el-table-column align="center" label="监察时间"  width="140">
                         <template slot-scope="scope">
                             <span>{{scope.row.jcsj}}</span>
                         </template>
@@ -162,22 +162,24 @@ export default {
     };
   },
   mounted() {
-    console.log(123);
+    // console.log(123);
     this.getTableData();
   },
   methods: {      
     //获取列表数据
     getTableData() {
     let params = {
-        xmmc: this.xmmc
+        xmmc: this.xmmc  
         };    
       var _this = this;
       this.$axios
         .get("http://rlcmr.weixin-api.dunnching.top/api/homestead/rcxc/rcxc_List", { params })
-        .then(res => (_this.table.list = res.data.AppendData))
+        .then(res => {
+          _this.table.list = res.data.AppendData
+          })
         .catch(function(error) {
           // 请求失败处理
-          console.log(error);
+          // console.log(error);
         });
     },
     //详情

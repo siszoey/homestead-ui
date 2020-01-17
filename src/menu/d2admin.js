@@ -87,8 +87,20 @@ const system = {
         { path: `${pre}/complaintHandling`, title: '信访举报处置'},
         { path: `${pre}/registrationDisposal`, title: '闲置登记处置'},
         { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置'},
-        { path: `${pre}/ygdc_dbfx`, title: '对比分析' }
+        { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+        { path: `${pre}/monitoring_analysis`, title: '监测分析' }
     ])('/land/integratedManagement/supervise')
+}
+
+  //盘活利用
+  const utilize = {
+    path: '/land/utilize',
+    title: '盘活利用',
+    alias: 'index',
+    icon: 'utilize',
+    children: (pre => [
+        { path: `${pre}/InformationStatistics`, title: '信息统计' }
+    ])('/land/utilize')
 }
 
 // 菜单 侧栏
@@ -97,7 +109,8 @@ export const menuAside = [
     map,
     examine,
     system,
-    integratedManagement
+    integratedManagement,
+    utilize
 ]
 
 // // 菜单 顶栏
@@ -133,7 +146,7 @@ export const menuHeader = [
   },
 
   {
-    path: '/land/system',
+    path: '/land/utilize',
     title: '盘活利用'
   },
   {
