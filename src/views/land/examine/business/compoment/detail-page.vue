@@ -32,7 +32,7 @@
 
             <el-row :gutter="5">
                 <!--表单-->
-                <el-col :span="showMap ? 12 : 24">
+                <el-col :span="showMap || showFileView ? 12 : 24">
                     <el-tabs tab-position="left" v-show="showForm">
                         <el-tab-pane label="申请表">
                             <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
@@ -44,8 +44,6 @@
                             <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"></appceptanceForm>
                         </el-tab-pane>
                     </el-tabs>
-                    <!--材料-->
-                    <file-tree-view v-show="showFileView" :xmbh="xmbh" :stage="stage"></file-tree-view>
 
                     <!--打印-->
                     <div v-bind="$attrs" v-show="showPrintView">
@@ -77,6 +75,10 @@
                     <div style="width: 570px;height:800px">
                         <oneMap :hiddenToolbar="true"></oneMap>
                     </div>
+                </el-col>
+                <el-col :span="12" v-if="showFileView">
+                    <!--材料-->
+                    <file-tree-view :xmbh="xmbh" :stage="stage"></file-tree-view>
                 </el-col>
             </el-row>
         </div>
@@ -267,11 +269,11 @@
         // this.showForm = flag ? false : true
       },
       handleShowFileView() {
-        this.showFlag(false)
-        this.showFileView = true;
-        // let flag = this.showFileView
         // this.showFlag(false)
-        // this.showFileView = flag ? false : true
+        // this.showFileView = true;
+
+        this.showMap = false
+        this.showFileView = this.showFileView ? false : true
       },
       handleShowPrintView() {
         this.showFlag(false)
@@ -282,11 +284,12 @@
       },
       showFlag(flag) {
         this.showForm = flag
-        this.showFileView = flag
+        // this.showFileView = flag
         this.showPrintView = flag
         // this.showMap = flag
       },
       handleShowMap() {
+        this.showFileView = false
         this.showMap = this.showMap ? false : true
         // let flag = this.showMap
         // let formFlag = this.showForm
