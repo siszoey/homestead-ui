@@ -51,14 +51,14 @@
         data() {
             return {
                 barDatas: [
-                    { name: "松滋市", value: "24" },
-                    { name: "荆州区", value: "17" },
-                    { name: "沙市区", value: "36" },
-                    { name: "公安县", value: "28" },
-                    { name: "江陵县", value: "29" },
-                    { name: "石首市", value: "29" },
-                    { name: "监利县", value: "24" },
-                    { name: "洪湖市", value: "10" }
+                    { name: "文城镇", value: "24" },
+                    { name: "重兴镇", value: "17" },
+                    { name: "蓬莱镇", value: "36" },
+                    { name: "会文镇", value: "28" },
+                    { name: "东路镇", value: "29" },
+                    { name: "东阁镇", value: "29" },
+                    { name: "文教镇", value: "24" },
+                    { name: "东郊镇", value: "10" }
                 ],
                 lineDatas: [
                     { name: "2012", value: "146" },
