@@ -219,6 +219,9 @@
           trueText: '确定',
           falseText: '取消',
         })
+        if(this.isLastProcessByRole(this.processInfo.roleid)){
+          confirm.title = "联合审批结束，是否归档?"
+        }
         this.$confirm(confirm.title, '提示', {
           distinguishCancelAndClose: confirm.distinguishCancelAndClose,
           confirmButtonText: confirm.trueText,

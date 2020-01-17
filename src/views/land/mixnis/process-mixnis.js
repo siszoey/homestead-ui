@@ -20,7 +20,13 @@ export default {
     ]),
     ...mapState('d2admin/user', [
       'info'
-    ])
+    ]),
+    firstProcessRole(){
+      return this.getDictByOptCode("流程角色", "1")
+    },
+    lastProcessRole(){
+      return this.getDictByOptCode("流程角色", "9")
+    }
   },
   /**
    * 流程的相关状态按字段表Code有序进行
@@ -31,7 +37,10 @@ export default {
       return role ? `${role.stage}人员` : ''
     },
     isFirstProcess() {
-      return this.info.role.includes(this.getOptName("流程角色", "1"))
+      return this.info.role.includes(this.firstProcessRole.optName)
+    },
+    isLastProcessByRole(role) {
+      return role === this.lastProcessRole.optName
     },
     /**
      * 获取下个流程的项目状态
@@ -127,7 +136,7 @@ export default {
         now_xmzt: xmztCode,
         now_blzt: this.getOptCode("办理状态", "已办"),
         //判断是否最后个流程
-        is_end: this.getOptName("流程角色", "10") == nextRoleId ? 1 : 0
+        is_end: this.isLastProcessByRole(nextRoleId) ? 1 : 0
       }
       console.log("processRequest", data)
       ApproalProcess(data).then(() => {
