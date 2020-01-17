@@ -52,7 +52,7 @@
         </el-col>
       </el-row>
       <el-row style="padding-bottom:25px">
-        <el-col :span="12" style="padding: 0px 5px 0px 25px">
+        <el-col :span="12" style="padding: 0px 5px 0px 10px">
           <el-table
             :key="table.key"
             :data="table.list"
@@ -62,7 +62,7 @@
             border
             :header-cell-style="{background:'#F5F5F5',color:'#666666'}"
             style="width: 100%;">
-            <el-table-column align="center" label="项目编号">
+            <el-table-column align="center" label="项目编号" :show-overflow-tooltip="true">
                         <template slot-scope="scope">
                             <span>{{scope.row.sqid}}</span>
                         </template>
@@ -80,13 +80,13 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column align="center" label="宅基地面积">
+                    <el-table-column align="center" label="宅基地面积" width="100">
                         <template slot-scope="scope">
                             <span>{{scope.row.zjdmj}}</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column align="center" label="项目状态">
+                    <el-table-column align="center" label="项目状态" width="180">
                         <template slot-scope="scope">
                             <span>{{getOptName('项目状态', scope.row.xmzt)}}</span>
                         </template>
@@ -104,7 +104,7 @@
             style="margin-top:35px;text-align:center"
           ></el-pagination>
         </el-col>
-        <el-col :span="12" style="padding:0px 25px 0px 5px;height:610px;">
+        <el-col :span="12" style="padding:0px 5px 0px 5px;height:610px;">
           <el-row>
             <el-col :span="24" style="height:300px;border:1px solid #F2F2F2">
               <p class="header-title">项目所属阶段统计</p>
@@ -412,6 +412,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-row {
+  margin-right: 5px;
+}
 p {
   margin: 0;
   padding: 0;
@@ -457,13 +460,14 @@ p {
   color: #606060;
 }
 .wrap-middle {
-  margin-top: 20px;
+  // margin-top: 20px;
   margin-bottom: 20px;
   background: #fff;
   height: auto;
 }
 .queryForm {
-  padding: 25px 15px 10px 25px;
+  // padding: 25px 15px 10px 25px;
+  padding: 0.25rem 0.05rem 0.1rem 0.05rem;
   margin: 0px;
 }
 </style>

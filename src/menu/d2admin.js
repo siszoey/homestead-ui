@@ -83,13 +83,30 @@ const system = {
     alias: 'index',
     icon: 'integratedManagement',
     children: (pre => [
-        { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
-        { path: `${pre}/complaintHandling`, title: '信访举报处置'},
-        { path: `${pre}/registrationDisposal`, title: '闲置登记处置'},
-        { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置'},
-        { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
-        { path: `${pre}/monitoring_analysis`, title: '监测分析' }
-    ])('/land/integratedManagement/supervise')
+      { path: `${pre}/supervise/monitoring_analysis`, title: '监测分析' },
+      {
+        path: `${pre}/supervise`,
+        title: '监督处置',
+        children: (pre => [
+          { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
+          { path: `${pre}/complaintHandling`, title: '信访举报处置'},
+          { path: `${pre}/registrationDisposal`, title: '闲置登记处置'},
+          { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置'}
+        ])('/land/integratedManagement/supervise')
+      },
+      {
+        path: `${pre}/monitor`,
+        title: '遥感监测',
+        children: (pre => [
+          { path: `${pre}/ygdc_jcsb`, title: '遥感识别' },
+          { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+          { path: `${pre}/ygdc_wfdx`, title: '违法定性' },
+          { path: `${pre}/ygdc_czgz`, title: '处置跟踪' }
+        ])('/land/integratedManagement/monitor')
+      }
+        
+        
+    ])('/land/integratedManagement')
 }
 
   //盘活利用
