@@ -62,7 +62,7 @@
           <el-menu-item-group>
             <el-submenu index="2-1">
               <template slot="title">农用地</template>
-              <div class="itembox">
+              <!-- <div class="itembox">
                 <div class="listItem">
                   <input type="checkbox" checked @change="changeFeature('GTKJGH','0101')" />
                   <img class="img" src="../assets/dltbstyle/0101.png" />水田
@@ -159,12 +159,12 @@
                   <input type="checkbox" checked @change="changeFeature('GTKJGH','1203')" />
                   <img class="img" src="../assets/dltbstyle/1203.png" />田坎
                 </div>
-              </div>
+              </div> -->
             </el-submenu>
 
             <el-submenu index="2-2">
               <template slot="title">建设用地</template>
-              <div class="itembox">
+              <!-- <div class="itembox">
                 <div class="listItem">
                   <input type="checkbox" checked @change="changeFeature('GTKJGH','0508')" />
                   <img class="img" src="../assets/dltbstyle/0508.png" />物流仓储用地
@@ -253,11 +253,11 @@
                   <input type="checkbox" checked @change="changeFeature('GTKJGH','08H1')" />
                   <img class="img" src="../assets/dltbstyle/08H1.png" />机关团体新闻出版用地
                 </div>
-              </div>
+              </div> -->
             </el-submenu>
             <el-submenu index="2-3">
               <template slot="title">未利用地</template>
-              <div class="itembox">
+              <!-- <div class="itembox">
                 <div class="listItem">
                   <input type="checkbox" checked @change="changeFeature('GTKJGH','0403')" />
                   <img class="img" src="../assets/dltbstyle/0403.png" />其他草地
@@ -302,7 +302,7 @@
                   <input type="checkbox" checked @change="changeFeature('GTKJGH','1110')" />
                   <img class="img" src="../assets/dltbstyle/1110.png" />冰川及永久积雪
                 </div>
-              </div>
+              </div> -->
             </el-submenu>
           </el-menu-item-group>
         </el-submenu>
@@ -319,7 +319,7 @@
 
           <el-menu-item-group>
             <el-scrollbar>
-              <div class="itembox" id="CZGH_Features">
+              <!-- <div class="itembox" id="CZGH_Features">
                 <div class="listItem">
                   <input type="checkbox" checked @change="changeFeature('CZGH','保护林地')" />
                   <img class="img" src="../assets/czghstyle/保护林地.png" />保护林地
@@ -384,7 +384,7 @@
                   <input type="checkbox" checked @change="changeFeature('CZGH','自然保留地')" />
                   <img class="img" src="../assets/czghstyle/自然保留地.png" />自然保留地
                 </div>
-              </div>
+              </div> -->
             </el-scrollbar>
           </el-menu-item-group>
         </el-submenu>
@@ -408,32 +408,32 @@
     <div class="toolbarContainer">
       <div class="toolbar">
         <div class="toolButton top">
-          <img src="../assets/sldt.png" />
+          <img :src="`${$baseUrl}image/mapicon/sldt.png`" />
         </div>
         <div class="toolButton bottom highlight">
-          <img src="../assets/yxdt.png" />
+          <img :src="`${$baseUrl}image/mapicon/yxdt.png`" />
         </div>
       </div>
       <div class="toolbar" style="margin-top:10px">
         <div class="toolButton top">
-          <img src="../assets/sjjc.png" />
+          <img :src="`${$baseUrl}image/mapicon/sjjc.png`" />
         </div>
         <div class="toolButton bottom">
-          <img src="../assets/cggx.png" />
+          <img :src="`${$baseUrl}image/mapicon/cggx.png`" />
         </div>
       </div>
       <div class="toolbar" style="margin-top:10px">
         <div :class="layerOn ?'toolButton top selected':'toolButton top '" @click="showLayer">
-          <img src="../assets/tcgl.png" />
+          <img :src="`${$baseUrl}image/mapicon/tcgl.png`" />
         </div>
         <div class="toolButton">
-          <img src="../assets/sqgl.png" />
+          <img :src="`${$baseUrl}image/mapicon/sqgl.png`" />
         </div>
         <div class="toolButton">
-          <img src="../assets/fpdb.png" />
+          <img :src="`${$baseUrl}image/mapicon/fpdb.png`" />
         </div>
         <div class="toolButton bottom">
-          <img src="../assets/zbdw.png" />
+          <img :src="`${$baseUrl}image/mapicon/zbdw.png`" />
         </div>
       </div>
     </div>

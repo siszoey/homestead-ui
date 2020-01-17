@@ -93,26 +93,25 @@
               <div class="legendBox">
                 <div class="title">图例</div>
                 <div class="legendItem">
-                  <img class="img" src="../assets/dltbstyle/0301.png" />乔木林地
+                  <img class="img" :src="`${$baseUrl}image/dltbstyle/0301.png`" />乔木林地
                 </div>
                 <div class="legendItem">
-                  <img class="img" src="../assets/dltbstyle/0204.png" />其他园地
+                  <img class="img" :src="`${$baseUrl}image/dltbstyle/0301.png`" />其他园地
                 </div>
                 <div class="legendItem">
-                  <img class="img" src="../assets/dltbstyle/1006.png" />农村道路
+                  <img class="img" :src="`${$baseUrl}image/dltbstyle/1006.png`" />农村道路
                 </div>
                 <div class="legendItem">
-                  <img class="img" src="../assets/dltbstyle/0101.png" />水田
+                  <img class="img" :src="`${$baseUrl}image/dltbstyle/0101.png`" />水田
                 </div>
                 <div class="legendItem">
-                  <img class="img" src="../assets/dltbstyle/0702.png" />农村宅基地
+                  <img class="img" :src="`${$baseUrl}image/dltbstyle/0702.png`" />农村宅基地
                 </div>
                 <div class="legendItem">
-                  <img class="img" src="../assets/dltbstyle/0307.png" />其他林地
+                  <img class="img" :src="`${$baseUrl}image/dltbstyle/0307.png`" />其他林地
                 </div>
               </div>
             </div>
-
           </div>
         </el-col>
       </el-row>
@@ -539,7 +538,7 @@ p {
   letter-spacing: 1px;
   line-height: 50px;
 }
-.xzInfo{
+.xzInfo {
   width: 90%;
   height: 30px;
   margin: 10px auto 10px auto;
@@ -547,7 +546,8 @@ p {
   letter-spacing: 1px;
   line-height: 30px;
 }
-.nfxzInfo span,.xzInfo span {
+.nfxzInfo span,
+.xzInfo span {
   margin-left: 10px;
 }
 .bg-gray {
@@ -582,10 +582,10 @@ p {
   width: 96%;
 }
 .legendContainer {
-    right: 35px;
+  right: 35px;
   //right: 0px;
   position: absolute;
-  bottom:25px;
+  bottom: 25px;
   .legendBox {
     border: rgb(200, 200, 200) 1px solid;
     width: 200px;
@@ -612,7 +612,7 @@ p {
       .img {
         background-color: yellow;
         margin-right: 5px;
-        margin-left:5px;
+        margin-left: 5px;
         width: 15px;
         height: 15px;
       }
