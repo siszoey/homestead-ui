@@ -20,7 +20,7 @@ export default {
       }, [
         createElement('div', {
           attrs: { class: 'd2-theme-header-menu__scroll', 'flex-box': '0' },
-          style: { transform: `translateX(${this.currentTranslateX}px)` },
+          style: { transform: `translateX(${this.currentTranslateX}px)`, width: '100%', display: 'flex', justifyContent: 'center' },
           ref: 'scroll'
         }, [
           createElement('el-menu', {
@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     ...mapState('d2admin/menu', [
-      'header'
+      'header', 'allMenus'
     ])
   },
   data () {
@@ -63,7 +63,17 @@ export default {
   watch: {
     '$route.matched': {
       handler (val) {
-        this.active = val[val.length - 1].path
+        // this.active = val[val.length - 1].path
+        // console.log(val)
+        let page = val[0].path === '' ? val[1] : val[0]
+        if (page.meta.fullMainZone) {
+          this.$store.commit('d2admin/page/fullMainZoneSet', page.meta.fullMainZone)
+        }
+        else {
+          this.$store.commit('d2admin/page/fullMainZoneSet', false)
+        }
+        const _side = this.allMenus.filter(menu => menu.path === page.path)
+        this.$store.commit('d2admin/menu/asideSet', _side.length > 0 ? _side[0].children : [])
       },
       immediate: true
     }

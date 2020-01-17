@@ -122,14 +122,18 @@
 </template>
 
 <script>
+import {
+  getAuditTableDatas,
+  GetAuditProgress,
+  GetAuditSituation,
+  GetYearAuditSituation
+} from "../../../../api/map";
+import { getTableList,GetPieChartDatas,GetBarChartDatas } from "../../../../api/res.business";
 import dictMixnis from "../../mixnis/dict-mixnis"
-import { getTableList,pieChartDatas,GetBarChartDatas } from "../../../../api/res.business";
 import { color } from "echarts/lib/export";
 export default {
   name: "land-map-implementationProcess",
-  mixins: [
-      dictMixnis
-  ],
+  mixins: [ dictMixnis],
   data() {
     return {
       table: {
@@ -141,9 +145,10 @@ export default {
         size: 10,
         pages: null
       },
-    
-          //柱状图数据显示
-          barDatas:[
+      //饼状图数据显示
+      pieChartDatas:[],
+      //柱状图数据显示
+      barChartDatas:[
             {
               sqnf: "",
               number: 28,
@@ -158,42 +163,8 @@ export default {
                 }
               ]
             }
-            // ,
-            //  {
-            //     year: "2018",
-            //     number: 20,
-            //     resData: [
-            //       {
-            //         name: "申请数",
-            //         value: "18"
-            //       },
-            //       {
-            //         name: "已建数",
-            //         value: "2"
-            //       }
-            //     ]
-            //   },
-            //   {
-            //     year: "2019",
-            //     number: 30,
-            //     resData: [
-            //       {
-            //         name: "申请数",
-            //         value: "22"
-            //       },
-            //       {
-            //         name: "已建数",
-            //         value: "5"
-            //       }
-            //     ]
-            //   }
         ],
-        //饼状图数据显示
-         pieChartDatas:[
-            {value:898, name:'项目申报'},
-            {value:1088, name:'项目审批'},
-            {value:735, name:'综合验收'}
-          ],
+
       //搜索权限
       queryForm: {
         sqid: "",
@@ -207,7 +178,6 @@ export default {
     };
   },
   mounted() {
-    console.log(888);
     this.getChartData();
     this.getTableData();
     //当页面大小发生变化时，echarts统计图根据画布大小自动重新绘制
@@ -218,9 +188,28 @@ export default {
   },
   methods: {
     getChartData() {
-      this.InitChart();
-      this.IniPieChart();
+      //柱状图请求方法
+      GetBarChartDatas()
+        .then(res => {
+          this.barChartDatas = res;
+          this.InitChart();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.table.listLoading = false;
+        });
+      //饼状图请求方法
+      GetPieChartDatas()
+        .then(res => {
+          this.pieChartDatas = res;
+          this.IniPieChart();
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.table.listLoading = false;
+        });
     },
+    //获取表格数据
     getTableData() {
       this.table.listLoading = true;
       getTableList(
@@ -247,11 +236,9 @@ export default {
     },
     //柱状统计图
     InitChart() {
-      GetBarChartDatas().then((res) =>
-      {  
-      const _dataList = res;
+      const _dataList = this.barChartDatas;
       this.barChart = this.$echarts.init(this.$refs.barMain);
-      if (_dataList != null) {
+      if (_dataList.length > 0) {
         const serieSqs = {
           name: "申请数",
           type: "bar",
@@ -312,20 +299,26 @@ export default {
         // 使用刚指定的配置项和数据显示图表。
         this.barChart.setOption(option);
       }
-    })
     },
 
-      //饼状图
-      IniPieChart() {
-      const _dataList = this.pieChartDatas;
+    //扇形统计图
+    IniPieChart() {
+      var datalist = [];
+      this.pieChartDatas.forEach(item => {
+        var list = {};
+        list["name"] = item.xmjd;
+        list["value"] = item.zjdmj;
+        datalist.push(list);
+      });
+      const _dataList = datalist;
       this.pieChart = this.$echarts.init(this.$refs.pieMain);
       const option = {
         legend: {//环形图布局
           orient: "vertical",
           right: 60,
           bottom: "10%",
-          data: this.pieChartDatas.name,
-          padding: [0, 0, 0, 0],
+          data: datalist.name,
+          padding: [0, 60, 0, 0],
           selectedMode: false,
           itemWidth: 6,
           itemHeight: 30,
@@ -372,9 +365,11 @@ export default {
             });
             let arr;
             if (name == "项目申报") {
-              arr = ["{a|" + name + "}", "{b|" + _dataList[_index].value + "}"];
-            } else {
-              arr = ["{a|" + name + "}", "{c|" + _dataList[_index].value + "}"];
+              arr = ["{a|项目申报}", "{b|" + _dataList[_index].value + "}"];
+            } else if (name == "联合审批") {
+              arr = ["{a|联合审批}", "{c|" + _dataList[_index].value + "}"];
+            } else if (name == "综合验收") {
+              arr = ["{a|综合验收}", "{c|" + _dataList[_index].value + "}"];
             }
             return arr.join("");
           }
@@ -383,10 +378,10 @@ export default {
           {
             type: "pie",
             radius: ["35%", "75%"],//调整环形图的大小
-            center: [170, 125],//调整环形图位置：距离右边距、上边距
-            avoidLabelOverlap: false,
-            hoverAnimation: false,
-            legendHoverLink: false,
+            center: [250, 125],//调整环形图位置：距离右边距、上边距
+            avoidLabelOverlap: true,//是否启用防止标签重叠策略
+            hoverAnimation: true,//是否开启 hover 在扇区上的放大动画效果
+            legendHoverLink: true,//是否启用图例 hover 时的联动高亮
             silent: false,
             label: {
               formatter: "{b}\n{d}%",
@@ -401,20 +396,17 @@ export default {
             },
             itemStyle: {
               color: function(params) {
-                var colorList = ["#51CEE6", "#2D80E8", "#009AF6"];
+                var colorList = ["#51CEE6", "#2D80E8", "#04BE7D"];
                 return colorList[params.dataIndex];
               }
             },
-            data: this.pieChartDatas
+            data: datalist
           }
         ]
       };
       // 使用刚指定的配置项和数据显示图表。
       this.pieChart.setOption(option);
     }
-
-
-
   }
 };
 </script>

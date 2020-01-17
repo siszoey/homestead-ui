@@ -5,19 +5,19 @@ const map = {
     title: '一张图',
     alias: 'index',
     icon: 'map',
-    children: (pre => [{
-        path: `${pre}/leaderCockpit/index`,
-        title: '领导驾驶舱'
-    },
+    children: (pre => [
+    // {
+    //     path: `${pre}/leaderCockpit/index`,
+    //     title: '领导驾驶舱'
+    // },
     {
-        path: `${pre}/spatialData`,
+        path: `${pre}/spatialData/onemap`,
         title: '空间数据',
-        children: (pre => [
-            // { path: `${pre}/test`, title: 'DEMO' },
-            { path: `${pre}/onemap`, title: '一张图' },
-            { path: `${pre}/mappanel`, title: '首页一张图' },
-            { path: `${pre}/ygdc_dbfxmain`, title: '对比分析' },
-        ])('/land/map/spatialData')
+        // children: (pre => [
+        //     // { path: `${pre}/test`, title: 'DEMO' },
+        //     { path: `${pre}/onemap`, title: '一张图' },
+        //     // { path: `${pre}/mappanel`, title: '首页一张图' },
+        // ])('/land/map/spatialData')
     },
     {
         path: `${pre}/accountInformation`,
@@ -34,7 +34,7 @@ const map = {
         path: `${pre}/implementationProcess`,
         title: '实施过程',
         children: (pre => [
-            { path: `${pre}/examineList`, title: '审批一览表' },
+            // { path: `${pre}/examineList`, title: '审批一览表' },
             { path: `${pre}/examinePic`, title: '审批一张图' },
         ])('/land/map/implementationProcess')
     }
@@ -46,7 +46,12 @@ const examine = {
     title: '联合审批',
     alias: 'real-examine',
     icon: 'align-left',
-    children: (pre => [{
+    children: (pre => [
+      {
+         path: `${pre}/examineList`, 
+         title: '审批总览'
+      },
+      {
         path: `${pre}/business`,
         title: '业务办理',
         children: (pre => [
@@ -60,48 +65,6 @@ const examine = {
     { path: `${pre}/statistics`, title: '统计分析' }
     ])('/land/examine')
 }
-// const search = {
-//   path: '/res/search',
-//   title: '归档查询',
-//   alias: 'index',
-//   icon: 'search',
-//   children: (pre => [
-//     {path: `${pre}/filesSearch`, title: '归档查询'},
-//   ])('/res/search')
-// }
-// const message = {
-//   path: '/res/message',
-//   title: '信息动态',
-//   alias: 'index',
-//   icon: 'area-chart',
-//   children: (pre => [
-//     {path: `${pre}/mesManager`, title: '信息管理'},
-//   ])('/res/message')
-// }
-// const analyse = {
-//   path: '/res/analyse',
-//   title: '数据分析',
-//   alias: 'index',
-//   icon: 'codepen',
-//   children: (pre => [
-//     {path: `${pre}/analyse`, title: '数据分析'},
-
-//   ])('/res/analyse')
-// }
-// const system = {
-//   path: '/res/system',
-//   title: '系统管理',
-//   alias: 'index',
-//   icon: 'cog',
-//   children: (pre => [
-//     {path: process.env.VUE_APP_SSO_URL, title: '账户权限'},
-//     {path: `${pre}/journal`, title: '操作日志'},
-//     {path: `${pre}/password`, title: '密码修改'},
-//     {path: `${pre}/safe`, title: '安全管理'},
-//     {path: `${pre}/wechart`, title: '微信模板信息提醒'},
-//     {path: `${pre}/uploadview`, title: '需上传影像自行管理'}
-//   ])('/res/system')
-// }
 
 const system = {
     path: '/land/system',
@@ -113,30 +76,81 @@ const system = {
     ])('/land/system')
 }
 
+  //综合监管
+ const integratedManagement = {
+    path: '/land/integratedManagement',
+    title: '综合监管',
+    alias: 'index',
+    icon: 'integratedManagement',
+    children: (pre => [
+        { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
+        { path: `${pre}/complaintHandling`, title: '信访举报处置'},
+        { path: `${pre}/registrationDisposal`, title: '闲置登记处置'},
+        { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置'},
+        { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+        { path: `${pre}/monitoring_analysis`, title: '监测分析' }
+    ])('/land/integratedManagement/supervise')
+}
+
+  //盘活利用
+  const utilize = {
+    path: '/land/utilize',
+    title: '盘活利用',
+    alias: 'index',
+    icon: 'utilize',
+    children: (pre => [
+        { path: `${pre}/InformationStatistics`, title: '信息统计' }
+    ])('/land/utilize')
+}
 
 // 菜单 侧栏
 export const menuAside = [
     // home,
     map,
     examine,
-    system
-    // business,
-    // search,
-    // message,
-    // analyse,
-    // system
-
+    system,
+    integratedManagement,
+    utilize
 ]
+
+// // 菜单 顶栏
+// export const menuHeader = [
+//     // home,
+//     map,
+//     examine,
+//     system
+//     // business,
+//     // search,
+//     // message,
+//     // analyse,
+//     // system
+// ]
 
 // 菜单 顶栏
 export const menuHeader = [
-    // home,
-    map,
-    examine,
-    system
-    // business,
-    // search,
-    // message,
-    // analyse,
-    // system
+  {
+    path: '/index',
+    title: '首页'
+  },
+  {
+    path: '/land/map',
+    title: '一张图'
+  },
+  {
+    path: '/land/examine',
+    title: '联合审批'
+  },
+  {
+    path: '/land/integratedManagement',
+    title: '综合监管'
+  },
+
+  {
+    path: '/land/utilize',
+    title: '盘活利用'
+  },
+  {
+    path: '/land/system',
+    title: '系统设置'
+  }
 ]

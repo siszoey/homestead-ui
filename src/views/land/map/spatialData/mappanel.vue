@@ -3,7 +3,7 @@
     <div id="mapmappanel" class="mapDiv"></div>
 
     <div class="leftcontainer">
-      <div class="panel" style="height:20%;margin-top:0px;">
+      <div class="panel" style="height:1.2rem;margin-top:0px;">
         <div class="title">辖区行政单位</div>
         <div class="layout-h" style="height:100px">
           <div class="xzq-item">
@@ -25,10 +25,10 @@
         </div>
       </div>
 
-      <div class="panel" style="height:50%">
+      <div class="panel" style="height:2.8rem">
         <div class="title">农村宅基地面积及户数统计</div>
 
-        <div class="layout-h" style="height:120px">
+        <div class="layout-h" style="height:0.8rem">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="/image/mapicon/农村宅基地面积.png" />
@@ -55,7 +55,7 @@
           </div>
         </div>
 
-        <div class="layout-h" style="height:120px">
+        <div class="layout-h" style="height:0.8rem">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="/image/mapicon/农业人口总数.png" />
@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <div class="layout-h" style="height:120px">
+        <div class="layout-h" style="height:0.8rem">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="/image/mapicon/户均宅基地面积.png" />
@@ -110,7 +110,7 @@
         </div>
       </div>
 
-      <div class="panel" style="height:30%;">
+      <div class="panel" style="height: 2.4rem;">
         <div class="title">农村闲置宅基地和闲置住宅统计</div>
         <div class="xzzjd-container" style="margin-top:10px">
           <div class="xzzjd-item">
@@ -149,17 +149,17 @@
     </div>
 
     <div class="rightcontainer">
-      <div class="panel" style="height:30%;margin-top:0px;">
+      <div class="panel" style="height:2rem;margin-top:0px;">
         <div class="title">农村闲置宅基地开发利用情况</div>
-        <div id="piechart" style="width:100%;height:210px;"></div>
+        <div id="piechart" style="width:100%;height:1.8rem;"></div>
       </div>
 
-      <div class="panel" style="height:35%">
+      <div class="panel" style="height:2.5rem">
         <div class="title">农村宅基地违法用地统计</div>
-        <div id="barchart" style="width:100%;height:220px;"></div>
+        <div id="barchart" style="width:100%;height:2.1rem"></div>
       </div>
 
-      <div class="panel" style="height:35%;">
+      <div class="panel" style="height:2rem;">
         <div class="title">农村宅基地审批统计</div>
         <div class="zjdsp-container">
           <div class="zjdsp-item">
@@ -262,12 +262,17 @@ export default {
     };
   },
   mounted() {
-    this.map = BaseMap.BaseInitMap("mapmappanel");
-    this.map.addLayer(BaseMap.img_wLayer);
-    var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm);
-
-    this.drawPieChart();
-    this.drawbarchart();
+    this.$nextTick(function(){
+      this.map = BaseMap.BaseInitMap("mapmappanel");
+      this.map.addLayer(BaseMap.img_wLayer);
+      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm,null,()=>{
+          this.map.getView().setZoom(7)
+      });
+      
+      this.drawPieChart();
+      this.drawbarchart();
+    })
+    
   },
   methods: {
     drawPieChart: function() {
@@ -440,8 +445,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 98%;
-  height: 96%;
+  width: 100%;
+  height: 100%;
   padding: 0px;
   margin: 0px;
   text-align: center;
@@ -472,20 +477,20 @@ export default {
   left: 10px;
   top: 10px;
   width: 30%;
-  height:96%;
+  height:6.5rem;
 }
 .rightcontainer {
   position: absolute;
   right: 30px;
   top: 10px;
   width: 30%;
-  height:96%;
+  height:6.5rem;
 }
 .panel {
   background: url("/image/mapicon/panel-rectangle.png") no-repeat;
   background-size: 100% 100%;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 10px;
   width: 100%;
   margin-top: 10px;
   .title {
@@ -581,20 +586,20 @@ export default {
   display: flex;
   justify-content: start;
   align-items: center;
-  height: 80px;
+  height: 0.5rem;
   .zjdsp-item {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     .icon {
-      width: 50px;
-      height: 50px;
+      width: 0.4rem;
+      height: 0.4rem;
       padding: 3px;
       box-sizing: border-box;
       float: left;
       img {
-        width: 44px;
+        width: 100%;
       }
     }
     .content {

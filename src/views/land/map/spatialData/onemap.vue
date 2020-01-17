@@ -790,53 +790,55 @@ export default {
     LayerList
   },
   mounted() {
-    //初始化地图
-    this.map = BaseMap.BaseInitMap("maponemap");
-    //是否显示工具栏
-    this.changeToolbar();
-    //初始化图层
-    this.InitLayer("XZDCCG");
-    this.InitLayer("GTKJGH");
-    this.InitLayer("CZGH");
-    this.InitLayer("NFJSFB");
-    this.InitLayer("XZQ");
-    this.InitLayer("DT");
-    //行政区置顶
-    this.XZQ.Layer.setZIndex(20);
+    this.$nextTick(function() {
+      //初始化地图
+      this.map = BaseMap.BaseInitMap("maponemap");
+      //是否显示工具栏
+      this.changeToolbar();
+      //初始化图层
+      this.InitLayer("XZDCCG");
+      this.InitLayer("GTKJGH");
+      this.InitLayer("CZGH");
+      this.InitLayer("NFJSFB");
+      this.InitLayer("XZQ");
+      this.InitLayer("DT");
+      //行政区置顶
+      this.XZQ.Layer.setZIndex(20);
 
-    this.popup = new Overlay({
-      element: document.getElementById("popup_onemap")
-    });
-    this.map.addOverlay(this.popup);
-    //点击事件
-    let _this = this;
-    this.map.on("singleclick", function(evt) {
-      var view = _this.map.getView();
-      var viewResolution = view.getResolution();
-      var source = _this.GTKJGH.Layer.getSource();
-      var url = source.getFeatureInfoUrl(
-        evt.coordinate,
-        viewResolution,
-        view.getProjection(),
-        { INFO_FORMAT: "application/json" }
-      );
-      if (url) {
-        Axios({
-          method: "get",
-          url: url,
-          dataType: "json",
-          crossDomain: true,
-          cache: false
-        })
-          .then(res => {
-            _this.CZGHInfo = res.data.features[0].properties;
-            var element = _this.popup.getElement();
-            _this.popup.setPosition(evt.coordinate);
-            document.getElementById("popup_onemap").style.visibility =
-              "visible";
+      this.popup = new Overlay({
+        element: document.getElementById("popup_onemap")
+      });
+      this.map.addOverlay(this.popup);
+      //点击事件
+      let _this = this;
+      this.map.on("singleclick", function(evt) {
+        var view = _this.map.getView();
+        var viewResolution = view.getResolution();
+        var source = _this.GTKJGH.Layer.getSource();
+        var url = source.getFeatureInfoUrl(
+          evt.coordinate,
+          viewResolution,
+          view.getProjection(),
+          { INFO_FORMAT: "application/json" }
+        );
+        if (url) {
+          Axios({
+            method: "get",
+            url: url,
+            dataType: "json",
+            crossDomain: true,
+            cache: false
           })
-          .catch(error => {});
-      }
+            .then(res => {
+              _this.CZGHInfo = res.data.features[0].properties;
+              var element = _this.popup.getElement();
+              _this.popup.setPosition(evt.coordinate);
+              document.getElementById("popup_onemap").style.visibility =
+                "visible";
+            })
+            .catch(error => {});
+        }
+      });
     });
   },
 
@@ -1066,8 +1068,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  width: 98%;
-  height: 96%;
+  width: 100%;
+  height: 100%;
   padding: 0px;
   margin: 0px;
   position: relative;
@@ -1099,6 +1101,7 @@ export default {
   left: 0px;
   top: 0px;
 }
+
 .toolbarContainer {
   right: 30px;
   top: 10px;
@@ -1180,27 +1183,5 @@ export default {
 <style>
 .el-switch__label {
   min-width: 15px;
-}
-
-.el-card__header {
-  padding: 0.08rem 0.1rem;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.box-card {
-  width: 99.5%;
-  /* margin-top: 11%; */
-  height: 99.5%;
-  background-color: #f7f7f7d1;
-  overflow-y: auto;
-}
-
-.text {
-  font-size: 14px;
-}
-
-.card-title {
-  font-size: 14px;
 }
 </style>

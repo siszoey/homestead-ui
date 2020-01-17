@@ -4,7 +4,13 @@
  */
 export const userDB = [
   {
-    username: 'admin', password: 'admin', uuid: 'admin-uuid', name: '管理员', role: ['admin']
+    username: 'admin', password: 'admin', uuid: 'admin-uuid', name: '管理员', role:
+      [
+        'admin',
+        'sq-start',//'sq-check',
+        'sp-start','sp-check-1','sp-check-2','sp-check-3',
+        'ys-start','ys-check-1','ys-check-2','ys-check-3',
+      ]
   },
 
   {

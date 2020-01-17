@@ -5,8 +5,8 @@
                 :model="queryForm"
                 ref="queryForm"
                 size="mini"
-                style="margin-bottom: -25px; padding: 0 20px">
-            <el-form-item label="申请类型">
+                style="margin-bottom: -25px;">
+            <el-form-item label="申请类型" prop="jflx">
                 <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
@@ -17,11 +17,11 @@
                 <el-input v-model="queryForm['sqmc']" placeholder="项目名称"></el-input>
             </el-form-item>-->
 
-            <el-form-item label="项目编号">
+            <el-form-item label="项目编号" prop="sqid">
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
-            <el-form-item label="申请时间">
+            <el-form-item label="申请时间" prop="sqsj">
                 <el-date-picker
                         v-model="queryForm['sqsj']"
                         type="daterange"
@@ -118,8 +118,8 @@
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
                     </el-button>
-                    <el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
-                    </el-button>
+                    <!--<el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
+                    </el-button>-->
                 </template>
             </el-table-column>
 
@@ -140,39 +140,52 @@
             </el-pagination>
         </template>
 
+        <el-dialog title="请选择申请类型" width="35%" :visible.sync="createBeforeDialogVisible">
+            <div class="dialog-content">
+                <div class="content">
+                    <div class="content-box" v-for="(option, index) in getDicts('建房类型')" v-if="index < 3"
+                         @click="toCreateView(option.optCode)">
+                        <img :src="`image/examine/jflx_${option.optCode}.png`" :alt="option.optName">
+                        <p>{{option.optName}}</p>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="content-box" v-for="(option, index) in getDicts('建房类型')" v-if="index >= 3"
+                         @click="toCreateView(option.optCode)">
+                        <img :src="`image/examine/jflx_${option.optCode}.png`" :alt="option.optName">
+                        <p>{{option.optName}}</p>
+                    </div>
+                </div>
+            </div>
+        </el-dialog>
     </d2-container>
 </template>
 
 <script>
   import {PageData} from "../../../../api/land.business"
-  import dictMixnis from "../../mixnis/dict-mixnis"
-  import processMixnis from "../../mixnis/process-mixnis"
+  import dictMixins from "../../mixnis/dict-mixnis"
+  import processMixins from "../../mixnis/process-mixnis"
+  import pageMixins from "../../mixnis/page-mixnis"
   import {mapState} from 'vuex'
 
   export default {
     name: 'examine-todo',
     components: {},
     mixins: [
-      dictMixnis,
-      processMixnis
+      dictMixins,
+      pageMixins,
+      processMixins
     ],
     data() {
       return {
-        table: {
-          key: 0,
-          listLoading: false,
-          list: [],
-          total: null,
-          pageNum: 0,
-          pageSize: 10,
-          pages: null
-        },
         queryForm: {
           jflx: undefined,
           sqid: undefined,
           sqmc: undefined,
           sqsj: undefined,
         },
+
+        createBeforeDialogVisible: false,
       }
     },
     created() {
@@ -186,42 +199,59 @@
     methods: {
       getTableData() {
         this.table.listLoading = true
-        let stageParam = {
-          blzt: this.getOptCode("办理状态", "待办"),
-          roleid: this.info.role.join("|")
-        }
-        PageData(this.table.pageNum, this.table.pageSize, stageParam, this.queryForm).then(res => {
-          this.table.list = res.records
+        PageData(this.getTableDataParam()).then(res => {
+          this.table.list = res.records || res.list || res.data
           this.table.total = res.total
         }).catch(err => console.log(err)).finally(() => {
           this.table.listLoading = false
         })
       },
-      handleSizeChange(pageSiz) {
-        this.table.pageSize = pageSiz
-        this.getTableData()
-      },
-      handleCurrentChange(pageNum) {
-        this.table.pageNum = pageNum
-        this.getTableData()
-      },
-      handleFormReset(formName) {
-        this.$refs[formName].resetFields()
-        this.getTableData()
+      //其他参数
+      getTableDataParam() {
+        //根据业务修改补充
+        let otherParam = {
+          blzt: this.getOptCode("办理状态", "待办"),
+          roleid: this.info.role.join("|")
+        }
+        //时间区间字段，调整
+        let newQueryForm = Object.assign({}, this.queryForm)
+        if (newQueryForm.sqsj && newQueryForm.sqsj.length > 0) {
+          let start_sqrrq = newQueryForm.sqsj[0]
+          let end_sqrrq = newQueryForm.sqsj[1]
+          newQueryForm['start_sqrrq'] = start_sqrrq
+          newQueryForm['end_sqrrq'] = end_sqrrq
+          delete newQueryForm.sqsj
+        }
+        return Object.assign({
+          pageNum: this.table.pageNum,
+          pageSize: this.table.pageSize
+        }, newQueryForm/*this.queryForm*/, otherParam)
       },
       handleCreate() {
-        this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
+        this.createBeforeDialogVisible = true
+      },
+      toCreateView(jflx) {
+        this.$router.push({
+            name: 'land-examine-business-todo-create',
+            params: Object.assign({
+              jflx
+            })
+          }
+        )
       },
       handleDetail(row) {
         this.$router.push({
-            name: 'land-examine-detail',
+            name: 'land-examine-business-detail',
             params: Object.assign({
-              sqlx: 0,
-              sqid: row.zjdSqJl.sqid,
+              //申请表
               applicationFormDisabled: true,
-              appceptanceFormDisabled: true,
-              approvalFormDisabled: true,
-              detail: row
+              //审批表
+              appceptanceFormDisabled: false,//this.info.role.includes(''),
+              //验收表
+              approvalFormDisabled: false,
+              detail: row,
+
+              box: '待办'
             })
           }
         )
@@ -273,5 +303,28 @@
 </script>
 
 <style lang="scss" scoped>
+    .dialog-content {
+        .content {
+            display: flex;
+            margin-bottom: 10px;
+        }
+    }
+
+    .content-box {
+        cursor: pointer;
+        width: 110px;
+        height: 110px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        background: #E7E9EC;
+        padding: 10px 10px;
+        margin-left: 20px;
+
+        img {
+            width: 60px;
+        }
+    }
 
 </style>

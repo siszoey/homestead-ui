@@ -5,19 +5,19 @@
                 :model="queryForm"
                 ref="queryForm"
                 size="mini"
-                style="margin-bottom: -25px; padding: 0 20px">
-            <el-form-item label="申请类型">
+                style="margin-bottom: -25px;">
+            <el-form-item label="申请类型" prop="jflx">
                 <el-select v-model="queryForm['jflx']">
                     <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName"
                                :value="option.optCode" :key="oIndex"></el-option>
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="项目编号" >
+            <el-form-item label="项目编号" prop="sqid">
                 <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
-            <el-form-item label="申请时间">
+            <el-form-item label="申请时间" prop="sqsj">
                 <el-date-picker
                         v-model="queryForm['sqsj']"
                         type="daterange"
@@ -135,28 +135,19 @@
 
 <script>
   import {PageData} from "../../../../api/land.business"
-  import dictMixnis from "../../mixnis/dict-mixnis"
-  import processMixnis from "../../mixnis/process-mixnis"
+  import dictMixins from "../../mixnis/dict-mixnis"
+  import pageMixins from "../../mixnis/page-mixnis"
   import {mapState} from 'vuex'
 
   export default {
     name: 'examine-search',
     components: {},
     mixins: [
-      dictMixnis,
-      processMixnis
+      dictMixins,
+      pageMixins,
     ],
     data() {
       return {
-        table: {
-          key: 0,
-          listLoading: false,
-          list: [],
-          total: null,
-          pageNum: 0,
-          pageSize: 10,
-          pages: null
-        },
         queryForm: {
           jflx: undefined,
           sqid: undefined,
@@ -176,42 +167,48 @@
     methods: {
       getTableData() {
         this.table.listLoading = true
-        let stageParam = {
-          blzt: this.getOptCode("办理状态", "已办"),
-          roleid: this.getOptName("流程角色", "10"),
-        }
-        PageData(this.table.pageNum, this.table.pageSize, stageParam, this.queryForm).then(res => {
-          this.table.list = res.records
+        PageData(this.getTableDataParam()).then(res => {
+          this.table.list = res.records || res.list || res.data
           this.table.total = res.total
         }).catch(err => console.log(err)).finally(() => {
           this.table.listLoading = false
         })
       },
-      handleSizeChange(pageSiz) {
-        this.table.pageSize = pageSiz
-        this.getTableData()
+      //其他参数
+      getTableDataParam() {
+        //根据业务修改补充
+        let otherParam = {
+          blzt: this.getOptCode("办理状态", "已办"),
+          roleid: this.getOptName("流程角色", "9"),
+        }
+        //时间区间字段，调整
+        let newQueryForm = Object.assign({}, this.queryForm)
+        if (newQueryForm.sqsj && newQueryForm.sqsj.length > 0) {
+          let start_sqrrq = newQueryForm.sqsj[0]
+          let end_sqrrq = newQueryForm.sqsj[1]
+          newQueryForm['start_sqrrq'] = start_sqrrq
+          newQueryForm['end_sqrrq'] = end_sqrrq
+          delete newQueryForm.sqsj
+        }
+        return Object.assign({
+          pageNum: this.table.pageNum,
+          pageSize: this.table.pageSize
+        }, newQueryForm/*this.queryForm*/, otherParam)
       },
-      handleCurrentChange(pageNum) {
-        this.table.pageNum = pageNum
-        this.getTableData()
-      },
-      handleFormReset(formName) {
-        this.$refs[formName].resetFields()
-        this.getTableData()
-      },
-      handleCreate() {
-        this.$router.push({name: 'land-examine-todo-create', params: {sqlx: 2}})
-      },
+
       handleDetail(row) {
         this.$router.push({
-            name: 'land-examine-detail',
+            name: 'land-examine-business-detail',
             params: Object.assign({
-              sqlx: 0,
-              sqid: 'xx',
+              //申请表
               applicationFormDisabled: true,
-              appceptanceFormDisabled: true,
-              approvalFormDisabled: true,
-              detail: row
+              //审批表
+              appceptanceFormDisabled: false,//this.info.role.includes(''),
+              //验收表
+              approvalFormDisabled: false,
+              detail: row,
+
+              box: '归档'
             })
           }
         )
@@ -219,43 +216,6 @@
       handleUpdate(row) {
       },
       handleCheck(row) {
-        let confirm = {
-          distinguishCancelAndClose: true,
-          title: '办理结果, 是否继续?',
-          trueText: '已办',
-          falseText: '退办',
-        }
-        //第一次申请，只有已办，没有退办
-        if (this.info.role !== this.getOptName("流程角色", "sq-start")) {
-          confirm = Object.assign(confirm, {
-            distinguishCancelAndClose: false,
-            title: '办理结果, 是否继续?',
-            trueText: '已办',
-            falseText: '取消',
-          })
-        }
-        this.$confirm(confirm.title, '提示', {
-          distinguishCancelAndClose: confirm.distinguishCancelAndClose,
-          confirmButtonText: confirm.trueText,
-          cancelButtonText: confirm.falseText,
-          type: 'warning',
-          center: true
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '已办!'
-          })
-          this.processRequest(row.zjdSqJl.id, row.zjdSqJl.sqid, row.zjdSqJl.xmzt, true)
-        }).catch(action => {
-          //不通过
-          if (confirm.distinguishCancelAndClose && action === 'cancel') {
-            this.$message({
-              type: 'info',
-              message: '退办!'
-            })
-            this.processRequest(row.zjdSqJl.id, row.zjdSqJl.sqid, row.zjdSqJl.xmzt, false)
-          }
-        })
       },
 
     }
