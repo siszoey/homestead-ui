@@ -61,14 +61,55 @@ export default function (iotHeader) {
         ])('land-integratedManagement-supervise-')
       },
       {
-        path: 'supervise/ygdc_dbfx',
-        name: `${pre}ygdc_dbfx`,
-        component: _import('land/map/spatialData/ygdc_dbfxmain.vue'),
+        path: 'monitor',
+        name: `${pre}monitor`,
         meta: {
           ...meta,
-          ismap: true,
-          title: '对比分析'
-        }
+          title: '遥感监测'
+        },
+        component: _import('land/components/blankrouterview.vue'),
+        children: (pre => [
+          {
+            path: 'ygdc_dbfx',
+            name: `${pre}ygdc_dbfx`,
+            component: _import('land/map/spatialData/ygdc_dbfxmain.vue'),
+            meta: {
+              ...meta,
+              ismap: true,
+              title: '对比分析'
+            }
+          },
+          {
+            path: 'ygdc_jcsb',
+            name: `${pre}ygdc_jcsb`,
+            component: _import('land/integratedManagement/monitor/ygdc_jcsb.vue'),
+            meta: {
+              ...meta,
+              ismap: true,
+              title: '监测识别'
+            }
+          },
+          {
+            path: 'ygdc_wfdx',
+            name: `${pre}ygdc_wfdx`,
+            component: _import('land/integratedManagement/monitor/ygdc_wfdx.vue'),
+            meta: {
+              ...meta,
+              ismap: true,
+              title: '违法定性'
+            }
+          },
+          {
+            path: 'ygdc_czgz',
+            name: `${pre}ygdc_czgz`,
+            component: _import('land/integratedManagement/monitor/ygdc_czgz.vue'),
+            meta: {
+              ...meta,
+              ismap: true,
+              title: '处置跟踪'
+            }
+          }
+        ])('land-integratedManagement-supervise-monitor')
       },
       {
         path: 'supervise/monitoring_analysis',
@@ -80,6 +121,6 @@ export default function (iotHeader) {
           title: '监测分析'
         }
       }
-    ])('land-integratedManagement-'),
+    ])('land-integratedManagement-')
   }
 }

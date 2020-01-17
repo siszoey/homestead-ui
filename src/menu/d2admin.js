@@ -94,7 +94,17 @@ const system = {
           { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置'}
         ])('/land/integratedManagement/supervise')
       },
-        { path: `${pre}/supervise/ygdc_dbfx`, title: '对比分析' },
+      {
+        path: `${pre}/monitor`,
+        title: '遥感监测',
+        children: (pre => [
+          { path: `${pre}/ygdc_jcsb`, title: '监测识别' },
+          { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+          { path: `${pre}/ygdc_wfdx`, title: '违法定性' },
+          { path: `${pre}/ygdc_czgz`, title: '处置跟踪' }
+        ])('/land/integratedManagement/monitor')
+      }
+        
         
     ])('/land/integratedManagement')
 }
