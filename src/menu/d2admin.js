@@ -98,7 +98,7 @@ const system = {
         path: `${pre}/monitor`,
         title: '遥感监测',
         children: (pre => [
-          { path: `${pre}/ygdc_jcsb`, title: '监测识别' },
+          { path: `${pre}/ygdc_jcsb`, title: '遥感识别' },
           { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
           { path: `${pre}/ygdc_wfdx`, title: '违法定性' },
           { path: `${pre}/ygdc_czgz`, title: '处置跟踪' }

@@ -86,7 +86,7 @@ export default function (iotHeader) {
             meta: {
               ...meta,
               ismap: true,
-              title: '监测识别'
+              title: '遥感识别'
             }
           },
           {
