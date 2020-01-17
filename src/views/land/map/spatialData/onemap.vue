@@ -252,7 +252,7 @@
       <el-image
         style="width: 300px; height: 150px"
         src="/image/mapicon/testimage.png"
-        :fit="contain"
+        fit="fit"
         :preview-src-list="srcList"
         z-index:9999
       ></el-image>
