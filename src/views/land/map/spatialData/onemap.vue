@@ -4,8 +4,8 @@
       <div style="text-align:center">
         <el-switch
           style="height:50px;"
-          inactive-text="展开菜单"
-          active-text="收起菜单"
+          inactive-text="图层控制"
+          active-text=""
           v-model="hiddenToolbar"
           @change="changeToolbar()"
         ></el-switch>
@@ -291,7 +291,7 @@ export default {
   props: {
     hiddenToolbar: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   name: "survey",

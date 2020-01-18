@@ -125,9 +125,17 @@ export default {
     },
     checkedItems() {
       if (this.showCheckBox && this.filesdata) {
+        // let files = this.filesdata
+        //   .map(t => t.files)
+        //   .reduce((f, s) => [...f, ...s], [])
+        //   .map(t => t.files)
+        //   .reduce((f, s) => [...f, ...s], [])
+        //   .map(k => {
+        //     if (k.images && k.images.length > 0) {
+        //       return k.imageconfigid;
+        //     }
+        //   });
         let files = this.filesdata
-          .map(t => t.files)
-          .reduce((f, s) => [...f, ...s], [])
           .map(t => t.files)
           .reduce((f, s) => [...f, ...s], [])
           .map(k => {
