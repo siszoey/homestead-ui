@@ -223,7 +223,7 @@ export default {
         "#7197FD",
         "#7FCA70"
       ],
-      progressWidth: "",
+      progressWidth: 24,
       queryForm: {
         roleid: "",
         sqid: "",

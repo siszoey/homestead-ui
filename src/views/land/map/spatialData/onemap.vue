@@ -72,99 +72,100 @@
               </el-menu-item-group>
             </el-submenu>
           </el-submenu>
-          <el-submenu index="1-2">
-            <template slot="title">土地规划数据</template>
-            <el-submenu index="2">
-              <template slot="title">
-                <div @click.stop="stop()">
-                  <el-switch
-                    inactive-text="土地利用现状"
-                    v-model="GTKJGH.Visible"
-                    @change="changeLayer('GTKJGH')"
-                  ></el-switch>
-                </div>
-              </template>
-              <el-submenu index="2-1">
-                <template slot="title">农用地</template>
-                <el-menu-item-group>
-                  <div class="itembox">
-                    <div class="listItem">
-                      <el-checkbox @change="checkALL('GTKJGH',0)" v-model="GTKJGH.CheckAll[0]"></el-checkbox>
-                      <span class="img" style="visibility: hidden;"></span>
-                      全选
-                    </div>
-                    <div class="listItem" v-for="box in GTKJGH.Boxs[0]" :key="box.code">
-                      <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
-                      <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
-                      {{box.name}}
-                    </div>
-                  </div>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="2-2">
-                <template slot="title">建设用地</template>
-                <el-menu-item-group>
-                  <div class="itembox">
-                    <div class="listItem">
-                      <el-checkbox @change="checkALL('GTKJGH',1)" v-model="GTKJGH.CheckAll[1]"></el-checkbox>
-                      <span class="img" style="visibility: hidden;"></span>
-                      全选
-                    </div>
-                    <div class="listItem" v-for="box in GTKJGH.Boxs[1]" :key="box.code">
-                      <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
-                      <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
-                      {{box.name}}
-                    </div>
-                  </div>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="2-3">
-                <template slot="title">未利用地</template>
-                <el-menu-item-group>
-                  <div class="itembox">
-                    <div class="listItem">
-                      <el-checkbox @change="checkALL('GTKJGH',2)" v-model="GTKJGH.CheckAll[2]"></el-checkbox>
-                      <span class="img" style="visibility: hidden;"></span>
-                      全选
-                    </div>
-                    <div class="listItem" v-for="box in GTKJGH.Boxs[2]" :key="box.code">
-                      <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
-                      <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
-                      {{box.name}}
-                    </div>
-                  </div>
-                </el-menu-item-group>
-              </el-submenu>
-            </el-submenu>
-            <el-submenu index="3">
-              <template slot="title">
-                <div @click.stop="stop()">
-                  <el-switch
-                    inactive-text="村庄用地规划"
-                    v-model="CZGH.Visible"
-                    @change="changeLayer('CZGH')"
-                  ></el-switch>
-                </div>
-              </template>
-
+          <el-submenu index="2">
+            <template slot="title">
+              <div @click.stop="stop()">
+                <el-switch
+                  inactive-text="土地利用现状"
+                  v-model="GTKJGH.Visible"
+                  @change="changeLayer('GTKJGH')"
+                ></el-switch>
+              </div>
+            </template>
+            <el-submenu index="2-1">
+              <template slot="title">农用地</template>
               <el-menu-item-group>
-                <el-scrollbar>
-                  <div class="itembox">
-                    <div class="listItem">
-                      <el-checkbox @change="checkALL('CZGH')" v-model="CZGH.CheckAll[0]"></el-checkbox>
-                      <span class="img" style="visibility: hidden;"></span>
-                      全选
-                    </div>
-                    <div class="listItem" v-for="box in CZGH.Boxs[0]" :key="box.code">
-                      <el-checkbox @change="changeFeature('CZGH',box.code)" v-model="box.checked"></el-checkbox>
-                      <img class="img" :src="`${$baseUrl}image/czghstyle/`+box.name+'.png'" />
-                      {{box.name}}
-                    </div>
+                <div class="itembox">
+                  <div class="listItem">
+                    <el-checkbox @change="checkALL('GTKJGH',0)" v-model="GTKJGH.CheckAll[0]"></el-checkbox>
+                    <span class="img" style="visibility: hidden;"></span>
+                    全选
                   </div>
-                </el-scrollbar>
+                  <div class="listItem" v-for="box in GTKJGH.Boxs[0]" :key="box.code">
+                    <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
+                    <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
+                    {{box.name}}
+                  </div>
+                </div>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="2-2">
+              <template slot="title">建设用地</template>
+              <el-menu-item-group>
+                <div class="itembox">
+                  <div class="listItem">
+                    <el-checkbox @change="checkALL('GTKJGH',1)" v-model="GTKJGH.CheckAll[1]"></el-checkbox>
+                    <span class="img" style="visibility: hidden;"></span>
+                    全选
+                  </div>
+                  <div class="listItem" v-for="box in GTKJGH.Boxs[1]" :key="box.code">
+                    <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
+                    <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
+                    {{box.name}}
+                  </div>
+                </div>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="2-3">
+              <template slot="title">未利用地</template>
+              <el-menu-item-group>
+                <div class="itembox">
+                  <div class="listItem">
+                    <el-checkbox @change="checkALL('GTKJGH',2)" v-model="GTKJGH.CheckAll[2]"></el-checkbox>
+                    <span class="img" style="visibility: hidden;"></span>
+                    全选
+                  </div>
+                  <div class="listItem" v-for="box in GTKJGH.Boxs[2]" :key="box.code">
+                    <el-checkbox @change="changeFeature('GTKJGH',box.code)" v-model="box.checked"></el-checkbox>
+                    <img class="img" :src="`${$baseUrl}image/dltbstyle/`+box.code+'.png'" />
+                    {{box.name}}
+                  </div>
+                </div>
               </el-menu-item-group>
             </el-submenu>
           </el-submenu>
+          <el-submenu index="3">
+            <template slot="title">
+              <div @click.stop="stop()">
+                <el-switch
+                  inactive-text="村庄用地规划"
+                  v-model="CZGH.Visible"
+                  @change="changeLayer('CZGH')"
+                ></el-switch>
+              </div>
+            </template>
+
+            <el-menu-item-group>
+              <el-scrollbar>
+                <div class="itembox">
+                  <div class="listItem">
+                    <el-checkbox @change="checkALL('CZGH')" v-model="CZGH.CheckAll[0]"></el-checkbox>
+                    <span class="img" style="visibility: hidden;"></span>
+                    全选
+                  </div>
+                  <div class="listItem" v-for="box in CZGH.Boxs[0]" :key="box.code">
+                    <el-checkbox @change="changeFeature('CZGH',box.code)" v-model="box.checked"></el-checkbox>
+                    <img class="img" :src="`${$baseUrl}image/czghstyle/`+box.name+'.png'" />
+                    {{box.name}}
+                  </div>
+                </div>
+              </el-scrollbar>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- <el-submenu index="1-2">
+            <template slot="title">土地规划数据</template>
+
+          </el-submenu>-->
           <el-submenu index="1-3">
             <template slot="title">其他数据</template>
             <el-menu-item index="5">
@@ -236,9 +237,40 @@
     </div>
 
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
+    <el-dialog
+      class="box-card right-side"
+      id="popup_onemap"
+      title="宗地信息"
+      :visible.sync="dialogVisible"
+      v-dialogDrag
+      :modal="false"
+      width="25%"
+    >
+      <!-- <el-card> -->
+        <!-- <div slot="header" class="clearfix">
+        <span>宗地信息</span>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
+        </div>-->
+        <div class="text item">{{'权属单位名称：' + CZGHInfo.QSDWMC }}</div>
+        <div class="text item">{{'地类名称：' + CZGHInfo.DLMC }}</div>
+        <div class="text item">{{'地块编号：' + CZGHInfo.OBJECTID }}</div>
+        <div class="text item">{{'面积：' + (CZGHInfo.TBDLMJ*0.0015).toFixed(2)+'亩' }}</div>
+        <div class="text item">{{'数据年份：' + CZGHInfo.SJNF }}</div>
+        <div class="text item"></div>
+        <div class="text item">照片资料：</div>
+        <el-image
+          style="width: 300px; height: 150px"
+          src="/image/mapicon/testimage.png"
+          :preview-src-list="srcList"
+          z-index:9999
+        ></el-image>
+      <!-- </el-card> -->
+    </el-dialog>
   </div>
 </template>
 <script>
+// 引入Dialog可拖拽，注意文件所在目录。目前尚未发现引入的先后关系，若有再补充
+import "./components/directives.js";
 import LayerList from "./components/LayerList_ZJD";
 import BaseMap from "../spatialData/mapBase.js";
 
@@ -253,6 +285,7 @@ import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
+import Axios from "axios";
 
 export default {
   props: {
@@ -264,12 +297,22 @@ export default {
   name: "survey",
   data() {
     return {
+      dialogVisible: false,
+      srcList: ["/image/mapicon/testimage.png"],
       map: null,
       layerOn: false,
       xzqhdm: "469005115201",
+      popup: null,
+      CZGHInfo: {
+        QSDWMC: "",
+        OBJECTID: "",
+        DLMC: "",
+        TBDLMJ: "",
+        SJNF: ""
+      },
       XZDCCG: {
         Layer: null, //图层
-        Visible: true, //可见性
+        Visible: false, //可见性
         CheckAll: [true], //全选（全不选不等于不可见）
         Features: [], //当前未选中类别
         Boxs: [
@@ -604,7 +647,7 @@ export default {
       },
       CZGH: {
         Layer: null,
-        Visible: true,
+        Visible: false,
         CheckAll: [true],
         Features: [],
         Boxs: [
@@ -695,7 +738,7 @@ export default {
       },
       NFJSFB: {
         Layer: null,
-        Visible: true,
+        Visible: false,
         CheckAll: [true],
         Features: [],
         Boxs: [
@@ -759,7 +802,7 @@ export default {
     LayerList
   },
   mounted() {
-    this.$nextTick(function () {
+    this.$nextTick(function() {
       //初始化地图
       this.map = BaseMap.BaseInitMap("maponemap");
       //是否显示工具栏
@@ -773,12 +816,52 @@ export default {
       this.InitLayer("DT");
       //行政区置顶
       this.XZQ.Layer.setZIndex(20);
-    })
+
+      // this.popup = new Overlay({
+      //   element: document.getElementById("popup_onemap")
+      // });
+      // this.map.addOverlay(this.popup);
+      //点击事件
+      let _this = this;
+      this.map.on("singleclick", function(evt) {
+        var view = _this.map.getView();
+        var viewResolution = view.getResolution();
+        var source = _this.GTKJGH.Layer.getSource();
+        var url = source.getFeatureInfoUrl(
+          evt.coordinate,
+          viewResolution,
+          view.getProjection(),
+          { INFO_FORMAT: "application/json" }
+        );
+        if (url) {
+          Axios({
+            method: "get",
+            url: url,
+            dataType: "json",
+            crossDomain: true,
+            cache: false
+          })
+            .then(res => {
+              _this.CZGHInfo = res.data.features[0].properties;
+              // var element = _this.popup.getElement();
+              // _this.popup.setPosition(evt.coordinate);
+              // document.getElementById("popup_onemap").style.visibility =
+              //   "visible";
+              _this.dialogVisible = true;
+            })
+            .catch(error => {});
+        }
+      });
+    });
   },
 
   methods: {
     showLayer() {
       //this.layerOn = !this.layerOn;
+    },
+    closeCard() {
+      //document.getElementById("popup_onemap").style.visibility = "hidden";
+      this.dialogVisible = false;
     },
     stop() {},
     //切换面板显示
@@ -794,7 +877,9 @@ export default {
     //切换图层显示
     changeLayer(LayerName) {
       if (this[LayerName].Visible) {
-        this.map.addLayer(this[LayerName].Layer);
+        if (this[LayerName].Layer == null) {
+          this.InitLayer(LayerName);
+        } else this.map.addLayer(this[LayerName].Layer);
       } else {
         this.map.removeLayer(this[LayerName].Layer);
       }
@@ -1107,6 +1192,25 @@ export default {
 }
 .el-checkbox {
   margin: 3px;
+}
+
+.box-card {
+  // width: 99.5%;
+  /* margin-top: 11%; */
+  // height: 99.5%;
+  // background-color: #f7f7f7d1;
+  overflow-y: auto;
+}
+
+.right-side {
+  // position: absolute;
+  z-index: 9;
+  // right: 1px;
+  // width: 350px;
+  // height: 400px;
+  // visibility: hidden;
+  // font-size: 14px;
+   opacity: 0.9;
 }
 </style>
 <style>

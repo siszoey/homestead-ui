@@ -26,14 +26,14 @@
               <span>联合审批</span>
             </div>
             <div class="cardDiv" @click="JumpPage('#')">
-              <img src="./image/shareRelease.png" width="75px" height="76px" />
-              <span>共享发布</span>
+              <img src="./image/comprehensive.png" width="64px" height="72px" />
+              <span>综合监管</span>
             </div>
           </div>
           <div class="cardBody">
             <div class="cardDiv" @click="JumpPage('#')">
-              <img src="./image/comprehensive.png" width="64px" height="72px" />
-              <span>综合监管</span>
+              <img src="./image/shareRelease.png" width="75px" height="76px" />
+              <span>共享发布</span>
             </div>
             <div class="cardDiv" @click="JumpPage('#')">
               <img src="./image/dataConcurrent.png" width="74px" height="74px" />
@@ -49,7 +49,7 @@
           <!-- <p
             class="page-login--content-footer-locales"
           >Copyright © http://www.51jianku.com/51jianku/</p> -->
-          <p class="page-login--content-footer-copyright">上海飞未信息技术有限公司</p>
+          <p class="page-login--content-footer-copyright">版权所有@上海飞未信息技术有限公司</p>
           <!-- <p class="page-login--content-footer-options">
             <a href="#">帮助</a>
             <a href="#">隐私</a>

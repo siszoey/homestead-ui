@@ -81,3 +81,79 @@ Mock.mock(/\/api\/supervise\/getComplaintDatas/, 'get', getComplaintDatas)
 Mock.mock(/\/api\/supervise\/getRegistrationDatas/, 'get', getRegistrationDatas)
 Mock.mock(/\/api\/supervise\/getDisputeDatas/, 'get', getDisputeDatas)
 
+// 监测识别
+let jcsbDatas = Mock.mock({ 'datas|100': [{
+  'xmbh': '@now(yyyyMMddHHmmssSS)',
+  'jcxmmc': '宅基地违法占地',
+  'yxqs': '2019年第一期',
+  'yswfdz': '海南省文昌市',
+  'jcsj': '@date("yyyy-MM-dd")',
+  'yswflx|1':  ['占用基本农田', '非规划范围内建设']
+}] })
+
+// 违法定性
+let wfdxDatas = Mock.mock({ 'datas|100': [{
+  'xmbh': '@now(yyyyMMddHHmmssSS)',
+  'xmmc': '宅基地违法占地',
+  'zfr': '@cname()',
+  'zfsy': '实际修建面积比宅基地获取面积大',
+  'yjzfsj': '@date("yyyy-MM-dd")',
+  'bz': ''
+}] })
+
+// 处置跟踪
+let czgzDatas = Mock.mock({ 'datas|100': [{
+  'xmbh': '@now(yyyyMMddHHmmssSS)',
+  'jcxmmc': '宅基地违法占地',
+  'wfdxr': '@cname()',
+  'wfdz': '海南省文昌市',
+  'wfdxsj': '@date("yyyy-MM-dd")',
+  'czzt|1': ['未开始执行', '执行中', '处置完毕'],
+  'bz': ''
+}] })
+
+function getJcsbDatas (params) {
+  let { pageNum, pageSize } = params2Obj(params.url)
+  // console.log(pageNum)
+  if (pageNum == 0) {
+    pageNum = 1
+  }
+  let startIndex = pageSize * (pageNum - 1)
+  // console.log(startIndex)
+  let cDatas = {}
+  cDatas.datas = jcsbDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.total = jcsbDatas.datas.length
+  return cDatas
+}
+
+function getWfdxDatas (params) {
+  let { pageNum, pageSize } = params2Obj(params.url)
+  // console.log(pageNum)
+  if (pageNum == 0) {
+    pageNum = 1
+  }
+  let startIndex = pageSize * (pageNum - 1)
+  // console.log(startIndex)
+  let cDatas = {}
+  cDatas.datas = wfdxDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.total = wfdxDatas.datas.length
+  return cDatas
+}
+
+function getCzgzDatas (params) {
+  let { pageNum, pageSize } = params2Obj(params.url)
+  // console.log(pageNum)
+  if (pageNum == 0) {
+    pageNum = 1
+  }
+  let startIndex = pageSize * (pageNum - 1)
+  // console.log(startIndex)
+  let cDatas = {}
+  cDatas.datas = czgzDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.total = czgzDatas.datas.length
+  return cDatas
+}
+
+Mock.mock(/\/api\/monitor\/getJcsbDatas/, 'get', getJcsbDatas)
+Mock.mock(/\/api\/monitor\/getWfdxDatas/, 'get', getWfdxDatas)
+Mock.mock(/\/api\/monitor\/getCzgzDatas/, 'get', getCzgzDatas)

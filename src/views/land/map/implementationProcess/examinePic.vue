@@ -42,11 +42,22 @@
     </div>
 
     <div id="pic-map" class="mapDiv"></div>
-    <el-card class="box-card" id="popup">
+    <el-card class="box-card right-side" id="popup">
+      <div slot="header" class="clearfix">
+        <span>申请信息</span>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
+      </div>
       <div class="text item">{{'坐落：' + ZJDInfo.Szz }}</div>
       <div class="text item">{{'宗地面积：' + ZJDInfo.Zdmj+'(㎡)' }}</div>
       <div class="text item">{{'宗地用途：' + ZJDInfo.Ytmc }}</div>
       <div class="text item">{{'权利人名称：' + ZJDInfo.Qlrmc }}</div>
+      <div class="text item"></div>
+      <div class="text item">照片资料：</div>
+      <el-image
+        style="width: 300px; height: 150px"
+        src="/image/mapicon/testimage1.png"
+        :preview-src-list="srcList"
+      ></el-image>
     </el-card>
     <timeline></timeline>
   </div>
@@ -63,13 +74,14 @@ import { TileWMS } from "ol/source";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
-import { getCenter, getBottomRight } from "ol/extent";
+import { getCenter, getBottomRight, getTopRight } from "ol/extent";
 import { Overlay } from "ol";
 
 export default {
   name: "examinePic",
   data() {
     return {
+      srcList: ["/image/mapicon/testimage1.png"],
       map: null,
       selectedType: "",
       years: [],
@@ -87,59 +99,59 @@ export default {
       },
       tableData: [
         {
-          project: "宅基地申请",
-          proposer: "叶世芳",
-          address: "东坡坡村民小组",
-          status: "联合审批",
+          project: "原址新建项目1",
+          proposer: "潘若飞",
+          address: "坑上村民小组",
+          status: "农经审核",
           zddm: "469005115003JC02307"
         },
         {
-          project: "宅基地申请",
-          proposer: "叶兹文",
-          address: "东坡坡村民小组",
-          status: "联合审批",
+          project: "原址新建项目2",
+          proposer: "吴多福",
+          address: "美宝村民小组",
+          status: "农经审核",
           zddm: "469005115003JC01950"
         },
         {
-          project: "宅基地申请",
+          project: "原址新建项目3",
           proposer: "吴坤桔",
           address: "东排坡村民小组",
-          status: "联合审批",
+          status: "农经审核",
           zddm: "469005115003JC99012"
         },
         {
-          project: "宅基地申请",
-          proposer: "吴兰英",
-          address: "东排坡村民小组",
+          project: "改扩建项目1",
+          proposer: "许宇林",
+          address: "田西村民小组",
           status: "联合审批",
           zddm: "469005115003JC02419"
         },
         {
-          project: "宅基地申请",
-          proposer: "潘正欣",
-          address: "东村村民小组",
-          status: "联合审批",
+          project: "改扩建项目2",
+          proposer: "陈海芳",
+          address: "草洋村民小组",
+          status: "乡政府审批",
           zddm: "469005115003JC01329"
         },
         {
-          project: "宅基地申请",
-          proposer: "潘成金",
-          address: "东村村民小组",
-          status: "联合审批",
+          project: "改扩建项目3",
+          proposer: "潘家钵",
+          address: "坑上村民小组",
+          status: "乡政府审批",
           zddm: "469005115003JC02310"
         },
         {
-          project: "宅基地申请",
+          project: "改扩建项目4",
           proposer: "卢文瑞",
           address: "东塔村民小组",
-          status: "联合审批",
+          status: "村民申请",
           zddm: "469005115003JC01551"
         },
         {
-          project: "宅基地申请",
+          project: "改扩建项目5",
           proposer: "潘秀荣",
           address: "南林村民小组",
-          status: "联合审批",
+          status: "村民申请",
           zddm: "469005115003JC02046"
         }
       ]
@@ -155,6 +167,9 @@ export default {
     }
   },
   methods: {
+    closeCard() {
+      document.getElementById("popup").style.visibility = "hidden";
+    },
     //ajax获取本地json文件行政区划
     requestAjax(fileName, level) {
       let _this = this;
@@ -220,9 +235,9 @@ export default {
             },
             _this.animateDone
           );
-          var element = _this.popup.getElement();
+          // var element = _this.popup.getElement();
           var data = source.getFeatures()[0].getProperties();
-          _this.popup.setPosition(getBottomRight(source.getExtent()));
+          // _this.popup.setPosition(getTopRight(source.getExtent()));
           _this.ZJDInfo = data;
           document.getElementById("popup").style.visibility = "hidden";
         }
@@ -258,10 +273,10 @@ export default {
     this.year = tYear - 1;
     //floatOnMap();
 
-    this.popup = new Overlay({
-      element: document.getElementById("popup")
-    });
-    this.map.addOverlay(this.popup);
+    // this.popup = new Overlay({
+    //   element: document.getElementById("popup")
+    // });
+    // this.map.addOverlay(this.popup);
   }
 };
 </script>
@@ -303,14 +318,14 @@ export default {
 }
 .year-column-l {
   /* position: absolute; */
-  z-index: 9999999;
+  /* z-index: 9999999; */
   font-size: 16px;
   color: #303133;
   margin: 7px;
 }
 .xzq-column-l {
   /* position: absolute; */
-  z-index: 9999999;
+  /* z-index: 9999999; */
   font-size: 16px;
   color: #303133;
   margin: 7px;
@@ -327,13 +342,24 @@ export default {
 }
 .left-side {
   position: absolute;
-  z-index: 99;
+  z-index: 9;
   width: 26%;
   min-width: 435px;
   height: 100%;
   color: white;
   /* background-color: #f7f7f7d1; */
   /* margin-top: -0.1rem; */
+}
+
+.right-side {
+  position: absolute;
+  z-index: 9;
+  right: 1px;
+  width: 350px;
+  height: 450px;
+  visibility: hidden;
+  font-size: 14px;
+  /* opacity: 0.7; */
 }
 .mapDiv {
   height: 100%;
@@ -344,13 +370,28 @@ export default {
   position: absolute;
   left: 0px;
   top: 0px;
+  /* z-index:10; */
 }
 
 .panelitem {
-  opacity: 0.7;
+  /* opacity: 0.7; */
+  background: none;
 }
 
 .card-title {
   font-size: 14px;
+}
+</style>
+<style>
+.el-table .cell {
+  text-overflow: ellipsis; /*超出内容用省略号*/
+  overflow: hidden; /*内容超出后隐藏*/
+  white-space: nowrap; /*文本不进行换行*/
+}
+
+.el-image-viewer__close {
+  color: red;
+  top: 60px;
+  right: 100px;
 }
 </style>

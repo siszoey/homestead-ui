@@ -713,7 +713,8 @@ export default {
   margin-top: -10px;
 }
 .panelitem {
-  opacity: 0.7;
+  /* opacity: 0.7; */
+  background: none;
 }
 .mapDiv {
   height: 100%;

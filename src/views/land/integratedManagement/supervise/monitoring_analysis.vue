@@ -12,12 +12,11 @@
                     <div class="wfydtj_div">
                         <el-row style="width: 100%; height: 100%;">
                             <el-col :span="12">
-                                <div class="title">违法用地统计</div>
                                 <div ref="pieMain" class="chart_div"></div>
                             </el-col>
                             <el-col :span="12" style="float: right;">
-                                <div class="title">全年违法案件处理数</div>
                                 <div class="chart_div">
+                                    <div class="title">全年违法案件处理数</div>
                                     <div class="cls_div">
                                         <div class="clsText">已处理</div>
                                         <div class="clsNum">{{yclData}}</div>
@@ -51,14 +50,14 @@
         data() {
             return {
                 barDatas: [
-                    { name: "松滋市", value: "24" },
-                    { name: "荆州区", value: "17" },
-                    { name: "沙市区", value: "36" },
-                    { name: "公安县", value: "28" },
-                    { name: "江陵县", value: "29" },
-                    { name: "石首市", value: "29" },
-                    { name: "监利县", value: "24" },
-                    { name: "洪湖市", value: "10" }
+                    { name: "东路镇", value: "24" },
+                    { name: "东郊镇", value: "17" },
+                    { name: "东阁镇", value: "36" },
+                    { name: "会文镇", value: "28" },
+                    { name: "公坡镇", value: "29" },
+                    { name: "冯坡镇", value: "29" },
+                    { name: "抱罗镇", value: "24" },
+                    { name: "文城镇", value: "10" }
                 ],
                 lineDatas: [
                     { name: "2012", value: "146" },
@@ -208,6 +207,9 @@
                 const _dataList = this.pieDatas;
                 this.pieChart = this.$echarts.init(this.$refs.pieMain);
                 const option = {
+                    title: {
+                        text: '违法用地统计'
+                    },
                     series: [
                         {
                             type: "pie",
@@ -246,9 +248,9 @@
 
 <style lang="scss" scoped>
     .contents {
-        width: 99.5%;
-        height: 99%;
-        float: right;
+        width: 100%;
+        height: 100%;
+        float: left;
         background: #FFF;
     }
 
@@ -290,7 +292,6 @@
         letter-spacing: 2px;
         height: 30px;
         line-height: 30px;
-        margin: -30px 0 0;
     }
 
     .chart_div {
@@ -301,7 +302,7 @@
     .cls_div {
         width: 80%;
         height: 20%;
-        margin-top: 10%;
+        margin-top: 8%;
         border: 1px solid #CDCDCD;
         font-size: 18px;
         color: #aaa;

@@ -8,7 +8,7 @@
         <div class="layout-h" style="height:100px">
           <div class="xzq-item">
             <div class="label">4</div>
-            <div class="unit">市（州、林区）</div>
+            <div class="unit">市</div>
           </div>
           <div class="xzq-item">
             <div class="label">23</div>
@@ -25,10 +25,10 @@
         </div>
       </div>
 
-      <div class="panel" style="height:2.8rem">
+      <div class="panel" style="height:3.3rem">
         <div class="title">农村宅基地面积及户数统计</div>
 
-        <div class="layout-h" style="height:0.8rem">
+        <div class="layout-h" style="height:1rem">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="/image/mapicon/农村宅基地面积.png" />
@@ -55,7 +55,7 @@
           </div>
         </div>
 
-        <div class="layout-h" style="height:0.8rem">
+        <div class="layout-h" style="height:1rem">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="/image/mapicon/农业人口总数.png" />
@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <div class="layout-h" style="height:0.8rem">
+        <div class="layout-h" style="height:1rem">
           <div class="zjdmj-item">
             <div class="icon">
               <img src="/image/mapicon/户均宅基地面积.png" />
@@ -110,15 +110,15 @@
         </div>
       </div>
 
-      <div class="panel" style="height: 2.4rem;">
+      <div class="panel" style="height: 2rem;">
         <div class="title">农村闲置宅基地和闲置住宅统计</div>
-        <div class="xzzjd-container" style="margin-top:10px">
+        <!-- <div class="xzzjd-container" style="margin-top:10px">
           <div class="xzzjd-item">
             <span class="label">农村闲置住宅</span>
             <span class="value">22.5</span>
             <span class="unit">万套</span>
           </div>
-        </div>
+        </div> -->
 
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置宅基地</span>
@@ -136,7 +136,7 @@
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置住宅</span>
           <span class="value">22.5</span>
-          <span class="unit">万套</span>
+          <span class="unit">万幢</span>
         </div>
 
         <el-progress
