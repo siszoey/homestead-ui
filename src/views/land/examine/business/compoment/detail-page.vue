@@ -9,9 +9,6 @@
                     <el-button type="primary" size="mini" @click="handleShowForm">
                         表单
                     </el-button>
-                    <el-button type="primary" size="mini" @click="handleShowFileView">
-                        材料
-                    </el-button>
                     <el-button type="primary" size="mini" @click="handleShowPrintView">
                         打印
                     </el-button>
@@ -20,6 +17,9 @@
                 <el-col :span="12" style="text-align:right">
                     <el-button type="primary" size="mini" @click="handleShowMap">
                         查看地图
+                    </el-button>
+                    <el-button type="primary" size="mini" @click="handleShowFileView">
+                        材料
                     </el-button>
                     <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
                         发送
@@ -33,7 +33,7 @@
             <el-row :gutter="5">
                 <!--表单-->
                 <el-col :span="showMap || showFileView ? 12 : 24">
-                    <el-tabs tab-position="left" v-show="showForm">
+                    <el-tabs tab-position="top" v-show="showForm">
                         <el-tab-pane label="申请表">
                             <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
                         </el-tab-pane>
@@ -47,21 +47,21 @@
 
                     <!--打印-->
                     <div v-bind="$attrs" v-show="showPrintView">
-                        <el-tabs tab-position="left">
+                        <el-tabs tab-position="top">
                             <el-tab-pane label="申请表">
                                 <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
                             <el-tab-pane label="审批表">
                                 <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
-                            <el-tab-pane label="验收意见表">
-                                <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
+                            <el-tab-pane label="乡镇建设规划许可证">
+                                <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
                             <el-tab-pane label="批准书">
                                 <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
-                            <el-tab-pane label="建设规划书">
-                                <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
+                            <el-tab-pane label="验收意见表">
+                                <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
 <!--                            <el-tab-pane label="附图">-->
 <!--                                <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>-->
@@ -234,6 +234,8 @@
           this.processRequest(this.processInfo, true)
           this.hadSend = true
         }).catch(() => {
+        }).finally(()=>{
+          this.jumpToDoPage();
         })
       },
       handleBack() {
@@ -257,6 +259,8 @@
           this.processRequest(this.processInfo, false)
           this.hadBack = true
         }).catch(() => {
+        }).finally(()=>{
+          this.jumpToDoPage();
         })
       },
       handleShowForm() {
@@ -296,6 +300,14 @@
         // this.showFlag(false)
         // this.showForm = formFlag
         // this.showMap = flag ? false : true
+      },
+      jumpToDoPage(){
+        let that = this
+        setTimeout(() => {
+          that.$router.push({
+            name: 'land-examine-business-todo'
+          })
+        }, 300)
       },
       confirmDone(){
         if (this.hadSend) {

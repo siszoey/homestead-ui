@@ -198,10 +198,10 @@
           },
           tooltip: {
             trigger: 'item',
-            formatter: '{b}<br/>{c} (元 / 平方米)'
+            formatter: '{b}<br/>{c} (元 / 亩)'
           },
           visualMap: {
-            min: 800,
+            min: 0,
             max: 50000,
             realtime: false,
             calculable: true,
@@ -219,12 +219,22 @@
               },
               data: [
                 { name: '海口市', value: 20057.34 },
-                { name: '文昌市', value: 15477.48 },
+                { name: '万宁市', value: 15477.48 },
                 { name: '定安县', value: 31686.1 },
                 { name: '东方市', value: 6992.6 },
                 { name: '屯昌县', value: 44045.49 },
                 { name: '临高县', value: 40689.64 },
-                { name: '澄迈县', value: 37659.78 }
+                { name: '澄迈县', value: 37659.78 },
+                { name: '琼海市', value: 45180.97 },
+                { name: '文昌市', value: 55204.26 },
+                { name: '陵水黎族自治县', value: 21900.9 },
+                { name: '五指山市', value: 4918.26 },
+                { name: '昌江黎族自治县', value: 5881.84 },
+                { name: '白沙黎族自治县', value: 4178.01 },
+                { name: '琼中黎族苗族自治县', value: 2227.92 },
+                { name: '乐东黎族自治县', value: 2180.98 },
+                { name: '保亭黎族苗族自治县', value: 9172.94 },
+                { name: '儋州市', value: 3368 }
               ]
             }
           ]
@@ -238,11 +248,11 @@
 
 <style lang="scss" scoped>
   .contents {
-    width: 99.5%;
-    height: 99%;
-    float: right;
-    background: #FFF;
-  }
+      width: 100%;
+      height: 100%;
+      float: left;
+      background: #FFF;
+    }
 
   .warp {
     width: 97%;

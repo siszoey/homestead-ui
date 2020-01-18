@@ -136,7 +136,7 @@
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置住宅</span>
           <span class="value">22.5</span>
-          <span class="unit">万套</span>
+          <span class="unit">万幢</span>
         </div>
 
         <el-progress

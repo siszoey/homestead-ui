@@ -428,8 +428,8 @@
                   type: 'error'
                 })
               }).finally(() => {
-                this.resetForm(formName)
-                this.initJTCY()
+                // this.resetForm(formName)
+                // this.initJTCY()
               })
             } else {
               this.$message({
