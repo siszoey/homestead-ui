@@ -234,6 +234,8 @@
           this.processRequest(this.processInfo, true)
           this.hadSend = true
         }).catch(() => {
+        }).finally(()=>{
+          this.jumpToDoPage();
         })
       },
       handleBack() {
@@ -257,6 +259,8 @@
           this.processRequest(this.processInfo, false)
           this.hadBack = true
         }).catch(() => {
+        }).finally(()=>{
+          this.jumpToDoPage();
         })
       },
       handleShowForm() {
@@ -296,6 +300,14 @@
         // this.showFlag(false)
         // this.showForm = formFlag
         // this.showMap = flag ? false : true
+      },
+      jumpToDoPage(){
+        let that = this
+        setTimeout(() => {
+          that.$router.push({
+            name: 'land-examine-business-todo'
+          })
+        }, 300)
       },
       confirmDone(){
         if (this.hadSend) {
