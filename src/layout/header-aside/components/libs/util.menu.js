@@ -1,6 +1,11 @@
 // 创建 el-menu-item
 export function elMenuItem(createElement, menu) {
     return createElement('el-menu-item', { props: { index: menu.path } }, [
+        ...menu.badge ? [
+            
+            createElement('span', menu.title || '未命名菜单'),
+            createElement('el-badge', { props: { value: menu.badge } }),
+        ] : [
         ...menu.icon ? [
             createElement('i', { attrs: { class: `fa fa-${menu.icon}` } })
         ] : [],
@@ -11,6 +16,7 @@ export function elMenuItem(createElement, menu) {
             createElement('d2-icon-svg', { props: { name: menu.iconSvg } })
         ] : [],
         createElement('span', { slot: 'title' }, menu.title || '未命名菜单')
+        ]
     ])
 }
 

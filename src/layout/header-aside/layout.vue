@@ -176,6 +176,13 @@ export default {
   // border-top: 1px solid rgb(207, 215, 229);
   // border-left: 1px solid rgb(207, 215, 229);
 }
+.el-badge__content.is-fixed {
+  top: 0.1rem;
+}
+.el-menu-item {
+    display: flex;
+    justify-content: space-between;
+}
 .d2-theme-container-main-body{
   height: 100%;
 }
