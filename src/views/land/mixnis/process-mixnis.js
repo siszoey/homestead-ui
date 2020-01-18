@@ -136,7 +136,7 @@ export default {
         now_xmzt: xmztCode,
         now_blzt: this.getOptCode("办理状态", "已办"),
         //判断是否最后个流程
-        is_end: this.isLastProcessByRole(nextRoleId) ? 1 : 0
+        is_end: this.isLastProcessByRole(zjdSqJl.roleid) ? 1 : 0
       }
       console.log("processRequest", data)
       ApproalProcess(data).then(() => {
