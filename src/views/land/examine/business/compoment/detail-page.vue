@@ -9,9 +9,6 @@
                     <el-button type="primary" size="mini" @click="handleShowForm">
                         表单
                     </el-button>
-                    <el-button type="primary" size="mini" @click="handleShowFileView">
-                        材料
-                    </el-button>
                     <el-button type="primary" size="mini" @click="handleShowPrintView">
                         打印
                     </el-button>
@@ -20,6 +17,9 @@
                 <el-col :span="12" style="text-align:right">
                     <el-button type="primary" size="mini" @click="handleShowMap">
                         查看地图
+                    </el-button>
+                    <el-button type="primary" size="mini" @click="handleShowFileView">
+                        材料
                     </el-button>
                     <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
                         发送
