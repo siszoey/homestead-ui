@@ -12,12 +12,11 @@
                     <div class="wfydtj_div">
                         <el-row style="width: 100%; height: 100%;">
                             <el-col :span="12">
-                                <div class="title">违法用地统计</div>
                                 <div ref="pieMain" class="chart_div"></div>
                             </el-col>
                             <el-col :span="12" style="float: right;">
-                                <div class="title">全年违法案件处理数</div>
                                 <div class="chart_div">
+                                    <div class="title">全年违法案件处理数</div>
                                     <div class="cls_div">
                                         <div class="clsText">已处理</div>
                                         <div class="clsNum">{{yclData}}</div>
@@ -208,6 +207,9 @@
                 const _dataList = this.pieDatas;
                 this.pieChart = this.$echarts.init(this.$refs.pieMain);
                 const option = {
+                    title: {
+                        text: '违法用地统计'
+                    },
                     series: [
                         {
                             type: "pie",
@@ -247,8 +249,8 @@
 <style lang="scss" scoped>
     .contents {
         width: 100%;
-        height: 99%;
-        float: right;
+        height: 100%;
+        float: left;
         background: #FFF;
     }
 
@@ -290,7 +292,6 @@
         letter-spacing: 2px;
         height: 30px;
         line-height: 30px;
-        margin: -30px 0 0;
     }
 
     .chart_div {
@@ -301,7 +302,7 @@
     .cls_div {
         width: 80%;
         height: 20%;
-        margin-top: 10%;
+        margin-top: 8%;
         border: 1px solid #CDCDCD;
         font-size: 18px;
         color: #aaa;
