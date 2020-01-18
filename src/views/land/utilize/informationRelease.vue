@@ -248,9 +248,9 @@
   
   <style lang="scss" scoped>
     .contents {
-      width: 99.5%;
-      height: 99%;
-      float: right;
+      width: 100%;
+      height: 100%;
+      float: left;
       background: #FFF;
     }
   
