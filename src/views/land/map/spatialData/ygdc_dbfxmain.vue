@@ -43,8 +43,8 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   display: flex;
-  width: 98%;
-  height: 96%;
+  width: 100%;
+  height: 100%;
 }
 .half {
   // padding: 0 5px;

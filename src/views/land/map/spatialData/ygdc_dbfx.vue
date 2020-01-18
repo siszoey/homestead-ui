@@ -4,8 +4,8 @@
       <div style="text-align:center">
         <el-switch
           style="height:50px;"
-          inactive-text="展开菜单"
-          active-text="收起菜单"
+          inactive-text="图层控制"
+          active-text
           v-model="hiddenToolbar"
           @change="changeToolbar()"
         ></el-switch>
@@ -122,10 +122,32 @@
       </div>
     </div>-->
     <el-card class="box-card" ref="popup">
-      <div class="text item">{{'坐落：' + ZJDInfo.Szz }}</div>
-      <div class="text item">{{'宗地面积：' + ZJDInfo.Zdmj+'(㎡)' }}</div>
-      <div class="text item">{{'宗地用途：' + ZJDInfo.Ytmc }}</div>
-      <div class="text item">{{'权利人名称：' + ZJDInfo.Qlrmc }}</div>
+      <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
+      <div class="text item">
+        <b>项目名称</b>
+      </div>
+      <div class="text item">宅基地疑似违法占地</div>
+      <div class="text item">
+        <b>项目位置</b>
+      </div>
+      <div class="text item">美宝村民小组</div>
+      <div class="text item">
+        <b>监察人</b>
+      </div>
+      <div class="text item">吴坤义</div>
+      <div class="text item">
+        <b>监察时间</b>
+      </div>
+      <div class="text item">2019-8-13</div>
+      <div class="text item">
+        <b>违法事由</b>
+      </div>
+      <div class="text item">宅基地获批面积为150平方米，实际修建的建筑面积为174平方米</div>
+      <div class="text item">
+        <b>备注</b>
+      </div>
+      <div class="text item">暂无</div>
+      <el-button type="primary" style="width:100%">发起现场核实</el-button>
     </el-card>
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
@@ -152,7 +174,7 @@ export default {
   props: {
     hiddenToolbar: {
       type: Boolean,
-      default: false
+      default: true
     },
     mapid: String
   },
@@ -248,7 +270,7 @@ export default {
   },
   mounted() {
     //是否显示工具栏
-    //this.changeToolbar();
+    this.changeToolbar();
     this.map = BaseMap.BaseInitMap(this.mapid);
     //console.log(this.map);
     this.checkALL("XZDCCG");
@@ -286,12 +308,12 @@ export default {
         })
           .then(res => {
             if (res.data.features.length == 0) {
-              _this.$refs.popup.$el.style.visibility = "hidden";
+              _this.closeCard();
               return;
             }
             _this.popup.setPosition(evt.coordinate);
             _this.ZJDInfo = res.data.features[0].properties;
-            _this.$refs.popup.$el.style.visibility = "visible";
+            _this.openCard();
           })
           .catch(error => {});
       }
@@ -301,6 +323,16 @@ export default {
   methods: {
     showLayer() {
       //this.layerOn = !this.layerOn;
+    },
+    closeCard() {
+      this.$refs.popup.$el.style.visibility = "hidden";
+      this.$refs.popup.$el.style.width = "1px";
+      this.$refs.popup.$el.style.height = "1px";
+    },
+    openCard() {
+      this.$refs.popup.$el.style.visibility = "visible";
+      this.$refs.popup.$el.style.width = "260px";
+      this.$refs.popup.$el.style.height = "400px";
     },
     stop() {},
     changeLayer(LayerName) {
@@ -315,13 +347,9 @@ export default {
       if (this.hiddenToolbar) {
         this.$refs.mapPanel.style.display = "none";
         this.$refs.leftPanel.style.height = "50px";
-        //document.getElementById("mapPanel").style.display = "none";
-        //document.getElementById("leftPanel").style.height = "50px";
       } else {
         this.$refs.mapPanel.style.display = "block";
         this.$refs.leftPanel.style.height = "100%";
-        //document.getElementById("mapPanel").style.display = "block";
-        //document.getElementById("leftPanel").style.height = "100%";
       }
     },
     checkALL(LayerName) {
@@ -640,13 +668,17 @@ export default {
 }
 .box-card {
   background-color: #f7f7f7d1;
-  overflow-y: auto;
+  // overflow-y: auto;
   z-index: 9;
   right: 1px;
-  width: 350px;
-  height: 450px;
   visibility: hidden;
   font-size: 14px;
+}
+.el-card__body {
+  padding: 10px;
+}
+.text {
+  padding-bottom: 5px;
 }
 </style>
 <style scoped>
