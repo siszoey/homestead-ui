@@ -121,7 +121,12 @@
         </div>
       </div>
     </div>-->
-
+    <el-card class="box-card" ref="popup">
+      <div class="text item">{{'坐落：' + ZJDInfo.Szz }}</div>
+      <div class="text item">{{'宗地面积：' + ZJDInfo.Zdmj+'(㎡)' }}</div>
+      <div class="text item">{{'宗地用途：' + ZJDInfo.Ytmc }}</div>
+      <div class="text item">{{'权利人名称：' + ZJDInfo.Qlrmc }}</div>
+    </el-card>
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
 </template>
@@ -140,6 +145,7 @@ import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
+import Axios from "axios";
 
 export default {
   name: "ygdc_dbfx",
@@ -152,12 +158,19 @@ export default {
   },
   data() {
     return {
+      popup: null,
       map: null,
       layerOn: false,
       NFJSFB_Layer: null,
       Region_Layer: null,
       zdLayer: null,
       xzqhdm: "469005115201",
+      ZJDInfo: {
+        Szz: "",
+        Zdmj: "",
+        Ytmc: "",
+        Qlrmc: ""
+      },
       XZDCCG: {
         Layer: null,
         Visible: true,
@@ -245,6 +258,44 @@ export default {
     this.InitLayer("XZQ");
     this.InitLayer("DT");
     this.XZQ.Layer.setZIndex(20);
+
+    this.popup = new Overlay({
+      //element: document.getElementById("popup")
+      element: this.$refs.popup.$el
+    });
+    this.map.addOverlay(this.popup);
+    //点击事件
+    let _this = this;
+    this.map.on("singleclick", function(evt) {
+      var view = _this.map.getView();
+      var viewResolution = view.getResolution();
+      var source = _this.XZDCCG.Layer.getSource();
+      var url = source.getFeatureInfoUrl(
+        evt.coordinate,
+        viewResolution,
+        view.getProjection(),
+        { INFO_FORMAT: "application/json" }
+      );
+      if (url) {
+        Axios({
+          method: "get",
+          url: url,
+          dataType: "json",
+          crossDomain: true,
+          cache: false
+        })
+          .then(res => {
+            if (res.data.features.length == 0) {
+              _this.$refs.popup.$el.style.visibility = "hidden";
+              return;
+            }
+            _this.popup.setPosition(evt.coordinate);
+            _this.ZJDInfo = res.data.features[0].properties;
+            _this.$refs.popup.$el.style.visibility = "visible";
+          })
+          .catch(error => {});
+      }
+    });
   },
 
   methods: {
@@ -586,6 +637,16 @@ export default {
 }
 .el-checkbox {
   margin: 3px;
+}
+.box-card {
+  background-color: #f7f7f7d1;
+  overflow-y: auto;
+  z-index: 9;
+  right: 1px;
+  width: 350px;
+  height: 450px;
+  visibility: hidden;
+  font-size: 14px;
 }
 </style>
 <style scoped>
