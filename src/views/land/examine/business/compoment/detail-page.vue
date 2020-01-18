@@ -73,7 +73,7 @@
                 <!--一张图-->
                 <el-col :span="12" v-if="showMap">
                     <div style="width: 570px;height:800px">
-                        <oneMap :hiddenToolbar="true"></oneMap>
+                        <oneMap :hiddenToolbar="true" :zoomToZD="true"></oneMap>
                     </div>
                 </el-col>
                 <el-col :span="12" v-if="showFileView">
