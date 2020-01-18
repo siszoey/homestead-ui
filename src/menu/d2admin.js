@@ -55,10 +55,10 @@ const examine = {
       path: `${pre}/business`,
       title: '业务办理',
       children: (pre => [
-        { path: `${pre}/todo`, title: '待办箱' },
-        { path: `${pre}/done`, title: '已办箱' },
-        { path: `${pre}/rollback`, title: '退件箱' },
-        { path: `${pre}/comprehensive`, title: '综合管理' },
+        { path: `${pre}/todo`, title: '待办箱', badge: 27 },
+        { path: `${pre}/done`, title: '已办箱', badge: 13 },
+        { path: `${pre}/rollback`, title: '退件箱', badge: 2 },
+        { path: `${pre}/comprehensive`, title: '综合管理', badge: 27 },
       ])('/land/examine/business')
     },
     { path: `${pre}/search`, title: '归档查询' },
