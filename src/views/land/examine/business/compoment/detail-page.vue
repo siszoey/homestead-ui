@@ -33,7 +33,7 @@
             <el-row :gutter="5">
                 <!--表单-->
                 <el-col :span="showMap || showFileView ? 12 : 24">
-                    <el-tabs tab-position="left" v-show="showForm">
+                    <el-tabs tab-position="top" v-show="showForm">
                         <el-tab-pane label="申请表">
                             <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
                         </el-tab-pane>
@@ -47,21 +47,21 @@
 
                     <!--打印-->
                     <div v-bind="$attrs" v-show="showPrintView">
-                        <el-tabs tab-position="left">
+                        <el-tabs tab-position="top">
                             <el-tab-pane label="申请表">
                                 <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
                             <el-tab-pane label="审批表">
                                 <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
-                            <el-tab-pane label="验收意见表">
-                                <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
+                            <el-tab-pane label="乡镇建设规划许可证">
+                                <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
                             <el-tab-pane label="批准书">
                                 <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
-                            <el-tab-pane label="建设规划书">
-                                <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
+                            <el-tab-pane label="验收意见表">
+                                <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
                             </el-tab-pane>
 <!--                            <el-tab-pane label="附图">-->
 <!--                                <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>-->
