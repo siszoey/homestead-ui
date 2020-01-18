@@ -1,8 +1,16 @@
 <template>
-  <div id="app" style="width:97%;height:96%;">
-    <div class="left-side">
-      <!-- <hr /> -->
-      <el-card class="box-card">
+  <div id="app" style="width:100%;height:100%;">
+    <div class="left-side" id="leftPanel">
+      <div style="text-align:center">
+        <el-switch
+          style="height:50px;"
+          inactive-text="表格控制"
+          active-text
+          v-model="hiddenToolbar"
+          @change="changeToolbar()"
+        ></el-switch>
+      </div>
+      <el-card class="box-card left-side" id="mapPanel">
         <div slot="header" class="clearfix">
           <span class="card-title">审批情况一览表</span>
         </div>
@@ -31,11 +39,6 @@
             <el-table-column prop="proposer" label="申请人" />
             <el-table-column prop="address" label="地址" />
             <el-table-column prop="status" label="审批状态" />
-            <!-- <el-table-column label="选择">
-              <template slot-scope="scope">
-                <el-checkbox v-model="scope.row.checked"></el-checkbox>
-              </template>
-            </el-table-column>-->
           </el-table>
         </div>
       </el-card>
@@ -79,6 +82,12 @@ import { Overlay } from "ol";
 
 export default {
   name: "examinePic",
+  props: {
+    hiddenToolbar: {
+      type: Boolean,
+      default: true
+    }
+  },
   data() {
     return {
       srcList: ["/image/mapicon/testimage1.png"],
@@ -167,6 +176,16 @@ export default {
     }
   },
   methods: {
+    //切换面板显示
+    changeToolbar() {
+      if (this.hiddenToolbar) {
+        document.getElementById("mapPanel").style.display = "none";
+        document.getElementById("leftPanel").style.height = "50px";
+      } else {
+        document.getElementById("mapPanel").style.display = "block";
+        document.getElementById("leftPanel").style.height = "100%";
+      }
+    },
     closeCard() {
       document.getElementById("popup").style.visibility = "hidden";
     },
@@ -223,15 +242,18 @@ export default {
           _this.map.getView().animate(
             {
               zoom: 16,
-              duration: 1500
+              duration: 1
+              //duration: 1500
             },
             {
               center: center,
-              duration: 2000
+              duration: 1
+              //duration: 2000
             },
             {
               zoom: 20,
-              duration: 1500
+              duration: 1
+              //duration: 1500
             },
             _this.animateDone
           );
@@ -249,6 +271,7 @@ export default {
     }
   },
   mounted() {
+    this.changeToolbar();
     var currentRegionLayer;
     var xzqhdm = "469005115201";
     this.map = BaseMap.BaseInitMap("pic-map");
@@ -346,7 +369,7 @@ export default {
   width: 26%;
   min-width: 435px;
   height: 100%;
-  color: white;
+  /* color: white; */
   /* background-color: #f7f7f7d1; */
   /* margin-top: -0.1rem; */
 }
