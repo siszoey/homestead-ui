@@ -237,28 +237,40 @@
     </div>
 
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
-    <el-card class="box-card  right-side" id="popup_onemap">
-      <div slot="header" class="clearfix">
-        <span>地块信息</span>
+    <el-dialog
+      class="box-card right-side"
+      id="popup_onemap"
+      title="宗地信息"
+      :visible.sync="dialogVisible"
+      v-dialogDrag
+      :modal="false"
+      width="25%"
+    >
+      <!-- <el-card> -->
+        <!-- <div slot="header" class="clearfix">
+        <span>宗地信息</span>
         <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
-      </div>
-      <div class="text item">{{'权属单位名称：' + CZGHInfo.QSDWMC }}</div>
-      <div class="text item">{{'地类名称：' + CZGHInfo.DLMC }}</div>
-      <div class="text item">{{'地块编号：' + CZGHInfo.OBJECTID }}</div>
-      <div class="text item">{{'面积：' + (CZGHInfo.TBDLMJ*0.0015).toFixed(2)+'亩' }}</div>
-      <div class="text item">{{'数据年份：' + CZGHInfo.SJNF }}</div>
-      <div class="text item"></div>
-      <div class="text item">照片资料：</div>
-      <el-image
-        style="width: 300px; height: 150px"
-        src="/image/mapicon/testimage.png"
-        :preview-src-list="srcList"
-        z-index:9999
-      ></el-image>
-    </el-card>
+        </div>-->
+        <div class="text item">{{'权属单位名称：' + CZGHInfo.QSDWMC }}</div>
+        <div class="text item">{{'地类名称：' + CZGHInfo.DLMC }}</div>
+        <div class="text item">{{'地块编号：' + CZGHInfo.OBJECTID }}</div>
+        <div class="text item">{{'面积：' + (CZGHInfo.TBDLMJ*0.0015).toFixed(2)+'亩' }}</div>
+        <div class="text item">{{'数据年份：' + CZGHInfo.SJNF }}</div>
+        <div class="text item"></div>
+        <div class="text item">照片资料：</div>
+        <el-image
+          style="width: 300px; height: 150px"
+          src="/image/mapicon/testimage.png"
+          :preview-src-list="srcList"
+          z-index:9999
+        ></el-image>
+      <!-- </el-card> -->
+    </el-dialog>
   </div>
 </template>
 <script>
+// 引入Dialog可拖拽，注意文件所在目录。目前尚未发现引入的先后关系，若有再补充
+import "./components/directives.js";
 import LayerList from "./components/LayerList_ZJD";
 import BaseMap from "../spatialData/mapBase.js";
 
@@ -285,6 +297,7 @@ export default {
   name: "survey",
   data() {
     return {
+      dialogVisible: false,
       srcList: ["/image/mapicon/testimage.png"],
       map: null,
       layerOn: false,
@@ -832,8 +845,9 @@ export default {
               _this.CZGHInfo = res.data.features[0].properties;
               // var element = _this.popup.getElement();
               // _this.popup.setPosition(evt.coordinate);
-              document.getElementById("popup_onemap").style.visibility =
-                "visible";
+              // document.getElementById("popup_onemap").style.visibility =
+              //   "visible";
+              _this.dialogVisible = true;
             })
             .catch(error => {});
         }
@@ -846,7 +860,8 @@ export default {
       //this.layerOn = !this.layerOn;
     },
     closeCard() {
-      document.getElementById("popup_onemap").style.visibility = "hidden";
+      //document.getElementById("popup_onemap").style.visibility = "hidden";
+      this.dialogVisible = false;
     },
     stop() {},
     //切换面板显示
@@ -1180,32 +1195,26 @@ export default {
 }
 
 .box-card {
-  width: 99.5%;
+  // width: 99.5%;
   /* margin-top: 11%; */
-  height: 99.5%;
-  background-color: #f7f7f7d1;
+  // height: 99.5%;
+  // background-color: #f7f7f7d1;
   overflow-y: auto;
 }
 
 .right-side {
-  position: absolute;
+  // position: absolute;
   z-index: 9;
-  right:1px;
-  width: 350px;
-  height: 400px;
-  visibility: hidden;
-  font-size: 14px;
-  // opacity: 0.7;
+  // right: 1px;
+  // width: 350px;
+  // height: 400px;
+  // visibility: hidden;
+  // font-size: 14px;
+   opacity: 0.9;
 }
-
-
-
 </style>
 <style>
 .el-switch__label {
   min-width: 15px;
 }
-
-
-
 </style>

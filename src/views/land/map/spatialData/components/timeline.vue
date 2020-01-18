@@ -197,11 +197,11 @@ export default {
   position: absolute;
   bottom: 30px;
   height: 60px;
-  width: 80%;
+  width: 45%;
   background-color: rgba(0, 0, 0, 0.6);
   border: 1px solid rgba(0, 0, 0, 0.3);
 
-  margin-left: 50%;
+  margin-left: 60%;
   transform: translateX(-50%);
 
   display: flex;
