@@ -7,7 +7,7 @@ export default function (iotHeader) {
   return {
     path: '/land/utilize',
     name: 'land-utilize',
-    meta:{
+    meta: {
       ...meta,
       title: '盘活利用'
     },
@@ -21,6 +21,33 @@ export default function (iotHeader) {
         meta: {
           ...meta,
           title: '信息统计'
+        }
+      },
+      {
+        path: 'informationList',
+        name: `${pre}informationList`,
+        component: _import('land/utilize/informationList.vue'),
+        meta: {
+          ...meta,
+          title: '信息列表'
+        }
+      },
+      {
+        path: 'informationRelease',
+        name: `${pre}informationRelease`,
+        component: _import('land/utilize/informationRelease.vue'),
+        meta: {
+          ...meta,
+          title: '信息发布'
+        }
+      },
+      {
+        path: 'registrantAdministration',
+        name: `${pre}registrantAdministration`,
+        component: _import('land/utilize/registrantAdministration.vue'),
+        meta: {
+          ...meta,
+          title: '注册人管理'
         }
       }
     ])('land-utilize-')
