@@ -120,6 +120,9 @@
       if ('退办' == this.$route.params.box) {
         this.sendBtnDisabled = false
       }
+      debugger
+      this.xmbh = this.processInfo ? this.processInfo.sqid : ''
+      // this.stage = this.processInfo ? this.processInfo.xmzt : ''
       this.getLastXMZT()
       let that = this;
       setTimeout(function () {
@@ -142,8 +145,8 @@
         showForm: true,
 
         showFileView: false,
-        xmbh: '',
-        stage: '',
+        xmbh:  '',
+        stage:  '',
 
         showPrintView: false,
         rdpPrefix: process.env.VUE_APP_RDP_URL + '/rdppage/show/',
