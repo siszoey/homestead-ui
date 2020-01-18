@@ -27,7 +27,7 @@ export default {
     ImageView
   },
   props: {
-    xmbh: { default: "20191211165945104", type: String },
+    xmbh: { default: "20191213134055715", type: String },
     stage: { default: "", type: String },
     readonly: {default: false, type: Boolean}
   },
@@ -42,14 +42,19 @@ export default {
   created() {
     this.getUploadedImages(). then(()=>{
       if (this.files && this.files.length > 0) {
-              this.nodeImages = this.files
+              // this.nodeImages = this.files
+              //   .map(t => t.files)
+              //   .reduce((f, s) => [...f, ...s], [])
+              //   // .map(t => t.files)
+              //   //  .reduce((f, s) => [...f, ...s], [])
+              //   .map(k => k.images)
+              //   .reduce((f, s) => [...f, ...s], []);
+                this.nodeImages = this.files
                 .map(t => t.files)
                 .reduce((f, s) => [...f, ...s], [])
-                .map(t => t.files)
-                 .reduce((f, s) => [...f, ...s], [])
                 .map(k => k.images)
                 .reduce((f, s) => [...f, ...s], []);
-            //console.log(this.nodeImages)
+            // console.log("images",this.nodeImages)
         }
     });
   },
@@ -83,7 +88,7 @@ export default {
           }
         })
         .then(res => {
-          //  console.log(res);
+            console.log(res);
           if (res) {
             this.files = res;
           }
