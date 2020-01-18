@@ -89,16 +89,16 @@
     </div>
     <div :id="mapid" class="mapDiv"></div>
 
-    <!-- <div class="toolbarContainer">
+    <div class="toolbarContainer">
       <div class="toolbar">
-        <div class="toolButton top">
+        <div class="toolButton top" @click="changeEditMode">
           <img :src="`${$baseUrl}image/mapicon/sldt.png`" />
         </div>
-        <div class="toolButton bottom highlight">
+        <!-- <div class="toolButton bottom highlight">
           <img :src="`${$baseUrl}image/mapicon/yxdt.png`" />
-        </div>
+        </div>-->
       </div>
-      <div class="toolbar" style="margin-top:10px">
+      <!-- <div class="toolbar" style="margin-top:10px">
         <div class="toolButton top">
           <img :src="`${$baseUrl}image/mapicon/sjjc.png`" />
         </div>
@@ -119,8 +119,8 @@
         <div class="toolButton bottom">
           <img :src="`${$baseUrl}image/mapicon/zbdw.png`" />
         </div>
-      </div>
-    </div>-->
+      </div>-->
+    </div>
     <el-card class="box-card" ref="popup">
       <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
       <div class="text item">
@@ -149,6 +149,34 @@
       <div class="text item">暂无</div>
       <el-button type="primary" style="width:100%">发起现场核实</el-button>
     </el-card>
+    <el-card class="box-card" ref="popupedit">
+      <el-button style="float: right; padding: 3px 0" type="text" @click="closeEditCard">关闭</el-button>
+      <div class="text item">
+        <b>项目名称</b>
+      </div>
+      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
+      <div class="text item">
+        <b>项目位置</b>
+      </div>
+      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
+      <div class="text item">
+        <b>监察人</b>
+      </div>
+      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
+      <div class="text item">
+        <b>监察时间</b>
+      </div>
+      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
+      <div class="text item">
+        <b>违法事由</b>
+      </div>
+      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
+      <div class="text item">
+        <b>备注</b>
+      </div>
+      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
+      <el-button type="primary" style="width:100%">发起现场核实</el-button>
+    </el-card>
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
 </template>
@@ -165,9 +193,10 @@ import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
 import { XYZ, TileWMS, Cluster } from "ol/source";
 import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
-import { getCenter, getBottomLeft } from "ol/extent";
+import { getCenter, getBottomLeft, getTopRight } from "ol/extent";
 import Point from "ol/geom/Point";
 import Axios from "axios";
+import { Modify, Draw, Snap } from "ol/interaction";
 
 export default {
   name: "ygdc_dbfx",
@@ -181,6 +210,11 @@ export default {
   data() {
     return {
       popup: null,
+      popupedit:null,
+      EditMode: false,
+      draw: null,
+      snap: null,
+      source: null,
       map: null,
       layerOn: false,
       NFJSFB_Layer: null,
@@ -282,10 +316,13 @@ export default {
     this.XZQ.Layer.setZIndex(20);
 
     this.popup = new Overlay({
-      //element: document.getElementById("popup")
       element: this.$refs.popup.$el
     });
     this.map.addOverlay(this.popup);
+    this.popupedit = new Overlay({
+      element: this.$refs.popupedit.$el
+    });
+    this.map.addOverlay(this.popupedit);
     //点击事件
     let _this = this;
     this.map.on("singleclick", function(evt) {
@@ -318,21 +355,77 @@ export default {
           .catch(error => {});
       }
     });
+    this.source = new VectorSource();
+    var vector = new VectorLayer({
+      source: this.source,
+      style: new Style({
+        fill: new Fill({
+          color: "rgba(255, 255, 255, 0.2)"
+        }),
+        stroke: new Stroke({
+          color: "#ffcc33",
+          width: 2
+        }),
+        image: new CircleStyle({
+          radius: 7,
+          fill: new Fill({
+            color: "#ffcc33"
+          })
+        })
+      })
+    });
+    this.source.on("change", function(evt) {
+      var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
+      if (source.getState() === "ready") {
+        var center = getCenter(source.getExtent());
+        //_this.map.getView().centerOn(center); //自动缩放
+        _this.popupedit.setPosition(getTopRight(source.getExtent()));
+        _this.openEditCard();
+      }
+    });
+    this.map.addLayer(vector);
+    var modify = new Modify({ source: this.source });
+    this.map.addInteraction(modify);
   },
 
   methods: {
     showLayer() {
       //this.layerOn = !this.layerOn;
     },
+    changeEditMode() {
+      this.EditMode = !this.EditMode;
+      if (this.EditMode) {
+        this.draw = new Draw({
+          source: this.source,
+          type: "Polygon"
+        });
+        this.map.addInteraction(this.draw);
+        this.snap = new Snap({ source: this.source });
+        this.map.addInteraction(this.snap);
+      } else {
+        this.map.removeInteraction(this.draw);
+        this.map.removeInteraction(this.snap);
+      }
+    },
     closeCard() {
       this.$refs.popup.$el.style.visibility = "hidden";
       this.$refs.popup.$el.style.width = "1px";
       this.$refs.popup.$el.style.height = "1px";
     },
+    closeEditCard() {
+      this.$refs.popupedit.$el.style.visibility = "hidden";
+      this.$refs.popupedit.$el.style.width = "1px";
+      this.$refs.popupedit.$el.style.height = "1px";
+    },
     openCard() {
       this.$refs.popup.$el.style.visibility = "visible";
       this.$refs.popup.$el.style.width = "260px";
       this.$refs.popup.$el.style.height = "400px";
+    },
+    openEditCard() {
+      this.$refs.popupedit.$el.style.visibility = "visible";
+      this.$refs.popupedit.$el.style.width = "260px";
+      this.$refs.popupedit.$el.style.height = "480px";
     },
     stop() {},
     changeLayer(LayerName) {

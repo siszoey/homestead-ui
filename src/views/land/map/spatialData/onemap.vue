@@ -5,7 +5,7 @@
         <el-switch
           style="height:50px;"
           inactive-text="图层控制"
-          active-text=""
+          active-text
           v-model="hiddenToolbar"
           @change="changeToolbar()"
         ></el-switch>
@@ -247,23 +247,23 @@
       width="25%"
     >
       <!-- <el-card> -->
-        <!-- <div slot="header" class="clearfix">
+      <!-- <div slot="header" class="clearfix">
         <span>宗地信息</span>
         <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
-        </div>-->
-        <div class="text item">{{'权属单位名称：' + CZGHInfo.QSDWMC }}</div>
-        <div class="text item">{{'地类名称：' + CZGHInfo.DLMC }}</div>
-        <div class="text item">{{'地块编号：' + CZGHInfo.OBJECTID }}</div>
-        <div class="text item">{{'面积：' + (CZGHInfo.TBDLMJ*0.0015).toFixed(2)+'亩' }}</div>
-        <div class="text item">{{'数据年份：' + CZGHInfo.SJNF }}</div>
-        <div class="text item"></div>
-        <div class="text item">照片资料：</div>
-        <el-image
-          style="width: 300px; height: 150px"
-          src="/image/mapicon/testimage.png"
-          :preview-src-list="srcList"
-          z-index:9999
-        ></el-image>
+      </div>-->
+      <div class="text item">{{'权属单位名称：' + CZGHInfo.QSDWMC }}</div>
+      <div class="text item">{{'地类名称：' + CZGHInfo.DLMC }}</div>
+      <div class="text item">{{'地块编号：' + CZGHInfo.OBJECTID }}</div>
+      <div class="text item">{{'面积：' + (CZGHInfo.TBDLMJ*0.0015).toFixed(2)+'亩' }}</div>
+      <div class="text item">{{'数据年份：' + CZGHInfo.SJNF }}</div>
+      <div class="text item"></div>
+      <div class="text item">照片资料：</div>
+      <el-image
+        style="width: 300px; height: 150px"
+        src="/image/mapicon/testimage.png"
+        :preview-src-list="srcList"
+        z-index:9999
+      ></el-image>
       <!-- </el-card> -->
     </el-dialog>
   </div>
@@ -292,6 +292,10 @@ export default {
     hiddenToolbar: {
       type: Boolean,
       default: true
+    },
+    zoomToZD: {
+      type: Boolean,
+      default: false
     }
   },
   name: "survey",
@@ -301,6 +305,7 @@ export default {
       srcList: ["/image/mapicon/testimage.png"],
       map: null,
       layerOn: false,
+      currentZD: null,
       xzqhdm: "469005115201",
       popup: null,
       CZGHInfo: {
@@ -807,15 +812,21 @@ export default {
       this.map = BaseMap.BaseInitMap("maponemap");
       //是否显示工具栏
       this.changeToolbar();
+
       //初始化图层
       this.InitLayer("XZDCCG");
       this.InitLayer("GTKJGH");
       this.InitLayer("CZGH");
       this.InitLayer("NFJSFB");
-      this.InitLayer("XZQ");
+
       this.InitLayer("DT");
       //行政区置顶
-      this.XZQ.Layer.setZIndex(20);
+      
+      if (this.zoomToZD) this.doZoomToZD();
+      else{
+        this.InitLayer("XZQ");
+        this.XZQ.Layer.setZIndex(20);
+      } 
 
       // this.popup = new Overlay({
       //   element: document.getElementById("popup_onemap")
@@ -873,6 +884,41 @@ export default {
         document.getElementById("mapPanel").style.display = "block";
         document.getElementById("leftPanel").style.height = "100%";
       }
+    },
+    doZoomToZD() {
+      if (!this.zoomToZD) return;
+      var zddm = "469005115003JC99012";
+      let _this = this;
+      if (this.currentZD != null) this.map.removeLayer(this.currentZD);
+      this.currentZD = new VectorLayer({
+        source: new VectorSource({
+          url:
+            BaseMap.geoserver +
+            "&typeName=TDLYXZ:ZD" +
+            "&CQL_FILTER=zddm_bf = %27" +
+            zddm +
+            "%27",
+          format: new GeoJSON()
+        }),
+        zIndex: 20
+      });
+      this.currentZD.getSource().on("change", function(evt) {
+        var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === "ready") {
+          var center = getCenter(source.getExtent());
+          _this.map.getView().animate(
+            {
+              center: center,
+              duration: 1
+            },
+            {
+              zoom: 20,
+              duration: 1
+            }
+          );
+        }
+      });
+      this.map.addLayer(this.currentZD);
     },
     //切换图层显示
     changeLayer(LayerName) {
@@ -1210,7 +1256,7 @@ export default {
   // height: 400px;
   // visibility: hidden;
   // font-size: 14px;
-   opacity: 0.9;
+  opacity: 0.9;
 }
 </style>
 <style>
