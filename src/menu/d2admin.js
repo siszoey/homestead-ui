@@ -27,8 +27,20 @@ const map = {
         { path: `${pre}/landIndex`, title: '用地指标一览表' },
         { path: `${pre}/IllegalHouse`, title: '违法建房一览表' },
         { path: `${pre}/revitalizeUse`, title: '盘活利用一览表' },
-        { path: `${pre}/householdRegister`, title: '户籍信息一览表' },
+        // { path: `${pre}/householdRegister`, title: '户籍信息一览表' },
       ])('/land/map/accountInformation')
+    },
+    {
+      path: `${pre}/countyPeople`,
+      title: '农村人口',
+      children: (pre => [
+        { path: `${pre}/summary`, title: '农村人口一览表' },
+        { path: `${pre}/constractorMembers`, title: '承包方家庭成员' },
+        { path: `${pre}/collectiveOrgnization`, title: '集体经营组织成员' },
+        { path: `${pre}/farmhouseOwner`, title: '农房共有人信息' },
+        { path: `${pre}/householdRegister`, title: '户籍信息' },
+        { path: `${pre}/itegratedQuery`, title: '联合查询' }
+      ])('/land/map/countyPeople')
     },
     {
       path: `${pre}/implementationProcess`,
@@ -122,6 +134,7 @@ const utilize = {
     { path: `${pre}/RegistrantAdministration`, title: '注册人管理' }
   ])('/land/utilize')
 }
+
 
 // 菜单 侧栏
 export const menuAside = [

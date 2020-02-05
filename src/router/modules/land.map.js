@@ -75,7 +75,7 @@ export default function(iotHeader) {
               ]
             },
             {
-                path:'accountInformation',
+                path: 'accountInformation',
                 name: `${pre}accountInformation`,
                 component: _import('land/components/blankrouterview.vue'),
                 redirect: { name: 'land-map-accountInformation-yearPlan' },
@@ -122,16 +122,89 @@ export default function(iotHeader) {
                             title: '盘活利用一览表'
                         }
                     },
+                    // {
+                    //     path: 'householdRegister',
+                    //     name: `${pre}householdRegister`,
+                    //     component: _import('land/map/accountInformation/householdRegister.vue'),
+                    //     meta: {
+                    //         ...meta,
+                    //         title: '户籍信息一览表'
+                    //     }
+                    // }
+                ])('land-map-accountInformation-')
+            },
+            {
+                path: 'countyPeople',
+                name: `${pre}countyPeople`,
+                component: _import('land/components/blankrouterview.vue'),
+                redirect: { name: 'land-map-countyPeople-summary' },
+                meta: {
+                    ...meta,
+                    ismap: true,
+                    title: '农村人口'
+                },
+                children:(pre => [
+                    {
+                        path: 'summary',
+                        name: `${pre}summary`,
+                        component: _import('land/map/countyPeople/summary.vue'),
+                        meta: {
+                            ...meta,
+                            ismap: true,
+                            title: '农村人口一览表'
+                        }
+                    },
+                    {
+                        path: 'constractorMembers',
+                        name: `${pre}constractorMembers`,
+                        component: _import('land/map/countyPeople/constractorMembers.vue'),
+                        meta: {
+                            ...meta,
+                            ismap: true,
+                            title: '承包方家庭成员'
+                        }
+                    },
+                    {
+                        path: 'collectiveOrgnization',
+                        name: `${pre}collectiveOrgnization`,
+                        component: _import('land/map/countyPeople/collectiveOrgnization.vue'),
+                        meta: {
+                            ...meta,
+                            ismap: true,
+                            title: '集体经营组织成员'
+                        }
+                    },
+                    {
+                        path: 'farmhouseOwner',
+                        name: `${pre}farmhouseOwner`,
+                        component: _import('land/map/countyPeople/farmhouseOwner.vue'),
+                        meta: {
+                            ...meta,
+                            ismap: true,
+                            title: '农房共有人信息'
+                        }
+                    },
                     {
                         path: 'householdRegister',
                         name: `${pre}householdRegister`,
-                        component: _import('land/map/accountInformation/householdRegister.vue'),
+                        component: _import('land/map/countyPeople/householdRegister.vue'),
                         meta: {
                             ...meta,
-                            title: '户籍信息一览表'
+                            ismap: true,
+                            title: '户籍信息'
+                        }
+                    },
+                    {
+                        path: 'itegratedQuery',
+                        name: `${pre}itegratedQuery`,
+                        component: _import('land/map/countyPeople/itegratedQuery.vue'),
+                        meta: {
+                            ...meta,
+                            ismap: true,
+                            title: '联合查询'
                         }
                     }
-                ])('land-map-accountInformation-')
+                ])('land-map-countyPeople-')
             },
             {
                 path: 'implementationProcess',
