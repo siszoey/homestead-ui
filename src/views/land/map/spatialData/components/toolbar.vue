@@ -35,6 +35,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      layerOn: false
+    };
+  },
   methods: {
     showLayer() {
       //this.layerOn = !this.layerOn;
@@ -79,7 +84,6 @@ export default {
   .top {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    
   }
   .bottom {
     border-top-right-radius: 5px;

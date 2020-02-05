@@ -203,6 +203,7 @@
 
     <div id="maponemap" class="mapDiv"></div>
     <ToolBar></ToolBar>
+    <RightChart></RightChart>
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
     <el-dialog
       class="box-card right-side"
@@ -240,6 +241,7 @@
 import "./components/directives.js";
 import LayerList from "./components/LayerList_ZJD";
 import ToolBar from "./components/toolbar";
+import RightChart from "./components/RightChart";
 import BaseMap from "../spatialData/mapBase.js";
 
 import "ol/ol.css";
