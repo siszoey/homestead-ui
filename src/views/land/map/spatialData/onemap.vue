@@ -202,8 +202,8 @@
     </div>
 
     <div id="maponemap" class="mapDiv"></div>
-    <ToolBar></ToolBar>
-    <RightChart></RightChart>
+    <ToolBar style="padding-right:400px;"></ToolBar>
+    <RightChart v-if="flag" :legends="legend" :data="data" :content="content"></RightChart>
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
     <el-dialog
       class="box-card right-side"
@@ -271,6 +271,7 @@ export default {
   name: "survey",
   data() {
     return {
+      flag: false,
       dialogVisible: false,
       srcList: ["/image/mapicon/testimage.png"],
       map: null,
@@ -770,12 +771,68 @@ export default {
         CheckAll: [true],
         Features: [],
         Boxs: []
-      }
+      },
+      legend: [],
+      data: [],
+      content: [],
+      legends: [
+        ["农村宅基地", "闲置宅基地", "未批先建", "已批已建", "已批未建"],
+        [
+          "农村住宅",
+          "季节性闲置住宅",
+          "常年闲置住宅",
+          "盘活利用住宅",
+          "一户多宅",
+          "一宅超限"
+        ],
+        ["农用地", "建设用地", "未利用地"],
+        [
+          "一般耕地",
+          "保护林地",
+          "基本农田",
+          "乡村建设用地",
+          "旅游建设用地",
+          "后备林地"
+        ]
+      ],
+      datas: [
+        [57, 22, 3, 34, 5],
+        [53, 12, 1, 34, 10, 2],
+        [1764.5, 432.5, 374.2],
+        [38.5, 1246, 1341.2, 276.5, 244.8, 1585.9]
+      ],
+      contents: [
+        [
+          "农村宅基地情况统计",
+          "农村宅基地各类型所占比例",
+          "该区域农村宅基地总数量",
+          "121(宗)"
+        ],
+        [
+          "农村住宅情况统计",
+          "农村住宅各类型所占比例",
+          "该区域农村住宅总数量",
+          "112(套)"
+        ],
+        [
+          "土地利用现状统计",
+          "各土地类型所占比例",
+          "该区域土地总面积",
+          "2463.12(亩)"
+        ],
+        [
+          "村庄规划情况统计",
+          "各土地类型所占比例",
+          "该区域村庄规划总面积",
+          "3562.9(亩)"
+        ]
+      ]
     };
   },
   components: {
     LayerList,
-    ToolBar
+    ToolBar,
+    RightChart
   },
   mounted() {
     this.$nextTick(function() {
@@ -783,7 +840,7 @@ export default {
       this.map = BaseMap.BaseInitMap("maponemap");
       //是否显示工具栏
       this.changeToolbar();
-
+      this.changeChartData("XZDCCG");
       //初始化图层
       this.InitLayer("XZDCCG");
       this.InitLayer("GTKJGH");
@@ -894,9 +951,28 @@ export default {
         if (this[LayerName].Layer == null) {
           this.InitLayer(LayerName);
         } else this.map.addLayer(this[LayerName].Layer);
+        this.changeChartData(LayerName);
       } else {
         this.map.removeLayer(this[LayerName].Layer);
       }
+    },
+    changeChartData(LayerName) {
+      this.flag = false;
+      var index = -1;
+      if (LayerName == "XZDCCG") {
+        index = 0;
+      } else if (LayerName == "GTKJGH") {
+        index = 2;
+      } else if (LayerName == "CZGH") {
+        index = 3;
+      } else if (LayerName == "NFJSFB") {
+        index = 1;
+      }
+      if (index == -1) return;
+      this.legend = this.legends[index];
+      this.data = this.datas[index];
+      this.content = this.contents[index];
+      this.flag = true;
     },
     //全选（全不选）
     checkALL(LayerName, index = 0) {
@@ -955,12 +1031,16 @@ export default {
       }
       if (LayerName == "XZDCCG") {
         this.XZDCCG.Layer = this.InitXZDCCG();
+        //this.changeChartData(0);
       } else if (LayerName == "GTKJGH") {
         this.GTKJGH.Layer = this.InitGTKJGH();
+        //this.changeChartData(2);
       } else if (LayerName == "CZGH") {
         this.CZGH.Layer = this.InitCZGH();
+        //this.changeChartData(3);
       } else if (LayerName == "NFJSFB") {
         this.NFJSFB.Layer = this.InitNFJSFB();
+        //this.changeChartData(1);
       } else if (LayerName == "XZQ") {
         this.XZQ.Layer = this.InitXZQ();
       } else if (LayerName == "DT") {
