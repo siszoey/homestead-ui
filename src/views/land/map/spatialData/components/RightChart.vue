@@ -1,13 +1,18 @@
 <template>
-  <div id="RightPanel" class="RightPanel">
-    <div class="panel">
-      <div class="title" style="padding-top:10px;">{{content[0]}}</div>
-      <div id="right_barchart" class="chart"></div>
-      <div class="title">{{content[1]}}</div>
-      <div id="right_piechart" class="chart"></div>
+  <div>
+    <div id="RightPanel" class="RightPanel">
+      <div class="panel">
+        <div class="title" style="padding-top:10px;">{{content[0]}}</div>
+        <div id="right_barchart" class="chart"></div>
+        <div class="title">{{content[1]}}</div>
+        <div id="right_piechart" class="chart"></div>
 
-      <div class="title">● {{content[2]}}</div>
-      <div class="content">{{content[3]}}</div>
+        <div class="title">● {{content[2]}}</div>
+        <div class="content">{{content[3]}}</div>
+      </div>
+    </div>
+    <div id="PanelSwitch" class="PanelSwitch" @click="switchPanel">
+      <el-image :src="arrowimage" z-index:9999></el-image>
     </div>
   </div>
 </template>
@@ -30,6 +35,7 @@ export default {
   data() {
     return {
       isVisible: true,
+      arrowimage: "/image/chart/rightarrow.png",
       projectCount: 0,
       buildArea: 0,
       investMoney: 0,
@@ -66,6 +72,17 @@ export default {
     });
   },
   methods: {
+    switchPanel: function() {
+      this.isVisible = !this.isVisible;
+      if (!this.isVisible) {
+        this.arrowimage = "/image/chart/leftarrow.png";
+        document.getElementById("RightPanel").style.visibility = "hidden";
+      } else {
+        this.arrowimage = "/image/chart/rightarrow.png";
+        document.getElementById("PanelSwitch").style.backgroundColor = "";
+        document.getElementById("RightPanel").style.visibility = "visible";
+      }
+    },
     drawPieChart: function() {
       let myChart = this.$echarts.init(
         document.getElementById("right_piechart")
@@ -204,6 +221,15 @@ export default {
   top: 0px;
   width: 400px;
   height: 100%;
+  pointer-events: auto;
+}
+
+.PanelSwitch {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  width: 30px;
+  height: 30px;
   pointer-events: auto;
 }
 
