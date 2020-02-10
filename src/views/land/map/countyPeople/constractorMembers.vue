@@ -47,13 +47,13 @@
       tooltip-effect="dark"
       style="width: 100%"
     >
-      <el-table-column prop="cbfbm" label="承包方代码" sortable></el-table-column>
-      <el-table-column prop="cyxm" label="成员姓名" sortable></el-table-column>
-      <el-table-column prop="cyxb" label="成员性别" sortable></el-table-column>
-      <el-table-column prop="cyzjhm" label="成员证件号码" sortable></el-table-column>
-      <el-table-column prop="yhzgx" label="与户主关系" sortable></el-table-column>
-      <el-table-column prop="sfgyr" label="是否共有人" sortable></el-table-column>
-      <el-table-column prop="cybz" label="成员备注" sortable></el-table-column>
+      <el-table-column prop="bh" label="编号" sortable></el-table-column>
+      <el-table-column prop="xm" label="姓名" sortable></el-table-column>
+      <el-table-column prop="xb" label="性别" sortable></el-table-column>
+      <el-table-column prop="zjh" label="证件号" sortable></el-table-column>
+      <el-table-column prop="yqlrgx" label="与权利人关系" sortable></el-table-column>
+      <el-table-column prop="hkxz" label="户口性质" sortable></el-table-column>
+      <el-table-column prop="gzdw" label="工作单位" sortable></el-table-column>
     </el-table>
 
     <!-- footer 分页条 -->
@@ -85,74 +85,74 @@ export default {
       counties: [], //update
       tableData: [
         {
-          cyxm: "张清秀",
-          cyxb: "女",
-          cyzjlx: "",
-          cyzjhm: "460100199102283210",
-          cbfbm:"542221204202000169",
-          yhzgx:"配偶",
-          sfgyr:"是",
-          cybz:"",
+          xm: "张清秀",
+          xb: "女",
+          zjlx: "",
+          zjh: "460100199102283210",
+          bh:"542221204202000169",
+          yqlrgx:"配偶",
+          hkxz:"农村户口",
+          gzdw:"",
         },
         {
-          cyxm: "李世三",
-          cyxb: "男",
-          cyzjlx: "",
-          cyzjhm: "460100198803216576",
-          cbfbm:"542221100101000039",
-          yhzgx:"本人",
-          sfgyr:"是",
-          cybz:"",
+          xm: "李世三",
+          xb: "男",
+          zjlx: "",
+          zjh: "460100198803216576",
+          bh:"542221100101000039",
+          yqlrgx:"本人",
+          hkxz:"农村户口",
+          gzdw:"",
         },
         {
-          cyxm: "张清秀",
-          cyxb: "女",
-          cyzjlx: "",
-          cyzjhm: "460100199102283210",
-          cbfbm:"542221203209000024",
-          yhzgx:"本人",
-          sfgyr:"是",
-          cybz:"",
+          xm: "张清秀",
+          xb: "女",
+          zjlx: "",
+          zjh: "460100199102283210",
+          bh:"542221203209000024",
+          yqlrgx:"本人",
+          hkxz:"农村户口",
+          gzdw:"",
         },
         {
-          cyxm: "王倾佩",
-          cyxb: "女",
-          cyzjlx: "",
-          cyzjhm: "460100199802083219",
-          cbfbm:"542221204202000169",
-          yhzgx:"配偶",
-          sfgyr:"是",
-          cybz:"",
+          xm: "王倾佩",
+          xb: "女",
+          zjlx: "",
+          zjh: "460100199802083219",
+          bh:"542221204202000169",
+          yqlrgx:"配偶",
+          hkxz:"农村户口",
+          gzdw:"",
         },
         {
-          cyxm: "赵子强",
-          cyxb: "男",
-          cyzjlx: "",
-          cyzjhm: "460100199208181210",
-          cbfbm:"542221100102000051",
-          yhzgx:"子",
-          sfgyr:"是",
-          cybz:"",
+          xm: "赵子强",
+          xb: "男",
+          zjlx: "",
+          zjh: "460100199208181210",
+          bh:"542221100102000051",
+          yqlrgx:"子",
+          hkxz:"农村户口",
+          gzdw:"",
         },
         {
-          cyxm: "马龙",
-          cyxb: "男",
-          cyzjlx: "",
-          cyzjhm: "460100199509111219",
-          cbfbm:"542221204202000169",
-          yhzgx:"配偶",
-          sfgyr:"是",
-          cybz:"",
+          xm: "马龙",
+          xb: "男",
+          zjlx: "",
+          zjh: "460100199509111219",
+          bh:"542221204202000169",
+          yqlrgx:"配偶",
+          hkxz:"农村户口",
+          gzdw:"",
         },
         {
-          cyxm: "谢强",
-          cyxb: "男",
-          cyzjlx: "",
-          cyzjhm: "542221201202000003",
-          cbfbm:"542221204202000169",
-          yhzgx:"长子",
-          sfgyr:"是",
-          cybz:"",
+          xm: "谢强",
+          xb: "男",
+          zjlx: "",
+          zjh: "542221201202000003",
+          bh:"542221204202000169",
+          yqlrgx:"长子",
+          hkxz:"城镇户口",
+          gzdw:"",
         }
       ],
       ids: "",
