@@ -243,7 +243,7 @@ export default {
     font-size: 20px;
     padding-left: 10px;
     padding-bottom: 5px;
-    padding-top: 40px;
+    padding-top: 30px;
     text-align: left;
   }
   .content {
