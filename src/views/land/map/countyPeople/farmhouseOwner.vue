@@ -2,7 +2,6 @@
   <d2-container>
     <el-form
       :inline="true"
-      :model="queryForm"
       ref="queryForm"
       size="mini"
       style="margin-bottom: -25px; padding: 0 20px"
@@ -60,8 +59,6 @@
     <template slot="footer">
       <el-pagination
         background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :current-page="1"
         :page-sizes="[5,10,20,30,50]"
         :page-size="5"
@@ -83,77 +80,7 @@ export default {
       cities: [],
       county: "",
       counties: [], //update
-      tableData: [
-        {
-          qlrmc: "张清秀",
-          xb: "女",
-          zjh: "460100199102283210",
-          bdcdyh:"320322014018JC00093F00010001",
-          qlrlx:"个人",
-          gyfs:"单独所有",
-          dz:"徐州市沛县魏庙镇王范庄村",
-        },
-        {
-          qlrmc: "李世三",
-          xb: "男",
-          zjlx: "",
-          zjh: "460100198803216576",
-          bdcdyh:"320322014018JC00093F00010002",
-          qlrlx:"个人",
-          gyfs:"单独所有",
-          dz:"徐州市沛县魏庙镇王范庄村",
-        },
-        {
-          qlrmc: "张清秀",
-          xb: "女",
-          zjlx: "",
-          zjh: "460100199102283210",
-          bdcdyh:"320322014018JC00093F00010003",
-          qlrlx:"个人",
-          gyfs:"单独所有",
-          dz:"徐州市沛县魏庙镇王范庄村",
-        },
-        {
-          qlrmc: "王倾佩",
-          xb: "女",
-          zjlx: "",
-          zjh: "460100199802083219",
-          bdcdyh:"320322014018JC00093F00010004",
-          qlrlx:"个人",
-          gyfs:"单独所有",
-          dz:"徐州市沛县魏庙镇王范庄村",
-        },
-        {
-          qlrmc: "赵子强",
-          xb: "男",
-          zjlx: "",
-          zjh: "460100199208181210",
-          bdcdyh:"320322014018JC00093F00010005",
-          qlrlx:"个人",
-          gyfs:"单独所有",
-          dz:"徐州市沛县魏庙镇王范庄村",
-        },
-        {
-          qlrmc: "马龙",
-          xb: "男",
-          zjlx: "",
-          zjh: "460100199509111219",
-          bdcdyh:"320322014018JC00093F00010006",
-          qlrlx:"个人",
-          gyfs:"单独所有",
-          dz:"徐州市沛县魏庙镇王范庄村",
-        },
-        {
-          qlrmc: "谢强",
-          xb: "男",
-          zjlx: "",
-          zjh: "542221201202000003",
-          bdcdyh:"320322014018JC00093F00010007",
-          qlrlx:"个人",
-          gyfs:"单独所有",
-          dz:"徐州市沛县魏庙镇王范庄村",
-        }
-      ],
+      tableData: [],
       ids: "",
       params: {
         title: ""
@@ -172,7 +99,7 @@ export default {
     //this.ajaxSync();
     //初始化表格
     let path =
-      "test-data/map/accountInformation/householdRegister/city/haikou.json";
+      "test-data/map/accountInformation/householdRegister/etc/farmhouseOwner.json";
     this.AjaxGetData(path);
   },
   methods: {
@@ -203,7 +130,7 @@ export default {
           break;
       }
       if (path != "") {
-        this.AjaxGetData(path);
+        // this.AjaxGetData(path);
       }
       if (filename != "") {
         this.requestAjax(fileName, 3);
@@ -246,7 +173,7 @@ export default {
           break;
       }
       if (path != "") {
-        this.AjaxGetData(path);
+        // this.AjaxGetData(path);
       }
     },
     //ajax获取本地json文件行政区划
@@ -278,8 +205,8 @@ export default {
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
           console.log(response.data.result);
-          // _this.tableData = [];
-          // _this.tableData = response.data.result;
+           _this.tableData = [];
+           _this.tableData = response.data.result;
         })
         //获取失败
         .catch(error => {

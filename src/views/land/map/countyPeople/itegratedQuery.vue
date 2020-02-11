@@ -1,8 +1,8 @@
 <template>
   <d2-container>
-    <el-form :inline="true" :model="queryForm" ref="queryForm" size="mini" style="padding: 0 20px">
+    <el-form :inline="true" ref="queryForm" size="mini" style="padding: 0 20px">
       <el-form-item label="姓名">
-        <el-input placeholder="请输入姓名" v-model="input" clearable></el-input>
+        <el-input placeholder="请输入姓名" v-model="query_xm" clearable></el-input>
       </el-form-item>
 
       <div style="float: right">
@@ -96,13 +96,7 @@
 export default {
   data() {
     return {
-      input: "",
-      title: "",
-      year: "",
-      city: "",
-      cities: [],
-      county: "",
-      counties: [], //update
+      query_xm: "",
       cbfjtcydata: [],
       jtjyzzcydata: [],
       nfgyrdata: [],
@@ -151,135 +145,76 @@ export default {
           hkszd: "海南省海口市龙华区街道56弄6号",
           jtzrs: "5"
         }
-      ],
-      ids: "",
-      params: {
-        title: ""
-      }
+      ]
     };
   },
   mounted: function() {
-    //初始化表格
-    let path =
-      "test-data/map/accountInformation/householdRegister/city/haikou.json";
-    this.AjaxGetData(path);
+    //加载初始数据
+    this.AjaxGetData(
+      "test-data/map/accountInformation/householdRegister/etc/constractorMembers.json",
+      "cbfjtcydata"
+    );
+    this.AjaxGetData(
+      "test-data/map/accountInformation/householdRegister/etc/collectiveOrgnization.json",
+      "jtjyzzcydata"
+    );
+    this.AjaxGetData(
+      "test-data/map/accountInformation/householdRegister/etc/farmhouseOwner.json",
+      "nfgyrdata"
+    );
+    this.AjaxGetData(
+      "test-data/map/accountInformation/householdRegister/city/haikou.json",
+      "hjxxdata"
+    );
   },
   methods: {
     //ajax获取本地行政区划下json文件数据
-    AjaxGetData(path) {
-      let _this = this;
+    AjaxGetData(path, datatype) {
+      var _this = this;
       this.$axios
         .get(path)
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
-          console.log(response.data.result);
-          return [];
-          // _this.tableData = [];
-          // _this.tableData = response.data.result;
+          // console.log(response.data.result);
+          _this[datatype] = response.data.result;
+          _this[datatype + "_queryed"] = response.data.result;
+          //return;
         })
         //获取失败
         .catch(error => {
           console.log(error);
-          return [];
+          _this[datatype] = [];
           alert("网络错误，不能访问");
         });
     },
     //搜索
     search() {
-      this.ajaxSync();
-    },
-    //ajax请求api,传入参数：类型和标题
-    ajaxSync() {
-      var _this = this; //在ajax中必须将this重新赋一个新对象接收，否则ajax中获取不到vue变量
-      this.params = {
-        title: this.input
-      };
-      this.getWXTemplateList(this.params);
-    },
-    getWXTemplateList(params) {
-      let _this = this;
-      this.$axios
-        .get(this.apiPath + "/system/getWXTemplateList", { params })
-        .then(res => (_this.tableData = res.data.data.list))
-        .catch(function(error) {
-          // 请求失败处理
-          console.log(error);
-        });
+      if (this.query_xm == "") {
+        this.cbfjtcydata_queryed = this.cbfjtcydata;
+        this.jtjyzzcydata_queryed = this.jtjyzzcydata;
+        this.nfgyrdata_queryed = this.nfgyrdata;
+        this.hjxxdata_queryed = this.hjxxdata;
+        return;
+      } else {
+        this.cbfjtcydata_queryed = this.cbfjtcydata.filter(
+          data => data.xm.indexOf(this.query_xm) > -1
+        );
+        this.jtjyzzcydata_queryed = this.jtjyzzcydata.filter(
+          data => data.cyxm.indexOf(this.query_xm) > -1
+        );
+        this.nfgyrdata_queryed = this.nfgyrdata.filter(
+          data => data.qlrmc.indexOf(this.query_xm) > -1
+        );
+        this.hjxxdata_queryed = this.hjxxdata.filter(
+          data => data.hzxm.indexOf(this.query_xm) > -1
+        );
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.year-title {
-  position: absolute;
-  z-index: 9999999;
-  font-size: 16px;
-  color: #303133;
-  margin: 7px;
-  margin-top: 1.2%;
-}
-.xzq-column-h {
-  position: absolute;
-  z-index: 9999999;
-  font-size: 16px;
-  color: #303133;
-  margin: 7px;
-  margin-left: 0.1rem;
-  margin-top: 1.2%;
-}
-
-.select-item-year input {
-  height: 35px !important;
-  width: 100px !important;
-  margin-top: 8%;
-}
-.select-item-xzq input {
-  height: 35px !important;
-  width: 160px;
-  margin-top: 3.5%;
-}
-
-.operate-tool {
-  margin: 9px;
-  float: right;
-}
-.el-tabs--border-card {
-  margin-top: 0.091rem;
-}
-.bg-gray-light {
-  background: #f0f2f5;
-}
-.bg-white {
-  background: #ffffff;
-}
-.body {
-  height: 100%;
-}
-.el-row {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-.body-box {
-  height: auto;
-  border: 1px solid rgba(233, 233, 233, 1);
-}
-.body-box .body-header {
-  height: 50px;
-  border-bottom: 1px solid rgba(233, 233, 233, 1);
-}
-.body-box .body-header .body-header-title {
-  font-family: "MicrosoftYaHei-Bold", "微软雅黑 Bold", "微软雅黑";
-  font-weight: 700;
-  font-style: normal;
-  text-align: left;
-  font-size: 13px;
-  color: #333333;
-  padding: 20px;
-  line-height: 50px;
-  vertical-align: middle;
-}
-
 .el-divider {
   margin-top: 40px;
 }
