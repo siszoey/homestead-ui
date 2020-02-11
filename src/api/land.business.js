@@ -60,3 +60,15 @@ export function DeleteProcess(sqid) {
     method: 'delete',
   })
 }
+
+/**
+ * 批量上报
+ * @param data
+ */
+export function BatchReport(level,data) {
+  return request({
+    url: prefix + `/apply/form/batchReport?level=${level}`,
+    method: 'post',
+    data
+  })
+}
