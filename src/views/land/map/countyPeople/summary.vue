@@ -3,55 +3,55 @@
     <div class="wrap-top">
       <el-row class="progress-box">
         <el-card class="box-card-zrk">
-            <div slot="header" class="zrk_header">
+            <div slot="header" class="zrk_header bg_color" >
               <div >总人口</div>
             </div>
-            <div class="zrk_body">
+            <div class="card_body">
                <img :src="zrk"/>
                <div style="display: unset;"> 1000万</div>
             </div> 
         </el-card>
-        <el-card class="box-card-zhs">
-            <div slot="header" class="zhs_header">
+        <el-card class="box-card-zhs card_margin">
+            <div slot="header" class="zhs_header bg_color">
               <div>总户数</div>
             </div>
-            <div class="zhs_body">
+            <div class="card_body">
               <img :src="zhs"/>
                <div style="display: unset;"> 400万</div>
             </div> 
         </el-card>
-        <el-card class="box-card-yhdz">
-            <div slot="header" class="yhdz_header">
+        <el-card class="box-card-yhdz card_margin" >
+            <div slot="header" class="yhdz_header bg_color">
               <div>一户多宅户数</div>
             </div>
-            <div class="yhdz_body">
+            <div class="card_body">
               <img :src="yhdz"/>
                <div style="display: unset;"> 20万</div>
             </div> 
         </el-card>
-        <el-card class="box-card-zxrs">
-            <div slot="header" class="zxrs_header">
+        <el-card class="box-card-zxrs card_margin">
+            <div slot="header" class="zxrs_header bg_color">
               <div>注销人数</div>
             </div>
-            <div class="zxrs_body">
+            <div class="card_body" >
               <img :src="zxrs"/>
                <div style="display: unset;"> 2000</div>
             </div> 
         </el-card>
-        <el-card class="box-card-zhszz">
-            <div slot="header" class="zhszz_header">
+        <el-card class="box-card-zhszz card_margin">
+            <div slot="header" class="zhszz_header bg_color">
               <div>总户数人口增涨率</div>
             </div>
-            <div class="zhszz_body">
+            <div class="card_body">
               <img :src="zhszz"/>
                <div style="display: unset;"> -5%</div>
             </div> 
         </el-card>
-        <el-card class="box-card-hjrkzz">
-            <div slot="header" class="hjrkzz_header">
+        <el-card class="box-card-hjrkzz card_margin">
+            <div slot="header" class="hjrkzz_header bg_color">
               <div>户籍人口增涨率</div>
             </div>
-            <div class="hjrkzz_body">
+            <div class="card_body">
               <img :src="hjrkzz"/>
                <div style="display: unset;"> 3%</div>
             </div> 
@@ -117,11 +117,12 @@
               background
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page="1"
-              :page-sizes="[10,20,30,50]"
+              :current-page="1"            
               :page-size="10"
-              layout="total, sizes, prev, pager, next, jumper"
+              layout="total, prev, pager, next, jumper"
               :total="100"
+              :pager-count="4"
+              style="margin-top:35px;text-align:center"
           ></el-pagination>
         </el-col>
         <el-col :span="12" style="padding:0px 25px 0px 5px;height:610px;">
@@ -172,10 +173,13 @@ export default {
       yhdz: "./image/leaderCockpit/yhdz.png",
       zxrs: "./image/leaderCockpit/zxrs.png",
       zhszz: "./image/leaderCockpit/zhszz.png",
-      hjrkzz: "./image/leaderCockpit/hjrkzz.png",     
+      hjrkzz: "./image/leaderCockpit/hjrkzz.png",
+      city: "",
+      cities: [],
+      county: "",
+      counties: [], //update
+
       queryForm: {
-        city: "",
-        county: ""
       },
       lineChart: {},
       pieChart: {}     
@@ -597,132 +601,50 @@ p {
 .box-card {
   width: 250px;
 }
+//卡片位置
 .box-card-zrk{
   margin-left: 0.3rem;
   margin-top: 0.1rem;
-  width: 3rem;
+  width: 4.5rem;
 }
-.box-card-zhs{
-  margin-left: 0.3rem;
+.card_margin{
+  margin-left: 0.1rem;
   margin-top: 0.1rem;
-  width: 3rem;
+  width: 4.5rem;
 }
-.box-card-yhdz{
-  margin-left: 0.3rem;
-  margin-top: 0.1rem;
-  width: 3rem;
-}
-.box-card-zxrs{
-  margin-left: 0.3rem;
-  margin-top: 0.1rem;
-  width: 3rem;
-}
-.box-card-zhszz{
-  margin-left: 0.3rem;
-  margin-top: 0.1rem;
-  width: 3rem;
-}
-.box-card-hjrkzz{
-  margin-left: 0.3rem;
-  margin-top: 0.1rem;
-  width: 3rem;
-}
-.zrk_header{
+.bg_color{
   margin:-18px -20px; 
   padding:10px 20px; 
+}
+.zrk_header{
   background: #4FBB6A;
 }
 .zhs_header{
-  margin:-18px -20px; 
-  padding:10px 20px; 
   background: #0CAD97;
 }
 .yhdz_header{
-  margin:-18px -20px; 
-  padding:10px 20px; 
   background: #5FCCBD;
 }
 .zxrs_header{
-  margin:-18px -20px; 
-  padding:10px 20px; 
   background: #2DB9EB;
 }
 .zhszz_header{
-  margin:-18px -20px; 
-  padding:10px 20px; 
   background: #1A84AA;
 }
-.hjrkzz_header{
-  margin:-18px -20px; 
-  padding:10px 20px; 
+.hjrkzz_header{ 
   background: #17539C;
 }
-.zrk_header div{
+//卡片标题文字样式
+.bg_color div{
     color: white;
     text-align: center;
     font-size: 16px;    
 } 
-.zhs_header div{
-    color: white;
-    text-align: center;
-    font-size: 16px;    
-} 
-.yhdz_header div{
-    color: white;
-    text-align: center;
-    font-size: 16px;    
-} 
-.zxrs_header div{
-    color: white;
-    text-align: center;
-    font-size: 16px;    
-} 
-.zhszz_header div{
-    color: white;
-    text-align: center;
-    font-size: 16px;    
-} 
-.hjrkzz_header div{
-    color: white;
-    text-align: center;
-    font-size: 16px;    
-} 
-.zrk_body{
-  height: 0.5rem;
+.card_body{
+height: 0.5rem;
 }
-.zhs_body{
-  height: 0.5rem;
-}
-.yhdz_body{
-  height: 0.5rem;
-}
-.zxrs_body{
-  height: 0.5rem;
-}
-.zhszz_body{
-  height: 0.5rem;
-}
-.hjrkzz_body{
-  height: 0.5rem;
-}
-.zrk_body div{
+.card_body div{
   font-size: 0.3rem; 
 }
-.zhs_body div{
-  font-size: 0.3rem; 
-}
-.yhdz_body div{
-  font-size: 0.3rem; 
-}
-.zxrs_body div{
-  font-size: 0.3rem; 
-}
-.zhszz_body div{
-  font-size: 0.3rem; 
-}
-.hjrkzz_body div{
-  font-size: 0.3rem; 
-}
-
 
 </style>
