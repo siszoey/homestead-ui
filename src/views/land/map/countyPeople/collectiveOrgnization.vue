@@ -172,7 +172,7 @@ export default {
           break;
       }
       if (path != "") {
-        this.AjaxGetData(path);
+        // this.AjaxGetData(path);
       }
     },
     //ajax获取本地json文件行政区划
