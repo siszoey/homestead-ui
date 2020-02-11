@@ -101,6 +101,7 @@ export default {
       jtjyzzcydata: [],
       nfgyrdata: [],
       hjxxdata: [],
+      maxresult:5,
       cbfjtcydata_queryed: [
         {
           xm: "张清秀",
@@ -177,7 +178,7 @@ export default {
         .then(response => {
           // console.log(response.data.result);
           _this[datatype] = response.data.result;
-          _this[datatype + "_queryed"] = response.data.result;
+          _this[datatype + "_queryed"] = response.data.result.slice(0,_this.maxresult);
           //return;
         })
         //获取失败
@@ -190,24 +191,24 @@ export default {
     //搜索
     search() {
       if (this.query_xm == "") {
-        this.cbfjtcydata_queryed = this.cbfjtcydata;
-        this.jtjyzzcydata_queryed = this.jtjyzzcydata;
-        this.nfgyrdata_queryed = this.nfgyrdata;
-        this.hjxxdata_queryed = this.hjxxdata;
+        this.cbfjtcydata_queryed = this.cbfjtcydata.slice(0, this.maxresult);
+        this.jtjyzzcydata_queryed = this.jtjyzzcydata.slice(0, this.maxresult);
+        this.nfgyrdata_queryed = this.nfgyrdata.slice(0, this.maxresult);
+        this.hjxxdata_queryed = this.hjxxdata.slice(0, this.maxresult);
         return;
       } else {
         this.cbfjtcydata_queryed = this.cbfjtcydata.filter(
           data => data.xm.indexOf(this.query_xm) > -1
-        );
+        ).slice(0, this.maxresult);;
         this.jtjyzzcydata_queryed = this.jtjyzzcydata.filter(
           data => data.cyxm.indexOf(this.query_xm) > -1
-        );
+        ).slice(0, this.maxresult);;
         this.nfgyrdata_queryed = this.nfgyrdata.filter(
           data => data.qlrmc.indexOf(this.query_xm) > -1
-        );
+        ).slice(0, this.maxresult);;
         this.hjxxdata_queryed = this.hjxxdata.filter(
           data => data.hzxm.indexOf(this.query_xm) > -1
-        );
+        ).slice(0, this.maxresult);;
       }
     }
   }
