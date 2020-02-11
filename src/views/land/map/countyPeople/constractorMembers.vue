@@ -2,7 +2,6 @@
   <d2-container>
     <el-form
       :inline="true"
-      :model="queryForm"
       ref="queryForm"
       size="mini"
       style="margin-bottom: -25px; padding: 0 20px"
@@ -60,8 +59,6 @@
     <template slot="footer">
       <el-pagination
         background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :current-page="1"
         :page-sizes="[5,10,20,30,50]"
         :page-size="5"
