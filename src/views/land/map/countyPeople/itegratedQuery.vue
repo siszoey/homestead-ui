@@ -105,10 +105,51 @@ export default {
       jtjyzzcydata: [],
       nfgyrdata: [],
       hjxxdata: [],
-      cbfjtcydata_queryed: [],
-      jtjyzzcydata_queryed: [],
-      nfgyrdata_queryed: [],
-      hjxxdata_queryed: [],
+      cbfjtcydata_queryed: [
+        {
+          xm: "张清秀",
+          xb: "女",
+          zjlx: "",
+          zjh: "460100199102283210",
+          bh: "542221204202000169",
+          yqlrgx: "配偶",
+          hkxz: "农村户口",
+          gzdw: ""
+        }
+      ],
+      jtjyzzcydata_queryed: [
+        {
+          cyxm: "张清秀",
+          cyxb: "女",
+          cyzjlx: "",
+          cyzjhm: "460100199102283210",
+          djsj: "2019-1-2",
+          jthdm: "4601000010320046",
+          zgs: 10,
+          jbg: 10
+        }
+      ],
+      nfgyrdata_queryed: [
+        {
+          qlrmc: "张清秀",
+          xb: "女",
+          zjh: "460100199102283210",
+          bdcdyh: "320322014018JC00093F00010001",
+          qlrlx: "个人",
+          gyfs: "单独所有",
+          dz: "徐州市沛县魏庙镇王范庄村"
+        }
+      ],
+      hjxxdata_queryed: [
+        {
+          hzxm: "张清秀",
+          sfzh: "460100199102283210",
+          nl: "25",
+          jtzz: "海南省海口市龙华区街道56弄6号",
+          hkszd: "海南省海口市龙华区街道56弄6号",
+          jtzrs: "5"
+        }
+      ],
       ids: "",
       params: {
         title: ""
@@ -336,5 +377,13 @@ export default {
   padding: 20px;
   line-height: 50px;
   vertical-align: middle;
+}
+
+.el-divider {
+  margin-top: 40px;
+}
+
+.el-divider__text {
+  color: #2f74ff;
 }
 </style>
