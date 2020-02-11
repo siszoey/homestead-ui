@@ -149,38 +149,72 @@ export default {
     };
   },
   mounted: function() {
-    //初始化表格
-    let path =
-      "test-data/map/accountInformation/householdRegister/city/haikou.json";
-    this.AjaxGetData(path);
+    //加载初始数据
+    this.AjaxGetData(
+      "test-data/map/accountInformation/householdRegister/etc/constractorMembers.json",
+      "cbfjtcydata"
+    );
+    this.AjaxGetData(
+      "test-data/map/accountInformation/householdRegister/etc/collectiveOrgnization.json",
+      "jtjyzzcydata"
+    );
+    this.AjaxGetData(
+      "test-data/map/accountInformation/householdRegister/etc/farmhouseOwner.json",
+      "nfgyrdata"
+    );
+    this.AjaxGetData(
+      "test-data/map/accountInformation/householdRegister/city/haikou.json",
+      "hjxxdata"
+    );
   },
   methods: {
     //ajax获取本地行政区划下json文件数据
-    AjaxGetData(path) {
+    AjaxGetData(path, datatype) {
+      var _this = this;
       this.$axios
         .get(path)
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
-          console.log(response.data.result);
-          return response.data.result;
+          // console.log(response.data.result);
+          _this[datatype] = response.data.result;
+          _this[datatype + "_queryed"] = response.data.result;
+          //return;
         })
         //获取失败
         .catch(error => {
           console.log(error);
-          return [];
+          _this[datatype] = [];
           alert("网络错误，不能访问");
         });
     },
     //搜索
     search() {
-      //this.ajaxSync();
+      if (this.query_xm == "") {
+        this.cbfjtcydata_queryed = this.cbfjtcydata;
+        this.jtjyzzcydata_queryed = this.jtjyzzcydata;
+        this.nfgyrdata_queryed = this.nfgyrdata;
+        this.hjxxdata_queryed = this.hjxxdata;
+        return;
+      } else {
+        this.cbfjtcydata_queryed = this.cbfjtcydata.filter(
+          data => data.xm.indexOf(this.query_xm) > -1
+        );
+        this.jtjyzzcydata_queryed = this.jtjyzzcydata.filter(
+          data => data.cyxm.indexOf(this.query_xm) > -1
+        );
+        this.nfgyrdata_queryed = this.nfgyrdata.filter(
+          data => data.qlrmc.indexOf(this.query_xm) > -1
+        );
+        this.hjxxdata_queryed = this.hjxxdata.filter(
+          data => data.hzxm.indexOf(this.query_xm) > -1
+        );
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-
 .el-divider {
   margin-top: 40px;
 }
