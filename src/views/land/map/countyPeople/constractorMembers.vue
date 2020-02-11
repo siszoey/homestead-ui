@@ -47,7 +47,7 @@
       tooltip-effect="dark"
       style="width: 100%"
     >
-      <el-table-column prop="bh" label="编号" sortable></el-table-column>
+      <el-table-column prop="bh" label="承包方编码" sortable></el-table-column>
       <el-table-column prop="xm" label="姓名" sortable></el-table-column>
       <el-table-column prop="xb" label="性别" sortable></el-table-column>
       <el-table-column prop="zjh" label="证件号" sortable></el-table-column>
