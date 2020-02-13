@@ -373,10 +373,10 @@ export default {
   color: #fff;
   font-size: 14px;
   position: absolute;
-  width: 35px;
-  right: 330px;
+  width: 30px;
+  // right: 330px;
   top: 100px;
-  border-radius: 0 10px 10px 0;
+  border-radius: 10px 0 0 10px;
 }
 
 .tabitem {
