@@ -233,7 +233,7 @@
       <div class="text item">照片资料：</div>
       <el-image
         style="width: 300px; height: 150px"
-        src="/image/mapicon/testimage.png"
+        :src="imgsrc"
         :preview-src-list="srcList"
         z-index:9999
       ></el-image>
@@ -278,7 +278,8 @@ export default {
     return {
       flag: false,
       dialogVisible: false,
-      srcList: ["/image/mapicon/testimage.png"],
+      srcList: [],
+      imgsrc: "",
       map: null,
       layerOn: false,
       currentZD: null,
@@ -834,13 +835,15 @@ export default {
           })
             .then(res => {
               _this.CZGHInfo = res.data.features[0].properties;
-              // var element = _this.popup.getElement();
-              // _this.popup.setPosition(evt.coordinate);
-              // document.getElementById("popup_onemap").style.visibility =
-              //   "visible";
+              _this.imgsrc =
+                "/image/mapicon/testimage/" +
+                _this.getRandomInt(1, 10) +
+                ".JPG";
+              _this.srcList = [_this.imgsrc];
               _this.dialogVisible = true;
             })
-            .catch(error => {});
+            .catch(error => {
+            });
         }
       });
     });
@@ -868,6 +871,9 @@ export default {
         document.getElementById("mapPanel").style.display = "block";
         document.getElementById("leftPanel").style.height = "100%";
       }
+    },
+    getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     },
     doZoomToZD() {
       if (!this.zoomToZD) return;
