@@ -202,7 +202,7 @@
     </div>
 
     <div id="maponemap" class="mapDiv"></div>
-    <ToolBar id="toolbar" style="padding-right:400px;"></ToolBar>
+    <ToolBar id="toolbar" style="padding-right:400px;" v-on:switchXzqh="zoomToXzqh"></ToolBar>
     <RightChart
       v-if="flag"
       :ChartIndex="ChartIndex"
@@ -261,6 +261,7 @@ import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
 import Axios from "axios";
+import mapBase from '../spatialData/mapBase.js';
 
 export default {
   props: {
@@ -816,6 +817,7 @@ export default {
       //点击事件
       let _this = this;
       this.map.on("singleclick", function(evt) {
+        if (_this.GTKJGH.Layer == null) return;
         var view = _this.map.getView();
         var viewResolution = view.getResolution();
         var source = _this.GTKJGH.Layer.getSource();
@@ -842,8 +844,7 @@ export default {
               _this.srcList = [_this.imgsrc];
               _this.dialogVisible = true;
             })
-            .catch(error => {
-            });
+            .catch(error => {});
         }
       });
     });
@@ -909,6 +910,19 @@ export default {
         }
       });
       this.map.addLayer(this.currentZD);
+    },
+    zoomToXzqh(xzqhdm) {
+      if (!this.XZQ.Visible) return;
+      var _this = this;
+      var layer =mapBase.BaseCreateRegionVectorFromServer(xzqhdm);
+      _this.map.addLayer(layer);
+      layer.getSource().on("change", function(evt) {
+        var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === "ready") {
+          _this.map.values_.view.fit(source.getExtent()); //自动缩放
+          _this.map.removeLayer(layer);
+        }
+      });
     },
     //切换图层显示
     changeLayer(LayerName) {
@@ -1133,6 +1147,12 @@ export default {
     //行政区边界
     InitXZQ() {
       var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, "469005115"); //this.xzqhdm
+      // Region_Layer.getSource().on("change", function(evt) {
+      //   var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
+      //   if (source.getState() === "ready") {
+      //     alert("success");
+      //   }
+      // });
       return Region_Layer;
     },
     //天地图底图
