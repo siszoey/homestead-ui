@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       isVisible: true,
-      arrowimage: "/image/chart/rightarrow.png",
+      arrowimage: "/image/chart/leftarrow.png",
       projectCount: 0,
       buildArea: 0,
       investMoney: 0,
@@ -74,7 +74,7 @@ export default {
   methods: {
     switchPanel: function() {
       this.isVisible = !this.isVisible;
-      if (!this.isVisible) {
+      if (this.isVisible) {
         this.arrowimage = "/image/chart/leftarrow.png";
         document.getElementById("RightPanel").style.visibility = "hidden";
       } else {
@@ -222,6 +222,7 @@ export default {
   width: 400px;
   height: 100%;
   pointer-events: auto;
+  visibility: hidden;
 }
 
 .PanelSwitch {
