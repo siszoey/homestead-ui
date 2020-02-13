@@ -84,6 +84,8 @@
 
             <div style="float: right">
               <el-form-item>
+                <el-button type="primary" icon="el-icon-statistics" @click="statistics">统计分析</el-button>
+                <el-button type="success" icon="el-icon-search" v-on:click="add()">新增</el-button>
                 <el-button type="primary" icon="el-icon-search" v-on:click="search()">查询</el-button>
                 <el-button type="default" @click="search()">
                   <d2-icon name="refresh" />
@@ -95,7 +97,7 @@
         </el-col>
       </el-row>
       <el-row style="padding-bottom:25px">
-        <el-col :span="12" style="padding: 0px 5px 0px 25px">
+        <el-col style="padding: 0px 5px 0px 25px" :span="showFileView ? 15: 24"  >
           <el-table
             element-loading-text="拼命加载中..."
             highlight-current-row
@@ -105,12 +107,19 @@
             tooltip-effect="dark"
             style="width: 100%"
           >
-            <el-table-column prop="hzxm" label="户主姓名" sortable></el-table-column>
+            <el-table-column prop="hzxm" label="户主姓名" width="90" sortable></el-table-column>
             <el-table-column prop="sfzh" label="身份证号" sortable></el-table-column>
-            <el-table-column prop="nl" label="年龄" sortable></el-table-column>
+            <el-table-column prop="nl" label="年龄" width="60" sortable></el-table-column>
             <el-table-column prop="jtzz" label="家庭住址" sortable></el-table-column>
             <el-table-column prop="hkszd" label="户口所在地" sortable></el-table-column>
-            <el-table-column prop="jtzrs" label="家庭总人数" sortable></el-table-column>
+            <el-table-column prop="jtzrs" label="家庭总人数" width="100" sortable></el-table-column>
+            <el-table-column fixed="right" align="center" label="操作" width="100">
+                <template>
+                    <el-button size="mini" type="primary" @click="handleUpdate(row)"
+                        icon="el-icon-edit">查看详情
+                    </el-button>
+                </template>
+            </el-table-column>
           </el-table>
           <!-- footer 分页条 -->
           <el-pagination
@@ -124,14 +133,40 @@
               :pager-count="4"
               style="margin-top:35px;text-align:center"
           ></el-pagination>
+          <!-- 详情弹框 -->
+          <el-dialog title="农村人口详情信息" :visible.sync="editFormVisible" top="5vh">
+              <el-form :model="editForm" label-width="80px" ref="editForm">
+                <el-form-item label="户主姓名" prop="hzxm">
+                  <el-input v-model="editForm.hzxm" auto-complete="off"></el-input>
+                </el-form-item>
+                 <el-form-item label="身份证号" prop="sfzh">
+                  <el-input v-model="editForm.sfzh" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="年龄" prop="nl">
+                  <el-input v-model="editForm.nl" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="家庭住址" prop="jtzz">
+                  <el-input v-model="editForm.jtzz" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="户口所在地" prop="hkszd">
+                  <el-input v-model="editForm.hkszd" auto-complete="off"></el-input>
+                </el-form-item>
+                  <el-form-item label="家庭总人数" prop="jtzrs">
+                  <el-input v-model="editForm.jtzrs" auto-complete="off"></el-input>
+                </el-form-item>                  
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click.native="editFormVisible = false">确定</el-button>
+              </div>
+          </el-dialog>
         </el-col>
-        <el-col :span="12" style="padding:0px 25px 0px 5px;height:610px;">
-          <el-row style="margin-top:0px">
-            <el-col :span="24" style="height:300px;border:1px solid #F2F2F2">
+        <el-col :span="9" style="padding:0px 25px 0px 5px;height:610px;" v-if="showFileView">
+          <el-row style="margin-top:10px">
+            <el-col :span="24" style="height:300px;width:550px;border:1px solid #F2F2F2">
               <p class="header-title">一户多宅的统计</p>
               <div ref="pieMain" :style="{width: '100%',height:'250px',margin:'0 auto'}"></div>
             </el-col>
-            <el-col :span="24" style="height:300px;margin-top:10px;border:1px solid #F2F2F2">
+            <el-col :span="24" style="height:300px;width:550px;margin-top:10px;border:1px solid #F2F2F2">
               <p class="header-title">历年一户多宅及家庭户变化情况</p>
               <div ref="lineMain" :style="{width: '100%',height:'250px',margin:'0 auto'}"></div>
             </el-col>
@@ -151,7 +186,18 @@ export default {
   mixins: [dictMixins],
   data() {
     return {
+      showFileView: false,//右侧统计图表是否显示
       tableData: [],
+      editFormVisible: false,//详情界面是否显示
+      //详情界面数据
+			editForm: {
+				hzxm: '',
+        sfzh: '',
+        nl:'',
+        jtzz:'',
+        hkszd:'',
+        jtzrs:''
+			},
       lineDatas: [
           { name: "2012", value: "" },
           { name: "2013", value: "" },
@@ -186,6 +232,7 @@ export default {
     };
   },
   mounted: function() {
+    console.log(111);
     //获取海南市级行政区
     let sj_fileName = "echarts-map/province/json/hainan.json";
     this.requestAjax(sj_fileName, 2);
@@ -200,8 +247,10 @@ export default {
       "test-data/map/accountInformation/householdRegister/city/haikou.json";
     this.AjaxGetData(path);
     //加载图表数据
-    this.LineChart();
-    this.getChartData();
+    //this.LineChart();
+    //this.getChartData();
+    // this.IniPieChart();
+    //  this.LineChart();
     //当页面大小发生变化时，echarts统计图根据画布大小自动重新绘制
     window.addEventListener("resize", () => {
       this.lineChart.resize();
@@ -209,12 +258,27 @@ export default {
     });
   },
   methods: {
-    getChartData() {
-      //饼状图请求方法
+    //统计分析事件
+    statistics(){
+      this.showFileView = this.showFileView ? false : true;
       this.IniPieChart();
-      //折线图请求方法
-      this.LineChart()
+      this.LineChart();
     },
+    // getChartData() {
+    //     //饼状图请求方法
+    //     this.IniPieChart();
+    //     //折线图请求方法
+    //     this.LineChart()
+    //   },
+    //查看详情事件
+    handleUpdate(row) {
+      this.editFormVisible = true;
+      },
+      //新增事件
+      add(){
+       this.editFormVisible = true;
+      },
+  
     //获取表格数据
     changeCity(value) {
       let fileName = "";
@@ -331,6 +395,7 @@ export default {
           alert("网络错误，不能访问");
         });
     },
+
     //搜索
     search() {
       this.ajaxSync();
@@ -537,9 +602,6 @@ export default {
       // 使用刚指定的配置项和数据显示图表。
       this.pieChart.setOption(option);
     }
-
-
-
   }
 };
 </script>
