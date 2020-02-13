@@ -124,6 +124,9 @@
           <span class="label">农村闲置宅基地</span>
           <span class="value">2.25</span>
           <span class="unit">万亩</span>
+          <span class="label" style="margin-left:10px">盘活利用</span>
+          <span class="value">1.5</span>
+          <span class="unit">万亩</span>
         </div>
 
         <el-progress
@@ -136,6 +139,9 @@
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置住宅</span>
           <span class="value">22.5</span>
+          <span class="unit">万幢</span>
+          <span class="label">,盘活利用</span>
+          <span class="value">2.5</span>
           <span class="unit">万幢</span>
         </div>
 

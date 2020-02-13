@@ -328,6 +328,10 @@
         for (let index = 0; index < 4; index++) {
           this.form.jtcy.push(Object.assign({}, applicationFormTempData.jtcy[index]))
         }
+       
+      },
+       emitChangeSendState (state,formdata) {
+        this.$emit('change-send-state',state,formdata)
       },
       initJTCY(){
         if (this.disabled && this.detail != undefined) {
@@ -416,11 +420,13 @@
                   'next_blzt': this.getOptCode("办理状态", "待办"),
                   'next_roleid': this.getDictByOptCode("流程角色", "1").optName,
                   'next_xmzt': this.getDictByOptCode("项目状态", "1").optCode,
-                }).then(() => {
+                }).then((jl) => {
                   this.$message({
                     message: '申请成功',
                     type: 'success'
                   })
+                  console.log(jl)
+                  this.emitChangeSendState(true,jl)
                 })
               }).catch(() => {
                 this.$message({

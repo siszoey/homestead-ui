@@ -36,7 +36,7 @@ export default {
     return {
       chartindex: 0,
       isVisible: true,
-      arrowimage: "/image/chart/rightarrow.png",
+      arrowimage: "/image/chart/leftarrow.png",
       projectCount: 0,
       buildArea: 0,
       investMoney: 0,
