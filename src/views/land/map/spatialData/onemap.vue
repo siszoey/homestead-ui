@@ -202,8 +202,13 @@
     </div>
 
     <div id="maponemap" class="mapDiv"></div>
-    <ToolBar style="padding-right:400px;"></ToolBar>
-    <RightChart v-if="flag" :legends="legend" :data="data" :content="content"></RightChart>
+    <ToolBar id="toolbar" style="padding-right:400px;"></ToolBar>
+    <RightChart
+      v-if="flag"
+      :ChartIndex="ChartIndex"
+      :tabs="tabs"
+      v-on:switchPanel="changeToolbarPosition"
+    ></RightChart>
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
     <el-dialog
       class="box-card right-side"
@@ -261,7 +266,7 @@ export default {
   props: {
     hiddenToolbar: {
       type: Boolean,
-      default: true
+      default: false
     },
     zoomToZD: {
       type: Boolean,
@@ -279,6 +284,8 @@ export default {
       currentZD: null,
       xzqhdm: "469005115201",
       popup: null,
+      ChartIndex: 0,
+      tabs: [],
       CZGHInfo: {
         QSDWMC: "",
         OBJECTID: "",
@@ -329,7 +336,7 @@ export default {
       },
       GTKJGH: {
         Layer: null,
-        Visible: true,
+        Visible: false,
         CheckAll: [true, true, true],
         Features: [],
         Boxs: [
@@ -771,62 +778,7 @@ export default {
         CheckAll: [true],
         Features: [],
         Boxs: []
-      },
-      legend: [],
-      data: [],
-      content: [],
-      legends: [
-        ["农村宅基地", "闲置宅基地", "未批先建", "已批已建", "已批未建"],
-        [
-          "农村住宅",
-          "季节性闲置住宅",
-          "常年闲置住宅",
-          "盘活利用住宅",
-          "一户多宅",
-          "一宅超限"
-        ],
-        ["农用地", "建设用地", "未利用地"],
-        [
-          "一般耕地",
-          "保护林地",
-          "基本农田",
-          "乡村建设用地",
-          "旅游建设用地",
-          "后备林地"
-        ]
-      ],
-      datas: [
-        [57, 22, 3, 34, 5],
-        [53, 12, 1, 34, 10, 2],
-        [1764.5, 432.5, 374.2],
-        [38.5, 1246, 1341.2, 276.5, 244.8, 1585.9]
-      ],
-      contents: [
-        [
-          "农村宅基地情况统计",
-          "农村宅基地各类型所占比例",
-          "该区域农村宅基地总数量",
-          "121(宗)"
-        ],
-        [
-          "农村住宅情况统计",
-          "农村住宅各类型所占比例",
-          "该区域农村住宅总数量",
-          "112(套)"
-        ],
-        [
-          "土地利用现状统计",
-          "各土地类型所占比例",
-          "该区域土地总面积",
-          "2463.12(亩)"
-        ],
-        [
-          "村庄规划情况统计",
-          "各土地类型所占比例",
-          "该区域村庄规划总面积",
-          "3562.9(亩)"
-        ]
-      ]
+      }
     };
   },
   components: {
@@ -900,6 +852,13 @@ export default {
       this.dialogVisible = false;
     },
     stop() {},
+    changeToolbarPosition(padding) {
+      if (padding) {
+        document.getElementById("toolbar").style.paddingRight = "330px";
+      } else {
+        document.getElementById("toolbar").style.paddingRight = "50px";
+      }
+    },
     //切换面板显示
     changeToolbar() {
       if (this.hiddenToolbar) {
@@ -951,12 +910,13 @@ export default {
         if (this[LayerName].Layer == null) {
           this.InitLayer(LayerName);
         } else this.map.addLayer(this[LayerName].Layer);
-        this.changeChartData(LayerName);
+        this.changeChartData(LayerName, true);
       } else {
         this.map.removeLayer(this[LayerName].Layer);
+        this.changeChartData(LayerName, false);
       }
     },
-    changeChartData(LayerName) {
+    changeChartData(LayerName, isShow) {
       this.flag = false;
       var index = -1;
       if (LayerName == "XZDCCG") {
@@ -969,9 +929,16 @@ export default {
         index = 1;
       }
       if (index == -1) return;
-      this.legend = this.legends[index];
-      this.data = this.datas[index];
-      this.content = this.contents[index];
+      if (isShow) {
+        //增加一个新的tab
+        this.tabs.push(index);
+        this.ChartIndex = index;
+      } else {
+        //关闭一个tab
+        this.ChartIndex = -1;
+        this.tabs.splice(this.tabs.indexOf(index), 1);
+      }
+
       this.flag = true;
     },
     //全选（全不选）
@@ -1031,16 +998,12 @@ export default {
       }
       if (LayerName == "XZDCCG") {
         this.XZDCCG.Layer = this.InitXZDCCG();
-        //this.changeChartData(0);
       } else if (LayerName == "GTKJGH") {
         this.GTKJGH.Layer = this.InitGTKJGH();
-        //this.changeChartData(2);
       } else if (LayerName == "CZGH") {
         this.CZGH.Layer = this.InitCZGH();
-        //this.changeChartData(3);
       } else if (LayerName == "NFJSFB") {
         this.NFJSFB.Layer = this.InitNFJSFB();
-        //this.changeChartData(1);
       } else if (LayerName == "XZQ") {
         this.XZQ.Layer = this.InitXZQ();
       } else if (LayerName == "DT") {
@@ -1163,7 +1126,7 @@ export default {
     },
     //行政区边界
     InitXZQ() {
-      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm);
+      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, "469005115"); //this.xzqhdm
       return Region_Layer;
     },
     //天地图底图
@@ -1219,7 +1182,7 @@ export default {
   //min-width: 120px;
   width: 100%;
   color: black;
-  font-size: 16px;
+  font-size: 14px;
   padding-left: 10px;
   &:hover {
     background-color: rgb(241, 243, 247);
