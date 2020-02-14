@@ -375,7 +375,7 @@
       }
       //默认年份为上一年度
       this.year = tYear - 1;
-      console.log(this.years);
+      // console.log(this.years);
       // this.echartObj = echarts.init(document.getElementById(this.id));
       var currentRegionLayer;
       var xzqhdm = "469005115201";
@@ -407,7 +407,7 @@
           .get(fileName)
           //then获取成功；response成功后的返回值（对象）
           .then(response => {
-            console.log(response.data.features); //[0].properties.name
+            // console.log(response.data.features); //[0].properties.name
             if (level == "3") {
               _this.counties = response.data.features;
             } else if (level == "2") {

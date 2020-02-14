@@ -179,7 +179,7 @@
           .get(fileName)
           //then获取成功；response成功后的返回值（对象）
           .then(response => {
-            console.log(response.data.features); //[0].properties.name
+            // console.log(response.data.features); //[0].properties.name
             if (level == "3") {
               _this.counties = response.data.features;
             } else if (level == "2") {
