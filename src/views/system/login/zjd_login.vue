@@ -11,7 +11,7 @@
               <i>
                 <img src="./image/login_icon.png" width="50px" height="50px" />
               </i>
-              <el-dropdown size="small" class="d2-mr">
+              <el-dropdown size="small">
                 <span class="btn-text">{{info.name}}</span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item @click.native="logOff">
@@ -25,14 +25,14 @@
           <div class="login-btn" v-else style="width: 600px;">
             <el-form :inline="true" ref="loginForm" :rules="rules" :model="formLogin"
               class="demo-form-inline login-text" size="small">
-              <el-form-item label="用户名:">
-                <el-input v-model="formLogin.username" placeholder="用户名"></el-input>
+              <el-form-item label="用户名:" class="form_item_lable from_item">
+                <el-input v-model="formLogin.username" class="formLogin_input" placeholder="用户名"></el-input>
               </el-form-item>
-              <el-form-item label="密码:">
-                <el-input v-model="formLogin.password" placeholder="密码"></el-input>
+              <el-form-item label="密码:" class="form_item_lable from_item">
+                <el-input v-model="formLogin.password" class="formLogin_input" placeholder="密码" show-password></el-input>
               </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="submit" class="button-login" size="small">登录</el-button>
+              <el-form-item class="from_item">
+                <el-button type="primary" @click="submit" class="button-login" size="mini">登录</el-button>
               </el-form-item>
             </el-form>
 
@@ -203,7 +203,7 @@
     }
   };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .page-login {
     height: 100%;
     position: relative;
@@ -363,18 +363,18 @@
     }
   }
 
-  .el-input {
+  .formLogin_input {
     width: 150px;
     border-radius: 2px !important;
   }
 
-  .el-input__inner{
+  .formLogin_input .el-input__inner{
     background-color: rgba(255,255,255,0);
     color: #fff;
     border-radius: 2px;
   }
 
-  .el-form-item__label {
+  .form_item_lable .el-form-item__label{
     color: #FFF;
     font-size: 16px;
   }
@@ -392,8 +392,9 @@
   }
   .button-login span{
     color: #303823 !important;
+    font-size: 16px !important;
   }
-  .el-form-item{
+  .from_item{
     margin-bottom: 0px !important;
   }
 </style>

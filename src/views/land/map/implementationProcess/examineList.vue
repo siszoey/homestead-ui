@@ -138,7 +138,7 @@
             :page-size="table.size"
             layout="total, prev, pager, next, jumper"
             :total="table.total"
-            :pager-count="4"
+            :page-count="4"
             style="margin-top:35px;text-align:center"
           ></el-pagination>
         </el-col>

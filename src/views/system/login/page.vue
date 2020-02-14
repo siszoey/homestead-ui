@@ -234,7 +234,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .page-login {
   // @extend %unable-select;
   // $backgroundColor: #F0F2F5;
