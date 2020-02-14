@@ -50,7 +50,7 @@ export default {
 <style lang="scss" scoped>
 .toolbarContainer {
   right: 30px;
-  top: 10px;
+  top: 30px;
   position: absolute;
 }
 .toolbar {
@@ -59,8 +59,8 @@ export default {
   box-shadow: 0px 0px 1px gray;
   border-radius: 5px;
   .toolButton {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     float: left;
     align-items: center;

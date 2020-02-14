@@ -9,7 +9,7 @@ export default function(iotHeader) {
         name: 'land-map',
         meta: {
             ...meta,
-            title: '一张图'
+            title: '宅基地一张图'
         },
         redirect: { name: 'land-map-spatialData-onemap' },
         component: iotHeader,
@@ -92,7 +92,7 @@ export default function(iotHeader) {
                         meta: {
                             ...meta,
                             ismap: true,
-                            title: '年度计划一览表'
+                            title: '年度计划'
                         }
                     },
                     {
@@ -101,7 +101,7 @@ export default function(iotHeader) {
                         component: _import('land/map/accountInformation/landIndex.vue'),
                         meta: {
                             ...meta,
-                            title: '用地指标一览表'
+                            title: '用地指标'
                         }
                     },
                     {
@@ -110,7 +110,7 @@ export default function(iotHeader) {
                         component: _import('land/map/accountInformation/IllegalHouse.vue'),
                         meta: {
                             ...meta,
-                            title: '违法建房一览表'
+                            title: '违法建房'
                         }
                     },
                     {
@@ -119,7 +119,7 @@ export default function(iotHeader) {
                         component: _import('land/map/accountInformation/revitalizeUse.vue'),
                         meta: {
                             ...meta,
-                            title: '盘活利用一览表'
+                            title: '盘活利用'
                         }
                     },
                     // {
@@ -155,46 +155,6 @@ export default function(iotHeader) {
                         }
                     },
                     {
-                        path: 'constractorMembers',
-                        name: `${pre}constractorMembers`,
-                        component: _import('land/map/countyPeople/constractorMembers.vue'),
-                        meta: {
-                            ...meta,
-                            ismap: true,
-                            title: '承包方家庭成员'
-                        }
-                    },
-                    {
-                        path: 'collectiveOrgnization',
-                        name: `${pre}collectiveOrgnization`,
-                        component: _import('land/map/countyPeople/collectiveOrgnization.vue'),
-                        meta: {
-                            ...meta,
-                            ismap: true,
-                            title: '集体经营组织成员'
-                        }
-                    },
-                    {
-                        path: 'farmhouseOwner',
-                        name: `${pre}farmhouseOwner`,
-                        component: _import('land/map/countyPeople/farmhouseOwner.vue'),
-                        meta: {
-                            ...meta,
-                            ismap: true,
-                            title: '农房共有人信息'
-                        }
-                    },
-                    {
-                        path: 'householdRegister',
-                        name: `${pre}householdRegister`,
-                        component: _import('land/map/countyPeople/householdRegister.vue'),
-                        meta: {
-                            ...meta,
-                            ismap: true,
-                            title: '户籍信息'
-                        }
-                    },
-                    {
                         path: 'itegratedQuery',
                         name: `${pre}itegratedQuery`,
                         component: _import('land/map/countyPeople/itegratedQuery.vue'),
@@ -203,6 +163,58 @@ export default function(iotHeader) {
                             ismap: true,
                             title: '联合查询'
                         }
+                    },
+                    {
+                        path: 'dataSource',
+                        name: `${pre}dataSource`,
+                        component: _import('land/components/blankrouterview.vue'),
+                        redirect: { name: 'land-map-countyPeople-constractorMembers' },
+                        meta: {
+                            ...meta,
+                            title: '数据来源'
+                        },
+                        children: [
+                            {
+                                path: 'constractorMembers',
+                                name: `${pre}constractorMembers`,
+                                component: _import('land/map/countyPeople/constractorMembers.vue'),
+                                meta: {
+                                    ...meta,
+                                    ismap: true,
+                                    title: '承包方家庭成员'
+                                }
+                            },
+                            {
+                                path: 'collectiveOrgnization',
+                                name: `${pre}collectiveOrgnization`,
+                                component: _import('land/map/countyPeople/collectiveOrgnization.vue'),
+                                meta: {
+                                    ...meta,
+                                    ismap: true,
+                                    title: '集体经济组织成员'
+                                }
+                            },
+                            {
+                                path: 'farmhouseOwner',
+                                name: `${pre}farmhouseOwner`,
+                                component: _import('land/map/countyPeople/farmhouseOwner.vue'),
+                                meta: {
+                                    ...meta,
+                                    ismap: true,
+                                    title: '宅基地使用权共有人'
+                                }
+                            },
+                            {
+                                path: 'householdRegister',
+                                name: `${pre}householdRegister`,
+                                component: _import('land/map/countyPeople/householdRegister.vue'),
+                                meta: {
+                                    ...meta,
+                                    ismap: true,
+                                    title: '公安户籍人口'
+                                }
+                            }
+                        ]
                     }
                 ])('land-map-countyPeople-')
             },

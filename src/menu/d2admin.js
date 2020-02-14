@@ -23,33 +23,40 @@ const map = {
       path: `${pre}/accountInformation`,
       title: '台账信息',
       children: (pre => [
-        { path: `${pre}/yearPlan`, title: '年度计划一览表' },
-        { path: `${pre}/landIndex`, title: '用地指标一览表' },
-        { path: `${pre}/IllegalHouse`, title: '违法建房一览表' },
-        { path: `${pre}/revitalizeUse`, title: '盘活利用一览表' },
+        { path: `${pre}/yearPlan`, title: '年度计划' },
+        { path: `${pre}/landIndex`, title: '用地指标' },
+        { path: `/land/map/implementationProcess/examinePic`, title: '审批管理' },
+        { path: `${pre}/IllegalHouse`, title: '违法建房' },
+        { path: `${pre}/revitalizeUse`, title: '盘活利用' },
         // { path: `${pre}/householdRegister`, title: '户籍信息一览表' },
       ])('/land/map/accountInformation')
     },
     {
       path: `${pre}/countyPeople`,
       title: '农村人口',
-      children: (pre => [
+      children: (pre => [      
         { path: `${pre}/summary`, title: '农村人口一览表' },
-        { path: `${pre}/constractorMembers`, title: '承包方家庭成员' },
-        { path: `${pre}/collectiveOrgnization`, title: '集体经营组织成员' },
-        { path: `${pre}/farmhouseOwner`, title: '农房共有人信息' },
-        { path: `${pre}/householdRegister`, title: '户籍信息' },
-        { path: `${pre}/itegratedQuery`, title: '联合查询' }
+        { path: `${pre}/itegratedQuery`, title: '联合查询' },
+        { 
+          path: `${pre}/dataSource`,
+          title: '数据来源',
+          children:(pre => [
+            { path: `${pre}/constractorMembers`, title: '承包方家庭成员' },
+            { path: `${pre}/collectiveOrgnization`, title: '集体经济组织成员' },
+            { path: `${pre}/farmhouseOwner`, title: '宅基地使用权共有人' },
+            { path: `${pre}/householdRegister`, title: '公安户籍人口' }
+          ])(`${pre}/dataSource`)
+        }
       ])('/land/map/countyPeople')
-    },
-    {
-      path: `${pre}/implementationProcess`,
-      title: '实施过程',
-      children: (pre => [
-        // { path: `${pre}/examineList`, title: '审批一览表' },
-        { path: `${pre}/examinePic`, title: '审批一张图' },
-      ])('/land/map/implementationProcess')
     }
+    // {
+    //   path: `${pre}/implementationProcess`,
+    //   title: '实施过程',
+    //   children: (pre => [
+    //     // { path: `${pre}/examineList`, title: '审批一览表' },
+    //     { path: `${pre}/examinePic`, title: '审批一张图' },
+    //   ])('/land/map/implementationProcess')
+    // }
   ])('/land/map')
 }
 
@@ -129,10 +136,17 @@ const utilize = {
   alias: 'index',
   icon: 'utilize',
   children: (pre => [
-    { path: `${pre}/InformationStatistics`, title: '信息统计' },
-    { path: `${pre}/InformationList`, title: '信息列表' },
-    { path: `${pre}/InformationRelease`, title: '信息发布' },
-    { path: `${pre}/RegistrantAdministration`, title: '注册人管理' }
+    { path: `${pre}/utilizeAnalyse`, title: '盘活利用分析' },
+    { 
+      path: `${pre}/shareManager`,
+      title: '共享农房管理',
+      children: (pre => [
+        { path: `${pre}/InformationStatistics`, title: '信息统计' },
+        { path: `${pre}/InformationList`, title: '信息列表' },
+        { path: `${pre}/InformationRelease`, title: '信息发布' },
+        { path: `${pre}/RegistrantAdministration`, title: '注册人管理' }
+      ])(`${pre}/shareManager`)
+    }
   ])('/land/utilize')
 }
 
@@ -168,7 +182,7 @@ export const menuHeader = [
   },
   {
     path: '/land/map',
-    title: '一张图'
+    title: '宅基地一张图'
   },
   {
     path: '/land/examine',
