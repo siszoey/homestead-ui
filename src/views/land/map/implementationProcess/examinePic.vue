@@ -2,7 +2,7 @@
   <div id="app" style="width:100%;height:100%;">
     <div class="left-side" id="leftPanel">
       <div style="text-align:center;background-color: #f7f7f7d1;">
-        <el-switch style="height:50px;" inactive-text="表格控制" active-text v-model="hiddenToolbar"
+        <el-switch style="height:50px;" inactive-text="审批管理" active-text v-model="hiddenToolbar"
           @change="changeToolbar()"></el-switch>
       </div>
       <el-card class="box-card left-side" id="mapPanel">
@@ -68,7 +68,7 @@
     props: {
       hiddenToolbar: {
         type: Boolean,
-        default: true
+        default: false
       }
     },
     data() {

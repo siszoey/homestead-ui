@@ -2,7 +2,7 @@
   <div id="app" style="width:97%;height:96%">
     <div class="left-side" id="leftPanel">
       <div style="text-align:center;background-color: #f7f7f7d1;">
-        <el-switch style="height:50px;" inactive-text="表格控制" active-text v-model="hiddenToolbar"
+        <el-switch style="height:50px;" inactive-text="盘活利用" active-text v-model="hiddenToolbar"
           @change="changeToolbar()"></el-switch>
       </div>
       <!-- <hr /> -->
@@ -168,7 +168,7 @@
     props: {
       hiddenToolbar: {
         type: Boolean,
-        default: true
+        default: false
       }
     },
     data() {
