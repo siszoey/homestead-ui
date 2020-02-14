@@ -70,6 +70,7 @@ const examine = {
         { path: `${pre}/todo`, title: '待办箱', badge: 13 },
         { path: `${pre}/done`, title: '已办箱', badge: 14 },
         { path: `${pre}/rollback`, title: '退件箱', badge: 2 },
+        { path: `${pre}/batchreport`, title: '批量上报', badge: 10},
         { path: `${pre}/comprehensive`, title: '综合管理', badge: 29 }
       ])('/land/examine/business')
     },
