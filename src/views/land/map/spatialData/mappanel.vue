@@ -140,7 +140,7 @@
           <span class="label">农村闲置住宅</span>
           <span class="value">22.5</span>
           <span class="unit">万幢</span>
-          <span class="label">,盘活利用</span>
+          <span class="label" style="margin-left:10px">盘活利用</span>
           <span class="value">2.5</span>
           <span class="unit">万幢</span>
         </div>
