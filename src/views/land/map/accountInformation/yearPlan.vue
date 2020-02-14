@@ -55,7 +55,7 @@
       tooltip-effect="dark"
       style="width: 100%"
     >
-      <el-table-column prop="szsx" label="所在市/县" sortable></el-table-column>
+      <el-table-column prop="szsx" label="所在村/居" sortable></el-table-column>
       <el-table-column prop="zzmj" label="住宅面积/亩" sortable width="120px"></el-table-column>
       <el-table-column prop="dlmj" label="道路面积/亩" sortable></el-table-column>
       <el-table-column prop="gsmj" label="供水面积/亩" sortable></el-table-column>

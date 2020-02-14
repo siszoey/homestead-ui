@@ -8,7 +8,7 @@
       <!-- <hr /> -->
       <el-card class="box-card" id="mapPanel">
         <div slot="header" class="clearfix">
-          <span class="card-title">各县市用地情况统计排行</span>
+          <span class="card-title">各村/居用地情况统计排行</span>
         </div>
         <div class="text item">
           <label class="year-column-r">年份</label>
@@ -22,7 +22,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">龙华区（亩）</span>
+          <span class="demonstration">铺前圩社区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -42,7 +42,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">美兰区（亩）</span>
+          <span class="demonstration">地太村（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -62,7 +62,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（亩）</span>
+          <span class="demonstration">东坡村（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -82,7 +82,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">秀英区（亩）</span>
+          <span class="demonstration">林梧村（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>
@@ -102,7 +102,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（亩）</span>
+          <span class="demonstration">隆丰村（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-blue"></div>盘活用地
           </span>

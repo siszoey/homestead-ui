@@ -8,7 +8,7 @@
       <!-- <hr /> -->
       <el-card class="box-card" id="mapPanel">
         <div slot="header" class="clearfix">
-          <span class="card-title">各县市违法建房情况统计排行</span>
+          <span class="card-title">各村/居违法建房情况统计排行</span>
         </div>
         <div class="text item">
           <label class="year-column-l">年份</label>
@@ -22,7 +22,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">龙华区（亩）</span>
+          <span class="demonstration">铺前圩社区（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -35,7 +35,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">美兰区（亩）</span>
+          <span class="demonstration">地太村（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -48,7 +48,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（亩）</span>
+          <span class="demonstration">东坡村（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -61,7 +61,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">秀英区（亩）</span>
+          <span class="demonstration">林梧村（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -74,7 +74,7 @@
         </div>
         <div class="text item">
           <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">琼山区（亩）</span>
+          <span class="demonstration">隆丰村（亩）</span>
           <span class="demonstration" style="float:right">
             <div class="color-box-orange"></div>违法占地
           </span>
@@ -139,31 +139,31 @@
         map: null,
         tableData: [
           {
-            xzq: "龙华区",
+            xzq: "铺前圩社区",
             zzyd: "9460.81",
             wfzd: "5460.81",
             szbl: "39%"
           },
           {
-            xzq: "美兰区",
+            xzq: "地太村",
             zzyd: "75765.81",
             wfzd: "7656.81",
             szbl: "25%"
           },
           {
-            xzq: "琼山区",
+            xzq: "东坡村",
             zzyd: "3243.81",
             wfzd: "9732.81",
             szbl: "67%"
           },
           {
-            xzq: "秀英区",
+            xzq: "林梧村",
             zzyd: "9875.81",
             wfzd: "2323.81",
             szbl: "21%"
           },
           {
-            xzq: "琼山区",
+            xzq: "隆丰村",
             zzyd: "7657.81",
             wfzd: "6942.81",
             szbl: "56%"
