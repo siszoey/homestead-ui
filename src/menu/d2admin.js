@@ -86,6 +86,7 @@ export function creatAsideMenu ({ agentBoxCount = 1, completedCount = 0, rollbac
           { path: `${pre}/todo`, title: '待办箱', badge: agentBoxCount },
           { path: `${pre}/done`, title: '已办箱', badge: completedCount },
           { path: `${pre}/rollback`, title: '退件箱', badge: rollbackCount },
+          { path: `${pre}/batchreport`, title: '批量上报', badge: 10 },
           { path: `${pre}/comprehensive`, title: '综合管理', badge: totalCount }
         ])('/land/examine/business')
       },
