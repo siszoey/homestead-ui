@@ -114,8 +114,8 @@
             <el-table-column prop="hkszd" label="户口所在地" sortable></el-table-column>
             <el-table-column prop="jtzrs" label="家庭总人数" width="100" sortable></el-table-column>
             <el-table-column fixed="right" align="center" label="操作" width="100">
-                <template>
-                    <el-button size="mini" type="primary" @click="handleUpdate(row)"
+                <template slot-scope="scope">
+                    <el-button size="mini" type="primary" @click="handleUpdate(scope.row)"
                         icon="el-icon-edit">查看详情
                     </el-button>
                 </template>
@@ -135,28 +135,29 @@
           ></el-pagination>
           <!-- 详情弹框 -->
           <el-dialog title="农村人口详情信息" :visible.sync="editFormVisible" top="5vh">
-              <el-form :model="editForm" label-width="80px" ref="editForm">
+              <el-form :model="peopleList" label-width="90px" ref="peopleList">
                 <el-form-item label="户主姓名" prop="hzxm">
-                  <el-input v-model="editForm.hzxm" auto-complete="off"></el-input>
+                  <el-input v-model="peopleList.hzxm" auto-complete="off"></el-input>
                 </el-form-item>
                  <el-form-item label="身份证号" prop="sfzh">
-                  <el-input v-model="editForm.sfzh" auto-complete="off"></el-input>
+                  <el-input v-model="peopleList.sfzh" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="年龄" prop="nl">
-                  <el-input v-model="editForm.nl" auto-complete="off"></el-input>
+                  <el-input v-model="peopleList.nl" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="家庭住址" prop="jtzz">
-                  <el-input v-model="editForm.jtzz" auto-complete="off"></el-input>
+                  <el-input v-model="peopleList.jtzz" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="户口所在地" prop="hkszd">
-                  <el-input v-model="editForm.hkszd" auto-complete="off"></el-input>
+                  <el-input v-model="peopleList.hkszd" auto-complete="off"></el-input>
                 </el-form-item>
                   <el-form-item label="家庭总人数" prop="jtzrs">
-                  <el-input v-model="editForm.jtzrs" auto-complete="off"></el-input>
+                  <el-input v-model="peopleList.jtzrs" auto-complete="off"></el-input>
                 </el-form-item>                  
               </el-form>
               <div slot="footer" class="dialog-footer">
-                <el-button @click.native="editFormVisible = false">确定</el-button>
+                <el-button @click="save(peopleList)" type="primary">确定</el-button>
+                <el-button @click.native="editFormVisible = false">取消</el-button>
               </div>
           </el-dialog>
         </el-col>
@@ -181,6 +182,7 @@
 
 import dictMixins from "../../mixnis/dict-mixnis";
 import { color } from "echarts/lib/export";
+import FileSaver from "file-saver";
 export default {
   name: "land-map-implementationProcess",
   mixins: [dictMixins],
@@ -189,8 +191,9 @@ export default {
       showFileView: false,//右侧统计图表是否显示
       tableData: [],
       editFormVisible: false,//详情界面是否显示
+      scope:"",
       //详情界面数据
-			editForm: {
+			peopleList: {
 				hzxm: '',
         sfzh: '',
         nl:'',
@@ -232,7 +235,7 @@ export default {
     };
   },
   mounted: function() {
-    //console.log(111);
+    // console.log(111);
     //获取海南市级行政区
     let sj_fileName = "echarts-map/province/json/hainan.json";
     this.requestAjax(sj_fileName, 2);
@@ -271,14 +274,103 @@ export default {
     //     this.LineChart()
     //   },
     //查看详情事件
-    handleUpdate(row) {
-      this.editFormVisible = true;
+    handleUpdate(row) {  
+      this.xzqh =this.city;
+      if(this.xzqh=="460100"){
+              this.$axios
+        .get("test-data/map/accountInformation/householdRegister/city/haikou.json")
+        .then(response => {
+          let ncrkList = response.data.result.filter(function(item){
+            if(item.sfzh == row.sfzh)
+            return item;            
+          });
+          this.peopleList = {
+            hzxm: ncrkList[0].hzxm,
+            sfzh: ncrkList[0].sfzh,
+            nl:ncrkList[0].nl,
+            jtzz:ncrkList[0].jtzz,
+            hkszd:ncrkList[0].hkszd,
+            jtzrs:ncrkList[0].jtzrs
+          }
+          this.editFormVisible = true;
+        })
+      }
+      else if(this.xzqh=="460200"){
+        this.$axios
+        .get("test-data/map/accountInformation/householdRegister/city/sanya.json")
+                .then(response => {
+          let ncrkList = response.data.result.filter(function(item){
+            if(item.sfzh == row.sfzh)
+            return item;            
+          });
+          this.peopleList = {
+            hzxm: ncrkList[0].hzxm,
+            sfzh: ncrkList[0].sfzh,
+            nl:ncrkList[0].nl,
+            jtzz:ncrkList[0].jtzz,
+            hkszd:ncrkList[0].hkszd,
+            jtzrs:ncrkList[0].jtzrs
+          }
+          this.editFormVisible = true;
+        })
+      }
+      else
+      (this.$axios
+        .get("test-data/map/accountInformation/householdRegister/city/sansha.json")
+                .then(response => {
+          let ncrkList = response.data.result.filter(function(item){
+            if(item.sfzh == row.sfzh)
+            return item;            
+          });
+          this.peopleList = {
+            hzxm: ncrkList[0].hzxm,
+            sfzh: ncrkList[0].sfzh,
+            nl:ncrkList[0].nl,
+            jtzz:ncrkList[0].jtzz,
+            hkszd:ncrkList[0].hkszd,
+            jtzrs:ncrkList[0].jtzrs
+          }
+          this.editFormVisible = true;
+        })
+      )         
+        .catch(function(error) {
+          // 请求失败处理
+          console.log(error);
+        });
       },
       //新增事件
       add(){
+       this.peopleList.hzxm="";//清空input中的值
+       this.peopleList.sfzh="";
+       this.peopleList.nl="";
+       this.peopleList.jtzz="";
+       this.peopleList.hkszd="";
+       this.peopleList.jtzrs="";
        this.editFormVisible = true;
       },
-  
+      //保存事件
+      save(FormName){
+        let newpeople = {
+          hzxm: this.peopleList.hzxm,
+          sfzh: this.peopleList.sfzh,
+          nl: this.peopleList.nl,
+          jtzz: this.peopleList.jtzz,
+          hkszd: this.peopleList.hkszd,
+          jtzrs: this.peopleList.jtzrs
+      };
+      var blob = new Blob([JSON.stringify(newpeople)], { type: "" });
+         saveAs(blob, "test-data/map/accountInformation/householdRegister/city/haikou.json");
+      //  FileSaver.saveAs(
+      //     newpeople,
+      //      "test-data/map/accountInformation/householdRegister/city/haikou.json" );     
+
+      // this.$axios
+      //   .post("test-data/map/accountInformation/householdRegister/city/haikou.json", { newpeople })
+      //   .then(res => {
+      //     console.log(res);
+      // });
+
+      },
     //获取表格数据
     changeCity(value) {
       let fileName = "";
