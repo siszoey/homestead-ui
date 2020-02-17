@@ -104,35 +104,35 @@ export function creatAsideMenu ({ agentBoxCount = 1, completedCount = 0, rollbac
     ])('/land/system')
   }
   //综合监管
-  const integratedManagement = {
-    path: '/land/integratedManagement',
-    title: '综合监管',
-    alias: 'index',
-    icon: 'integratedManagement',
-    children: (pre => [
-      { path: `${pre}/supervise/monitoring_analysis`, title: '监测分析' },
-      {
-        path: `${pre}/supervise`,
-        title: '监督处置',
-        children: (pre => [
-          { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
-          { path: `${pre}/complaintHandling`, title: '信访举报处置' },
-          { path: `${pre}/registrationDisposal`, title: '闲置登记处置' },
-          { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置' }
-        ])('/land/integratedManagement/supervise')
-      },
-      {
-        path: `${pre}/monitor`,
-        title: '遥感监测',
-        children: (pre => [
-          { path: `${pre}/ygdc_jcsb`, title: '遥感识别' },
-          { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
-          { path: `${pre}/ygdc_wfdx`, title: '违法定性' },
-          { path: `${pre}/ygdc_czgz`, title: '处置跟踪' }
-        ])('/land/integratedManagement/monitor')
-      }
-    ])('/land/integratedManagement')
-  }
+  // const integratedManagement = {
+  //   path: '/land/integratedManagement',
+  //   title: '综合监管',
+  //   alias: 'index',
+  //   icon: 'integratedManagement',
+  //   children: (pre => [
+  //     { path: `${pre}/supervise/monitoring_analysis`, title: '监测分析' },
+  //     {
+  //       path: `${pre}/supervise`,
+  //       title: '监督处置',
+  //       children: (pre => [
+  //         { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
+  //         { path: `${pre}/complaintHandling`, title: '信访举报处置' },
+  //         { path: `${pre}/registrationDisposal`, title: '闲置登记处置' },
+  //         { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置' }
+  //       ])('/land/integratedManagement/supervise')
+  //     },
+  //     {
+  //       path: `${pre}/monitor`,
+  //       title: '遥感监测',
+  //       children: (pre => [
+  //         { path: `${pre}/ygdc_jcsb`, title: '遥感识别' },
+  //         { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+  //         { path: `${pre}/ygdc_wfdx`, title: '违法定性' },
+  //         { path: `${pre}/ygdc_czgz`, title: '处置跟踪' }
+  //       ])('/land/integratedManagement/monitor')
+  //     }
+  //   ])('/land/integratedManagement')
+  // }
   
   //盘活利用
   const utilize = {
@@ -154,6 +154,43 @@ export function creatAsideMenu ({ agentBoxCount = 1, completedCount = 0, rollbac
       }
     ])('/land/utilize')
   }
+//综合监管
+const integratedManagement = {
+  path: '/land/integratedManagement',
+  title: '综合监管',
+  alias: 'index',
+  icon: 'monitoringAnalysis',
+  children: (pre => [
+    { path: `${pre}/monitoringAnalysis`, 
+      title: '监测分析' ,
+      children: (pre => [
+        { path: `${pre}/multipleAnalysis`, title: '综合分析' },
+        { path: `${pre}/manyHouses`, title: '一户多宅分析' },
+        { path: `${pre}/illegallanduse`, title: '违法用地分析' }
+      ])('/land/integratedManagement/monitoringAnalysis')
+    },
+    {
+      path: `${pre}/supervise`,
+      title: '监督处置',
+      children: (pre => [
+        { path: `${pre}/dailyInspection`, title: '日常巡查处置' },
+        { path: `${pre}/complaintHandling`, title: '信访举报处置' },
+        { path: `${pre}/registrationDisposal`, title: '闲置登记处置' },
+        { path: `${pre}/disputesArbitration`, title: '纠纷仲裁处置' }
+      ])('/land/integratedManagement/supervise')
+    },
+    {
+      path: `${pre}/monitor`,
+      title: '遥感监测',
+      children: (pre => [
+        { path: `${pre}/ygdc_jcsb`, title: '遥感识别' },
+        { path: `${pre}/ygdc_dbfx`, title: '对比分析' },
+        { path: `${pre}/ygdc_wfdx`, title: '违法定性' },
+        { path: `${pre}/ygdc_czgz`, title: '处置跟踪' }
+      ])('/land/integratedManagement/monitor')
+    }
+  ])('/land/integratedManagement')
+}
 
   return [
     map,
