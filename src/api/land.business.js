@@ -65,9 +65,9 @@ export function DeleteProcess(sqid) {
  * 批量上报
  * @param data
  */
-export function BatchReport(level,data) {
+export function BatchReport(data) {
   return request({
-    url: prefix + `/apply/form/batchReport?level=${level}`,
+    url: prefix + '/apply/form/batchReport',
     method: 'post',
     data
   })
