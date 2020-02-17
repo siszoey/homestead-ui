@@ -93,9 +93,16 @@ const integratedManagement = {
   path: '/land/integratedManagement',
   title: '综合监管',
   alias: 'index',
-  icon: 'integratedManagement',
+  icon: 'monitoringAnalysis',
   children: (pre => [
-    { path: `${pre}/supervise/monitoring_analysis`, title: '监测分析' },
+    { path: `${pre}/monitoringAnalysis`, 
+      title: '监测分析' ,
+      children: (pre => [
+        { path: `${pre}/multipleAnalysis`, title: '综合分析' },
+        { path: `${pre}/manyHouses`, title: '一户多宅分析' },
+        { path: `${pre}/illegallanduse`, title: '违法用地分析' }
+      ])('/land/integratedManagement/monitoringAnalysis')
+    },
     {
       path: `${pre}/supervise`,
       title: '监督处置',
@@ -116,8 +123,6 @@ const integratedManagement = {
         { path: `${pre}/ygdc_czgz`, title: '处置跟踪' }
       ])('/land/integratedManagement/monitor')
     }
-
-
   ])('/land/integratedManagement')
 }
 
