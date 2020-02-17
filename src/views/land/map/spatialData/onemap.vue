@@ -261,7 +261,6 @@ import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
 import Axios from "axios";
-import mapBase from '../spatialData/mapBase.js';
 
 export default {
   props: {
@@ -914,7 +913,7 @@ export default {
     zoomToXzqh(xzqhdm) {
       if (!this.XZQ.Visible) return;
       var _this = this;
-      var layer =mapBase.BaseCreateRegionVectorFromServer(xzqhdm);
+      var layer =BaseMap.BaseCreateRegionVectorFromServer(xzqhdm);
       _this.map.addLayer(layer);
       layer.getSource().on("change", function(evt) {
         var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
