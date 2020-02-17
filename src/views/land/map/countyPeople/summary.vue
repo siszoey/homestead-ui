@@ -97,7 +97,7 @@
         </el-col>
       </el-row>
       <el-row style="padding-bottom:25px">
-        <el-col style="padding: 0px 5px 0px 25px" :span="showFileView ? 15: 24"  >
+        <el-col style="padding: 0px 5px 0px 25px" :span="showFileView ? 14: 24"  >
           <el-table
             element-loading-text="拼命加载中..."
             highlight-current-row
@@ -107,12 +107,12 @@
             tooltip-effect="dark"
             style="width: 100%"
           >
-            <el-table-column prop="hzxm" label="户主姓名" width="90" sortable></el-table-column>
+            <el-table-column prop="hzxm" label="户主姓名" width="120" sortable></el-table-column>
             <el-table-column prop="sfzh" label="身份证号" sortable></el-table-column>
-            <el-table-column prop="nl" label="年龄" width="60" sortable></el-table-column>
+            <el-table-column prop="nl" label="年龄" width="80" sortable></el-table-column>
             <el-table-column prop="jtzz" label="家庭住址" sortable></el-table-column>
             <el-table-column prop="hkszd" label="户口所在地" sortable></el-table-column>
-            <el-table-column prop="jtzrs" label="家庭总人数" width="100" sortable></el-table-column>
+            <el-table-column prop="jtzrs" label="家庭总人数" width="120" sortable></el-table-column>
             <el-table-column fixed="right" align="center" label="操作" width="100">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="handleUpdate(scope.row)"
@@ -130,7 +130,7 @@
               :page-size="10"
               layout="total, prev, pager, next, jumper"
               :total="100"
-              :pager-count="4"
+              :page-count="4"
               style="margin-top:35px;text-align:center"
           ></el-pagination>
           <!-- 详情弹框 -->
@@ -161,7 +161,7 @@
               </div>
           </el-dialog>
         </el-col>
-        <el-col :span="9" style="padding:0px 25px 0px 5px;height:610px;" v-if="showFileView">
+        <el-col :span="10" style="padding:0px 25px 0px 5px;height:610px;" v-if="showFileView">
           <el-row style="margin-top:10px">
             <el-col :span="24" style="height:300px;width:550px;border:1px solid #F2F2F2">
               <p class="header-title">一户多宅的统计</p>
@@ -264,8 +264,14 @@ export default {
     //统计分析事件
     statistics(){
       this.showFileView = this.showFileView ? false : true;
-      this.IniPieChart();
-      this.LineChart();
+      this.$nextTick(()=>{
+        if(this.showFileView){
+          this.IniPieChart();
+          this.LineChart();
+        }
+
+      })
+      
     },
     // getChartData() {
     //     //饼状图请求方法

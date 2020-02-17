@@ -203,7 +203,7 @@
     }
   };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .page-login {
     height: 100%;
     position: relative;
