@@ -1,10 +1,10 @@
 <template>
   <div id="app" style="width:100%;height:100%">
     <div class="left-side" id="leftPanel">
-      <div style="text-align:center;background-color: #f7f7f7d1;height:5%;">
+      <div style="text-align:center;background-color: #f7f7f7d1;">
         <el-switch
           style="height:50px;"
-          inactive-text="盘活利用"
+          inactive-text="各村/居用地情况统计排行"
           active-text
           v-model="hiddenToolbar"
           @change="changeToolbar()"
@@ -12,131 +12,122 @@
       </div>
       <!-- <hr /> -->
       <el-card class="box-card" id="mapPanel">
-        <div slot="header" class="clearfix">
-          <span class="card-title">各村/居用地情况统计排行</span>
+        <div style="height:50%;overflow-y: auto;">
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">铺前圩社区（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>盘活用地
+            </span>
+            <br />
+            <span class="demonstration" style="float:right">
+              <div class="color-box-yellow"></div>闲置用地
+            </span>
+            <br />
+            <span class="demonstration">5460.81</span>
+            <br />
+            <span class="demonstration"></span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>住宅用地
+            </span>
+            <el-progress :percentage="90"></el-progress>
+            <el-progress :percentage="33" color="#FFBB3B"></el-progress>
+          </div>
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">地太村（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>盘活用地
+            </span>
+            <br />
+            <span class="demonstration" style="float:right">
+              <div class="color-box-yellow"></div>闲置用地
+            </span>
+            <br />
+            <span class="demonstration">8564.81</span>
+            <br />
+            <span class="demonstration"></span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>住宅用地
+            </span>
+            <el-progress :percentage="33"></el-progress>
+            <el-progress :percentage="56" color="#FFBB3B"></el-progress>
+          </div>
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">东坡村（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>盘活用地
+            </span>
+            <br />
+            <span class="demonstration" style="float:right">
+              <div class="color-box-yellow"></div>闲置用地
+            </span>
+            <br />
+            <span class="demonstration">1244.81</span>
+            <br />
+            <span class="demonstration"></span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>住宅用地
+            </span>
+            <el-progress :percentage="55"></el-progress>
+            <el-progress :percentage="23" color="#FFBB3B"></el-progress>
+          </div>
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">林梧村（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>盘活用地
+            </span>
+            <br />
+            <span class="demonstration" style="float:right">
+              <div class="color-box-yellow"></div>闲置用地
+            </span>
+            <br />
+            <span class="demonstration">9452.81</span>
+            <br />
+            <span class="demonstration"></span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>住宅用地
+            </span>
+            <el-progress :percentage="76"></el-progress>
+            <el-progress :percentage="32" color="#FFBB3B"></el-progress>
+          </div>
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">隆丰村（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>盘活用地
+            </span>
+            <br />
+            <span class="demonstration" style="float:right">
+              <div class="color-box-yellow"></div>闲置用地
+            </span>
+            <br />
+            <span class="demonstration">8545.81</span>
+            <br />
+            <span class="demonstration"></span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>住宅用地
+            </span>
+            <el-progress :percentage="59"></el-progress>
+            <el-progress :percentage="38" color="#FFBB3B"></el-progress>
+          </div>
         </div>
-        <!-- <div class="text item">
-          <label class="year-column-r">年份</label>
-          <el-select v-model="year" class="select-item-year panelitem">
-            <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
-          </el-select>
-          <label class="xzq-column-r">行政区</label>
-          <el-select v-model="city" class="select-item-xzq panelitem" v-on:change="changeCity(city)">
-            <el-option v-for="item in cities" :key="item.id" :label="item.properties.name" :value="item.id"></el-option>
-          </el-select>
-        </div>-->
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">铺前圩社区（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>盘活用地
-          </span>
-          <br />
-          <span class="demonstration" style="float:right">
-            <div class="color-box-yellow"></div>闲置用地
-          </span>
-          <br />
-          <span class="demonstration">5460.81</span>
-          <br />
-          <span class="demonstration"></span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>住宅用地
-          </span>
-          <el-progress :percentage="90"></el-progress>
-          <el-progress :percentage="33" color="#FFBB3B"></el-progress>
-        </div>
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">地太村（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>盘活用地
-          </span>
-          <br />
-          <span class="demonstration" style="float:right">
-            <div class="color-box-yellow"></div>闲置用地
-          </span>
-          <br />
-          <span class="demonstration">8564.81</span>
-          <br />
-          <span class="demonstration"></span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>住宅用地
-          </span>
-          <el-progress :percentage="33"></el-progress>
-          <el-progress :percentage="56" color="#FFBB3B"></el-progress>
-        </div>
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">东坡村（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>盘活用地
-          </span>
-          <br />
-          <span class="demonstration" style="float:right">
-            <div class="color-box-yellow"></div>闲置用地
-          </span>
-          <br />
-          <span class="demonstration">1244.81</span>
-          <br />
-          <span class="demonstration"></span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>住宅用地
-          </span>
-          <el-progress :percentage="55"></el-progress>
-          <el-progress :percentage="23" color="#FFBB3B"></el-progress>
-        </div>
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">林梧村（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>盘活用地
-          </span>
-          <br />
-          <span class="demonstration" style="float:right">
-            <div class="color-box-yellow"></div>闲置用地
-          </span>
-          <br />
-          <span class="demonstration">9452.81</span>
-          <br />
-          <span class="demonstration"></span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>住宅用地
-          </span>
-          <el-progress :percentage="76"></el-progress>
-          <el-progress :percentage="32" color="#FFBB3B"></el-progress>
-        </div>
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">隆丰村（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>盘活用地
-          </span>
-          <br />
-          <span class="demonstration" style="float:right">
-            <div class="color-box-yellow"></div>闲置用地
-          </span>
-          <br />
-          <span class="demonstration">8545.81</span>
-          <br />
-          <span class="demonstration"></span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>住宅用地
-          </span>
-          <el-progress :percentage="59"></el-progress>
-          <el-progress :percentage="38" color="#FFBB3B"></el-progress>
-        </div>
-        <div class="text item">
-          <el-table
-            :data="tableData"
-            style="width: 100%"
-            class="panelitem"
-            :row-class-name="tableRowClassName"
-          >
-            <el-table-column prop="xzq" label="行政区"></el-table-column>
-            <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
-            <el-table-column prop="xzyd" label="闲置用地"></el-table-column>
-            <el-table-column prop="phyd" label="盘活用地"></el-table-column>
-          </el-table>
+        <div style="height:50%;overflow-y: auto;margin-top: 10px;">
+          <div class="text item">
+            <el-table
+              :data="tableData"
+              style="width: 100%"
+              class="panelitem"
+              :row-class-name="tableRowClassName"
+            >
+              <el-table-column prop="xzq" label="行政区"></el-table-column>
+              <el-table-column prop="zzyd" label="住宅用地"></el-table-column>
+              <el-table-column prop="xzyd" label="闲置用地"></el-table-column>
+              <el-table-column prop="phyd" label="盘活用地"></el-table-column>
+            </el-table>
+          </div>
         </div>
       </el-card>
     </div>
@@ -699,7 +690,7 @@ export default {
 
 .box-card {
   width: 99.5%;
-  height: 94.5%;
+  height: 91.5%;
   /* margin-top: 11%; */
   background-color: #f7f7f7d1;
   overflow-y: auto;
@@ -774,5 +765,9 @@ export default {
 
 .card-title {
   font-size: 14px;
+}
+
+.el-card__body {
+  height: 91%;
 }
 </style>

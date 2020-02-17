@@ -1,10 +1,10 @@
 <template>
   <div id="app" style="width:100%;height:100%">
     <div class="left-side" id="leftPanel">
-      <div style="text-align:center;background-color: #f7f7f7d1;height:5%;">
+      <div style="text-align:center;background-color: #f7f7f7d1;">
         <el-switch
           style="height:50px;"
-          inactive-text="用地指标"
+          inactive-text="各村/居用地情况统计排行"
           active-text
           v-model="hiddenToolbar"
           @change="changeToolbar()"
@@ -12,96 +12,87 @@
       </div>
       <!-- <hr /> -->
       <el-card class="box-card" id="mapPanel">
-        <div slot="header" class="clearfix">
-          <span class="card-title">各村/居用地情况统计排行</span>
+        <div style="height:50%;overflow-y: auto;">
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">铺前圩社区（亩）</span>
+            <span class="demonstration" style="float:right">
+              <span class="color-box-blue"></span>实际用地
+            </span>
+            <br />
+            <span class="demonstration">1518.69</span>
+            <span class="demonstration" style="float:right">
+              <span class="color-box-gray"></span>计划用地
+            </span>
+            <el-progress :percentage="11"></el-progress>
+          </div>
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">地太村（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>实际用地
+            </span>
+            <br />
+            <span class="demonstration">76564.45</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>计划用地
+            </span>
+            <el-progress :percentage="67"></el-progress>
+          </div>
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">东坡村（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>实际用地
+            </span>
+            <br />
+            <span class="demonstration">647.21</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>计划用地
+            </span>
+            <el-progress :percentage="21"></el-progress>
+          </div>
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">林梧村（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>实际用地
+            </span>
+            <br />
+            <span class="demonstration">9776.88</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>计划用地
+            </span>
+            <el-progress :percentage="35"></el-progress>
+          </div>
+          <div class="text item">
+            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
+            <span class="demonstration">隆丰村（亩）</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-blue"></div>实际用地
+            </span>
+            <br />
+            <span class="demonstration">543.97</span>
+            <span class="demonstration" style="float:right">
+              <div class="color-box-gray"></div>计划用地
+            </span>
+            <el-progress :percentage="15"></el-progress>
+          </div>
         </div>
-        <!-- <div class="text item">
-          <label class="year-column-x">年份</label>
-          <el-select v-model="year" class="select-item-year panelitem">
-            <el-option v-for="item in years" :key="item" :label="item" :value="item"></el-option>
-          </el-select>
-          <label class="xzq-column-x">行政区</label>
-          <el-select v-model="city" class="select-item-xzq panelitem" v-on:change="changeCity(city)">
-            <el-option v-for="item in cities" :key="item.id" :label="item.properties.name" :value="item.id"></el-option>
-          </el-select>
-        </div>-->
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">铺前圩社区（亩）</span>
-          <span class="demonstration" style="float:right">
-            <span class="color-box-blue"></span>实际用地
-          </span>
-          <br />
-          <span class="demonstration">1518.69</span>
-          <span class="demonstration" style="float:right">
-            <span class="color-box-gray"></span>计划用地
-          </span>
-          <el-progress :percentage="11"></el-progress>
-        </div>
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">地太村（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>实际用地
-          </span>
-          <br />
-          <span class="demonstration">76564.45</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>计划用地
-          </span>
-          <el-progress :percentage="67"></el-progress>
-        </div>
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">东坡村（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>实际用地
-          </span>
-          <br />
-          <span class="demonstration">647.21</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>计划用地
-          </span>
-          <el-progress :percentage="21"></el-progress>
-        </div>
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">林梧村（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>实际用地
-          </span>
-          <br />
-          <span class="demonstration">9776.88</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>计划用地
-          </span>
-          <el-progress :percentage="35"></el-progress>
-        </div>
-        <div class="text item">
-          <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-          <span class="demonstration">隆丰村（亩）</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-blue"></div>实际用地
-          </span>
-          <br />
-          <span class="demonstration">543.97</span>
-          <span class="demonstration" style="float:right">
-            <div class="color-box-gray"></div>计划用地
-          </span>
-          <el-progress :percentage="15"></el-progress>
-        </div>
-        <div class="text item">
-          <el-table
-            :data="tableData"
-            style="width: 100%"
-            class="panelitem"
-            :row-class-name="tableRowClassName"
-          >
-            <el-table-column prop="xzq" label="行政区"></el-table-column>
-            <el-table-column prop="jhyd" label="计划用地"></el-table-column>
-            <el-table-column prop="sjyd" label="实际用地"></el-table-column>
-            <el-table-column prop="szbl" label="所占比例"></el-table-column>
-          </el-table>
+        <div style="height:50%;overflow-y: auto;margin-top: 10px;">
+          <div class="text item">
+            <el-table
+              :data="tableData"
+              style="width: 100%"
+              class="panelitem"
+              :row-class-name="tableRowClassName"
+            >
+              <el-table-column prop="xzq" label="行政区"></el-table-column>
+              <el-table-column prop="jhyd" label="计划用地"></el-table-column>
+              <el-table-column prop="sjyd" label="实际用地"></el-table-column>
+              <el-table-column prop="szbl" label="所占比例"></el-table-column>
+            </el-table>
+          </div>
         </div>
       </el-card>
     </div>
@@ -638,7 +629,7 @@ export default {
 
 .box-card {
   width: 99.5%;
-  height: 94.5%;
+  height: 91.5%;
   /* margin-top: 11%; */
   background-color: #f7f7f7d1;
   overflow-y: auto;
@@ -714,5 +705,9 @@ export default {
 
 .card-title {
   font-size: 14px;
+}
+
+.el-card__body{
+  height:91%;
 }
 </style>
