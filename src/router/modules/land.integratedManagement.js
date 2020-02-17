@@ -11,7 +11,7 @@ export default function (iotHeader) {
       ...meta,
       title: '综合监管'
     },
-    redirect: { name: 'land-integratedManagement-monitoring_analysis' },
+    redirect: { name: 'land-integratedManagement-monitoringAnalysis-multipleAnalysis' },
     component: iotHeader,
     children: (pre => [
       {
@@ -112,14 +112,43 @@ export default function (iotHeader) {
         ])('land-integratedManagement-supervise-monitor')
       },
       {
-        path: 'supervise/monitoring_analysis',
-        name: `${pre}monitoring_analysis`,
-        component: _import('land/integratedManagement/supervise/monitoring_analysis.vue'),
+        path: 'monitoringAnalysis',
+        name: `${pre}monitoringAnalysis`,
+        component: _import('land/components/blankrouterview.vue'),
         meta: {
           ...meta,
           ismap: true,
           title: '监测分析'
-        }
+        },
+        children: (pre => [
+          {
+            path: 'multipleAnalysis',
+            name: `${pre}multipleAnalysis`,
+            component: _import('land/integratedManagement/monitoringAnalysis/multipleAnalysis.vue'),
+            meta: {
+              ...meta,
+              title: '综合分析'
+            }
+          },
+          {
+            path: 'manyHouses',
+            name: `${pre}manyHouses`,
+            component: _import('land/integratedManagement/monitoringAnalysis/manyHouses.vue'),
+            meta: {
+              ...meta,
+              title: '一户多宅分析'
+            }
+          },
+          {
+            path: `illegallanduse`,
+            name: `${pre}illegallanduse`,
+            component: _import('land/integratedManagement/monitoringAnalysis/illegallanduse.vue'),
+            meta: {
+              ...meta,
+              title: '违法用地分析'
+            }
+          }
+        ])('land-integratedManagement-monitoringAnalysis-')
       }
     ])('land-integratedManagement-')
   }
