@@ -1,7 +1,7 @@
 <template>
   <div id="app" style="width:100%;height:100%">
     <div class="left-side" id="leftPanel">
-      <div style="text-align:center;background-color: #f7f7f7d1;">
+      <div style="text-align:center;background-color: #f7f7f7d1;height:5%;">
         <el-switch
           style="height:50px;"
           inactive-text="盘活利用"
@@ -699,7 +699,7 @@ export default {
 
 .box-card {
   width: 99.5%;
-  height: 91.5%;
+  height: 94.5%;
   /* margin-top: 11%; */
   background-color: #f7f7f7d1;
   overflow-y: auto;

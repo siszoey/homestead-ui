@@ -1,7 +1,7 @@
 <template>
   <div id="app" style="width:100%;height:100%;">
     <div class="left-side" id="leftPanel">
-      <div style="text-align:center;background-color: #f7f7f7d1;">
+      <div style="text-align:center;background-color: #f7f7f7d1;height:5%;">
         <el-switch
           style="height:50px;"
           inactive-text="审批管理"
@@ -10,7 +10,7 @@
           @change="changeToolbar()"
         ></el-switch>
       </div>
-      <el-card class="box-card left-side" id="mapPanel">
+      <el-card class="box-card" id="mapPanel">
         <div slot="header" class="clearfix">
           <span class="card-title">审批情况一览表</span>
         </div>
@@ -344,7 +344,7 @@ export default {
 
 .box-card {
   width: 99.5%;
-  height: 91.5%;
+  height: 94.5%;
   /* margin-top: 11%; */
   background-color: #f7f7f7d1;
   overflow-y: auto;
@@ -383,7 +383,7 @@ export default {
   z-index: 9;
   width: 26%;
   min-width: 439px;
-  height: 91%;
+  height: 100%;
   /* color: white; */
   /* background-color: #f7f7f7d1; */
   /* margin-top: -0.1rem; */
