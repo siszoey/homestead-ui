@@ -16,12 +16,24 @@ export function ApplicationForm(data) {
 }
 
 /**
- * 代办任务
+ * 待办任务
  * @param data
  */
 export function UnToDo(params) {
   return request({
     url: prefix + '/activiti/dbrw',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 已办任务
+ * @param data
+ */
+export function HadDone(params) {
+  return request({
+    url: prefix + '/activiti/ybrw',
     method: 'get',
     params
   })
