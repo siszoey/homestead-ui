@@ -103,7 +103,7 @@ export default {
     changeCity(value) {
       let fileName = "";
       let path = "";
-      console.log(value);
+      // console.log(value);
       switch (value) {
         case "460100":
           fileName = "echarts-map/city/json/hainan/460100.json";
@@ -137,7 +137,7 @@ export default {
     changeCounty(value) {
       return;
       let path = "";
-      console.log(value);
+      // console.log(value);
       switch (value) {
         case "460106":
           path =
@@ -182,7 +182,7 @@ export default {
         .get(fileName)
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
-          console.log(response.data.features); //[0].properties.name
+          // console.log(response.data.features); //[0].properties.name
           if (level == "3") {
             _this.county = ""; //change时清空county
             _this.counties = response.data.features;
@@ -192,7 +192,7 @@ export default {
         })
         //获取失败
         .catch(error => {
-          console.log(error);
+          // console.log(error);
           alert("网络错误，不能访问");
         });
     },
@@ -203,13 +203,13 @@ export default {
         .get(path)
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
-          console.log(response.data.result);
+          // console.log(response.data.result);
           _this.tableData = [];
           _this.tableData = response.data.result;
         })
         //获取失败
         .catch(error => {
-          console.log(error);
+          // console.log(error);
           alert("网络错误，不能访问");
         });
     },
@@ -232,7 +232,7 @@ export default {
         .then(res => (_this.tableData = res.data.data.list))
         .catch(function(error) {
           // 请求失败处理
-          console.log(error);
+          // console.log(error);
         });
     }
   }
