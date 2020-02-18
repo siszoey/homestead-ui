@@ -2,7 +2,6 @@
   <d2-container>
     <el-form
       :inline="true"
-      :model="queryForm"
       ref="queryForm"
       size="mini"
       style="margin-bottom: -25px; padding: 0 20px"
@@ -55,7 +54,7 @@
       tooltip-effect="dark"
       style="width: 100%"
     >
-      <el-table-column prop="szsx" label="所在市/县" sortable></el-table-column>
+      <el-table-column prop="szsx" label="所在村/居" sortable></el-table-column>
       <el-table-column prop="zzmj" label="住宅面积/亩" sortable width="120px"></el-table-column>
       <el-table-column prop="dlmj" label="道路面积/亩" sortable></el-table-column>
       <el-table-column prop="gsmj" label="供水面积/亩" sortable></el-table-column>
@@ -278,7 +277,7 @@ export default {
     changeCity(value) {
       let fileName = "";
       let path = "";
-      console.log(value);
+      // console.log(value);
       switch (value) {
         // case "420100":
         //   let fileName = "echarts-map/city/json/hubei/420100.json";
@@ -350,7 +349,7 @@ export default {
     },
     changeCounty(value) {
       let path = "";
-      console.log(value);
+      // console.log(value);
       switch (value) {
         case "460106":
           path =
@@ -398,7 +397,7 @@ export default {
         .get(fileName)
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
-          console.log(response.data.features); //[0].properties.name
+          // console.log(response.data.features); //[0].properties.name
           if (level == "3") {
             _this.county = ""; //change时清空county
             _this.counties = response.data.features;
@@ -419,7 +418,7 @@ export default {
         .get(path)
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
-          console.log(response.data.result);
+          // console.log(response.data.result);
           _this.tableData = [];
           _this.tableData = response.data.result;
         })
@@ -430,10 +429,10 @@ export default {
         });
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
     },
     //搜索
     search() {
