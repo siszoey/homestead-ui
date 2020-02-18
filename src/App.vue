@@ -25,4 +25,7 @@ export default {
 
 <style lang="scss">
 @import '~@/assets/style/public-class.scss';
+#app{
+  background:white;
+}
 </style>
