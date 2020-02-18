@@ -91,12 +91,6 @@
   import dictMixins from '../../../mixnis/dict-mixnis'
   import processMixnis from "../../../mixnis/process-mixnis"
   import applicationForm from './application-form'
-  // import appceptanceForm from './appceptance-form'
-  // import approvalForm from './approval-form'
-  // import FileTreeView from '../../../components/filetreeview.vue'
-  // import OneMap from '../../../../land/map/spatialData/onemap.vue'
-  // import {LastProcess} from "../../../../../api/land.business"
-  import {ApplicationForm} from '@/api/land.business_activiti'
   export default {
     name: 'detail-page',
     components: {
@@ -352,9 +346,9 @@
         let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
         this.active = currentXMZTCode - 1
       },
-      changeSendBtnState (vals) {
-        this.sendBtnDisabled = !(vals[0])
-        this.processInfo = vals[1]
+      changeSendBtnState (a) {
+        this.sendBtnDisabled = !(a[0])
+        this.processInfo = a[1]
       }
     }
   }
