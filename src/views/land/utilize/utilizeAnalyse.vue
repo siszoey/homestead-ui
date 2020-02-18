@@ -139,7 +139,6 @@ export default {
       whty_icon:"./image/utilize/whty-icon.png",
       cybg_icon:"./image/utilize/cybg-icon.png",
       dzsw_icon:"./image/utilize/dzsw-icon.png",
-
       queryForm: {
       }    
     };
@@ -153,6 +152,10 @@ export default {
     this.requestAjax(xj_fileName, 3);
     //默认行政区为海口市
     this.city = "460100";
+    //初始化表格
+    let path =
+      "test-data/map/accountInformation/utilize/city/haikou.json";
+    this.AjaxGetData(path);
 
     //当页面大小发生变化时，echarts统计图根据画布大小自动重新绘制
     window.addEventListener("resize", () => {
@@ -161,6 +164,84 @@ export default {
     });
   },
   methods:{
+    //获取表格数据
+    changeCity(value) {
+      let fileName = "";
+      let path = "";
+      //console.log(value);
+      switch (value) {
+        case "460100":
+          fileName = "echarts-map/city/json/hainan/460100.json";
+          this.requestAjax(fileName, 3);
+          path =
+            "test-data/map/accountInformation/utilize/city/haikou.json";
+          this.AjaxGetData(path);
+          break;
+        case "460200":
+          fileName = "echarts-map/city/json/hainan/460200.json";
+          this.requestAjax(fileName, 3);
+          path =
+            "test-data/map/accountInformation/utilize/city/sanya.json";
+          this.AjaxGetData(path);
+          break;
+        case "460300":
+          fileName = "echarts-map/city/json/hainan/460300.json";
+          this.requestAjax(fileName, 3);
+          path =
+            "test-data/map/accountInformation/utilize/city/sansha.json";
+          this.AjaxGetData(path);
+          break;
+        default:
+          this.county = ""; //change时清空county
+          this.counties = [];
+          this.tableData = [];
+          break;
+      }
+    },
+    changeCounty(value) {
+      let path = "";
+      //console.log(value);
+      switch (value) {
+        case "460106":
+          path =
+            "test-data/map/accountInformation/utilize/county/haikou/longhua.json";
+          this.AjaxGetData(path);
+          break;
+        case "460108":
+          path =
+            "test-data/map/accountInformation/utilize/county/haikou/meilan.json";
+          this.AjaxGetData(path);
+          break;
+        case "460107":
+          path =
+            "test-data/map/accountInformation/utilize/county/haikou/qiongshan.json";
+          this.AjaxGetData(path);
+          break;
+        case "460200":
+          path =
+            "test-data/map/accountInformation/utilize/city/sanya.json";
+          this.AjaxGetData(path);
+          break;
+        case "460302":
+          path =
+            "test-data/map/accountInformation/utilize/county/sansha/nanshaqundao.json";
+          this.AjaxGetData(path);
+          break;
+        case "460301":
+          path =
+            "test-data/map/accountInformation/utilize/county/sansha/xishaqundao.json";
+          this.AjaxGetData(path);
+          break;
+        case "460303":
+          path =
+            "test-data/map/accountInformation/utilize/county/sansha/zsqdddjjqhy.json";
+          this.AjaxGetData(path);
+          break;
+        default:
+          this.tableData = [];
+          break;
+      }
+    },
     //ajax获取本地json文件行政区划
     requestAjax(fileName, level) {
       let _this = this;
@@ -182,6 +263,50 @@ export default {
           alert("网络错误，不能访问");
         });
     },
+    //ajax获取本地行政区划下json文件数据
+    AjaxGetData(path) {
+      let _this = this;
+      this.$axios
+        .get(path)
+        //then获取成功；response成功后的返回值（对象）
+        .then(response => {
+          //console.log(response.data.result);
+          _this.tableData = [];
+          _this.tableData = response.data.result;
+        })
+        //获取失败
+        .catch(error => {
+          //console.log(error);
+          alert("网络错误，不能访问");
+        });
+    },
+     //搜索
+    search() {
+      this.ajaxSync();
+    },
+    //ajax请求api,传入参数：类型和标题
+    ajaxSync() {
+      var _this = this; //在ajax中必须将this重新赋一个新对象接收，否则ajax中获取不到vue变量
+      this.params = {
+        title: this.input
+      };
+      this.getWXTemplateList(this.params);
+    },
+    getWXTemplateList(params) {
+      let _this = this;
+      this.$axios
+        .get(this.apiPath + "/system/getWXTemplateList", { params })
+        .then(res => (_this.tableData = res.data.data.list))
+        .catch(function(error) {
+          // 请求失败处理
+          //console.log(error);
+        });
+    },
+    //点击查询按钮请求的方法
+    queryTableData() {
+      this.table.current = 1;
+      this.getTableData();
+    },
     handleSizeChange(size) {
       this.table.size = size;
       this.getTableData();
@@ -197,6 +322,23 @@ export default {
 </script>
 
 <style>
+.wrap-top {
+  background: #ffffff;
+}
+.progress-box {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.wrap-middle {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: #fff;
+  height: auto;
+}
+.queryForm {
+  padding: 25px 15px 10px 25px;
+}
 .utilize-position{
   display:inline-block;
 }
@@ -230,6 +372,7 @@ export default {
 }
 .ph-margin{
   width: 246px;
+  margin-top: 0.2rem;
 }
 
 </style>
