@@ -32,16 +32,16 @@
 
             <el-row :gutter="5">
                 <!--表单-->
-                <el-col :span="showMap || showFileView ? 12 : 24">
+                <el-col :span="showMap || showFileView ? 12 : 24" >
                     <el-tabs tab-position="top" v-show="showForm">
                         <el-tab-pane label="申请表">
-                            <applicationForm :disabled="applicationFormDisabled" :detail="detail"></applicationForm>
+                            <applicationForm :disabled="applicationFormDisabled" :detail="detail" @change-send-state="changeSendBtnState(arguments)"></applicationForm>
                         </el-tab-pane>
                         <el-tab-pane label="审批表" v-if="detail">
-                            <approvalForm :disabled="approvalFormDisabled" :detail="detail"></approvalForm>
+                            <approvalForm :disabled="approvalFormDisabled" :detail="detail" @change-send-state="changeSendBtnState"></approvalForm>
                         </el-tab-pane>
                         <el-tab-pane label="验收意见表" v-if="detail">
-                            <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"></appceptanceForm>
+                            <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail" @change-send-state="changeSendBtnState"></appceptanceForm>
                         </el-tab-pane>
                     </el-tabs>
 
@@ -351,6 +351,10 @@
       getLastXMZT() {
         let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
         this.active = currentXMZTCode - 1
+      },
+      changeSendBtnState (vals) {
+        this.sendBtnDisabled = !(vals[0])
+        this.processInfo = vals[1]
       }
     }
   }

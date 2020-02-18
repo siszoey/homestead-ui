@@ -328,6 +328,10 @@
         for (let index = 0; index < 4; index++) {
           this.form.jtcy.push(Object.assign({}, applicationFormTempData.jtcy[index]))
         }
+
+      },
+       emitChangeSendState (state,formdata) {
+        this.$emit('change-send-state',state,formdata)
       },
       initJTCY(){
         if (this.disabled && this.detail != undefined) {
@@ -423,6 +427,8 @@
                     type: 'success'
                   })
                 // })
+                  console.log(jl)
+                  this.emitChangeSendState(true,jl)
               }).catch(() => {
                 this.$message({
                   message: '创建失败',

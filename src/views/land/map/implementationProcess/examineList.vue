@@ -138,6 +138,7 @@
             :page-size="table.size"
             layout="total, prev, pager, next, jumper"
             :total="table.total"
+            :page-count="4"
             style="margin-top:35px;text-align:center"
           ></el-pagination>
         </el-col>
@@ -278,6 +279,7 @@ export default {
         this.queryForm
       )
         .then(res => {
+          console.log(res)
           this.table.list = res.records;
           this.table.total = res.total;
         })

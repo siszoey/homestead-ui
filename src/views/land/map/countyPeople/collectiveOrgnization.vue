@@ -2,7 +2,6 @@
   <d2-container>
     <el-form
       :inline="true"
-      :model="queryForm"
       ref="queryForm"
       size="mini"
       style="margin-bottom: -25px; padding: 0 20px"
@@ -57,8 +56,6 @@
     <template slot="footer">
       <el-pagination
         background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :current-page="1"
         :page-sizes="[5,10,20,30,50]"
         :page-size="5"
@@ -80,72 +77,7 @@ export default {
       cities: [],
       county: "",
       counties: [], //update
-      tableData: [
-        {
-          cyxm: "张清秀",
-          cyxb:"女",
-          cyzjlx:"",
-          cyzjhm: "460100199102283210",
-          djsj: "2019-1-2",
-          jthdm: "4601000010320046",
-          zgs: 10,
-          jbg:10
-        },{
-          cyxm: "李世三",
-          cyxb:"男",
-          cyzjlx:"",
-          cyzjhm: "460100198803216576",
-          djsj: "2019-1-2",
-          jthdm: "4601000010320047",
-          zgs: 15,
-          jbg:10
-        },{
-          cyxm: "张清秀",
-          cyxb:"女",
-          cyzjlx:"",
-          cyzjhm: "460100199102283210",
-          djsj: "2019-1-2",
-          jthdm: "4601000010320346",
-          zgs: 10,
-          jbg:10
-        },{
-          cyxm: "王倾佩",
-          cyxb:"女",
-          cyzjlx:"",
-          cyzjhm: "460100199802083219",
-          djsj: "2019-1-2",
-          jthdm: "4601000310320011",
-          zgs: 10,
-          jbg:10
-        },{
-          cyxm: "赵子强",
-          cyxb:"男",
-          cyzjlx:"",
-          cyzjhm: "460100199208181210",
-          djsj: "2019-1-12",
-          jthdm: "4601000010320003",
-          zgs: 10,
-          jbg:10
-        },{
-          cyxm: "马龙",
-          cyxb:"男",
-          cyzjlx:"",
-          cyzjhm: "460100199509111219",
-          djsj: "2019-1-3",
-          jthdm: "4601000010320051",
-          zgs: 10,
-          jbg:10
-        },{
-          cyxm: "谢强",
-          cyxb:"男",
-          cyzjlx:"",
-          cyzjhm: "460100197612211215",
-          djsj: "2019-1-4",
-          jthdm: "4601000010320003",
-          zgs: 12,
-          jbg:10
-        }
-      ],
+      tableData: [],
       ids: "",
       params: {
         title: ""
@@ -164,14 +96,14 @@ export default {
     //this.ajaxSync();
     //初始化表格
     let path =
-      "test-data/map/accountInformation/householdRegister/city/haikou.json";
+      "test-data/map/accountInformation/householdRegister/etc/collectiveOrgnization.json";
     this.AjaxGetData(path);
   },
   methods: {
     changeCity(value) {
       let fileName = "";
       let path = "";
-      console.log(value);
+      // console.log(value);
       switch (value) {
         case "460100":
           fileName = "echarts-map/city/json/hainan/460100.json";
@@ -194,16 +126,18 @@ export default {
           // this.tableData = [];
           break;
       }
+
       if (path != "") {
-        this.AjaxGetData(path);
+        // this.AjaxGetData(path);
       }
       if (filename != "") {
         this.requestAjax(fileName, 3);
       }
     },
     changeCounty(value) {
+      return;
       let path = "";
-      console.log(value);
+      // console.log(value);
       switch (value) {
         case "460106":
           path =
@@ -238,7 +172,7 @@ export default {
           break;
       }
       if (path != "") {
-        this.AjaxGetData(path);
+        // this.AjaxGetData(path);
       }
     },
     //ajax获取本地json文件行政区划
@@ -248,7 +182,7 @@ export default {
         .get(fileName)
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
-          console.log(response.data.features); //[0].properties.name
+          // console.log(response.data.features); //[0].properties.name
           if (level == "3") {
             _this.county = ""; //change时清空county
             _this.counties = response.data.features;
@@ -258,7 +192,7 @@ export default {
         })
         //获取失败
         .catch(error => {
-          console.log(error);
+          // console.log(error);
           alert("网络错误，不能访问");
         });
     },
@@ -269,13 +203,13 @@ export default {
         .get(path)
         //then获取成功；response成功后的返回值（对象）
         .then(response => {
-          console.log(response.data.result);
-          // _this.tableData = [];
-          // _this.tableData = response.data.result;
+          // console.log(response.data.result);
+          _this.tableData = [];
+          _this.tableData = response.data.result;
         })
         //获取失败
         .catch(error => {
-          console.log(error);
+          // console.log(error);
           alert("网络错误，不能访问");
         });
     },
@@ -298,7 +232,7 @@ export default {
         .then(res => (_this.tableData = res.data.data.list))
         .catch(function(error) {
           // 请求失败处理
-          console.log(error);
+          // console.log(error);
         });
     }
   }

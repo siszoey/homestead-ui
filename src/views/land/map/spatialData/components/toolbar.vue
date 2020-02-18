@@ -1,7 +1,7 @@
 <template>
   <div class="toolbarContainer">
     <div class="toolbar">
-      <div class="toolButton top">
+      <div class="toolButton top" v-on:click="showxzqhlist=!showxzqhlist">
         <img :src="`${$baseUrl}image/mapicon/sldt.png`" />
       </div>
       <div class="toolButton bottom highlight">
@@ -30,19 +30,100 @@
         <img :src="`${$baseUrl}image/mapicon/zbdw.png`" />
       </div>
     </div>
+    <div v-show="showxzqhlist" class="xzqhlist">
+      <el-cascader v-model="selectXzqh" :options="xzqhTree" @change="xzqhChanged"></el-cascader>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    xzqhList: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
-      layerOn: false
+      layerOn: false,
+      showxzqhlist: false,
+      xzqhTree: [],
+      selectXzqh: []
     };
+  },
+  watch: {
+    xzqhList: {
+      deep: true, // 深度监听
+      handler(newVal, oldVal) {
+        this.bindxzqhTree();
+      }
+    }
+  },
+  mounted() {
+    this.$nextTick(function() {
+      this.bindxzqhTree();
+    });
   },
   methods: {
     showLayer() {
       //this.layerOn = !this.layerOn;
+    },
+    bindxzqhTree() {
+      this.xzqhTree = [
+        {
+          value: "469005115001",
+          label: "铺前圩社区"
+        },
+        {
+          value: "469005115200",
+          label: "地太村"
+        },
+        {
+          value: "469005115201",
+          label: "东坡村"
+        },
+        {
+          value: "469005115202",
+          label: "林梧村"
+        },
+        {
+          value: "469005115203",
+          label: "隆丰村"
+        },
+        {
+          value: "469005115204",
+          label: "美港村"
+        },
+        {
+          value: "469005115205",
+          label: "铺港村"
+        },
+        {
+          value: "469005115206",
+          label: "铺龙村"
+        },
+        {
+          value: "469005115207",
+          label: "铺前村"
+        },
+        {
+          value: "469005115209",
+          label: "七岭村"
+        },
+        {
+          value: "469005115210",
+          label: "仕后村"
+        },
+        {
+          value: "469005115202",
+          label: "林梧村"
+        }
+      ];
+    },
+    xzqhChanged() {
+      this.showxzqhlist = !this.showxzqhlist;
+      this.$emit("switchXzqh", this.selectXzqh);
     }
   }
 };
@@ -50,7 +131,7 @@ export default {
 <style lang="scss" scoped>
 .toolbarContainer {
   right: 30px;
-  top: 10px;
+  top: 30px;
   position: absolute;
 }
 .toolbar {
@@ -59,8 +140,8 @@ export default {
   box-shadow: 0px 0px 1px gray;
   border-radius: 5px;
   .toolButton {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     float: left;
     align-items: center;
@@ -89,5 +170,10 @@ export default {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
   }
+}
+
+.xzqhlist {
+  margin-top: 40px;
+  position: absolute;
 }
 </style>
