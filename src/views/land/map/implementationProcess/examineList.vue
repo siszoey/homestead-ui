@@ -279,6 +279,7 @@ export default {
         this.queryForm
       )
         .then(res => {
+          console.log(res)
           this.table.list = res.records;
           this.table.total = res.total;
         })
