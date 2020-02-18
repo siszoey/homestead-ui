@@ -40,6 +40,18 @@ export function HadDone(params) {
 }
 
 /**
+ * 退办任务
+ * @param data
+ */
+export function BackToDo(params) {
+  return request({
+    url: prefix + '/activiti/tbrw',
+    method: 'get',
+    params
+  })
+}
+
+/**
  * 流程办理
  * @param data
  */
