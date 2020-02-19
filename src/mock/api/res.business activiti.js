@@ -1,4 +1,3 @@
-
 let prefix = '/api/mock'
 
 export default [
