@@ -22,7 +22,7 @@
               </el-dropdown>
             </div>
           </div>
-          <div class="login-btn" v-else style="width: 600px;">
+          <div class="login-btn" v-else >
             <el-form :inline="true" ref="loginForm" :rules="rules" :model="formLogin"
               class="demo-form-inline login-text" size="small">
               <el-form-item label="用户名:" class="form_item_lable from_item">
@@ -32,7 +32,7 @@
                 <el-input v-model="formLogin.password" class="formLogin_input" placeholder="密码" show-password></el-input>
               </el-form-item>
               <el-form-item class="from_item">
-                <el-button type="primary" @click="submit" class="button-login" size="mini">登录</el-button>
+                <el-button type="default" @click="submit" class="button-login" size="mini">登录</el-button>
               </el-form-item>
             </el-form>
 
@@ -280,8 +280,11 @@
       }
 
       .login-btn {
-        width: 300px;
+        min-width: 300px;
+        width: auto;
         height: 70px;
+        display: flex;
+        align-items: center;
         position: absolute;
         top: 0px;
         right: 0px;
@@ -290,9 +293,10 @@
 
         .login-text {
           position: relative;
-          top: 50%;
-          left: 75%;
-          transform: translate(-50%, -50%);
+          // top: 50%;
+          // left: 75%;
+          // transform: translate(-50%, -50%);
+          padding: 0px 15px 0px 25px;
           cursor: pointer;
           // width: max-content;
           letter-spacing: 1px;

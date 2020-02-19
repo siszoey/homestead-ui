@@ -7,19 +7,19 @@
         <div class="title">辖区行政单位</div>
         <div class="layout-h" style="height:100px">
           <div class="xzq-item">
-            <div class="label">4</div>
+            <div class="label">{{jsonData.regions.cityCount}}</div>
             <div class="unit">市</div>
           </div>
           <div class="xzq-item">
-            <div class="label">23</div>
+            <div class="label">{{jsonData.regions.countyCount}}</div>
             <div class="unit">县（市、区）</div>
           </div>
           <div class="xzq-item">
-            <div class="label">218</div>
+            <div class="label">{{jsonData.regions.countryCount}}</div>
             <div class="unit">乡镇（街道）</div>
           </div>
           <div class="xzq-item">
-            <div class="label" style="color:rgb(0,216,255)">12000</div>
+            <div class="label" style="color:rgb(0,216,255)">{{jsonData.regions.viligeCount}}</div>
             <div class="unit">行政村</div>
           </div>
         </div>
@@ -36,7 +36,7 @@
             <div class="content">
               <div class="label">农村宅基地面积</div>
               <div>
-                <div class="value">45</div>
+                <div class="value">{{jsonData.landAreaAndPeople.landArea}}</div>
                 <div class="unit">万亩</div>
               </div>
             </div>
@@ -48,7 +48,7 @@
             <div class="content">
               <div class="label">农村住宅数量</div>
               <div>
-                <div class="value">150</div>
+                <div class="value">{{jsonData.landAreaAndPeople.houseCount}}</div>
                 <div class="unit">万</div>
               </div>
             </div>
@@ -63,7 +63,7 @@
             <div class="content">
               <div class="label">农业人口总数</div>
               <div>
-                <div class="value">382.51</div>
+                <div class="value">{{jsonData.landAreaAndPeople.agrPopulation}}</div>
                 <div class="unit">万</div>
               </div>
             </div>
@@ -75,7 +75,7 @@
             <div class="content">
               <div class="label">总户数</div>
               <div>
-                <div class="value">115.32</div>
+                <div class="value">{{jsonData.landAreaAndPeople.totalHouse}}</div>
                 <div class="unit">万</div>
               </div>
             </div>
@@ -90,7 +90,7 @@
             <div class="content">
               <div class="label">户均宅基地面积</div>
               <div>
-                <div class="value">175</div>
+                <div class="value">{{jsonData.landAreaAndPeople.averageHouseArea}}</div>
                 <div class="unit">平方米</div>
               </div>
             </div>
@@ -102,7 +102,7 @@
             <div class="content">
               <div class="label">人均宅基地面积</div>
               <div>
-                <div class="value">75</div>
+                <div class="value">{{jsonData.landAreaAndPeople.averagePeopleArea}}</div>
                 <div class="unit">平方米</div>
               </div>
             </div>
@@ -122,10 +122,10 @@
 
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置宅基地</span>
-          <span class="value">2.25</span>
+          <span class="value">{{jsonData.IdleHousestead.idleLandArea}}</span>
           <span class="unit">万亩</span>
           <span class="label" style="margin-left:10px">盘活利用</span>
-          <span class="value">1.5</span>
+          <span class="value">{{jsonData.IdleHousestead.idleLandReuseArea}}</span>
           <span class="unit">万亩</span>
         </div>
 
@@ -138,10 +138,10 @@
 
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置住宅</span>
-          <span class="value">22.5</span>
+          <span class="value">{{jsonData.IdleHousestead.idleHouseArea}}</span>
           <span class="unit">万幢</span>
           <span class="label" style="margin-left:10px">盘活利用</span>
-          <span class="value">2.5</span>
+          <span class="value">{{jsonData.IdleHousestead.idleHouseReuseArea}}</span>
           <span class="unit">万幢</span>
         </div>
 
@@ -175,10 +175,10 @@
             <div class="content">
               <div class="label">原址新建</div>
               <div>
-                <span class="value">124</span>
+                <span class="value">{{jsonData.landAudit.yzxjCount}}</span>
                 <span class="unit">宗</span>
                 <span class="value split">/</span>
-                <span class="value">321</span>
+                <span class="value">{{jsonData.landAudit.yzxjArea}}</span>
                 <span class="unit">亩</span>
               </div>
             </div>
@@ -190,10 +190,10 @@
             <div class="content">
               <div class="label">改扩建</div>
               <div>
-                <span class="value">2319</span>
+                <span class="value">{{jsonData.landAudit.gkjCount}}</span>
                 <span class="unit">宗</span>
                 <span class="value split">/</span>
-                <span class="value">498</span>
+                <span class="value">{{jsonData.landAudit.gkjArea}}</span>
                 <span class="unit">亩</span>
               </div>
             </div>
@@ -207,10 +207,10 @@
             <div class="content">
               <div class="label">异址新建</div>
               <div>
-                <span class="value">1140</span>
+                <span class="value">{{jsonData.landAudit.yyzxjCount}}</span>
                 <span class="unit">宗</span>
                 <span class="value split">/</span>
-                <span class="value">264</span>
+                <span class="value">{{jsonData.landAudit.yyzxjArea}}</span>
                 <span class="unit">亩</span>
               </div>
             </div>
@@ -222,10 +222,10 @@
             <div class="content">
               <div class="label">宅基地流转</div>
               <div>
-                <span class="value">1244</span>
+                <span class="value">{{jsonData.landAudit.zjdlzCount}}</span>
                 <span class="unit">宗</span>
                 <span class="value split">/</span>
-                <span class="value">211</span>
+                <span class="value">{{jsonData.landAudit.zjdlzArea}}</span>
                 <span class="unit">亩</span>
               </div>
             </div>
@@ -239,10 +239,10 @@
             <div class="content">
               <div class="label">宅基地退出</div>
               <div>
-                <span class="value">974</span>
+                <span class="value">{{jsonData.landAudit.zjdtcCount}}</span>
                 <span class="unit">宗</span>
                 <span class="value split">/</span>
-                <span class="value">186</span>
+                <span class="value">{{jsonData.landAudit.zjdtcArea}}</span>
                 <span class="unit">亩</span>
               </div>
             </div>
@@ -258,14 +258,28 @@ import BaseMap from "../spatialData/mapBase.js";
 import { Map, View } from "ol";
 import { defaults } from "ol/control";
 import TileLayer from "ol/layer/Tile";
+import Region from '@/views/land/mixnis/region-mixin.js'
+import jsonFileHandler from "@/libs/util.jsonfile.js"
 
 export default {
   name: "mappanel",
+  mixins:[
+    Region
+  ],
   data() {
     return {
       map: null,
-      xzqhdm: "46"
+      xzqhdm: "46",
+      jsonData: {
+        regions: {},
+        landAreaAndPeople: {},
+        IdleHousestead: {},
+        landAudit: {}
+      }
     };
+  },
+  created() {
+    this.initData()
   },
   mounted() {
     this.$nextTick(function(){
@@ -274,13 +288,20 @@ export default {
       var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm,null,()=>{
           this.map.getView().setZoom(7)
       });
-      
       this.drawPieChart();
       this.drawbarchart();
     })
     
   },
   methods: {
+    initData () {
+      let code = this.getRegionCode()
+     jsonFileHandler.getData('/test-data/index.json','code',code)
+      .then(data => {
+        this.jsonData = data.data
+      })
+     
+    },
     drawPieChart: function() {
       let myChart = this.$echarts.init(document.getElementById("piechart"));
       let datas = [];
