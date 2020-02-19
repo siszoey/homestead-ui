@@ -89,14 +89,19 @@
         <el-col :span="12" v-if="showHistory">
           <!--历史-->
           <div class="history-content">
-            <el-timeline :reverse="true">
+            <div v-show="procHistories.length == 0">
+              <h2>未有提交信息</h2>
+            </div>
+            <el-timeline :reverse="true" v-show="procHistories.length > 0">
               <el-timeline-item
                   v-for="(procHistory, index) in procHistories"
                   :key="index"
                   type="primary"
-                  size="large"
-                  :timestamp="procHistory.time">
-                {{procHistory.name}}
+                  size="large">
+                <el-card>
+                  <h4>{{procHistory.actname}}</h4>
+                  <p>{{`${procHistory.username} 提交于 ${procHistory.endtime}`}}</p>
+                </el-card>
               </el-timeline-item>
             </el-timeline>
           </div>
@@ -385,8 +390,8 @@
       initProcHistories() {
         if (this.processInfo) {
           //todo: test data
-          GetProcHistory({taskid: '47526' /*this.processInfo.taskid*/}).then(res => {
-            this.procHistories = res
+          GetProcHistory({taskid: /*'47526'*/ this.processInfo.taskid}).then(res => {
+            this.procHistories = res.history || []
             console.log('init procHistory success')
           })
         }
