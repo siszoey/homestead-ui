@@ -1,8 +1,8 @@
 import {mapState} from 'vuex'
 
-import dictMixnis from "./dict-mixnis"
+import dictMixins from "./dict-mixnis"
 import {DoProcess} from "../../../api/land.business_activiti"
-import {processRoles} from '../../../mock/data/land.role'
+import {CANNOT_GO_BACK_TASKS} from '../../../mock/data/land.constant'
 
 export default {
 
@@ -12,7 +12,7 @@ export default {
   beforeDestroy() {
   },
   mixins: [
-    dictMixnis,
+    dictMixins,
   ],
   computed: {
     ...mapState('d2admin/dict', [
@@ -33,18 +33,20 @@ export default {
    */
   methods: {
     getProcessRole(roleId) {
-      let role = processRoles.find(r => r.role == roleId)
-      return role ? `${role.stage}人员` : ''
+      return ''
     },
     isFirstProcess() {
-      return this.info.role.includes(this.firstProcessRole.optName)
+      return this.info.role == '村民'
+    },
+    canNotGoBack(taskname){
+      return CANNOT_GO_BACK_TASKS.includes(taskname)
     },
     isLastProcessByRole(role) {
       return role === this.lastProcessRole.optName
     },
 
     /**
-     * 流程变化请求
+     * 流程办理
      * @param processInfo
      * @param passFlag
      */

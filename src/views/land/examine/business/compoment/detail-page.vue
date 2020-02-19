@@ -128,23 +128,17 @@
       processMixnis
     ],
     created() {
-      if ('待办' == this.$route.params.box) {
-        this.sendBtnDisabled = false
-        if (this.processInfo && this.firstXMZT.optCode != this.processInfo.xmzt) {
-          this.backBtnDisabled = false
-        }
-      }
-      if ('退办' == this.$route.params.box) {
-        this.sendBtnDisabled = false
-      }
+      this.initBtnDisable()
+      this.initProcHistories()
       this.xmbh = this.processInfo ? this.processInfo.sqid : ''
       // this.stage = this.processInfo ? this.processInfo.xmzt : ''
-      this.getLastXMZT()
+
+      //延迟加载
       let that = this
       setTimeout(function () {
         that.pageLoading = false
       }, 3000)
-      this.initProcHistories()
+
     },
     data() {
       //非新建
@@ -158,6 +152,7 @@
           box: this.$route.params.box,
           sqid: row.sqid,
           taskid: row.taskid,
+          actname: row.actname,
         }
       }
       return {
@@ -374,13 +369,18 @@
         }
         return false
       },
-      getLastXMZT() {
-        let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
-        this.active = currentXMZTCode - 1
-      },
+      // getLastXMZT() {
+      //   let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
+      //   this.active = currentXMZTCode - 1
+      // },
       changeSendBtnState(a) {
         this.sendBtnDisabled = !(a[0])
         this.processInfo = a[1]
+      },
+      initBtnDisable(){
+        let undoFlag = '待办' != this.$route.params.box && '退办' != this.$route.params.box
+        this.sendBtnDisabled = undoFlag
+        this.backBtnDisabled = undoFlag || this.canNotGoBack(this.processInfo.actname)
       },
       initProcHistories() {
         if (this.processInfo) {
