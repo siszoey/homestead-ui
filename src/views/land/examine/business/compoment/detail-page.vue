@@ -1,8 +1,8 @@
 <template>
   <d2-container v-loading="pageLoading">
-    <el-steps :active="active" finish-status="success" align-center direction="vertical">
-      <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
-    </el-steps>
+<!--    <el-steps :active="active" finish-status="success" align-center direction="vertical">-->
+<!--      <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>-->
+<!--    </el-steps>-->
     <div class="detail-content">
       <el-row :gutter="20">
         <el-col :span="12">
@@ -420,7 +420,7 @@
   }
 
   .detail-content {
-    margin-right: 10%;
+    /*margin-right: 10%;*/
   }
   .history-content{
     padding: 40px;
