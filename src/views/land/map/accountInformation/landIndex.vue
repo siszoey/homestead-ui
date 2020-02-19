@@ -13,71 +13,20 @@
       <!-- <hr /> -->
       <el-card class="box-card" id="mapPanel">
         <div style="height:50%;overflow-y: auto;">
-          <div class="text item">
+          <div class="text item" v-for="(item,index) in progressData" :key="index">
             <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-            <span class="demonstration">铺前圩社区（亩）</span>
+            <span class="demonstration">{{item.label}}</span>
             <span class="demonstration" style="float:right">
               <span class="color-box-blue"></span>实际用地
             </span>
             <br />
-            <span class="demonstration">1518.69</span>
+            <span class="demonstration">{{item.usedArea}}</span>
             <span class="demonstration" style="float:right">
               <span class="color-box-gray"></span>计划用地
             </span>
-            <el-progress :percentage="11"></el-progress>
+            <el-progress :percentage="item.percentage"></el-progress>
           </div>
-          <div class="text item">
-            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-            <span class="demonstration">地太村（亩）</span>
-            <span class="demonstration" style="float:right">
-              <div class="color-box-blue"></div>实际用地
-            </span>
-            <br />
-            <span class="demonstration">76564.45</span>
-            <span class="demonstration" style="float:right">
-              <div class="color-box-gray"></div>计划用地
-            </span>
-            <el-progress :percentage="67"></el-progress>
-          </div>
-          <div class="text item">
-            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-            <span class="demonstration">东坡村（亩）</span>
-            <span class="demonstration" style="float:right">
-              <div class="color-box-blue"></div>实际用地
-            </span>
-            <br />
-            <span class="demonstration">647.21</span>
-            <span class="demonstration" style="float:right">
-              <div class="color-box-gray"></div>计划用地
-            </span>
-            <el-progress :percentage="21"></el-progress>
-          </div>
-          <div class="text item">
-            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-            <span class="demonstration">林梧村（亩）</span>
-            <span class="demonstration" style="float:right">
-              <div class="color-box-blue"></div>实际用地
-            </span>
-            <br />
-            <span class="demonstration">9776.88</span>
-            <span class="demonstration" style="float:right">
-              <div class="color-box-gray"></div>计划用地
-            </span>
-            <el-progress :percentage="35"></el-progress>
-          </div>
-          <div class="text item">
-            <!-- <div v-for="o in 5" :key="o" class="text item"> -->
-            <span class="demonstration">隆丰村（亩）</span>
-            <span class="demonstration" style="float:right">
-              <div class="color-box-blue"></div>实际用地
-            </span>
-            <br />
-            <span class="demonstration">543.97</span>
-            <span class="demonstration" style="float:right">
-              <div class="color-box-gray"></div>计划用地
-            </span>
-            <el-progress :percentage="15"></el-progress>
-          </div>
+       
         </div>
         <div style="height:50%;overflow-y: auto;margin-top: 10px;">
           <div class="text item">
@@ -104,25 +53,9 @@
 
 <script>
 import echarts from "echarts";
-// import JSON_WHS from "@/plugin/echarts-map/city/json/hubei/420100.json"; //武汉市
-// import JSON_HSS from "@/plugin/echarts-map/city/json/hubei/420200.json"; //黄石市
-// import JSON_SYS from "@/plugin/echarts-map/city/json/hubei/420300.json"; //十堰市
-// import JSON_YCS from "@/plugin/echarts-map/city/json/hubei/420500.json"; //宜昌市
-// import JSON_XYS from "@/plugin/echarts-map/city/json/hubei/420600.json"; //襄阳市
-// import JSON_EZS from "@/plugin/echarts-map/city/json/hubei/420700.json"; //鄂州市
-// import JSON_JMS from "@/plugin/echarts-map/city/json/hubei/420800.json"; //荆门市
-// import JSON_XGS from "@/plugin/echarts-map/city/json/hubei/420900.json"; //孝感市
-// import JSON_JZS from "@/plugin/echarts-map/city/json/hubei/421000.json"; //荆州市
-// import JSON_HGS from "@/plugin/echarts-map/city/json/hubei/421100.json"; //黄冈市
-// import JSON_XNS from "@/plugin/echarts-map/city/json/hubei/421200.json"; //咸宁市
-// import JSON_SZS from "@/plugin/echarts-map/city/json/hubei/421300.json"; //随州市
-// import JSON_ESTJZMZZZZ from "@/plugin/echarts-map/city/json/hubei/422800.json"; //恩施土家族苗族自治州
-// import JSON_HBSZXXS from "@/plugin/echarts-map/city/json/hubei/429000.json"; //湖北省直辖县市
 
-import JSON_WHS from "@/plugin/echarts-map/city/json/hainan/460100.json"; //海口市
-import JSON_HSS from "@/plugin/echarts-map/city/json/hainan/460200.json"; //三亚市
-import JSON_SYS from "@/plugin/echarts-map/city/json/hainan/460300.json"; //三沙市
-import JSON_YCS from "@/plugin/echarts-map/city/json/hainan/469000.json"; //其它自治市县
+import Region from '@/views/land/mixnis/region-mixin.js'
+import jsonFileHandler from "@/libs/util.jsonfile.js"
 
 import timeline from "../spatialData/components/timeline";
 import BaseMap from "../spatialData/mapBase.js";
@@ -130,6 +63,7 @@ import ToolBar from "../spatialData/components/toolbar";
 
 export default {
   name: "echart-map",
+  mixins:[Region],
   props: {
     hiddenToolbar: {
       type: Boolean,
@@ -138,38 +72,8 @@ export default {
   },
   data() {
     return {
-      tableData: [
-        {
-          xzq: "铺前圩社区",
-          jhyd: "9460.81",
-          sjyd: "1518.69",
-          szbl: "11%"
-        },
-        {
-          xzq: "地太村",
-          jhyd: "75765.81",
-          sjyd: "76564.45",
-          szbl: "67%"
-        },
-        {
-          xzq: "东坡村",
-          jhyd: "3243.81",
-          sjyd: "647.21",
-          szbl: "21%"
-        },
-        {
-          xzq: "林梧村",
-          jhyd: "9875.81",
-          sjyd: "9776.88",
-          szbl: "35%"
-        },
-        {
-          xzq: "隆丰村",
-          jhyd: "7657.81",
-          sjyd: "543.97",
-          szbl: "15%"
-        }
-      ],
+      tableData: [],
+      progressData:[],
       years: [],
       cities: [],
       year: "",
@@ -203,24 +107,7 @@ export default {
           formatter: params => {
             // params.data
             return "";
-            // `<table class="map__tooltip o_font20">
-            //                         <thead>
-            //                            <tr>
-            //                                <th>行政区</th>
-            //                                <th>计划用地</th>
-            //                                <th>实际用地</th>
-            //                                <th>所占比例</th>
-            //                             </tr>
-            //                         </thead>
-            //                         <tbody>
-            //                             <tr>
-            //                                 <th>${params.data.obj.a}</th>
-            //                                 <th>${params.data.obj.b}</th>
-            //                                 <th>${params.data.obj.c}</th>
-            //                                 <th>${params.data.obj.d}</th>
-            //                              </tr>
-            //                         </tbody>
-            //                     </table>`;
+      
           }
         },
         legend: {
@@ -303,73 +190,11 @@ export default {
     timeline,
     ToolBar
   },
+  created() {
+    this.initData()
+  },
   mounted() {
     this.changeToolbar();
-    //获取海南市级行政区
-    let sj_fileName = "echarts-map/province/json/hainan.json";
-    this.requestAjax(sj_fileName, 2);
-    //获取行政区
-    // let cities = [
-    //   {
-    //     value: "420100",
-    //     label: "武汉市"
-    //   },
-    //   {
-    //     value: "420200",
-    //     label: "黄石市"
-    //   },
-    //   {
-    //     value: "420300",
-    //     label: "十堰市"
-    //   },
-    //   {
-    //     value: "420500",
-    //     label: "宜昌市"
-    //   },
-    //   {
-    //     value: "420600",
-    //     label: "襄阳市"
-    //   },
-    //   {
-    //     value: "420700",
-    //     label: "鄂州市"
-    //   },
-    //   {
-    //     value: "420800",
-    //     label: "荆门市"
-    //   },
-    //   {
-    //     value: "420900",
-    //     label: "孝感市"
-    //   },
-    //   {
-    //     value: "421000",
-    //     label: "荆州市"
-    //   },
-    //   {
-    //     value: "421100",
-    //     label: "黄冈市"
-    //   },
-    //   {
-    //     value: "421200",
-    //     label: "咸宁市"
-    //   },
-    //   {
-    //     value: "421300",
-    //     label: "随州市"
-    //   },
-    //   {
-    //     value: "422800",
-    //     label: "恩施土家族苗族自治州"
-    //   },
-    //   {
-    //     value: "429000",
-    //     label: "湖北省直辖县市"
-    //   }
-    // ];
-    // this.cities = cities;
-    //默认行政区为海口市
-    this.city = "460100";
     //获得当前年份
     var _date = new Date();
     var tYear = _date.getFullYear();
@@ -394,6 +219,16 @@ export default {
     BaseMap.BaseAddTruePoints(this.map, "#F28965");
   },
   methods: {
+     initData(){
+      this.getRegions().then(datas=>{
+        this.cities = datas
+      })
+      let code = this.getRegionCode()
+      jsonFileHandler.getData('test-data/map/landIndex.json','code',code).then(datas=>{
+        this.tableData = datas.tableData
+        this.progressData = datas.progressData
+      })
+    },
     //切换面板显示
     changeToolbar() {
       if (this.hiddenToolbar) {
@@ -416,26 +251,7 @@ export default {
         }
       });
     },
-    //ajax获取本地json文件行政区划
-    requestAjax(fileName, level) {
-      let _this = this;
-      this.$axios
-        .get(fileName)
-        //then获取成功；response成功后的返回值（对象）
-        .then(response => {
-          // console.log(response.data.features); //[0].properties.name
-          if (level == "3") {
-            _this.counties = response.data.features;
-          } else if (level == "2") {
-            _this.cities = response.data.features;
-          }
-        })
-        //获取失败
-        .catch(error => {
-          console.log(error);
-          alert("网络错误，不能访问");
-        });
-    },
+   
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {
         return "warning-row";
@@ -453,67 +269,7 @@ export default {
       console.log(this.JSON_Data);
     },
     changeCity(value) {
-      console.log(value);
-      switch (value) {
-        // case "420100":
-        //   this.initMaps(JSON_WHS);
-        //   break;
-        // case "420200":
-        //   this.initMaps(JSON_HSS);
-        //   break;
-        // case "420300":
-        //   this.initMaps(JSON_SYS);
-        //   break;
-        // case "420500":
-        //   this.initMaps(JSON_YCS);
-        //   break;
-        // case "420600":
-        //   this.initMaps(JSON_XYS);
-        //   break;
-        // case "420700":
-        //   this.initMaps(JSON_EZS);
-        //   break;
-        // case "420800":
-        //   this.initMaps(JSON_JMS);
-        //   break;
-        // case "420900":
-        //   this.initMaps(JSON_XGS);
-        //   break;
-        // case "421000":
-        //   this.initMaps(JSON_JZS);
-        //   break;
-        // case "421100":
-        //   this.initMaps(JSON_HGS);
-        //   break;
-        // case "421200":
-        //   this.initMaps(JSON_XNS);
-        //   break;
-        // case "421300":
-        //   this.initMaps(JSON_SZS);
-        //   break;
-        // case "422800":
-        //   this.initMaps(JSON_ESTJZMZZZZ);
-        //   break;
-        // case "429000":
-        //   this.initMaps(JSON_HBSZXXS);
-        //   break;
-        case "460100":
-          this.initMaps(JSON_WHS);
-          break;
-        case "460200":
-          this.initMaps(JSON_HSS);
-          break;
-        case "460300":
-          this.initMaps(JSON_SYS);
-          break;
-        case "469000":
-          this.initMaps(JSON_YCS);
-          break;
-        default:
-          this.initMaps("");
-          break;
-      }
-      //this.initMaps();
+      
     },
     getOptions() {
       this.setOptions("legend", {
