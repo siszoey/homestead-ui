@@ -1,0 +1,40 @@
+[
+  {
+      "code" : "46",
+      "regionName" : "海南省",
+      "data": {
+          "regions":{
+              "cityCount" : 4,
+              "countyCount" : 23,
+              "countryCount" : 218,
+              "viligeCount": 12000
+          },
+          "landAreaAndPeople" : {
+              "landArea" : 45,
+              "houseCount" : 150,
+              "agrPopulation" : 382.51,
+              "totalHouse": 115.32,
+              "averageHouseArea" : 175,
+              "averagePeopleArea" : 75
+          },
+          "IdleHousestead":{
+              "idleLandArea":2.25,
+              "idleLandReuseArea":1.5,
+              "idleHouseArea":22.5,
+              "idleHouseReuseArea":2.5
+          },
+          "landAudit":{
+              "yzxjCount":124,
+              "yzxjArea":321,
+              "gkjCount":2319,
+              "gkjArea":498,
+              "yyzxjCount":1140,
+              "yyzxjArea":264,
+              "zjdlzCount":1244,
+              "zjdlzArea":211,
+              "zjdtcCount":947,
+              "zjdtcArea":186
+          }
+      }
+  }
+]

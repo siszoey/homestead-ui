@@ -96,7 +96,7 @@
   // import FileTreeView from '../../../components/filetreeview.vue'
   // import OneMap from '../../../../land/map/spatialData/onemap.vue'
   // import {LastProcess} from "../../../../../api/land.business"
-
+  import {ApplicationForm} from '@/api/land.business_activiti'
   export default {
     name: 'detail-page',
     components: {
@@ -120,7 +120,6 @@
       if ('退办' == this.$route.params.box) {
         this.sendBtnDisabled = false
       }
-      debugger
       this.xmbh = this.processInfo ? this.processInfo.sqid : ''
       // this.stage = this.processInfo ? this.processInfo.xmzt : ''
       this.getLastXMZT()
@@ -130,12 +129,25 @@
       }, 3000)
     },
     data() {
+      //非新建
+      let row = this.$route.params.detail ? this.$route.params.detail : undefined
+      let detail = undefined
+      let processInfo = undefined
+      if(row != undefined){
+        detail = row.formVO
+        processInfo = {
+          xmzt: row.actid,
+          box: this.$route.params.box,
+          sqid: row.sqid,
+          taskid: row.taskid,
+        }
+      }
       return {
         applicationFormDisabled: this.$route.params.applicationFormDisabled || false,
         appceptanceFormDisabled: this.$route.params.appceptanceFormDisabled || false,
         approvalFormDisabled: this.$route.params.approvalFormDisabled || false,
-        detail: this.$route.params.detail || undefined,
-        processInfo: this.$route.params.detail ? this.$route.params.detail.zjdSqJl : undefined,
+        detail: detail,
+        processInfo: processInfo,
 
         sendBtnDisabled: true,
         backBtnDisabled: true,

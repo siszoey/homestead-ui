@@ -309,7 +309,7 @@
     methods: {
       handlePutTempData(){
         this.form = Object.assign({}, this.form, appceptanceFormTempData)
-        this.form.ysyj.sqid = this.detail.zjdSqJl.sqid
+        this.form.ysyj.sqid = this.detail.jcxx.sqid
       },
       submitForm() {
         submitAcceptance(this.form.ysyj).then(res => {

@@ -8,14 +8,17 @@
         <el-input v-model="queryForm.jfr" placeholder="纠纷人"></el-input>
       </el-form-item>
       <el-form-item>
+        <el-button type="warning" @click="zoom">
+          <d2-icon name="map" /> 地图
+        </el-button>
         <el-button type="primary">
           <d2-icon name="search" />查询</el-button>
       </el-form-item>
     </el-form>
-    <el-row style="padding-bottom:25px">
+    <el-row>
       <el-col style="padding: 0px 5px 0px 25px" :span="showMapView ? 14: 24">
         <el-table :key='table.key' :data="table.list" v-loading="table.listLoading" element-loading-text="拼命加载中..."
-          highlight-current-row stripe style="width: 100%">
+          highlight-current-row stripe style="width: 100%" height="680px">
           <el-table-column prop="sqr" label="申请人">
           </el-table-column>
           <el-table-column prop="jfr" label="纠纷人">
@@ -35,8 +38,8 @@
         </el-table>
 
       </el-col>
-      <el-col :span="10" style="padding:0px 25px 0px 5px;height:610px;" v-if="showMapView">
-        <div style="width: 570px;height:700px">
+      <el-col :span="10" style="padding:0px 5px 0px 5px;height:680px;" v-if="showMapView">
+        <div style="width: 100%;height:680px">
           <superviseOneMap :zoomToZD="true"></superviseOneMap>
         </div>
       </el-col>
@@ -102,6 +105,12 @@
             this.sqr = row.sqr;
           }, 0);
         }
+      },
+      zoom(){
+        this.showMapView = this.showMapView ? false : true;
+        this.$nextTick(() => {
+          this.$refs.dailyTable && this.$refs.dailyTable.doLayout();
+        })
       }
     }
   }
