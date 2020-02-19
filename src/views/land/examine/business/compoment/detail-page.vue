@@ -1,104 +1,127 @@
 <template>
-    <d2-container v-loading="pageLoading">
-        <el-steps :active="active" finish-status="success" align-center direction="vertical">
-            <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
-        </el-steps>
-        <div class="detail-content">
-            <el-row :gutter="20">
-                <el-col :span="12">
-                    <el-button type="primary" size="mini" @click="handleShowForm">
-                        表单
-                    </el-button>
-                    <el-button type="primary" size="mini" @click="handleShowPrintView">
-                        打印
-                    </el-button>
-                </el-col>
+  <d2-container v-loading="pageLoading">
+    <el-steps :active="active" finish-status="success" align-center direction="vertical">
+      <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
+    </el-steps>
+    <div class="detail-content">
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-button type="primary" size="mini" @click="handleShowForm">
+            表单
+          </el-button>
+          <el-button type="primary" size="mini" @click="handleShowPrintView">
+            打印
+          </el-button>
+        </el-col>
 
-                <el-col :span="12" style="text-align:right">
-                    <el-button type="primary" size="mini" @click="handleShowMap">
-                        查看地图
-                    </el-button>
-                    <el-button type="primary" size="mini" @click="handleShowFileView">
-                        材料
-                    </el-button>
-                    <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
-                        发送
-                    </el-button>
-                    <el-button type="primary" size="mini" @click="handleBack" :disabled="backBtnDisabled">
-                        回退
-                    </el-button>
-                </el-col>
-            </el-row>
+        <el-col :span="12" style="text-align:right">
+          <el-button type="primary" size="mini" @click="handleShowMap">
+            查看地图
+          </el-button>
+          <el-button type="primary" size="mini" @click="handleShowFileView">
+            材料
+          </el-button>
+          <el-button type="primary" size="mini" @click="handleSend" :disabled="sendBtnDisabled">
+            发送
+          </el-button>
+          <el-button type="primary" size="mini" @click="handleBack" :disabled="backBtnDisabled">
+            回退
+          </el-button>
+          <el-button type="primary" size="mini" @click="handleShowHistory">
+            历史
+          </el-button>
+        </el-col>
+      </el-row>
 
-            <el-row :gutter="5">
-                <!--表单-->
-                <el-col :span="showMap || showFileView ? 12 : 24" >
-                    <el-tabs tab-position="top" v-show="showForm">
-                        <el-tab-pane label="申请表">
-                            <applicationForm :disabled="applicationFormDisabled" :detail="detail" @change-send-state="changeSendBtnState(arguments)"></applicationForm>
-                        </el-tab-pane>
-                        <el-tab-pane label="审批表" v-if="detail">
-                            <approvalForm :disabled="approvalFormDisabled" :detail="detail" @change-send-state="changeSendBtnState"></approvalForm>
-                        </el-tab-pane>
-                        <el-tab-pane label="验收意见表" v-if="detail">
-                            <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail" @change-send-state="changeSendBtnState"></appceptanceForm>
-                        </el-tab-pane>
-                    </el-tabs>
+      <el-row :gutter="5">
+        <!--表单-->
+        <el-col :span="showMap || showFileView || showHistory? 12 : 24">
+          <el-tabs tab-position="top" v-show="showForm">
+            <el-tab-pane label="申请表">
+              <applicationForm :disabled="applicationFormDisabled" :detail="detail"
+                               @change-send-state="changeSendBtnState(arguments)"></applicationForm>
+            </el-tab-pane>
+            <el-tab-pane label="审批表" v-if="detail">
+              <approvalForm :disabled="approvalFormDisabled" :detail="detail"
+                            @change-send-state="changeSendBtnState"></approvalForm>
+            </el-tab-pane>
+            <el-tab-pane label="验收意见表" v-if="detail">
+              <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"
+                               @change-send-state="changeSendBtnState"></appceptanceForm>
+            </el-tab-pane>
+          </el-tabs>
 
-                    <!--打印-->
-                    <div v-bind="$attrs" v-show="showPrintView">
-                        <el-tabs tab-position="top">
-                            <el-tab-pane label="申请表">
-                                <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
-                            </el-tab-pane>
-                            <el-tab-pane label="审批表">
-                                <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
-                            </el-tab-pane>
-                            <el-tab-pane label="乡镇建设规划许可证">
-                                <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
-                            </el-tab-pane>
-                            <el-tab-pane label="批准书">
-                                <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
-                            </el-tab-pane>
-                            <el-tab-pane label="验收意见表">
-                                <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
-                            </el-tab-pane>
-<!--                            <el-tab-pane label="附图">-->
-<!--                                <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>-->
-<!--                            </el-tab-pane>-->
-                        </el-tabs>
-                    </div>
-                </el-col>
+          <!--打印-->
+          <div v-bind="$attrs" v-show="showPrintView">
+            <el-tabs tab-position="top">
+              <el-tab-pane label="申请表">
+                <iframe ref="applicationIframe" :src="iframeSrc1" frameborder="0" scrolling="auto"></iframe>
+              </el-tab-pane>
+              <el-tab-pane label="审批表">
+                <iframe ref="approvalIframe" :src="iframeSrc2" frameborder="0" scrolling="auto"></iframe>
+              </el-tab-pane>
+              <el-tab-pane label="乡镇建设规划许可证">
+                <iframe ref="Iframe5" :src="iframeSrc5" frameborder="0" scrolling="auto"></iframe>
+              </el-tab-pane>
+              <el-tab-pane label="批准书">
+                <iframe ref="Iframe4" :src="iframeSrc4" frameborder="0" scrolling="auto"></iframe>
+              </el-tab-pane>
+              <el-tab-pane label="验收意见表">
+                <iframe ref="acceptanceIframe" :src="iframeSrc3" frameborder="0" scrolling="auto"></iframe>
+              </el-tab-pane>
+              <!--                            <el-tab-pane label="附图">-->
+              <!--                                <iframe ref="Iframe6" :src="iframeSrc6" frameborder="0" scrolling="auto"></iframe>-->
+              <!--                            </el-tab-pane>-->
+            </el-tabs>
+          </div>
+        </el-col>
 
-                <!--一张图-->
-                <el-col :span="12" v-if="showMap">
-                    <div style="width: 570px;height:800px">
-                        <oneMap :hiddenToolbar="true" :zoomToZD="true"></oneMap>
-                    </div>
-                </el-col>
-                <el-col :span="12" v-if="showFileView">
-                    <!--材料-->
-                    <file-tree-view :xmbh="xmbh" :stage="stage"></file-tree-view>
-                </el-col>
-            </el-row>
-        </div>
+        <!--一张图-->
+        <el-col :span="12" v-if="showMap">
+          <div style="width: 570px;height:800px">
+            <oneMap :hiddenToolbar="true" :zoomToZD="true"></oneMap>
+          </div>
+        </el-col>
+        <el-col :span="12" v-if="showFileView">
+          <!--材料-->
+          <file-tree-view :xmbh="xmbh" :stage="stage"></file-tree-view>
+        </el-col>
+        <el-col :span="12" v-if="showHistory">
+          <!--历史-->
+          <div class="history-content">
+            <el-timeline :reverse="true">
+              <el-timeline-item
+                  v-for="(procHistory, index) in procHistories"
+                  :key="index"
+                  type="primary"
+                  size="large"
+                  :timestamp="procHistory.time">
+                {{procHistory.name}}
+              </el-timeline-item>
+            </el-timeline>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
 
 
-    </d2-container>
+  </d2-container>
 </template>
 
 <script>
   import dictMixins from '../../../mixnis/dict-mixnis'
   import processMixnis from "../../../mixnis/process-mixnis"
   import applicationForm from './application-form'
+  import {GetProcHistory} from '../../../../../api/land.business_activiti'
+
   export default {
     name: 'detail-page',
     components: {
       applicationForm,
-      approvalForm: ()=> import('./approval-form'),
-      appceptanceForm: ()=> import('./appceptance-form'),
-      FileTreeView: ()=> import('../../../components/filetreeview.vue'),
-      OneMap: ()=> import('../../../../land/map/spatialData/onemap.vue')
+      approvalForm: () => import('./approval-form'),
+      appceptanceForm: () => import('./appceptance-form'),
+      FileTreeView: () => import('../../../components/filetreeview.vue'),
+      OneMap: () => import('../../../../land/map/spatialData/onemap.vue')
     },
     mixins: [
       dictMixins,
@@ -117,17 +140,18 @@
       this.xmbh = this.processInfo ? this.processInfo.sqid : ''
       // this.stage = this.processInfo ? this.processInfo.xmzt : ''
       this.getLastXMZT()
-      let that = this;
+      let that = this
       setTimeout(function () {
         that.pageLoading = false
       }, 3000)
+      this.initProcHistories()
     },
     data() {
       //非新建
       let row = this.$route.params.detail ? this.$route.params.detail : undefined
       let detail = undefined
       let processInfo = undefined
-      if(row != undefined){
+      if (row != undefined) {
         detail = row.formVO
         processInfo = {
           xmzt: row.actid,
@@ -151,13 +175,16 @@
         showForm: true,
 
         showFileView: false,
-        xmbh:  '',
-        stage:  '',
+        xmbh: '',
+        stage: '',
 
         showPrintView: false,
         rdpPrefix: process.env.VUE_APP_RDP_URL + '/rdppage/show/',
 
         showMap: false,
+
+        procHistories: [],
+        showHistory: false,
 
         active: 0,
         pageLoading: true
@@ -221,7 +248,7 @@
         }
       },
       handleSend() {
-        if(this.confirmDone()){
+        if (this.confirmDone()) {
           return
         }
         let confirm = Object.assign({}, {
@@ -230,7 +257,7 @@
           trueText: '确定',
           falseText: '取消',
         })
-        if(this.isLastProcessByRole(this.processInfo.roleid)){
+        if (this.isLastProcessByRole(this.processInfo.roleid)) {
           confirm.title = "联合审批结束，是否归档?"
         }
         this.$confirm(confirm.title, '提示', {
@@ -243,12 +270,12 @@
           this.processRequest(this.processInfo, true)
           this.hadSend = true
         }).catch(() => {
-        }).finally(()=>{
-          this.jumpToDoPage();
+        }).finally(() => {
+          this.jumpToDoPage()
         })
       },
       handleBack() {
-        if(this.confirmDone()){
+        if (this.confirmDone()) {
           return
         }
 
@@ -268,13 +295,13 @@
           this.processRequest(this.processInfo, false)
           this.hadBack = true
         }).catch(() => {
-        }).finally(()=>{
-          this.jumpToDoPage();
+        }).finally(() => {
+          this.jumpToDoPage()
         })
       },
       handleShowForm() {
         this.showFlag(false)
-        this.showForm = true;
+        this.showForm = true
         // let flag = this.showForm
         // let mapFlag = this.showMap
         // this.showFlag(false)
@@ -290,7 +317,7 @@
       },
       handleShowPrintView() {
         this.showFlag(false)
-        this.showPrintView = true;
+        this.showPrintView = true
         // let flag = this.showPrintView
         // this.showFlag(false)
         // this.showPrintView = flag ? false : true
@@ -310,7 +337,12 @@
         // this.showForm = formFlag
         // this.showMap = flag ? false : true
       },
-      jumpToDoPage(){
+      handleShowHistory() {
+        this.showFileView = false
+        this.showMap = false
+        this.showHistory = this.showHistory ? false : true
+      },
+      jumpToDoPage() {
         let that = this
         setTimeout(() => {
           that.$router.push({
@@ -318,20 +350,20 @@
           })
         }, 300)
       },
-      confirmDone(){
+      confirmDone() {
         if (this.hadSend) {
           this.$message({
             type: 'warning',
             message: '已发送'
           })
-          return true;
+          return true
         }
         if (this.hadBack) {
           this.$message({
             type: 'warning',
             message: '已回退'
           })
-          return true;
+          return true
         }
         if (undefined == this.processInfo) {
           this.$message({
@@ -346,39 +378,52 @@
         let currentXMZTCode = this.processInfo == undefined ? 1 : this.processInfo.xmzt
         this.active = currentXMZTCode - 1
       },
-      changeSendBtnState (a) {
+      changeSendBtnState(a) {
         this.sendBtnDisabled = !(a[0])
         this.processInfo = a[1]
+      },
+      initProcHistories() {
+        if (this.processInfo) {
+          //todo: test data
+          GetProcHistory({taskid: '47526' /*this.processInfo.taskid*/}).then(res => {
+            this.procHistories = res
+            console.log('init procHistory success')
+          })
+        }
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-    .el-menu-vertical-demo {
-        &:not(.el-menu--collapse) {
-            width: 200px;
-            min-height: 500px;
-        }
+  .el-menu-vertical-demo {
+    &:not(.el-menu--collapse) {
+      width: 200px;
+      min-height: 500px;
     }
+  }
 
-    iframe {
-        min-height: 500px;
-        /*height: calc(100% - 45px);*/
-        width: 100%;
-    }
+  iframe {
+    min-height: 500px;
+    /*height: calc(100% - 45px);*/
+    width: 100%;
+  }
 
-    .el-steps{
-        position: absolute;
-        top: 0;
-        left: 90%;
-        right: 0;
-        padding-top: 20px;
-        padding-right: 20px;
-        // height: 200%;
-    }
-    .detail-content{
-        margin-right: 10%;
-    }
+  .el-steps {
+    position: absolute;
+    top: 0;
+    left: 90%;
+    right: 0;
+    padding-top: 20px;
+    padding-right: 20px;
+    // height: 200%;
+  }
+
+  .detail-content {
+    margin-right: 10%;
+  }
+  .history-content{
+    padding: 40px;
+  }
 </style>
 
