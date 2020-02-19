@@ -2,13 +2,13 @@
   <d2-container>
     <el-form :model="queryForm" :inline="true" size="mini">
       <el-form-item label="登记地址">
-        <el-input v-model="queryForm.xmbh" placeholder="登记地址"></el-input>
+        <el-input v-model="djdz" placeholder="登记地址"></el-input>
       </el-form-item>
       <el-form-item label="登记人">
-        <el-input v-model="queryForm.xmmc" placeholder="登记人"></el-input>
+        <el-input v-model="djr" placeholder="登记人"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">
+        <el-button type="primary" @click="getTableData">
           <d2-icon name="search" />查询</el-button>
       </el-form-item>
     </el-form>
@@ -64,9 +64,11 @@
     ],
     data() {
       return {
+        djdz: '',//登记地址
+        djr: '',//登记人
         queryForm: {
-          djdz: '',//登记地址
-          djr: '',//登记人
+          // djdz: '',//登记地址
+          // djr: '',//登记人
         },
         showMapView: false,//右侧地图是否显示
         fwmph: ""
@@ -77,6 +79,10 @@
     },
     methods: {
       getTableData() {
+        let params = {
+          djdz:this.djdz,
+          djr: this.djr
+        };
         this.table.listLoading = true
         request.get('/supervise/getRegistrationDatas', {
           params: {
@@ -84,8 +90,19 @@
             pageSize: this.table.pageSize
           }
         }).then(res => {
-          this.table.list = res.datas
-          this.table.total = res.total
+          //获取到总数据后再根据查询条件进行筛选
+           let xzdjList = res.datas.filter(function(item){
+              if(item.djdz == params.djdz||item.djr==params.djr)
+             return item;            
+            });
+            if(params.djdz==""&&params.djr==""){
+              this.table.list = res.datas
+              this.table.total = res.total
+            }
+            else{
+              this.table.list = xzdjList
+              this.table.total = xzdjList.length
+            }
         }).finally(() => {
           this.table.listLoading = false
         })

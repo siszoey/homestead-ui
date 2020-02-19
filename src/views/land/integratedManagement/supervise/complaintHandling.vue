@@ -1,14 +1,14 @@
 <template>
   <d2-container>
     <el-form :model="queryForm" :inline="true" size="mini">
-      <el-form-item label="项目编号">
-        <el-input v-model="queryForm.xmbh" placeholder="项目编号"></el-input>
+      <el-form-item label="项目编号" prop="xmbh">
+        <el-input v-model="xmbh" placeholder="项目编号"></el-input>
       </el-form-item>
-      <el-form-item label="项目名称">
-        <el-input v-model="queryForm.xmmc" placeholder="项目名称"></el-input>
+      <el-form-item label="项目名称" prop="xmmc">
+        <el-input v-model="xmmc" placeholder="项目名称"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">
+        <el-button type="primary" @click="getTableData">
           <d2-icon name="search" />查询</el-button>
       </el-form-item>
     </el-form>
@@ -68,23 +68,24 @@
     data() {
       return {
         queryForm: {
-          xmbh: '',//项目编号
-          xmmc: '',//项目名称
-          jbdz: '',//举报地址
-          jbr: '',//举报人
-          // jbsj: '',//举报时间
-          // jbnr: '',//举报内容
-          // bz: ''//备注
+          // xmbh: '',//项目编号
+          // xmmc: '',//项目名称
         },
+        xmbh: '',//项目编号
+        xmmc: '',//项目名称
         showMapView: false,//右侧地图是否显示
         jbr: ""
       }
     },
     created() {
-      this.getTableData()
+      this.getTableData()   
     },
     methods: {
       getTableData() {
+        let params = {
+          xmbh:this.xmbh,
+          xmmc: this.xmmc
+        };
         this.table.listLoading = true
         request.get('/supervise/getComplaintDatas', {
           params: {
@@ -92,9 +93,19 @@
             pageSize: this.table.pageSize
           }
         }).then(res => {
-          // console.log(res)
-          this.table.list = res.datas
-          this.table.total = res.total
+          //获取到总数据后再根据查询条件进行筛选
+           let xfjbList = res.datas.filter(function(item){
+              if(item.xmmc == params.xmmc||item.xmbh==params.xmbh)
+             return item;            
+            });
+            if(params.xmbh==""&&params.xmmc==""){
+              this.table.list = res.datas
+              this.table.total = res.total
+            }
+            else{
+              this.table.list = xfjbList
+              this.table.total = xfjbList.length
+            }
         }).finally(() => {
           this.table.listLoading = false
         })
