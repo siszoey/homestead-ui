@@ -50,4 +50,9 @@ export const userDB = [
     username: 'xzzf_ysry', password: '111111', uuid: 'xzzf_ysry-uuid', name: '乡镇政府-验收人员', role: ['ys-check-3']
   },
 
+  {
+    username: 'testuser', password: '111111',
+    //后端接口数据
+    userId: 'test-uuid', userName: '后端测试', roles: ['admin','ys-check-3']
+  },
 ]
