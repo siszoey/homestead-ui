@@ -2,7 +2,6 @@
   <d2-container>
     <el-form
       :inline="true"
-      :model="queryForm"
       ref="queryForm"
       size="mini"
       style="margin-bottom: -25px; padding: 0 20px"
@@ -55,7 +54,7 @@
       tooltip-effect="dark"
       style="width: 100%"
     >
-      <el-table-column prop="szsx" label="所在市/县" sortable></el-table-column>
+      <el-table-column prop="szsx" label="所在村/居" sortable></el-table-column>
       <el-table-column prop="zzmj" label="住宅面积/亩" sortable width="120px"></el-table-column>
       <el-table-column prop="dlmj" label="道路面积/亩" sortable></el-table-column>
       <el-table-column prop="gsmj" label="供水面积/亩" sortable></el-table-column>
@@ -157,10 +156,10 @@ export default {
     },
   
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
     },
     //搜索
     search() {

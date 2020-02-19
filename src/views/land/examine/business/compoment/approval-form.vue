@@ -237,7 +237,6 @@
     },
     data() {
       return {
-        detailData: this.detail,
         currentDisabled: this.disabled,
         rules: {},
         formLabel: {
@@ -268,7 +267,7 @@
           dlvalue: '',
           //意见
           spyj: {
-            sqid: this.detail.zjdSqJl.sqid,
+            sqid: this.detail.jcxx.sqid,
             zrzybmyj: "",
             zrzybmfzr: "",
             zrzybmrq: "",
@@ -315,7 +314,7 @@
     methods: {
       handlePutTempData() {
         this.formLabel.spyj = Object.assign({}, approvalFormTempData.spyj)
-        this.formLabel.spyj.sqid = this.detail.zjdSqJl.sqid
+        this.formLabel.spyj.sqid = this.detail.jcxx.sqid
       },
       submitForm() {
         submitForm(this.formLabel.spyj).then(res => {
