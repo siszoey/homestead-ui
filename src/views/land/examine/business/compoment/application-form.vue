@@ -236,7 +236,7 @@
 
 <script>
   import dictMixins from '../../../mixnis/dict-mixnis'
-  import {ApplicationForm, ApproalProcess} from '@/api/land.business'
+  import {ApplicationForm, ApproalProcess} from '@/api/land.business_activiti'
   import {applicationFormTempData} from "./temp_data"
 
   export default {
@@ -328,7 +328,7 @@
         for (let index = 0; index < 4; index++) {
           this.form.jtcy.push(Object.assign({}, applicationFormTempData.jtcy[index]))
         }
-       
+
       },
        emitChangeSendState (state,formdata) {
         this.$emit('change-send-state',state,formdata)
@@ -414,20 +414,19 @@
             params.jtcy = params.jtcy.filter(item => item.xm)
             if (valid) {
               this.showValidMsg = false
-              ApplicationForm(params).then(res => {
-                ApproalProcess({
-                  'sqid': res.sqid,
-                  'next_blzt': this.getOptCode("办理状态", "待办"),
-                  'next_roleid': this.getDictByOptCode("流程角色", "1").optName,
-                  'next_xmzt': this.getDictByOptCode("项目状态", "1").optCode,
-                }).then((jl) => {
+              console.log(params)
+              ApplicationForm(Object.assign(params, {loginName: 'cm'})).then(res => {
+                // ApproalProcess({
+                //   'sqid': res.sqid,
+                //   'next_blzt': this.getOptCode("办理状态", "待办"),
+                //   'next_roleid': this.getDictByOptCode("流程角色", "1").optName,
+                //   'next_xmzt': this.getDictByOptCode("项目状态", "1").optCode,
+                // }).then(() => {
                   this.$message({
                     message: '申请成功',
                     type: 'success'
                   })
-                  console.log(jl)
                   this.emitChangeSendState(true,jl)
-                })
               }).catch(() => {
                 this.$message({
                   message: '创建失败',
