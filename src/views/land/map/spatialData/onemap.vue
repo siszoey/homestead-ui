@@ -788,7 +788,6 @@ export default {
     RightChart
   },
   mounted() {
-    console.log(123);
     this.$nextTick(function() {
       //初始化地图
       this.map = BaseMap.BaseInitMap("maponemap");

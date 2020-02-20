@@ -264,8 +264,8 @@
         if (newQueryForm.sqsj && newQueryForm.sqsj.length > 0) {
           let start_sqrrq = newQueryForm.sqsj[0]
           let end_sqrrq = newQueryForm.sqsj[1]
-          newQueryForm['start_sqrrq'] = start_sqrrq
-          newQueryForm['end_sqrrq'] = end_sqrrq
+          newQueryForm['kssj'] = start_sqrrq
+          newQueryForm['jssj'] = end_sqrrq
           delete newQueryForm.sqsj
         }
         return Object.assign(
@@ -294,7 +294,6 @@
               new Set(resList.map(item => {
                 return { sqid: item.jcxx.sqid, jflx: this.getOptName('建房类型', item.nzjdqk.jflx), sqrrq: item.qt.sqrrq, zjdmj: item.nzjdqk.zjdmj, xmzt: this.getOptName('项目状态', item.zjdSqJl.xmzt) };
               })));
-            console.log(list)
             let tValue = ['sqid', 'jflx', 'sqrrq', 'zjdmj', 'xmzt'];
             import('../../../../libs/ExportExcel').then(excel => {
               const data = this.formatJson(tValue, list)
@@ -603,7 +602,6 @@
       changeCity(value) {
         let fileName = "";
         let path = "";
-        console.log(value);
         switch (value) {
           case "460100":
             fileName = "echarts-map/city/json/hainan/460100.json";
@@ -635,7 +633,6 @@
       },
       changeCounty(value) {
         let path = "";
-        console.log(value);
         switch (value) {
           case "460106":
             path =
@@ -680,7 +677,7 @@
           .get(fileName)
           //then获取成功；response成功后的返回值（对象）
           .then(response => {
-            console.log(response.data.features); //[0].properties.name
+            //console.log(response.data.features); //[0].properties.name
             if (level == "3") {
               _this.county = ""; //change时清空county
               _this.counties = response.data.features;
@@ -690,7 +687,6 @@
           })
           //获取失败
           .catch(error => {
-            console.log(error);
             alert("网络错误，不能访问");
           });
       }
