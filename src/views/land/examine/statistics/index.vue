@@ -31,12 +31,18 @@
 
             <el-form-item label="行政区">
               <el-select v-model="city" v-on:change="changeCity(city)">
-                <el-option v-for="item in cities" :key="item.id" :label="item.properties.name" :value="item.id">
+                <el-option v-for="item in cities" 
+                :key="item.code"
+                :label="item.name"
+                :value="item.code">
                 </el-option>
               </el-select>
               <el-select v-model="county" v-on:change="changeCounty(county)">
-                <el-option v-for="item in counties" :key="item.properties.id" :label="item.properties.name"
-                  :value="item.properties.id"></el-option>
+                <el-option v-for="item in counties" 
+                :key="item.code"
+                :label="item.name"
+                :value="item.code"
+                ></el-option>
               </el-select>
             </el-form-item>
 
@@ -122,10 +128,12 @@
   import dictMixnis from "../../mixnis/dict-mixnis"
   import { color } from "echarts/lib/export";
   import ExportExcel from "../../../../libs/ExportExcel";
+import Region from '@/views/land/mixnis/region-mixin.js'
+import jsonFileHandler from "@/libs/util.jsonfile.js"
 
   export default {
     name: "land-map-implementationProcess",
-    mixins: [dictMixnis],
+    mixins: [dictMixnis,Region],
     data() {
       return {
         table: {
@@ -137,28 +145,8 @@
           size: 10,
           pages: null
         },
-        zajsDatas: [
-          { name: "七岭村", value: "124" },
-          { name: "地太村", value: "107" },
-          { name: "美港村", value: "122" },
-          { name: "隆丰村", value: "72" },
-          { name: "铺前村", value: "142" },
-          { name: "铺龙村", value: "157" },
-          { name: "仕后村", value: "115" },
-          { name: "东坡村", value: "102" },
-          { name: "林悟村", value: "59" }
-        ],
-        zzjdmjDatas: [
-          { name: "七岭村", value: "2.4" },
-          { name: "地太村", value: "4.5" },
-          { name: "美港村", value: "2.8" },
-          { name: "隆丰村", value: "3.9" },
-          { name: "铺前村", value: "5.2" },
-          { name: "铺龙村", value: "2.6" },
-          { name: "仕后村", value: "4.4" },
-          { name: "东坡村", value: "3.7" },
-          { name: "林悟村", value: "4.5" }
-        ],
+        zajsDatas: [],
+        zzjdmjDatas: [],
         // //饼状图数据显示
         // pieChartDatas: [],
         // //柱状图数据显示
@@ -193,54 +181,40 @@
         downloadLoading: false,
         city: "",
         cities: [],
+        allDatas:{},
         county: "",
         counties: [] //update
       };
     },
+    created() {
+      this.initData()
+    },
     mounted() {
-      this.getChartData();
+      
       this.getTableData();
       //当页面大小发生变化时，echarts统计图根据画布大小自动重新绘制
       window.addEventListener("resize", () => {
         this.zajsChart.resize();
         this.pieChart.resize();
       });
-      //获取海南市级行政区
-      let sj_fileName = "echarts-map/province/json/hainan.json";
-      this.requestAjax(sj_fileName, 2);
-      //获取海南省海口市行政区
-      let xj_fileName = "echarts-map/city/json/hainan/460100.json";
-      this.requestAjax(xj_fileName, 3);
-      //默认行政区为海口市
-      this.city = "460100";
-      //this.ajaxSync();
-      //初始化表格
-      let path =
-        "test-data/map/accountInformation/householdRegister/etc/constractorMembers.json";
-      this.AjaxGetData(path);
+    
     },
     methods: {
+      initData () {
+      this.getRegions().then(datas=>{
+        this.cities = datas
+      })
+      let code = this.getRegionCode()
+      jsonFileHandler.getData('test-data/examine/examine.json','code',code).then(datas=>{
+        this.allDatas = datas
+        this.zajsDatas = this.allDatas.casesStatistic[0].data
+        this.zzjdmjDatas = this.allDatas.landAreaStatistic[0].data
+        this.$nextTick(()=>{
+          this.getChartData();
+        })
+      })
+    },
       getChartData() {
-        // //柱状图请求方法
-        // GetBarChartDatas()
-        //   .then(res => {
-        //     this.barChartDatas = res;
-        //     this.InitChart();
-        //   })
-        //   .catch(err => console.log(err))
-        //   .finally(() => {
-        //     this.table.listLoading = false;
-        //   });
-        // //饼状图请求方法
-        // GetPieChartDatas()
-        //   .then(res => {
-        //     this.pieChartDatas = res;
-        //     this.IniPieChart();
-        //   })
-        //   .catch(err => console.log(err))
-        //   .finally(() => {
-        //     this.table.listLoading = false;
-        //   });
         this.ZajsChart();
         this.ZzjdmjChart();
       },
@@ -600,96 +574,21 @@
       //   this.pieChart.setOption(option);
       // },
       changeCity(value) {
-        let fileName = "";
-        let path = "";
-        switch (value) {
-          case "460100":
-            fileName = "echarts-map/city/json/hainan/460100.json";
-            path =
-              "test-data/map/accountInformation/householdRegister/city/haikou.json";
-            break;
-          case "460200":
-            fileName = "echarts-map/city/json/hainan/460200.json";
-            path =
-              "test-data/map/accountInformation/householdRegister/city/sanya.json";
-            break;
-          case "460300":
-            fileName = "echarts-map/city/json/hainan/460300.json";
-            path =
-              "test-data/map/accountInformation/householdRegister/city/sansha.json";
-            break;
-          default:
-            this.county = ""; //change时清空county
-            this.counties = [];
-            // this.tableData = [];
-            break;
+        this.counties = this.cities.find(t => t.code==value).children
+        let data = this.allDatas.casesStatistic.find( t => t.code === value)
+        if(data){
+          this.zajsDatas = data.data
         }
-        if (path != "") {
-          // this.AjaxGetData(path);
+        let zdata = this.allDatas.landAreaStatistic.find( t => t.code === value)
+        if(zdata){
+          this.zzjdmjDatas = zdata.data
         }
-        if (filename != "") {
-          this.requestAjax(fileName, 3);
-        }
+        this.getChartData();
       },
       changeCounty(value) {
-        let path = "";
-        switch (value) {
-          case "460106":
-            path =
-              "test-data/map/accountInformation/householdRegister/county/haikou/longhua.json";
-            break;
-          case "460108":
-            path =
-              "test-data/map/accountInformation/householdRegister/county/haikou/meilan.json";
-            break;
-          case "460107":
-            path =
-              "test-data/map/accountInformation/householdRegister/county/haikou/qiongshan.json";
-            break;
-          case "460200":
-            path =
-              "test-data/map/accountInformation/householdRegister/city/sanya.json";
-            break;
-          case "460302":
-            path =
-              "test-data/map/accountInformation/householdRegister/county/sansha/nanshaqundao.json";
-            break;
-          case "460301":
-            path =
-              "test-data/map/accountInformation/householdRegister/county/sansha/xishaqundao.json";
-            break;
-          case "460303":
-            path =
-              "test-data/map/accountInformation/householdRegister/county/sansha/zsqdddjjqhy.json";
-            break;
-          default:
-            // this.tableData = [];
-            break;
-        }
-        if (path != "") {
-          // this.AjaxGetData(path);
-        }
+       
       },
-      //ajax获取本地json文件行政区划
-      requestAjax(fileName, level) {
-        let _this = this;
-        this.$axios
-          .get(fileName)
-          //then获取成功；response成功后的返回值（对象）
-          .then(response => {
-            //console.log(response.data.features); //[0].properties.name
-            if (level == "3") {
-              _this.county = ""; //change时清空county
-              _this.counties = response.data.features;
-            } else if (level == "2") {
-              _this.cities = response.data.features;
-            }
-          })
-          //获取失败
-          .catch(error => {
-            alert("网络错误，不能访问");
-          });
-      }
+     
     }
   };
 </script>

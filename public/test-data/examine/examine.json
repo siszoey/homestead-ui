@@ -1,0 +1,59 @@
+[
+    {
+        "code":"46",
+        "casesStatistic":[
+            {
+                "code":"4601",
+                "total":"1000宗",
+                "data":[
+                    { "name": "市辖区", "value": "124" },
+                    { "name": "秀英区", "value": "107" },
+                    { "name": "龙华区", "value": "122" },
+                    { "name": "琼山区", "value": "72" },
+                    { "name": "美兰区", "value": "142" }
+                ]
+            },{
+                "code":"469005",
+                "total":"1000宗",
+                "data":[
+                    { "name": "七岭村", "value": "124" },
+                    { "name": "地太村", "value": "107" },
+                    { "name": "美港村", "value": "122" },
+                    { "name": "隆丰村", "value": "72" },
+                    { "name": "铺前村", "value": "142" },
+                    { "name": "铺龙村", "value": "157" },
+                    { "name": "仕后村", "value": "115" },
+                    { "name": "东坡村", "value": "102" },
+                    { "name": "林悟村", "value": "59" }
+                ]
+            }
+        ],
+        "landAreaStatistic":[
+            {
+                "code":"4601",
+                "total":"34万亩",
+                "data":[
+                    { "name": "市辖区", "value": "124" },
+                    { "name": "海棠区", "value": "107" },
+                    { "name": "吉阳区", "value": "122" },
+                    { "name": "天涯区", "value": "72" },
+                    { "name": "崖州区", "value": "142" }
+                ]
+            },{
+                "code":"469005",
+                "total":"34万亩",
+                "data":[
+                    { "name": "七岭村", "value": "2.4" },
+                    { "name": "地太村", "value": "4.5" },
+                    { "name": "美港村", "value": "2.8" },
+                    { "name": "隆丰村", "value": "3.9" },
+                    { "name": "铺前村", "value": "5.2" },
+                    { "name": "铺龙村", "value": "2.6" },
+                    { "name": "仕后村", "value": "4.4" },
+                    { "name": "东坡村", "value": "3.7" },
+                    { "name": "林悟村", "value": "4.5" }
+                ]
+            }
+        ]
+    }
+]
