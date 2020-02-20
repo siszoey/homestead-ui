@@ -1,4 +1,5 @@
 import { creatAsideMenu } from '@/menu/d2admin'
+import { getCasesCount } from '@/api/land.business'
 export default {
   namespaced: true,
   state: {
@@ -9,12 +10,20 @@ export default {
   },
   actions: {
     updateCaseCount ({ commit, dispatch }) {
-      console.log('触发事件')
+      // console.log('触发事件')
       return new Promise(async (resolve, reject) => {
-        commit('updateCaseBoxCount', { agentBoxCount: 10, completedCount: 5, rollbackCount: 8 })
+        let casesBox = await getCasesCount().catch((err) => { console.log('获取案件数量错误', err) })
+        casesBox = casesBox || { dbNum: 0, ybNum: 0, tbNum: 0 }
+        let count = {
+          agentBoxCount: casesBox.dbNum,
+          completedCount: casesBox.ybNum,
+          rollbackCount: casesBox.tbNum,
+          totalCount: casesBox.dbNum + casesBox.ybNum + casesBox.tbNum
+        }
+        commit('updateCaseBoxCount', count)
         // await dispatch('d2admin/menu/updateAsideMenus', creatAsideMenu({ agentBoxCount: 10, completedCount: 5, rollbackCount: 8 }))
-        let menus = creatAsideMenu({ agentBoxCount: 10, completedCount: 5, rollbackCount: 8 })
-        console.log('menus', menus)
+        let menus = creatAsideMenu(count)
+        // console.log('menus', menus)
         commit('d2admin/menu/allMenusSet', menus, { root: true })
         commit('d2admin/menu/asideSet', menus, { root: true })
         resolve()

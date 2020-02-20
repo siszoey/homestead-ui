@@ -29,6 +29,9 @@
           <!-- 如果你只想在开发环境显示这个按钮请添加 v-if="$env === 'development'" -->
           <!-- <d2-header-search @click="handleSearchClick"/> -->
           <!-- <d2-header-log/> -->
+          <!-- 切换系统数据 -->
+          <data-change></data-change>
+
           <d2-header-fullscreen/>
           <!-- <d2-header-theme/> -->
           <!-- <d2-header-size/> -->
@@ -101,6 +104,7 @@ import d2HeaderUser from './components/header-user'
 import d2Breadcrumb from './components/breadcrumb'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
+import DataChange from './components/data-change'
 import { stat } from 'fs'
 export default {
   name: 'd2-layout-header-aside',
@@ -119,7 +123,9 @@ export default {
     d2HeaderUser,
     // d2HeaderLog,
     // d2HeaderColor
-    d2Breadcrumb
+    d2Breadcrumb,
+    //切换系统数据
+    DataChange
   },
   data () {
     return {

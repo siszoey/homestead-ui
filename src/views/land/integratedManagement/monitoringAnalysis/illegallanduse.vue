@@ -32,7 +32,7 @@
           <el-col :span="14" style="padding: 0px 5px 0px 0px">                 
             <el-table
               :key="table.key"
-              :data="table.list"
+              :data="this.illegallanduse"
               v-loading="table.listLoading"
               element-loading-text="拼命加载中..."
               highlight-current-row
@@ -42,44 +42,44 @@
             >
             <el-table-column align="center" label="姓名" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                <span>{{scope.row.sqid}}</span>
+                <span>{{scope.row.xm}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="身份证号" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
+            <el-table-column align="center" label="身份证号" prop="sfzh" :show-overflow-tooltip="true">
+              <!-- <template slot-scope="scope">
+                <span>{{getOptName('建房类型', scope.row.sfzh)}}</span>
+              </template> -->
+            </el-table-column>
+
+            <el-table-column align="center" label="宅基地位置" prop="zjdwz" width="90" :show-overflow-tooltip="true">
+              <!-- <template slot-scope="scope">
                 <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
-              </template>
+              </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="宅基地位置" width="90" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
-                <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
-              </template>
-            </el-table-column>
-
-            <el-table-column align="center" label="违法类型" width="100" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
-                <!-- <span>{{getOptName('户口性质', scope.row.residenceType)}}</span> -->
+            <el-table-column align="center" label="违法类型" prop="wflx" width="100" :show-overflow-tooltip="true">
+              <!-- <template slot-scope="scope">
+                <span>{{getOptName('户口性质', scope.row.residenceType)}}</span>
                 <span>{{scope.row.sqrrq}}</span>
-              </template>
+              </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="处置状态" width="90" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
+            <el-table-column align="center" label="处置状态" prop="czzt" width="90" :show-overflow-tooltip="true">
+              <!-- <template slot-scope="scope">
                 <span>{{getOptName('办理状态', scope.row.xmzt)}}</span>
-              </template>
+              </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="处置时间" width="90" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
+            <el-table-column align="center" label="处置时间" prop="czsj" width="90" :show-overflow-tooltip="true">
+              <!-- <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
-              </template>
+              </template> -->
             </el-table-column>
-            <el-table-column align="center" label="执法人" width="90" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
+            <el-table-column align="center" label="执法人" prop="zfr" width="90" :show-overflow-tooltip="true">
+              <!-- <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
-              </template>
+              </template> -->
             </el-table-column>
           </el-table>
           <!-- footer 分页条 -->
