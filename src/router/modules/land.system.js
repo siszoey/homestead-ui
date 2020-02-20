@@ -22,6 +22,15 @@ export default function (iotHeader) {
           ...meta,
           title: '上传设置'
         }
+      },
+      {
+        path: 'businessConfig',
+        name: `${pre}businessConfig`,
+        component: _import('land/system/businessConfig.vue'),
+        meta: {
+          ...meta,
+          title: '业务设置'
+        }
       }
     ])('land-system-')
   }
