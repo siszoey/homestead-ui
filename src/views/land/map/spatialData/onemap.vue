@@ -788,6 +788,7 @@ export default {
     RightChart
   },
   mounted() {
+    console.log(123);
     this.$nextTick(function() {
       //初始化地图
       this.map = BaseMap.BaseInitMap("maponemap");
@@ -865,11 +866,11 @@ export default {
     //切换面板显示
     changeToolbar() {
       if (this.hiddenToolbar) {
-        document.getElementById("mapPanel").style.display = "none";
-        document.getElementById("leftPanel").style.height = "50px";
-      } else {
         document.getElementById("mapPanel").style.display = "block";
         document.getElementById("leftPanel").style.height = "100%";
+      } else {
+        document.getElementById("mapPanel").style.display = "none";
+        document.getElementById("leftPanel").style.height = "50px";
       }
     },
     getRandomInt(min, max) {
