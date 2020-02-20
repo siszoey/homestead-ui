@@ -1,5 +1,5 @@
 import request from '@/plugin/axios'
-
+import store from '@/store/index'
 // const prefix = '/mock'
 
 const prefix = ''
@@ -71,4 +71,9 @@ export function BatchReport(data) {
     method: 'post',
     data
   })
+}
+
+export function getCasesCount (userName) {
+  let name = userName || store.state.d2admin.user.info.username
+  return request.get(prefix + '/activiti/' + name)
 }
