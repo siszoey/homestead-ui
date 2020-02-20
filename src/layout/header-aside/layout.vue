@@ -194,6 +194,7 @@ export default {
 }
 .body{
   overflow: auto;
+  background:white;
 }
 .header{
   background: #27658A;

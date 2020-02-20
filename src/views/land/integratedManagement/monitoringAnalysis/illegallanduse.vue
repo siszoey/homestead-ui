@@ -32,7 +32,7 @@
           <el-col :span="14" style="padding: 0px 5px 0px 0px">                 
             <el-table
               :key="table.key"
-              :data="this.illegallanduse"
+              :data="tableData"
               v-loading="table.listLoading"
               element-loading-text="拼命加载中..."
               highlight-current-row
@@ -114,11 +114,15 @@
   GetYearAuditSituation
 } from "../../../../api/map";
 import dictMixins from "../../mixnis/dict-mixnis";
+
+import Region from '../../mixnis/region-mixin.js'
+import jsonFileHandler from "@/libs/util.jsonfile.js"
+
     export default {
         components: {
             OneMap: () => import('../../../land/map/spatialData/onemap.vue')
         },
-        mixins: [dictMixins],
+        mixins: [dictMixins,Region],
         data() {
             return {
                 barDatas: [
@@ -169,6 +173,7 @@ import dictMixins from "../../mixnis/dict-mixnis";
                   jflx: ""
                 },
                 sqsj: "",
+                tableData:[]
             };
         },
         mounted() {
@@ -183,6 +188,9 @@ import dictMixins from "../../mixnis/dict-mixnis";
             });
 
             this.getTableData();
+        },
+        created(){
+          this.initData();
         },
         methods: {
             //柱状统计图
@@ -360,6 +368,16 @@ import dictMixins from "../../mixnis/dict-mixnis";
               this.table.current = current;
               this.getTableData();
             },
+            initData(){
+              this.getRegions().then(datas=>{
+                this.cities = datas
+              })
+              let code = this.getRegionCode()
+              jsonFileHandler.getData('test-data/monitor/illegallanduse.json','code',code).then(datas=>{
+                console.log(datas)
+                this.tableData=datas.tableData
+              })
+            },
         }
     };
 </script>
@@ -369,14 +387,14 @@ import dictMixins from "../../mixnis/dict-mixnis";
         width: 100%;
         height: 100%;
         float: left;
-        // background: #FFF;
+        background: #FFF;
     }
 
     .warp {
         width: 97%;
         height: 100%;
         margin: 1% 1.5%;
-        background:white;
+        // background:white;
     }
 
     .el-col {
@@ -455,7 +473,7 @@ import dictMixins from "../../mixnis/dict-mixnis";
     .queryForm {
       margin-left:25px;
       padding:25px 5px 10px 10px;
-      background:white;
+      // background:white;
     }
     .formItem{
       margin-bottom:0px;
