@@ -27,9 +27,10 @@ function errorLog(error) {
   }
   // 显示提示
   Message({
+    showClose: true,
     message: error.message,
     type: 'error',
-    duration: 5 * 1000
+    duration: 3 * 1000
   })
 }
 
