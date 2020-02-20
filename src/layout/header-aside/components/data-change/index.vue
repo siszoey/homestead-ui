@@ -33,12 +33,14 @@ export default {
         getOptions () {
           jsonFileHandler.getAllData('/test-data/dataRegions.json')
           .then(data => {
-              this.options = data.data
+              this.options = data.data.map(t=> { return {code:t.code,name:t.name,dataRegion: t.dataRegion} })
           })
         },
         changeData (currentValue) {
             this.code = currentValue
             util.cookies.set('regionCode',currentValue)
+            let dataRegion = this.options.find(t=>t.code === this.code).dataRegion
+            util.cookies.set('dataRegion',dataRegion)
         }
     }
 }

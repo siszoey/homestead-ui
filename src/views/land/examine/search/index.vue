@@ -149,10 +149,12 @@
     data() {
       return {
         queryForm: {
-          jflx: undefined,
-          sqid: undefined,
-          sqmc: undefined,
-          sqsj: undefined,
+          jflx: "",
+          sqid: "",
+          sqmc: "",
+          sqsj: "",
+          kssj: "",
+          jssj: "",
         },
       }
     },
@@ -186,8 +188,8 @@
         if (newQueryForm.sqsj && newQueryForm.sqsj.length > 0) {
           let start_sqrrq = newQueryForm.sqsj[0]
           let end_sqrrq = newQueryForm.sqsj[1]
-          newQueryForm['start_sqrrq'] = start_sqrrq
-          newQueryForm['end_sqrrq'] = end_sqrrq
+          newQueryForm['kssj'] = start_sqrrq
+          newQueryForm['jssj'] = end_sqrrq
           delete newQueryForm.sqsj
         }
         return Object.assign({
