@@ -248,7 +248,7 @@
               //申请表
               applicationFormDisabled: true,
               //审批表
-              appceptanceFormDisabled: false,//this.info.role.includes(''),
+              acceptanceFormDisabled: false,//this.info.role.includes(''),
               //验收表
               approvalFormDisabled: false,
               detail: row,

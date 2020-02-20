@@ -51,7 +51,7 @@ export default {
      * @param passFlag
      */
     processRequest(processInfo, passFlag) {
-      console.log("zjdSqJl", Object.assign({passFlag}, processInfo))
+      console.log("processInfo", Object.assign({passFlag}, processInfo))
       let data = {
         "flag": passFlag ? 1 : 0, //1同意，0驳回
         "loginName": this.info.username,

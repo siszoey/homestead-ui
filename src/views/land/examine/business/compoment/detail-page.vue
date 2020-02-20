@@ -46,8 +46,8 @@
                             @change-send-state="changeSendBtnState"></approvalForm>
             </el-tab-pane>
             <el-tab-pane label="验收意见表" v-if="detail">
-              <appceptanceForm :disabled="appceptanceFormDisabled" :detail="detail"
-                               @change-send-state="changeSendBtnState"></appceptanceForm>
+              <acceptanceForm :disabled="acceptanceFormDisabled" :detail="detail"
+                               @change-send-state="changeSendBtnState"></acceptanceForm>
             </el-tab-pane>
           </el-tabs>
 
@@ -124,7 +124,7 @@
     components: {
       applicationForm,
       approvalForm: () => import('./approval-form'),
-      appceptanceForm: () => import('./appceptance-form'),
+      acceptanceForm: () => import('./acceptance-form'),
       FileTreeView: () => import('../../../components/filetreeview.vue'),
       OneMap: () => import('../../../../land/map/spatialData/onemap.vue')
     },
@@ -136,7 +136,6 @@
       this.initBtnDisable()
       this.initProcHistories()
       this.xmbh = this.processInfo ? this.processInfo.sqid : ''
-      // this.stage = this.processInfo ? this.processInfo.xmzt : ''
 
       //延迟加载
       let that = this
@@ -162,7 +161,7 @@
       }
       return {
         applicationFormDisabled: this.$route.params.applicationFormDisabled || false,
-        appceptanceFormDisabled: this.$route.params.appceptanceFormDisabled || false,
+        acceptanceFormDisabled: this.$route.params.acceptanceFormDisabled || false,
         approvalFormDisabled: this.$route.params.approvalFormDisabled || false,
         detail: detail,
         processInfo: processInfo,

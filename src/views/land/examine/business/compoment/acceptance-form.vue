@@ -243,9 +243,9 @@
 <script>
   import dictMixins from '../../../mixnis/dict-mixnis'
   import {submitAcceptance} from '@/api/land.examine'
-  import {appceptanceFormTempData} from "./temp_data"
+  import {acceptanceFormTempData} from "./temp_data"
   export default {
-    name: "appceptance-form",
+    name: "acceptance-form",
     mixins: [
       dictMixins
     ],
@@ -309,7 +309,7 @@
     },
     methods: {
       handlePutTempData(){
-        this.form = Object.assign({}, this.form, appceptanceFormTempData)
+        this.form = Object.assign({}, this.form, acceptanceFormTempData)
         this.form.ysyj.sqid = this.detail.jcxx.sqid
       },
       submitForm() {
