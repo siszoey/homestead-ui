@@ -202,7 +202,7 @@
               //申请表
               applicationFormDisabled: true,
               //审批表
-              acceptanceFormDisabled: true,//this.info.role.includes(''),
+              acceptanceFormDisabled: true,
               //验收表
               approvalFormDisabled: true,
               detail: row,

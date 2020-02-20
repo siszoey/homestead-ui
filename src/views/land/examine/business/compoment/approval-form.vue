@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading">
-    <el-form :disabled="currentDisabled" :model="formLabel" :rules="rules" ref="form">
+    <el-form :disabled="disabled" :model="formLabel" :rules="rules" ref="form">
       <table border="0" cellspacing="0" cellpadding="0"
              style="table-layout: fixed;margin:0px auto;max-width:1000px;">
         <tr style="height: 1px">
@@ -294,7 +294,6 @@
     },
     data() {
       return {
-        currentDisabled: this.disabled,
         loading: false,
         rules: {},
         formLabel: {
@@ -354,14 +353,6 @@
             sqly: this.detail.qt.sqly,
           })
           this.formLabel.nzjdqk = Object.assign({}, this.detail.nzjdqk)
-
-          //阶段6（乡镇府验收审批）前可修改
-          let processInfo = this.detail.zjdSqJl
-          if (processInfo && Number.parseInt(processInfo.xmzt) < 6) {
-            this.currentDisabled = false
-          } else {
-            this.currentDisabled = true
-          }
         } catch (err) {
           console.error('回显报错')
         }

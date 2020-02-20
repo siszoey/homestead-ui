@@ -2,7 +2,7 @@ import {mapState} from 'vuex'
 
 import dictMixins from "./dict-mixnis"
 import {DoProcess} from "../../../api/land.business_activiti"
-import {CANNOT_GO_BACK_TASKS} from '../../../mock/data/land.constant'
+import {CANNOT_GO_BACK_TASKS, BEFORE_EDIT_APPROVAL_TASK} from '../../../mock/data/land.constant'
 
 export default {
 
@@ -40,6 +40,9 @@ export default {
     },
     canNotGoBack(taskname){
       return CANNOT_GO_BACK_TASKS.includes(taskname)
+    },
+    canEditApproval(taskname){
+      return BEFORE_EDIT_APPROVAL_TASK.includes(taskname)
     },
     isLastProcessByRole(role) {
       return role === this.lastProcessRole.optName

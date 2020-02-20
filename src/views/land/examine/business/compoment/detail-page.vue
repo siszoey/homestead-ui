@@ -149,6 +149,7 @@
       let row = this.$route.params.detail ? this.$route.params.detail : undefined
       let detail = undefined
       let processInfo = undefined
+      let approvalFormDisabled = this.$route.params.approvalFormDisabled
       if (row != undefined) {
         detail = row.formVO
         processInfo = {
@@ -158,11 +159,12 @@
           taskid: row.taskid,
           actname: row.actname,
         }
+        approvalFormDisabled = approvalFormDisabled ? true : !this.canEditApproval(row.actname)
       }
       return {
         applicationFormDisabled: this.$route.params.applicationFormDisabled || false,
         acceptanceFormDisabled: this.$route.params.acceptanceFormDisabled || false,
-        approvalFormDisabled: this.$route.params.approvalFormDisabled || false,
+        approvalFormDisabled: approvalFormDisabled,
         detail: detail,
         processInfo: processInfo,
 
