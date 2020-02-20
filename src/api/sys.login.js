@@ -12,9 +12,9 @@ const prefix = ''
 export function AccountLogin(data) {
     let isMock = false
     //todo: admin 暂时用前端登录，待后端更新
-    if(data.username == 'admin'){
-        isMock = true
-    }
+    // if(data.username == 'admin'){
+    //     isMock = true
+    // }
     if (isMock) {
         return request({
             url: '/login',
