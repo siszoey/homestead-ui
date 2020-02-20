@@ -1,8 +1,8 @@
 import {mapState} from 'vuex'
 
-import dictMixnis from "./dict-mixnis"
+import dictMixins from "./dict-mixnis"
 import {DoProcess} from "../../../api/land.business_activiti"
-import {processRoles} from '../../../mock/data/land.role'
+import {CANNOT_GO_BACK_TASKS, BEFORE_EDIT_APPROVAL_TASK} from '../../../mock/data/land.constant'
 
 export default {
 
@@ -12,7 +12,7 @@ export default {
   beforeDestroy() {
   },
   mixins: [
-    dictMixnis,
+    dictMixins,
   ],
   computed: {
     ...mapState('d2admin/dict', [
@@ -33,28 +33,33 @@ export default {
    */
   methods: {
     getProcessRole(roleId) {
-      let role = processRoles.find(r => r.role == roleId)
-      return role ? `${role.stage}人员` : ''
+      return ''
     },
     isFirstProcess() {
-      return this.info.role.includes(this.firstProcessRole.optName)
+      return this.info.role == '村民'
+    },
+    canNotGoBack(taskname){
+      return CANNOT_GO_BACK_TASKS.includes(taskname)
+    },
+    canEditApproval(taskname){
+      return BEFORE_EDIT_APPROVAL_TASK.includes(taskname)
     },
     isLastProcessByRole(role) {
       return role === this.lastProcessRole.optName
     },
 
     /**
-     * 流程变化请求
+     * 流程办理
      * @param processInfo
      * @param passFlag
      */
     processRequest(processInfo, passFlag) {
-      console.log("zjdSqJl", Object.assign({passFlag}, processInfo))
+      console.log("processInfo", Object.assign({passFlag}, processInfo))
       let data = {
         "flag": passFlag ? 1 : 0, //1同意，0驳回
         "loginName": this.info.username,
         "taskid": processInfo.taskid,
-        "type": processInfo.box == '待办' ? 1 : 0
+        "type": processInfo.box == '退办' ? 0 : 1 //默认暂时为待办
       }
       console.log("processRequest", data)
       DoProcess(data).then(() => {

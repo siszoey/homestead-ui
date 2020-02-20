@@ -62,9 +62,9 @@ export default function (iotHeader) {
                 props: true
               },
               {
-                path: `appceptance-form`,
-                name: `appceptanceForm`,
-                component: _import('land/examine/business/compoment/appceptance-form.vue'),
+                path: `accceptance-form`,
+                name: `accceptanceForm`,
+                component: _import('land/examine/business/compoment/acceptance-form.vue'),
                 props: true,
               },
               {

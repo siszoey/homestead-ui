@@ -203,9 +203,9 @@
               //申请表
               applicationFormDisabled: true,
               //审批表
-              appceptanceFormDisabled: true,//this.info.role.includes(''),
+              acceptanceFormDisabled: false,
               //验收表
-              approvalFormDisabled: true,
+              approvalFormDisabled: false,
               detail: row,
 
               box: '退办'

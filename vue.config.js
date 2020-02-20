@@ -18,7 +18,7 @@ module.exports = {
   publicPath,
   lintOnSave: true,
   configureWebpack: {
-    devtool: 'source-map'
+    devtool: 'eval' //'source-map'
   },
   devServer: {
     publicPath, // 和 publicPath 保持一致
