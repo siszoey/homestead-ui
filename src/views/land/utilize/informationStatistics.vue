@@ -50,7 +50,7 @@
 
 <script>
   import { color } from "echarts/lib/export"
-  import mapJson from '@/assets/json/hainan/469000.json'
+  import mapJson from '@/assets/json/hainan/46.json'
   export default {
     data() {
       return {
@@ -202,7 +202,7 @@
           },
           visualMap: {
             min: 0,
-            max: 50000,
+            max: 70000,
             realtime: false,
             calculable: true,
             inRange: {
@@ -219,6 +219,8 @@
               },
               data: [
                 { name: '海口市', value: 20057.34 },
+                { name: '三亚市', value: 21007.2 },
+                { name: '三沙市', value: 19057.51 },
                 { name: '万宁市', value: 15477.48 },
                 { name: '定安县', value: 31686.1 },
                 { name: '东方市', value: 6992.6 },

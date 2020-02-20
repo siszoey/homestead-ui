@@ -25,13 +25,6 @@ import '@/libs/rem'
 import axios from 'axios';
 Vue.prototype.$axios = axios;
 
-//一户多宅分析页面数据构造
-import manyHouses from './views/land/integratedManagement/monitoringAnalysis/manyHouses'
-Vue.prototype.manyHouses=manyHouses.manyHouses
-//违法利用分析页面数据构造
-import illegallanduse from './views/land/integratedManagement/monitoringAnalysis/illegallanduse'
-Vue.prototype.illegallanduse=illegallanduse.illegallanduse
-
 // 核心插件
 Vue.use(d2Admin)
 

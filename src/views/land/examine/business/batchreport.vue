@@ -242,7 +242,6 @@
                                 type: "success",
                                 message: "数据上报成功!"
                             });
-                            this.getTableData();
                         })
                             .catch(err => console.log(err))
                             .finally(() => {

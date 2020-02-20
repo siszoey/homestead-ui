@@ -110,6 +110,16 @@ export default {
     };
   },
   mounted: function() {
+    //console.log(JSON_WHS);
+    //获取海南市级行政区
+    // let sj_fileName = "echarts-map/province/json/hainan.json";
+    // this.requestAjax(sj_fileName, 2);
+    // //获取海南省海口市行政区
+    // let xj_fileName = "echarts-map/city/json/hainan/460100.json";
+    // this.requestAjax(xj_fileName, 3);
+    //默认行政区为海口市
+    // this.city = "460100";
+
     this.initData()
 
     //获得当前年份

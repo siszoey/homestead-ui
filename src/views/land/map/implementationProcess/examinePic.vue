@@ -74,12 +74,8 @@ import { Overlay } from "ol";
 
 import ToolBar from "../spatialData/components/toolbar";
 
-import Region from '@/views/land/mixnis/region-mixin.js'
-import jsonFileHandler from "@/libs/util.jsonfile.js"
-
 export default {
   name: "examinePic",
-  mixins:[Region],
   props: {
     hiddenToolbar: {
       type: Boolean,
@@ -104,31 +100,77 @@ export default {
         Ytmc: "",
         Qlrmc: ""
       },
-      tableData: []
+      tableData: [
+        {
+          project: "原址新建项目1",
+          proposer: "潘若飞",
+          address: "坑上村民小组",
+          status: "农经审核",
+          zddm: "469005115003JC02307"
+        },
+        {
+          project: "原址新建项目2",
+          proposer: "吴多福",
+          address: "美宝村民小组",
+          status: "农经审核",
+          zddm: "469005115003JC01950"
+        },
+        {
+          project: "原址新建项目3",
+          proposer: "吴坤桔",
+          address: "东排坡村民小组",
+          status: "农经审核",
+          zddm: "469005115003JC99012"
+        },
+        {
+          project: "改扩建项目1",
+          proposer: "许宇林",
+          address: "田西村民小组",
+          status: "联合审批",
+          zddm: "469005115003JC02419"
+        },
+        {
+          project: "改扩建项目2",
+          proposer: "陈海芳",
+          address: "草洋村民小组",
+          status: "乡政府审批",
+          zddm: "469005115003JC01329"
+        },
+        {
+          project: "改扩建项目3",
+          proposer: "潘家钵",
+          address: "坑上村民小组",
+          status: "乡政府审批",
+          zddm: "469005115003JC02310"
+        },
+        {
+          project: "改扩建项目4",
+          proposer: "卢文瑞",
+          address: "东塔村民小组",
+          status: "村民申请",
+          zddm: "469005115003JC01551"
+        },
+        {
+          project: "改扩建项目5",
+          proposer: "潘秀荣",
+          address: "南林村民小组",
+          status: "村民申请",
+          zddm: "469005115003JC02046"
+        }
+      ]
     };
   },
   components: {
     timeline,
     ToolBar
   },
-  created() {
-    this.initData()
-  },
+  created() {},
   watch: {
     selectedType(val) {
       this.getTableData();
     }
   },
   methods: {
-    initData(){
-      this.getRegions().then(datas=>{
-        this.cities = datas
-      })
-      let code = this.getRegionCode()
-      jsonFileHandler.getData('test-data/map/examinPic.json','code',code).then(datas=>{
-        this.tableData = datas.tableData
-      })
-    },
     //切换面板显示
     changeToolbar() {
       if (this.hiddenToolbar) {
