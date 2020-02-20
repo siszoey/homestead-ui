@@ -238,8 +238,8 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
         if (newQueryForm.sqsj && newQueryForm.sqsj.length > 0) {
           let start_sqrrq = newQueryForm.sqsj[0]
           let end_sqrrq = newQueryForm.sqsj[1]
-          newQueryForm['start_sqrrq'] = start_sqrrq
-          newQueryForm['end_sqrrq'] = end_sqrrq
+          newQueryForm['kssj'] = start_sqrrq
+          newQueryForm['jssj'] = end_sqrrq
           delete newQueryForm.sqsj
         }
         return Object.assign(
@@ -268,7 +268,6 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
               new Set(resList.map(item => {
                 return { sqid: item.jcxx.sqid, jflx: this.getOptName('建房类型', item.nzjdqk.jflx), sqrrq: item.qt.sqrrq, zjdmj: item.nzjdqk.zjdmj, xmzt: this.getOptName('项目状态', item.zjdSqJl.xmzt) };
               })));
-            console.log(list)
             let tValue = ['sqid', 'jflx', 'sqrrq', 'zjdmj', 'xmzt'];
             import('../../../../libs/ExportExcel').then(excel => {
               const data = this.formatJson(tValue, list)

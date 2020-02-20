@@ -1,7 +1,7 @@
 import request from '@/plugin/axios'
 
-const isMock = true
-const prefiex = ''
+
+const prefix = ''
 /*{
     username: 'zjd',
     password: '123456',
@@ -10,6 +10,11 @@ const prefiex = ''
     token: '8dfhassad0asdjwoeiruty'
 }*/
 export function AccountLogin(data) {
+    let isMock = false
+    //todo: admin 暂时用前端登录，待后端更新
+    if(data.username == 'admin'){
+        isMock = true
+    }
     if (isMock) {
         return request({
             url: '/login',
@@ -17,10 +22,14 @@ export function AccountLogin(data) {
             data
         })
     } else {
+        /**
+         * groupname
+         * username
+         */
         return request({
-            url: prefiex + '/login',
-            method: 'post',
-            data : {
+            url: prefix + '/activiti/login',
+            method: 'get',
+            params : {
                 loginName: data.username,
                 password: data.password
             }

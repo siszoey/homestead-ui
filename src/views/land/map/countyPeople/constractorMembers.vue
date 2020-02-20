@@ -10,17 +10,17 @@
         <el-select v-model="city" v-on:change="changeCity(city)">
           <el-option
             v-for="item in cities"
-            :key="item.code"
-            :label="item.name"
-            :value="item.code"
+            :key="item.id"
+            :label="item.properties.name"
+            :value="item.id"
           ></el-option>
         </el-select>
         <el-select v-model="county" v-on:change="changeCounty(county)">
           <el-option
             v-for="item in counties"
-            :key="item.code"
-            :label="item.name"
-            :value="item.code"
+            :key="item.properties.id"
+            :label="item.properties.name"
+            :value="item.properties.id"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -70,10 +70,7 @@
 </template>
 
 <script>
-import Region from '@/views/land/mixnis/region-mixin.js'
-import jsonFileHandler from "@/libs/util.jsonfile.js"
 export default {
-  mixins:[Region],
   data() {
     return {
       input: "",
@@ -83,7 +80,6 @@ export default {
       cities: [],
       county: "",
       counties: [], //update
-      allDatas: [],
       tableData: [],
       ids: "",
       params: {
@@ -91,32 +87,133 @@ export default {
       }
     };
   },
-  created() {
-    this.initData()
-  },
   mounted: function() {
-   
+    //获取海南市级行政区
+    let sj_fileName = "echarts-map/province/json/hainan.json";
+    this.requestAjax(sj_fileName, 2);
+    //获取海南省海口市行政区
+    let xj_fileName = "echarts-map/city/json/hainan/460100.json";
+    this.requestAjax(xj_fileName, 3);
+    //默认行政区为海口市
+    this.city = "460100";
+    //this.ajaxSync();
+    //初始化表格
+    let path =
+      "test-data/map/accountInformation/householdRegister/etc/constractorMembers.json";
+    this.AjaxGetData(path);
   },
   methods: {
-    initData(){
-      this.getRegions().then(datas=>{
-        this.cities = datas
-      })
-      let code = this.getRegionCode()
-      jsonFileHandler.getData('test-data/map/countyPeople.json','code',code).then(datas=>{
-        this.tableData = datas.constractorMembers
-        this.allDatas = datas.constractorMembers
-      })
-    },
     changeCity(value) {
-      this.counties = this.cities.find(t => t.code==value).children
-      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
-      this.county = ''
+      let fileName = "";
+      let path = "";
+      // console.log(value);
+      switch (value) {
+        case "460100":
+          fileName = "echarts-map/city/json/hainan/460100.json";
+          path =
+            "test-data/map/accountInformation/householdRegister/city/haikou.json";
+          break;
+        case "460200":
+          fileName = "echarts-map/city/json/hainan/460200.json";
+          path =
+            "test-data/map/accountInformation/householdRegister/city/sanya.json";
+          break;
+        case "460300":
+          fileName = "echarts-map/city/json/hainan/460300.json";
+          path =
+            "test-data/map/accountInformation/householdRegister/city/sansha.json";
+          break;
+        default:
+          this.county = ""; //change时清空county
+          this.counties = [];
+          // this.tableData = [];
+          break;
+      }
+      if (path != "") {
+        // this.AjaxGetData(path);
+      }
+      if (filename != "") {
+        this.requestAjax(fileName, 3);
+      }
     },
     changeCounty(value) {
-      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      let path = "";
+      // console.log(value);
+      switch (value) {
+        case "460106":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/haikou/longhua.json";
+          break;
+        case "460108":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/haikou/meilan.json";
+          break;
+        case "460107":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/haikou/qiongshan.json";
+          break;
+        case "460200":
+          path =
+            "test-data/map/accountInformation/householdRegister/city/sanya.json";
+          break;
+        case "460302":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/sansha/nanshaqundao.json";
+          break;
+        case "460301":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/sansha/xishaqundao.json";
+          break;
+        case "460303":
+          path =
+            "test-data/map/accountInformation/householdRegister/county/sansha/zsqdddjjqhy.json";
+          break;
+        default:
+          // this.tableData = [];
+          break;
+      }
+      if (path != "") {
+        // this.AjaxGetData(path);
+      }
     },
-   
+    //ajax获取本地json文件行政区划
+    requestAjax(fileName, level) {
+      let _this = this;
+      this.$axios
+        .get(fileName)
+        //then获取成功；response成功后的返回值（对象）
+        .then(response => {
+          // console.log(response.data.features); //[0].properties.name
+          if (level == "3") {
+            _this.county = ""; //change时清空county
+            _this.counties = response.data.features;
+          } else if (level == "2") {
+            _this.cities = response.data.features;
+          }
+        })
+        //获取失败
+        .catch(error => {
+          // console.log(error);
+          alert("网络错误，不能访问");
+        });
+    },
+    //ajax获取本地行政区划下json文件数据
+    AjaxGetData(path) {
+      let _this = this;
+      this.$axios
+        .get(path)
+        //then获取成功；response成功后的返回值（对象）
+        .then(response => {
+          // console.log(response.data.result);
+           _this.tableData = [];
+           _this.tableData = response.data.result;
+        })
+        //获取失败
+        .catch(error => {
+          // console.log(error);
+          alert("网络错误，不能访问");
+        });
+    },
     //搜索
     search() {
       this.ajaxSync();

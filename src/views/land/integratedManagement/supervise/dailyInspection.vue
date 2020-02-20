@@ -14,11 +14,8 @@
 
           <div style="float: right">
             <el-form-item>
-              <el-button type="warning" @click="zoom">
-                <d2-icon name="map" /> 地图
-              </el-button>
               <el-button type="primary" @click="getTableData">
-                <d2-icon name="search" /> 查询
+                <d2-icon name="search" />查询
               </el-button>
             </el-form-item>
           </div>
@@ -28,7 +25,7 @@
     <el-row>
       <el-col :span="showMapView ? 14: 24" style="padding: 0px 5px 0px 25px">
         <el-table :key="table.key" :data="table.list" highlight-current-row border
-          :header-cell-style="{background:'#F5F5F5',color:'#666666'}" style="width: 100%;" ref="dailyTable">
+          :header-cell-style="{background:'#F5F5F5',color:'#666666'}" style="width: 100%;">
           <el-table-column align="center" label="项目名称" width="180">
             <template slot-scope="scope">
               <span>{{scope.row.xmmc}}</span>
@@ -69,8 +66,8 @@
         </el-table>
 
       </el-col>
-      <el-col :span="10" style="padding:0px 5px 0px 5px;height:680px" v-if="showMapView">
-        <div style="width: 100%;height:680px">
+      <el-col :span="10" style="padding:0px 25px 0px 5px;height:610px;" v-if="showMapView">
+        <div style="width: 570px;height:700px">
           <superviseOneMap :zoomToZD="true"></superviseOneMap>
         </div>
       </el-col>
@@ -231,15 +228,6 @@
             this.INTERNALID = row.INTERNALID;
           }, 0);
         }
-        this.$nextTick(() => {
-          this.$refs.dailyTable && this.$refs.dailyTable.doLayout();
-        })
-      },
-      zoom(){
-        this.showMapView = this.showMapView ? false : true;
-        this.$nextTick(() => {
-          this.$refs.dailyTable && this.$refs.dailyTable.doLayout();
-        })
       }
       // getTableData() {
       //   this.table.listLoading = true;

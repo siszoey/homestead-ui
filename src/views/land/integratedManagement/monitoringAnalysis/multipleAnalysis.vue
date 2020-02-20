@@ -34,7 +34,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="map">
-                    <oneMap :hiddenToolbar="true"></oneMap>
+                    <oneMap :hiddenToolbar="flase"></oneMap>
                 </div>
             </el-col>
         </el-row>

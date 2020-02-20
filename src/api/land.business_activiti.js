@@ -3,6 +3,7 @@ import request from '@/plugin/axios'
 // const prefix = '/mock'
 
 const prefix = ''
+
 /**
  * 新建保存
  * @param data
@@ -60,6 +61,18 @@ export function DoProcess(data) {
     url: prefix + '/activiti/lcbl',
     method: 'put',
     data
+  })
+}
+
+/**
+ * 流程历史详情
+ * @param params
+ */
+export function GetProcHistory(params) {
+  return request({
+    url: prefix + '/activiti/dbrw-detail',
+    method: 'get',
+    params
   })
 }
 

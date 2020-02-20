@@ -101,6 +101,7 @@ export function creatAsideMenu ({ agentBoxCount = 1, completedCount = 0, rollbac
     icon: 'system',
     children: (pre => [
       { path: `${pre}/fileConfig`, title: '上传设置' },
+      { path: `${pre}/businessConfig`, title: '业务设置' }
     ])('/land/system')
   }
   //综合监管

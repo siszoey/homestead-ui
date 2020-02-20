@@ -27,9 +27,9 @@ export default {
             let res = Object.assign({}, //response,
               {
                 username,
-                name: response.userName || response.name,
-                uuid: response.userId || response.uuid,
-                role: response.roles || response.role,
+                name: response.name || response.username,
+                uuid: response.uuid || `${username}-uuid`,
+                role: response.role || response.groupname,
                 token: response.token || '8dfhassad0asdjwoeiruty'
             }
               /*{
