@@ -62,12 +62,6 @@
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="项目名称">
-                <template slot-scope="scope">
-                    <span>{{getOptName('建房类型', scope.row.formVO.nzjdqk.jflx)}}</span>
-                </template>
-            </el-table-column>
-
             <el-table-column align="center" label="申请类型">
                 <template slot-scope="scope">
                     <span>{{getOptName('建房类型', scope.row.formVO.nzjdqk.jflx)}}</span>
