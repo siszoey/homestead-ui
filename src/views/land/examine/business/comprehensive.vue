@@ -143,18 +143,6 @@
     },
     computed: {
       ...mapState("d2admin/user", ["info"]),
-      blztOption(blzt){
-        switch (blzt) {
-          case 1:
-            return '待办'
-          case 2:
-            return '退办'
-          case 3:
-            return '已办'
-          default:
-            return ''
-        }
-      }
     },
     methods: {
       getTableData() {
@@ -218,25 +206,35 @@
           cancelButtonText: "取消",
           type: "warning",
           center: true
+        }).then(() => {
+          DeleteProc(sqid)
+            .then(() => {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              })
+              this.getTableData()
+            })
+            .catch(() => {
+              this.$message({
+                type: "error",
+                message: "删除失败!"
+              })
+            })
+        }).catch(() => {
         })
-          .then(() => {
-            DeleteProc(sqid)
-              .then(() => {
-                this.$message({
-                  type: "success",
-                  message: "删除成功!"
-                })
-                this.getTableData()
-              })
-              .catch(() => {
-                this.$message({
-                  type: "error",
-                  message: "删除失败!"
-                })
-              })
-          })
-          .catch(() => {
-          })
+      },
+      blztOption(blzt){
+        switch (blzt) {
+          case 1:
+            return '待办'
+          case 2:
+            return '退办'
+          case 3:
+            return '已办'
+          default:
+            return ''
+        }
       }
     }
   }
