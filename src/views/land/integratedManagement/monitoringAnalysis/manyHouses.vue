@@ -32,7 +32,7 @@
           <el-col :span="14" style="padding: 0px 5px 0px 0px">                 
             <el-table
               :key="table.key"
-              :data="this.manyHouses"
+              :data="table.list"
               v-loading="table.listLoading"
               element-loading-text="拼命加载中..."
               highlight-current-row
@@ -40,46 +40,46 @@
               :header-cell-style="{background:'#F5F5F5',color:'#666666'}"
               style="width: 100%;"
             >
-            <el-table-column align="center" label="姓名" prop="xm" :show-overflow-tooltip="true">
-              <!-- <template slot-scope="scope">
+            <el-table-column align="center" label="姓名" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
                 <span>{{scope.row.sqid}}</span>
-              </template> -->
+              </template>
             </el-table-column>
 
-            <el-table-column align="center" label="身份证号" prop="sfzh" :show-overflow-tooltip="true">
-              <!-- <template slot-scope="scope">
+            <el-table-column align="center" label="身份证号" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
                 <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
-              </template> -->
+              </template>
             </el-table-column>
 
-            <el-table-column align="center" label="家庭总人口" prop="jtzrk" width="90" :show-overflow-tooltip="true">
-              <!-- <template slot-scope="scope">
+            <el-table-column align="center" label="家庭总人口" width="90" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
                 <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
-              </template> -->
+              </template>
             </el-table-column>
 
-            <el-table-column align="center" label="常住地址" prop="czdz" width="100" :show-overflow-tooltip="true">
-              <!-- <template slot-scope="scope">
-                <span>{{getOptName('户口性质', scope.row.residenceType)}}</span>
+            <el-table-column align="center" label="常住地址" width="100" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <!-- <span>{{getOptName('户口性质', scope.row.residenceType)}}</span> -->
                 <span>{{scope.row.sqrrq}}</span>
-              </template> -->
+              </template>
             </el-table-column>
 
-            <el-table-column align="center" label="住宅位置" prop="zzwz" width="90" :show-overflow-tooltip="true">
-              <!-- <template slot-scope="scope">
+            <el-table-column align="center" label="住宅位置" width="90" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
                 <span>{{getOptName('办理状态', scope.row.xmzt)}}</span>
-              </template> -->
+              </template>
             </el-table-column>
 
-            <el-table-column align="center" label="住宅面积" prop="zzmj" width="90" :show-overflow-tooltip="true">
-              <!-- <template slot-scope="scope">
+            <el-table-column align="center" label="住宅面积" width="90" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
-              </template> -->
+              </template>
             </el-table-column>
-            <el-table-column align="center" label="宅基地退出意愿" prop="zjdtcyy" width="90" :show-overflow-tooltip="true">
-              <!-- <template slot-scope="scope">
+            <el-table-column align="center" label="宅基地退出意愿" width="90" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
-              </template> -->
+              </template>
             </el-table-column>
           </el-table>
           <!-- footer 分页条 -->
@@ -183,10 +183,6 @@ import dictMixins from "../../mixnis/dict-mixnis";
             });
 
             this.getTableData();
-        },
-        created(){
-            // console.log(this.manyHouses)
-
         },
         methods: {
             //柱状统计图
