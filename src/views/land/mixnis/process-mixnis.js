@@ -59,7 +59,7 @@ export default {
         "flag": passFlag ? 1 : 0, //1同意，0驳回
         "loginName": this.info.username,
         "taskid": processInfo.taskid,
-        "type": processInfo.box == '待办' ? 1 : 0
+        "type": processInfo.box == '退办' ? 0 : 1 //默认暂时为待办
       }
       console.log("processRequest", data)
       DoProcess(data).then(() => {
