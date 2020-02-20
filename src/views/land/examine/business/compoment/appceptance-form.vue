@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="loading">
       <el-form  :disabled="disabled"
                 ref="form"
                 :model="form">
@@ -297,7 +297,8 @@
           {value: "1", label: "1.不属于"},
           {value: "2", label: "2.属于，已落实"},
           {value: "3", label: "3.属于，尚未落实"}
-        ]
+        ],
+        loading: false,
       }
     },
     created() {
@@ -312,12 +313,15 @@
         this.form.ysyj.sqid = this.detail.jcxx.sqid
       },
       submitForm() {
+        this.loading = true
         submitAcceptance(this.form.ysyj).then(res => {
           this.$message({
             message: '申请成功',
             type: 'success'
           })
           this.disabled = false
+        }).finally(()=>{
+          this.loading = false
         })
       }
     }

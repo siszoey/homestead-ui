@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
   <el-form  :disabled="disabled" :model="form" :rules="rules" ref="form" :class="{validForm: !showValidMsg}">
     <table  border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed;margin:0px auto;max-width:1000px" >
       <tr style="height: 1px"><td width="76px;"/><td width="28px;"/><td width="47px;"/><td width="9px;"/><td width="31px;"/><td width="6px;"/><td width="28px;"/><td width="9px;"/><td width="24px;"/><td width="14px;"/><td width="32px;"/><td width="44px;"/><td width="3px;"/><td width="7px;"/><td width="16px;"/><td width="3px;"/><td width="47px;"/><td width="28px;"/><td width="28px;"/><td width="41px;"/><td width="10px;"/><td width="6px;"/><td width="28px;"/><td width="38px;"/><td width="16px;"/><td width="88px;"/><td width="9px;"/></tr>
@@ -306,7 +306,8 @@
         },
 
         rules: {},
-        showValidMsg: false
+        showValidMsg: false,
+        loading: false
       }
     },
     created() {
@@ -414,6 +415,7 @@
             params.jtcy = params.jtcy.filter(item => item.xm)
             if (valid) {
               this.showValidMsg = false
+              this.loading = true
               console.log(params)
               ApplicationForm(Object.assign(params, {loginName: 'cm'})).then(res => {
                   this.$message({
@@ -427,6 +429,8 @@
                   message: '创建失败',
                   type: 'error'
                 })
+              }).finally(()=>{
+                this.loading = false
               })
             } else {
               this.$message({
