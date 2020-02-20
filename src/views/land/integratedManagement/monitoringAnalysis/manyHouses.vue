@@ -381,6 +381,7 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
               jsonFileHandler.getData('test-data/monitor/manyhouses.json','code',code).then(datas=>{
                 // console.log(datas)
                 this.tableData=datas.tableData
+                
               })
             },
         }
