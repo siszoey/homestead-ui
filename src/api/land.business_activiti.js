@@ -77,23 +77,44 @@ export function GetProcHistory(params) {
 }
 
 /**
- * 获取最新项目状态
- * @param sqid
+ * 综合监管
+ * @param params
+ * @returns {AxiosPromise}
+ * @constructor
  */
-export function LastProcess(sqid) {
+export function AllProc(params) {
   return request({
-    url: prefix + `/apply/form/max/${sqid}`,
+    url: prefix + '/activiti/zhjg',
     method: 'get',
+    params
   })
 }
 
 /**
- * 删除记录
- * @param sqid
+ * 删除流程实例
+ * @param data
+ * @returns {AxiosPromise}
+ * @constructor
  */
-export function DeleteProcess(sqid) {
+export function DeleteProc(data) {
   return request({
-    url: prefix + `/apply/form/delete/${sqid}`,
+    url: prefix + '/activiti',
     method: 'delete',
+    data
+  })
+}
+
+
+/**
+ * 归档查询
+ * @param params
+ * @returns {AxiosPromise}
+ * @constructor
+ */
+export function EndProc(params) {
+  return request({
+    url: prefix + '/activiti/gdcx',
+    method: 'get',
+    params
   })
 }

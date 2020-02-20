@@ -389,9 +389,8 @@
         this.backBtnDisabled = undoFlag || this.canNotGoBack(this.processInfo.actname)
       },
       initProcHistories() {
-        if (this.processInfo) {
-          //todo: test data
-          GetProcHistory({taskid: /*'47526'*/ this.processInfo.taskid}).then(res => {
+        if (this.detail) {
+          GetProcHistory({sqid: this.detail.jcxx.sqid}).then(res => {
             this.procHistories = res.history || []
             console.log('init procHistory success')
           })
