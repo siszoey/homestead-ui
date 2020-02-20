@@ -5,37 +5,37 @@
         <div class="img-xxny utilize-position">
           <img class="size-xxny" :src="xxny"/>
           <img :src="xxny_icon" style="position: absolute;top:40px;left:112px;"/>
-          <span style="font-size: 35px;position: absolute;top:95px;left:97px;">1000</span>
+          <span style="font-size: 30px;position: absolute;top:95px;left:97px;">1000</span>
           <span>休闲农庄</span>
         </div>
         <div class="img-xcly utilize-position">
           <img class="size-xcly ph-margin" :src="xcly"/>
-          <img :src="xcly_icon" style="position: absolute;top:40px;left:358px;"/>
-          <span style="font-size: 35px;position: absolute;top:95px;left:340px;">4000</span>
+          <img :src="xcly_icon" style="position: absolute;top:40px;left:350px;"/>
+          <span style="font-size: 30px;position: absolute;top:95px;left:340px;">4000</span>
           <span>乡村旅游</span>
         </div>
         <div class="img-cyms utilize-position">
           <img class="size-cyms ph-margin" :src="cyms"/>
-          <img :src="cyms_icon" style="position: absolute;top:40px;left:605px;"/>
-          <span style="font-size: 35px;position: absolute;top:95px;left:586px;">2000</span>
+          <img :src="cyms_icon" style="position: absolute;top:40px;left:600px;"/>
+          <span style="font-size: 30px;position: absolute;top:95px;left:586px;">2000</span>
           <span>餐饮民宿</span>
         </div>
         <div class="img-whty utilize-position">
           <img class="size-whty ph-margin" :src="whty"/>
-          <img :src="whty_icon" style="position: absolute;top:40px;left:850px;"/>
-          <span style="font-size: 35px;position: absolute;top:95px;left:832px;">2000</span>
+          <img :src="whty_icon" style="position: absolute;top:40px;left:845px;"/>
+          <span style="font-size: 30px;position: absolute;top:95px;left:832px;">2000</span>
           <span>文化体验</span>
         </div>
         <div class="img-cybg utilize-position">
           <img class="size-cybg ph-margin" :src="cybg"/>
-          <img :src="cybg_icon" style="position: absolute;top:40px;left:1100px;"/>
-          <span style="font-size: 35px;position: absolute;top:95px;left:1083px;">3000</span>
+          <img :src="cybg_icon" style="position: absolute;top:40px;left:1090px;"/>
+          <span style="font-size: 30px;position: absolute;top:95px;left:1075px;">3000</span>
           <span>创意办公</span>
         </div>
         <div class="img-dzsw utilize-position">
           <img class="size-dzsw ph-margin" :src="dzsw"/>
-          <img :src="dzsw_icon" style="position: absolute;top:40px;left:1337px;"/>
-          <span style="font-size: 35px;position: absolute;top:95px;left:1322px;">3000</span>
+          <img :src="dzsw_icon" style="position: absolute;top:40px;left:1330px;"/>
+          <span style="font-size: 30px;position: absolute;top:95px;left:1319px;">3000</span>
           <span>电子商务</span>
           <!-- <span>3000<br>电子商务</span> -->
         </div>
@@ -69,7 +69,7 @@
               <el-form-item>
                 <el-button type="primary" icon="el-icon-search" v-on:click="search()">查询</el-button>
                 <el-button type="primary" icon="el-icon-statistics">统计信息</el-button>
-                <el-button type="default" @click="search()">
+                <el-button type="default" @click="refresh()">
                   <d2-icon name="refresh" />
                 </el-button>
               </el-form-item>
@@ -302,6 +302,11 @@ export default {
           //console.log(error);
         });
     },
+    refresh(){
+      this.city = "460100";
+      this.county = "";
+      //this.changeCity();
+    },
     //点击查询按钮请求的方法
     queryTableData() {
       this.table.current = 1;
@@ -347,31 +352,31 @@ export default {
   text-align: center;
   font-size: 15px; 
   bottom: 25px; 
-  left: 107px;
+  left: 101px;
   position: absolute;
 }
 .img-xcly span{
-  left: 347px;
+  left: 343px;
 }
 .img-cyms span{
-  left: 595px;
+  left: 590px;
 }
 .img-whty span{
-  left: 840px;
+  left: 836px;
 }
 .img-cybg span{
-  left: 1093px;
+  left: 1085px;
 }
 .img-dzsw span{
-  left: 1333px;
+  left: 1322px;
 }
 .size-xxny{
   margin-left: 0.14rem;
   margin-top: 0.2rem;
-  width: 246px;
+  width: 242px;
 }
 .ph-margin{
-  width: 246px;
+  width: 242px;
   margin-top: 0.2rem;
 }
 
