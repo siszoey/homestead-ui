@@ -3,13 +3,13 @@
         <el-row class="queryForm">
           <el-col>
             <el-form :inline="true" :model="queryForm" ref="queryForm" size="mini">
-              <el-form-item label="姓名查询" prop="sqid" class="formItem">
-                <el-input v-model="queryForm['sqid']" placeholder=""></el-input>
+              <el-form-item label="姓名查询" prop="xm" class="formItem">
+                <el-input v-model="queryForm['xm']" placeholder=""></el-input>
               </el-form-item>
-              <el-form-item label="身份证号" prop="sqid" class="formItem">
-                <el-input v-model="queryForm['sqid']" placeholder=""></el-input>
+              <el-form-item label="身份证号" prop="sfzh" class="formItem">
+                <el-input v-model="queryForm['sfzh']" placeholder=""></el-input>
               </el-form-item>
-              <el-form-item label="一户多宅" prop="jflx" class="formItem">
+              <!-- <el-form-item label="一户多宅" prop="jflx" class="formItem">
                 <el-select v-model="queryForm['jflx']" placeholder="" style="width:120px">
                   <el-option
                     v-for="(option, index) in getDicts('建房类型')"
@@ -18,11 +18,18 @@
                     :key="index"
                   ></el-option>
                 </el-select>
+              </el-form-item> -->
+              <el-form-item label="一户多宅" prop="yhdz" class="formItem">
+                <el-select v-model="queryForm['yhdz']" clearable placeholder="" style="width:120px">
+                  <el-option label="一户两宅" value="一户两宅"></el-option>
+                  <el-option label="一户三宅" value="一户三宅"></el-option>
+                  <el-option label="一户四宅" value="一户四宅"></el-option>
+                </el-select>
               </el-form-item>
               <div style="float: right">
                 <el-form-item>
-                  <el-button type="info" style="background:#27658A">新增</el-button>
-                  <el-button type="info" style="background:#27658A">查询记录</el-button>
+                  <el-button type="info" @click="add()" style="background:#27658A">新增</el-button>
+                  <el-button type="info" @click="search()" style="background:#27658A">查询记录</el-button>
                 </el-form-item>
               </div>
             </el-form>
@@ -40,44 +47,44 @@
               :header-cell-style="{background:'#F5F5F5',color:'#666666'}"
               style="width: 100%;"
             >
-            <el-table-column align="center" label="姓名" prop="xm" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="姓名" prop="xm" :show-overflow-tooltip="true" width="80px">
               <!-- <template slot-scope="scope">
                 
                 <span>{{scope.row.sqid}}</span>
               </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="身份证号" prop="sfzh" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="身份证号" prop="sfzh" :show-overflow-tooltip="true" width="180px">
               <!-- <template slot-scope="scope">
                 <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
               </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="家庭总人口" prop="jtzrk" width="90" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="家庭总人口" prop="jtzrk" width="100" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
               </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="常住地址" prop="czdz" width="100" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="常住地址" prop="czdz" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{getOptName('户口性质', scope.row.residenceType)}}</span>
                 <span>{{scope.row.sqrrq}}</span>
               </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="住宅位置" prop="zzwz" width="90" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="住宅位置" prop="zzwz" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{getOptName('办理状态', scope.row.xmzt)}}</span>
               </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="住宅面积" prop="zzmj" width="90" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="住宅面积" prop="zzmj" width="80" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
               </template> -->
             </el-table-column>
-            <el-table-column align="center" label="宅基地退出意愿" prop="zjdtcyy" width="90" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="宅基地退出意愿" prop="zjdtcyy" width="120" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
               </template> -->
@@ -170,9 +177,10 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
                 },
                 queryForm: {
                   roleid: "",
-                  sqid: "",
-                  xmzt: "",
-                  jflx: ""
+                  xm: "",
+                  sfzh: "",
+                  jflx: "",
+                  yhdz: ""
                 },
                 sqsj: "",
 
@@ -372,7 +380,10 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
               this.table.current = current;
               this.getTableData();
             },
-
+            search(){
+              this.initData();
+              console.log(this.queryForm)
+            },
             //获取构造的表格数据
             initData(){
               this.getRegions().then(datas=>{
@@ -380,8 +391,8 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
               })
               let code = this.getRegionCode()
               jsonFileHandler.getData('test-data/monitor/manyhouses.json','code',code).then(datas=>{
-                // console.log(datas)
-                this.tableData=datas.tableData
+                let resList = datas.tableData.filter(item => (item.sfzh).indexOf(this.queryForm.sfzh) > -1&&(item.xm).indexOf(this.queryForm.xm) > -1)
+                this.tableData=resList
                 
               })
             },

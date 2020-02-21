@@ -192,27 +192,27 @@ export default {
         },
         {
           auditNum: 565,
-          auditPercent: "30",
+          auditPercent: "38",
           auditType: "原址新建"
         },
         {
           auditNum: 500,
-          auditPercent: "22",
+          auditPercent: "33",
           auditType: "改扩建"
         },
         {
           auditNum: 235,
-          auditPercent: "10",
+          auditPercent: "16",
           auditType: "异址新建"
         },
         {
           auditNum: 144,
-          auditPercent: "5",
+          auditPercent: "10",
           auditType: "宅基地流转"
         },
         {
           auditNum: 56,
-          auditPercent: "2",
+          auditPercent: "4",
           auditType: "宅基地退出"
         }
       ],
@@ -237,7 +237,6 @@ export default {
     };
   },
   mounted() {
-    console.log(333);
     this.getChartData();
     this.getTableData();
     this.getProgressData();
@@ -280,7 +279,6 @@ export default {
         this.queryForm
       )
         .then(res => {
-          console.log(res)
           this.table.list = res.records;
           this.table.total = res.total;
         })
@@ -317,9 +315,16 @@ export default {
       this.table.current = current;
       this.getTableData();
     },
+    compare(property){
+      return function(a,b){
+        let value1 = a[property];
+        let value2 = b[property];
+        return value1 - value2;
+      }
+    },
     //柱状统计图
     InitChart() {
-      const _dataList = this.barChartDatas;
+      const _dataList = this.barChartDatas.sort(this.compare('year'));
       this.barChart = this.$echarts.init(this.$refs.barMain);
       if (_dataList.length > 0) {
         const serieSbsl = {
