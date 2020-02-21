@@ -305,9 +305,6 @@ export default {
     refresh(){
       this.city = "460100";
       this.county = "";
-      let path =
-      "test-data/map/accountInformation/utilize/city/haikou.json";
-    this.AjaxGetData(path);
       //this.changeCity();
     },
     //点击查询按钮请求的方法

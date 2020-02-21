@@ -29,7 +29,7 @@
       <div style="float: right">
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" v-on:click="search()">查询</el-button>
-          <el-button type="default" @click="resetForm('queryForm')">
+          <el-button type="default" @click="search()">
             <d2-icon name="refresh" />
           </el-button>
         </el-form-item>
@@ -320,16 +320,6 @@ export default {
           alert("网络错误，不能访问");
         });
     },
-    resetForm(formName) {
-        this.city = "";
-        this.county = "";
-        this.queryForm = {
-        xm: "",
-        sfzhm: "",
-        xzqhdm: ""
-      }
-        this.search()
-      },
     //搜索
     search() {
       this.cbfjtcydata_queryed = this.cbfjtcydata
