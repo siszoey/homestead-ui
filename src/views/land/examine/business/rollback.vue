@@ -180,8 +180,8 @@
         if (newQueryForm.sqsj && newQueryForm.sqsj.length > 0) {
           let start_sqrrq = newQueryForm.sqsj[0]
           let end_sqrrq = newQueryForm.sqsj[1]
-          newQueryForm['kssj'] = start_sqrrq
-          newQueryForm['jssj'] = end_sqrrq
+          newQueryForm['start_sqrrq'] = start_sqrrq
+          newQueryForm['end_sqrrq'] = end_sqrrq
           delete newQueryForm.sqsj
         }
         return Object.assign({

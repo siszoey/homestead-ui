@@ -38,7 +38,7 @@
             icon="el-icon-search"
             v-on:click="search()"
           >查询</el-button>
-          <el-button type="default" @click="resetForm('queryForm')">
+          <el-button type="default" @click="search()">
                         <d2-icon name="refresh"/>
                     </el-button>
         </el-form-item>
@@ -110,16 +110,6 @@ export default {
     };
   },
   mounted: function() {
-    //console.log(JSON_WHS);
-    //获取海南市级行政区
-    // let sj_fileName = "echarts-map/province/json/hainan.json";
-    // this.requestAjax(sj_fileName, 2);
-    // //获取海南省海口市行政区
-    // let xj_fileName = "echarts-map/city/json/hainan/460100.json";
-    // this.requestAjax(xj_fileName, 3);
-    //默认行政区为海口市
-    // this.city = "460100";
-
     this.initData()
 
     //获得当前年份
@@ -165,16 +155,6 @@ export default {
     search() {
       this.ajaxSync();
     },
-    resetForm(formName) {
-      this.year = "";
-        this.city = "";
-        this.county = "";
-        this.initData()
-        var _date = new Date();
-    var tYear = _date.getFullYear();
-    //默认年份为上一年度
-    this.year = tYear - 1;
-      },
     //ajax请求api,传入参数：类型和标题
     ajaxSync() {
       var _this = this; //在ajax中必须将this重新赋一个新对象接收，否则ajax中获取不到vue变量

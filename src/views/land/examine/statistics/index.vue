@@ -5,14 +5,14 @@
       <el-row class="queryForm">
         <el-col>
           <el-form :inline="true" :model="queryForm" ref="queryForm" size="mini">
-            <el-form-item label="建房类型" prop="jflx">
+            <el-form-item label="建房类型">
               <el-select v-model="queryForm['jflx']">
                 <el-option v-for="(option, oIndex) in getDicts('建房类型')" :label="option.optName" :value="option.optCode"
                   :key="oIndex"></el-option>
               </el-select>
             </el-form-item>
 
-            <el-form-item label="项目编号" prop="sqid">
+            <el-form-item label="项目编号">
               <el-input v-model="queryForm['sqid']" placeholder="项目编号"></el-input>
             </el-form-item>
 
@@ -22,7 +22,7 @@
               </el-date-picker>
             </el-form-item>
 
-            <el-form-item label="项目状态" prop="xmzt">
+            <el-form-item label="项目状态">
               <el-select v-model="queryForm['xmzt']" multiple>
                 <el-option v-for="(option, oIndex) in getDicts('项目状态')" :label="option.optName" :value="option.optCode"
                   :key="oIndex"></el-option>
@@ -53,9 +53,6 @@
                 </el-button>
                 <el-button type="primary" @click="getTableData">
                   <d2-icon name="search" />查询
-                </el-button>
-                <el-button type="default" @click="resetForm('queryForm')">
-                  <d2-icon name="refresh" />
                 </el-button>
               </el-form-item>
             </div>
@@ -252,12 +249,6 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
           },
           newQueryForm
         );
-      },
-      resetForm(formName) {
-        this.city = "";
-        this.county = "";
-        this.$refs[formName].resetFields();
-        this.getTableData();
       },
       handleSizeChange(pageSiz) {
         this.table.size = pageSiz;

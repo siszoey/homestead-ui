@@ -31,4 +31,9 @@ util.open = function (url) {
   document.body.removeChild(document.getElementById('d2admin-link-temp'))
 }
 
+util.hasLogin = function () {
+  let token = this.cookies.get('token')
+  return (!!token)
+}
+
 export default util

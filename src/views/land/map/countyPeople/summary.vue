@@ -8,7 +8,7 @@
             </div>
             <div class="card_body">
                <img :src="zrk"/>
-               <div style="display: unset;"> 1000万</div>
+               <div style="display: unset;"> {{summary.totalPopulation}}</div>
             </div> 
         </el-card>
         <el-card class="box-card-zhs card_margin">
@@ -17,7 +17,7 @@
             </div>
             <div class="card_body">
               <img :src="zhs"/>
-               <div style="display: unset;"> 400万</div>
+               <div style="display: unset;"> {{summary.totalHouse}}</div>
             </div> 
         </el-card>
         <el-card class="box-card-yhdz card_margin" >
@@ -26,7 +26,7 @@
             </div>
             <div class="card_body">
               <img :src="yhdz"/>
-               <div style="display: unset;"> 20万</div>
+               <div style="display: unset;"> {{summary.yhdz}}</div>
             </div> 
         </el-card>
         <el-card class="box-card-zxrs card_margin">
@@ -35,7 +35,7 @@
             </div>
             <div class="card_body" >
               <img :src="zxrs"/>
-               <div style="display: unset;"> 2000</div>
+               <div style="display: unset;"> {{summary.cancellationCount}}</div>
             </div> 
         </el-card>
         <el-card class="box-card-zhszz card_margin">
@@ -44,7 +44,7 @@
             </div>
             <div class="card_body">
               <img :src="zhszz"/>
-               <div style="display: unset;"> -5%</div>
+               <div style="display: unset;"> {{summary.houseAscRate}}</div>
             </div> 
         </el-card>
         <el-card class="box-card-hjrkzz card_margin">
@@ -53,7 +53,7 @@
             </div>
             <div class="card_body">
               <img :src="hjrkzz"/>
-               <div style="display: unset;"> 3%</div>
+               <div style="display: unset;"> {{summary.peopleAscRate}}</div>
             </div> 
         </el-card>
       </el-row>
@@ -66,18 +66,18 @@
             <el-form-item label="行政区">
               <el-select v-model="city" v-on:change="changeCity(city)">
                 <el-option
-                  v-for="item in cities"
-                  :key="item.id"
-                  :label="item.properties.name"
-                  :value="item.id"
+                 v-for="item in cities"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code"
                 ></el-option>
               </el-select>
               <el-select v-model="county" v-on:change="changeCounty(county)">
                 <el-option
                   v-for="item in counties"
-                  :key="item.properties.id"
-                  :label="item.properties.name"
-                  :value="item.properties.id"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -87,7 +87,7 @@
                 <el-button type="primary" icon="el-icon-statistics" @click="statistics">统计分析</el-button>
                 <el-button type="success" icon="el-icon-search" v-on:click="add()">新增</el-button>
                 <el-button type="primary" icon="el-icon-search" v-on:click="search()">查询</el-button>
-                <el-button type="default" @click="resetForm('queryForm')">
+                <el-button type="default" @click="search()">
                   <d2-icon name="refresh" />
                 </el-button>
               </el-form-item>
@@ -114,8 +114,8 @@
             <el-table-column prop="hkszd" label="户口所在地" sortable></el-table-column>
             <el-table-column prop="jtzrs" label="家庭总人数" width="120" sortable></el-table-column>
             <el-table-column fixed="right" align="center" label="操作" width="100">
-                <template slot-scope="scope">
-                    <el-button size="mini" type="primary" @click="handleUpdate(scope.row)"
+                <template>
+                    <el-button size="mini" type="primary" @click="handleUpdate(row)"
                         icon="el-icon-edit">查看详情
                     </el-button>
                 </template>
@@ -135,29 +135,28 @@
           ></el-pagination>
           <!-- 详情弹框 -->
           <el-dialog title="农村人口详情信息" :visible.sync="editFormVisible" top="5vh">
-              <el-form :model="peopleList" label-width="90px" ref="peopleList">
+              <el-form :model="editForm" label-width="80px" ref="editForm">
                 <el-form-item label="户主姓名" prop="hzxm">
-                  <el-input v-model="peopleList.hzxm" auto-complete="off"></el-input>
+                  <el-input v-model="editForm.hzxm" auto-complete="off"></el-input>
                 </el-form-item>
                  <el-form-item label="身份证号" prop="sfzh">
-                  <el-input v-model="peopleList.sfzh" auto-complete="off"></el-input>
+                  <el-input v-model="editForm.sfzh" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="年龄" prop="nl">
-                  <el-input v-model="peopleList.nl" auto-complete="off"></el-input>
+                  <el-input v-model="editForm.nl" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="家庭住址" prop="jtzz">
-                  <el-input v-model="peopleList.jtzz" auto-complete="off"></el-input>
+                  <el-input v-model="editForm.jtzz" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="户口所在地" prop="hkszd">
-                  <el-input v-model="peopleList.hkszd" auto-complete="off"></el-input>
+                  <el-input v-model="editForm.hkszd" auto-complete="off"></el-input>
                 </el-form-item>
                   <el-form-item label="家庭总人数" prop="jtzrs">
-                  <el-input v-model="peopleList.jtzrs" auto-complete="off"></el-input>
+                  <el-input v-model="editForm.jtzrs" auto-complete="off"></el-input>
                 </el-form-item>                  
               </el-form>
               <div slot="footer" class="dialog-footer">
-                <el-button @click="save(peopleList)" type="primary">确定</el-button>
-                <el-button @click.native="editFormVisible = false">取消</el-button>
+                <el-button @click.native="editFormVisible = false">确定</el-button>
               </div>
           </el-dialog>
         </el-col>
@@ -180,20 +179,23 @@
 
 <script>
 
+import Region from '@/views/land/mixnis/region-mixin.js'
+import jsonFileHandler from "@/libs/util.jsonfile.js"
+
 import dictMixins from "../../mixnis/dict-mixnis";
 import { color } from "echarts/lib/export";
-import FileSaver from "file-saver";
 export default {
   name: "land-map-implementationProcess",
-  mixins: [dictMixins],
+  mixins: [dictMixins,Region],
   data() {
     return {
       showFileView: false,//右侧统计图表是否显示
       tableData: [],
+      allDatas:[],
+      summary:{},//概览数据
       editFormVisible: false,//详情界面是否显示
-      scope:"",
       //详情界面数据
-			peopleList: {
+			editForm: {
 				hzxm: '',
         sfzh: '',
         nl:'',
@@ -234,33 +236,28 @@ export default {
       pieChart: {}     
     };
   },
+  created(){
+    this.initData()
+  },
   mounted: function() {
-    // console.log(111);
-    //获取海南市级行政区
-    let sj_fileName = "echarts-map/province/json/hainan.json";
-    this.requestAjax(sj_fileName, 2);
-    //获取海南省海口市行政区
-    let xj_fileName = "echarts-map/city/json/hainan/460100.json";
-    this.requestAjax(xj_fileName, 3);
-    //默认行政区为海口市
-    this.city = "460100";
-    //this.ajaxSync();
-    //初始化表格
-    let path =
-      "test-data/map/accountInformation/householdRegister/city/haikou.json";
-    this.AjaxGetData(path);
-    //加载图表数据
-    //this.LineChart();
-    //this.getChartData();
-    // this.IniPieChart();
-    //  this.LineChart();
-    //当页面大小发生变化时，echarts统计图根据画布大小自动重新绘制
+    
     window.addEventListener("resize", () => {
       this.lineChart.resize();
       this.pieChart.resize();
     });
   },
   methods: {
+    initData(){
+      this.getRegions().then(datas=>{
+        this.cities = datas
+      })
+      let code = this.getRegionCode()
+      jsonFileHandler.getData('test-data/map/countyPeople.json','code',code).then(datas=>{
+        this.tableData = datas.houseHolder
+        this.allDatas = datas.houseHolder
+        this.summary = datas.summary
+      })
+    },
     //统计分析事件
     statistics(){
       this.showFileView = this.showFileView ? false : true;
@@ -269,7 +266,6 @@ export default {
           this.IniPieChart();
           this.LineChart();
         }
-
       })
       
     },
@@ -280,233 +276,28 @@ export default {
     //     this.LineChart()
     //   },
     //查看详情事件
-    handleUpdate(row) {  
-      this.xzqh =this.city;
-      if(this.xzqh=="460100"){
-              this.$axios
-        .get("test-data/map/accountInformation/householdRegister/city/haikou.json")
-        .then(response => {
-          let ncrkList = response.data.result.filter(function(item){
-            if(item.sfzh == row.sfzh)
-            return item;            
-          });
-          this.peopleList = {
-            hzxm: ncrkList[0].hzxm,
-            sfzh: ncrkList[0].sfzh,
-            nl:ncrkList[0].nl,
-            jtzz:ncrkList[0].jtzz,
-            hkszd:ncrkList[0].hkszd,
-            jtzrs:ncrkList[0].jtzrs
-          }
-          this.editFormVisible = true;
-        })
-      }
-      else if(this.xzqh=="460200"){
-        this.$axios
-        .get("test-data/map/accountInformation/householdRegister/city/sanya.json")
-                .then(response => {
-          let ncrkList = response.data.result.filter(function(item){
-            if(item.sfzh == row.sfzh)
-            return item;            
-          });
-          this.peopleList = {
-            hzxm: ncrkList[0].hzxm,
-            sfzh: ncrkList[0].sfzh,
-            nl:ncrkList[0].nl,
-            jtzz:ncrkList[0].jtzz,
-            hkszd:ncrkList[0].hkszd,
-            jtzrs:ncrkList[0].jtzrs
-          }
-          this.editFormVisible = true;
-        })
-      }
-      else
-      (this.$axios
-        .get("test-data/map/accountInformation/householdRegister/city/sansha.json")
-                .then(response => {
-          let ncrkList = response.data.result.filter(function(item){
-            if(item.sfzh == row.sfzh)
-            return item;            
-          });
-          this.peopleList = {
-            hzxm: ncrkList[0].hzxm,
-            sfzh: ncrkList[0].sfzh,
-            nl:ncrkList[0].nl,
-            jtzz:ncrkList[0].jtzz,
-            hkszd:ncrkList[0].hkszd,
-            jtzrs:ncrkList[0].jtzrs
-          }
-          this.editFormVisible = true;
-        })
-      )         
-        .catch(function(error) {
-          // 请求失败处理
-          console.log(error);
-        });
+    handleUpdate(row) {
+      this.editFormVisible = true;
       },
       //新增事件
       add(){
-       this.peopleList.hzxm="";//清空input中的值
-       this.peopleList.sfzh="";
-       this.peopleList.nl="";
-       this.peopleList.jtzz="";
-       this.peopleList.hkszd="";
-       this.peopleList.jtzrs="";
        this.editFormVisible = true;
       },
-      //保存事件
-      save(FormName){
-        let newpeople = {
-          hzxm: this.peopleList.hzxm,
-          sfzh: this.peopleList.sfzh,
-          nl: this.peopleList.nl,
-          jtzz: this.peopleList.jtzz,
-          hkszd: this.peopleList.hkszd,
-          jtzrs: this.peopleList.jtzrs
-      };
-      var blob = new Blob([JSON.stringify(newpeople)], { type: "" });
-         saveAs(blob, "test-data/map/accountInformation/householdRegister/city/haikou.json");
-      //  FileSaver.saveAs(
-      //     newpeople,
-      //      "test-data/map/accountInformation/householdRegister/city/haikou.json" );     
-
-      // this.$axios
-      //   .post("test-data/map/accountInformation/householdRegister/city/haikou.json", { newpeople })
-      //   .then(res => {
-      //     console.log(res);
-      // });
-
-      },
+  
     //获取表格数据
     changeCity(value) {
-      let fileName = "";
-      let path = "";
-      // console.log(value);
-      switch (value) {
-        case "460100":
-          fileName = "echarts-map/city/json/hainan/460100.json";
-          this.requestAjax(fileName, 3);
-          path =
-            "test-data/map/accountInformation/householdRegister/city/haikou.json";
-          this.AjaxGetData(path);
-          break;
-        case "460200":
-          fileName = "echarts-map/city/json/hainan/460200.json";
-          this.requestAjax(fileName, 3);
-          path =
-            "test-data/map/accountInformation/householdRegister/city/sanya.json";
-          this.AjaxGetData(path);
-          break;
-        case "460300":
-          fileName = "echarts-map/city/json/hainan/460300.json";
-          this.requestAjax(fileName, 3);
-          path =
-            "test-data/map/accountInformation/householdRegister/city/sansha.json";
-          this.AjaxGetData(path);
-          break;
-        default:
-          this.county = ""; //change时清空county
-          this.counties = [];
-          this.tableData = [];
-          break;
-      }
+      this.counties = this.cities.find(t => t.code==value).children
+      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      this.county = ''
     },
     changeCounty(value) {
-      let path = "";
-      // console.log(value);
-      switch (value) {
-        case "460106":
-          path =
-            "test-data/map/accountInformation/householdRegister/county/haikou/longhua.json";
-          this.AjaxGetData(path);
-          break;
-        case "460108":
-          path =
-            "test-data/map/accountInformation/householdRegister/county/haikou/meilan.json";
-          this.AjaxGetData(path);
-          break;
-        case "460107":
-          path =
-            "test-data/map/accountInformation/householdRegister/county/haikou/qiongshan.json";
-          this.AjaxGetData(path);
-          break;
-        case "460200":
-          path =
-            "test-data/map/accountInformation/householdRegister/city/sanya.json";
-          this.AjaxGetData(path);
-          break;
-        case "460302":
-          path =
-            "test-data/map/accountInformation/householdRegister/county/sansha/nanshaqundao.json";
-          this.AjaxGetData(path);
-          break;
-        case "460301":
-          path =
-            "test-data/map/accountInformation/householdRegister/county/sansha/xishaqundao.json";
-          this.AjaxGetData(path);
-          break;
-        case "460303":
-          path =
-            "test-data/map/accountInformation/householdRegister/county/sansha/zsqdddjjqhy.json";
-          this.AjaxGetData(path);
-          break;
-        default:
-          this.tableData = [];
-          break;
-      }
-    },
-    //ajax获取本地json文件行政区划
-    requestAjax(fileName, level) {
-      let _this = this;
-      this.$axios
-        .get(fileName)
-        //then获取成功；response成功后的返回值（对象）
-        .then(response => {
-          // console.log(response.data.features); //[0].properties.name
-          if (level == "3") {
-            _this.county = ""; //change时清空county
-            _this.counties = response.data.features;
-          } else if (level == "2") {
-            _this.cities = response.data.features;
-          }
-        })
-        //获取失败
-        .catch(error => {
-          // console.log(error);
-          alert("网络错误，不能访问");
-        });
-    },
-    //ajax获取本地行政区划下json文件数据
-    AjaxGetData(path) {
-      let _this = this;
-      this.$axios
-        .get(path)
-        //then获取成功；response成功后的返回值（对象）
-        .then(response => {
-          // console.log(response.data.result);
-          _this.tableData = [];
-          _this.tableData = response.data.result;
-        })
-        //获取失败
-        .catch(error => {
-          // console.log(error);
-          alert("网络错误，不能访问");
-        });
+      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
     },
 
     //搜索
     search() {
       this.ajaxSync();
     },
-    resetForm(formName) {
-      this.city = "460100";
-      this.county = "";
-    //this.ajaxSync();
-    //初始化表格
-    let path =
-      "test-data/map/accountInformation/householdRegister/city/haikou.json";
-    this.AjaxGetData(path);
-      },
     //ajax请求api,传入参数：类型和标题
     ajaxSync() {
       var _this = this; //在ajax中必须将this重新赋一个新对象接收，否则ajax中获取不到vue变量
