@@ -200,31 +200,31 @@
         })
       },
       handleDelete(row) {
-        let sqid = row.zjdSqJl.sqid
         this.$confirm("确定删除这条项目记录？", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",
           center: true
         }).then(() => {
-          DeleteProc(sqid)
-            .then(() => {
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              })
-              this.getTableData()
+          DeleteProc({
+            sqid: row.jcxx.sqid,
+            taskid: row.taskid
+          }).then(() => {
+            this.$message({
+              type: "success",
+              message: "删除成功!"
             })
-            .catch(() => {
-              this.$message({
-                type: "error",
-                message: "删除失败!"
-              })
+            this.getTableData()
+          }).catch(() => {
+            this.$message({
+              type: "error",
+              message: "删除失败!"
             })
+          })
         }).catch(() => {
         })
       },
-      blztOption(blzt){
+      blztOption(blzt) {
         switch (blzt) {
           case 1:
             return '待办'
