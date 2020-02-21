@@ -90,22 +90,29 @@
         request.get('/supervise/getComplaintDatas', {
           params: {
             pageNum: this.table.pageNum,
-            pageSize: this.table.pageSize
+            pageSize: this.table.pageSize,
+            xmbh:this.xmbh,
+            xmmc: this.xmmc
           }
         }).then(res => {
+          // let resList = res.datas.filter(item => (item.xmmc).indexOf(params.xmmc) > -1&&(item.xmbh).indexOf(params.xmbh) > -1);
+          // console.log(resList)
           //获取到总数据后再根据查询条件进行筛选
-           let xfjbList = res.datas.filter(function(item){
-              if(item.xmmc == params.xmmc||item.xmbh==params.xmbh)
-             return item;            
-            });
-            if(params.xmbh==""&&params.xmmc==""){
-              this.table.list = res.datas
-              this.table.total = res.total
-            }
-            else{
-              this.table.list = xfjbList
-              this.table.total = xfjbList.length
-            }
+          //  let xfjbList = res.datas.filter(function(item){
+          //     if(item.xmmc == params.xmmc||item.xmbh==params.xmbh)
+          //    return item;            
+          //   });
+          //   if(params.xmbh==""&&params.xmmc==""){
+          //     this.table.list = res.datas
+          //     this.table.total = res.total
+          //   }
+          //   else{
+          //     this.table.list = xfjbList
+          //     this.table.total = xfjbList.length
+          //   }
+          console.log(res)
+          this.table.list = res.datas
+          this.table.total = res.total
         }).finally(() => {
           this.table.listLoading = false
         })

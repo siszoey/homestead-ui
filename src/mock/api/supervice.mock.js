@@ -39,7 +39,7 @@ function params2Obj (url) {
 }
 
 function getComplaintDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, xmbh, xmmc } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -47,7 +47,10 @@ function getComplaintDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = complaintDatas.datas.slice(startIndex, pageSize * pageNum)
+  console.log(xmmc)
+  console.log(xmbh)
+  console.log(complaintDatas.datas.filter(item => (item.xmmc).indexOf(xmmc) > -1&&(item.xmbh).indexOf(xmbh) > -1))
+  cDatas.datas = complaintDatas.datas.filter(item => (item.xmmc).indexOf(xmmc) > -1&&(item.xmbh).indexOf(xmbh) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = complaintDatas.datas.length
   return cDatas
 }

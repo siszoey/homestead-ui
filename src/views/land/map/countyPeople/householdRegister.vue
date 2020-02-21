@@ -28,7 +28,7 @@
       <div style="float: right">
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" v-on:click="search()">查询</el-button>
-          <el-button type="default" @click="search()">
+          <el-button type="default" @click="resetForm('queryForm')">
             <d2-icon name="refresh" />
           </el-button>
         </el-form-item>
@@ -116,6 +116,11 @@ export default {
     search() {
       this.ajaxSync();
     },
+    resetForm(formName) {
+        this.city = "";
+        this.county = "";
+        this.initData()
+      },
     //ajax请求api,传入参数：类型和标题
     ajaxSync() {
       var _this = this; //在ajax中必须将this重新赋一个新对象接收，否则ajax中获取不到vue变量

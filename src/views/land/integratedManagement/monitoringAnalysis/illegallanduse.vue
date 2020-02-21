@@ -3,14 +3,14 @@
         <el-row class="queryForm">
           <el-col>
             <el-form :inline="true" :model="queryForm" ref="queryForm" size="mini">
-              <el-form-item label="姓名查询" prop="sqid" class="formItem">
-                <el-input v-model="queryForm['sqid']" placeholder=""></el-input>
+              <el-form-item label="姓名查询" prop="xm" class="formItem">
+                <el-input v-model="queryForm['xm']" placeholder=""></el-input>
               </el-form-item>
-              <el-form-item label="身份证号" prop="sqid" class="formItem">
-                <el-input v-model="queryForm['sqid']" placeholder=""></el-input>
+              <el-form-item label="身份证号" prop="sfzh" class="formItem">
+                <el-input v-model="queryForm['sfzh']" placeholder=""></el-input>
               </el-form-item>
-              <el-form-item label="违法类型" prop="jflx" class="formItem">
-                <el-select v-model="queryForm['jflx']" placeholder="" style="width:120px">
+              <!-- <el-form-item label="违法类型" prop="wflx" class="formItem">
+                <el-select v-model="queryForm['wflx']" placeholder="" style="width:120px">
                   <el-option
                     v-for="(option, index) in getDicts('建房类型')"
                     :label="option.optName"
@@ -18,11 +18,16 @@
                     :key="index"
                   ></el-option>
                 </el-select>
+              </el-form-item> -->
+              <el-form-item label="违法类型" prop="wflx" class="formItem">
+                <el-select v-model="queryForm['wflx']" clearable placeholder="" style="width:120px">
+                  <el-option label="占用农用地" value="占用农用地"></el-option>
+                </el-select>
               </el-form-item>
               <div style="float: right">
                 <el-form-item>
-                  <el-button type="info" style="background:#27658A">新增</el-button>
-                  <el-button type="info" style="background:#27658A">查询记录</el-button>
+                  <el-button type="info" @click="add()" style="background:#27658A">新增</el-button>
+                  <el-button type="info" @click="search()" style="background:#27658A">查询记录</el-button>
                 </el-form-item>
               </div>
             </el-form>
@@ -168,9 +173,9 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
                 },
                 queryForm: {
                   roleid: "",
-                  sqid: "",
-                  xmzt: "",
-                  jflx: ""
+                  xm: "",
+                  sfzh: "",
+                  wflx: ""
                 },
                 sqsj: "",
                 tableData:[]
@@ -368,14 +373,17 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
               this.table.current = current;
               this.getTableData();
             },
+            search(){
+              this.initData();
+            },
             initData(){
               this.getRegions().then(datas=>{
                 this.cities = datas
               })
               let code = this.getRegionCode()
               jsonFileHandler.getData('test-data/monitor/illegallanduse.json','code',code).then(datas=>{
-                console.log(datas)
-                this.tableData=datas.tableData
+                let resList = datas.tableData.filter(item => (item.sfzh).indexOf(this.queryForm.sfzh) > -1&&(item.xm).indexOf(this.queryForm.xm) > -1);
+                this.tableData=resList
                 
               })
             },
