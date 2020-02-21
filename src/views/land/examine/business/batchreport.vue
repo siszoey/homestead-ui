@@ -10,6 +10,9 @@
                 <el-form-item>
                     <el-button type="warning" icon="el-icon-upload2" v-on:click="report">上报</el-button>
                     <el-button type="primary" icon="el-icon-search" v-on:click="getTableData">查询</el-button>
+                    <el-button type="default" @click="resetForm('queryForm')">
+                        <d2-icon name="refresh" />
+                    </el-button>
                 </el-form-item>
             </div>
         </el-form>
@@ -232,6 +235,11 @@
                     },
                     newQueryForm
                 );
+            },
+            resetForm(formName) {
+                this.query_year = "";
+                this.$refs[formName].resetFields();
+                this.getTableData();
             },
             //实现上报功能
             async report() {
