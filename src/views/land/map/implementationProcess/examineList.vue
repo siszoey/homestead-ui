@@ -237,7 +237,6 @@ export default {
     };
   },
   mounted() {
-    console.log(333);
     this.getChartData();
     this.getTableData();
     this.getProgressData();
