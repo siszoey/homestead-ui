@@ -1,45 +1,17 @@
 <template>
     <div>
     <div class="wrap-top">
-      <el-row class="progress-box" >
-        <div class="img-xxny utilize-position">
-          <img class="size-xxny" :src="xxny"/>
-          <img :src="xxny_icon" style="position: absolute;top:40px;left:112px;"/>
-          <span style="font-size: 30px;position: absolute;top:95px;left:97px;">1000</span>
-          <span>休闲农庄</span>
+      <div class="progress-box" >
+        <div class="image-card" v-for="(item,index) in imagesDatas" :key="index">
+          <img class="bg-image" :src="item.image"/>
+          <div class="description">
+            <img class="icon-image" :src="item.icon">
+            <div class="description-num">{{item.num}}</div>
+            <div>{{item.description}}</div>
+          </div>
         </div>
-        <div class="img-xcly utilize-position">
-          <img class="size-xcly ph-margin" :src="xcly"/>
-          <img :src="xcly_icon" style="position: absolute;top:40px;left:350px;"/>
-          <span style="font-size: 30px;position: absolute;top:95px;left:340px;">4000</span>
-          <span>乡村旅游</span>
-        </div>
-        <div class="img-cyms utilize-position">
-          <img class="size-cyms ph-margin" :src="cyms"/>
-          <img :src="cyms_icon" style="position: absolute;top:40px;left:600px;"/>
-          <span style="font-size: 30px;position: absolute;top:95px;left:586px;">2000</span>
-          <span>餐饮民宿</span>
-        </div>
-        <div class="img-whty utilize-position">
-          <img class="size-whty ph-margin" :src="whty"/>
-          <img :src="whty_icon" style="position: absolute;top:40px;left:845px;"/>
-          <span style="font-size: 30px;position: absolute;top:95px;left:832px;">2000</span>
-          <span>文化体验</span>
-        </div>
-        <div class="img-cybg utilize-position">
-          <img class="size-cybg ph-margin" :src="cybg"/>
-          <img :src="cybg_icon" style="position: absolute;top:40px;left:1090px;"/>
-          <span style="font-size: 30px;position: absolute;top:95px;left:1075px;">3000</span>
-          <span>创意办公</span>
-        </div>
-        <div class="img-dzsw utilize-position">
-          <img class="size-dzsw ph-margin" :src="dzsw"/>
-          <img :src="dzsw_icon" style="position: absolute;top:40px;left:1330px;"/>
-          <span style="font-size: 30px;position: absolute;top:95px;left:1319px;">3000</span>
-          <span>电子商务</span>
-          <!-- <span>3000<br>电子商务</span> -->
-        </div>
-      </el-row>
+       
+      </div>
     </div>
 
     <div class="wrap-middle">
@@ -50,17 +22,17 @@
               <el-select v-model="city" v-on:change="changeCity(city)">
                 <el-option
                   v-for="item in cities"
-                  :key="item.id"
-                  :label="item.properties.name"
-                  :value="item.id"
+                 :key="item.code"
+                 :label="item.name"
+                 :value="item.code"
                 ></el-option>
               </el-select>
               <el-select v-model="county" v-on:change="changeCounty(county)">
                 <el-option
                   v-for="item in counties"
-                  :key="item.properties.id"
-                  :label="item.properties.name"
-                  :value="item.properties.id"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -77,7 +49,7 @@
           </el-form>
         </el-col>
       </el-row>
-      <el-row style="padding-bottom:25px">
+      <el-row >
         <el-col style="padding: 0px 5px 0px 25px">
           <el-table
             element-loading-text="拼命加载中..."
@@ -116,46 +88,37 @@
 <script>
 import dictMixins from "../mixnis/dict-mixnis";
 import { color } from "echarts/lib/export";
+import Region from '@/views/land/mixnis/region-mixin.js'
+import jsonFileHandler from "@/libs/util.jsonfile.js"
 export default {
    name: "land-map-implementationProcess",
-  mixins: [dictMixins],
+  mixins: [dictMixins,Region],
   data() {
     return {
       tableData: [],
+      allDatas:[],
       scope:"",
       city: "",
       cities: [],
       county: "",
       counties: [], //update
-      xxny: "./image/utilize/xxny.png",
-      xcly: "./image/utilize/xcly.png",
-      cyms: "./image/utilize/cyms.png",
-      whty: "./image/utilize/whty.png",
-      cybg: "./image/utilize/cybg.png",
-      dzsw: "./image/utilize/dzsw.png",
-      xxny_icon:"./image/utilize/xxny-icon.png",
-      xcly_icon:"./image/utilize/xcly-icon.png",
-      cyms_icon:"./image/utilize/cyms-icon.png",
-      whty_icon:"./image/utilize/whty-icon.png",
-      cybg_icon:"./image/utilize/cybg-icon.png",
-      dzsw_icon:"./image/utilize/dzsw-icon.png",
+      imagesDatas:[
+        { image:"./image/utilize/xxny.png",icon:"./image/utilize/xxny-icon.png",num:1000,description:"休闲农庄"},
+        { image:"./image/utilize/xcly.png",icon:"./image/utilize/xcly-icon.png",num:4000,description:"乡村旅游"},
+        { image:"./image/utilize/cyms.png",icon:"./image/utilize/cyms-icon.png",num:2000,description:"餐饮民宿"},
+        { image:"./image/utilize/whty.png",icon:"./image/utilize/whty-icon.png",num:2000,description:"文化体验"},
+        { image:"./image/utilize/cybg.png",icon:"./image/utilize/cybg-icon.png",num:3000,description:"创意办公"},
+        { image:"./image/utilize/dzsw.png",icon:"./image/utilize/dzsw-icon.png",num:3000,description:"电子商务"}
+      ],
       queryForm: {
       }    
     };
   },
+  created () {
+    this.initData()
+  },
     mounted: function() {
-    //获取海南市级行政区
-    let sj_fileName = "echarts-map/province/json/hainan.json";
-    this.requestAjax(sj_fileName, 2);
-    //获取海南省海口市行政区
-    let xj_fileName = "echarts-map/city/json/hainan/460100.json";
-    this.requestAjax(xj_fileName, 3);
-    //默认行政区为海口市
-    this.city = "460100";
-    //初始化表格
-    let path =
-      "test-data/map/accountInformation/utilize/city/haikou.json";
-    this.AjaxGetData(path);
+  
 
     //当页面大小发生变化时，echarts统计图根据画布大小自动重新绘制
     window.addEventListener("resize", () => {
@@ -163,123 +126,26 @@ export default {
       this.pieChart.resize();
     });
   },
-  methods:{
-    //获取表格数据
+  methods:{ initData(){
+      this.getRegions().then(datas=>{
+        this.cities = datas
+      })
+      let code = this.getRegionCode()
+      jsonFileHandler.getData('test-data/utilize/utilize.json','code',code).then(datas=>{
+        this.tableData = datas.tableData
+        this.allDatas = datas.tableData
+      })
+    },
     changeCity(value) {
-      let fileName = "";
-      let path = "";
-      //console.log(value);
-      switch (value) {
-        case "460100":
-          fileName = "echarts-map/city/json/hainan/460100.json";
-          this.requestAjax(fileName, 3);
-          path =
-            "test-data/map/accountInformation/utilize/city/haikou.json";
-          this.AjaxGetData(path);
-          break;
-        case "460200":
-          fileName = "echarts-map/city/json/hainan/460200.json";
-          this.requestAjax(fileName, 3);
-          path =
-            "test-data/map/accountInformation/utilize/city/sanya.json";
-          this.AjaxGetData(path);
-          break;
-        case "460300":
-          fileName = "echarts-map/city/json/hainan/460300.json";
-          this.requestAjax(fileName, 3);
-          path =
-            "test-data/map/accountInformation/utilize/city/sansha.json";
-          this.AjaxGetData(path);
-          break;
-        default:
-          this.county = ""; //change时清空county
-          this.counties = [];
-          this.tableData = [];
-          break;
-      }
+      this.counties = this.cities.find(t => t.code==value).children
+      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      this.county = ''
     },
     changeCounty(value) {
-      let path = "";
-      //console.log(value);
-      switch (value) {
-        case "460106":
-          path =
-            "test-data/map/accountInformation/utilize/county/haikou/longhua.json";
-          this.AjaxGetData(path);
-          break;
-        case "460108":
-          path =
-            "test-data/map/accountInformation/utilize/county/haikou/meilan.json";
-          this.AjaxGetData(path);
-          break;
-        case "460107":
-          path =
-            "test-data/map/accountInformation/utilize/county/haikou/qiongshan.json";
-          this.AjaxGetData(path);
-          break;
-        case "460200":
-          path =
-            "test-data/map/accountInformation/utilize/city/sanya.json";
-          this.AjaxGetData(path);
-          break;
-        case "460302":
-          path =
-            "test-data/map/accountInformation/utilize/county/sansha/nanshaqundao.json";
-          this.AjaxGetData(path);
-          break;
-        case "460301":
-          path =
-            "test-data/map/accountInformation/utilize/county/sansha/xishaqundao.json";
-          this.AjaxGetData(path);
-          break;
-        case "460303":
-          path =
-            "test-data/map/accountInformation/utilize/county/sansha/zsqdddjjqhy.json";
-          this.AjaxGetData(path);
-          break;
-        default:
-          this.tableData = [];
-          break;
-      }
+      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
     },
-    //ajax获取本地json文件行政区划
-    requestAjax(fileName, level) {
-      let _this = this;
-      this.$axios
-        .get(fileName)
-        //then获取成功；response成功后的返回值（对象）
-        .then(response => {
-          //console.log(response.data.features); //[0].properties.name
-          if (level == "3") {
-            _this.county = ""; //change时清空county
-            _this.counties = response.data.features;
-          } else if (level == "2") {
-            _this.cities = response.data.features;
-          }
-        })
-        //获取失败
-        .catch(error => {
-          //console.log(error);
-          alert("网络错误，不能访问");
-        });
-    },
-    //ajax获取本地行政区划下json文件数据
-    AjaxGetData(path) {
-      let _this = this;
-      this.$axios
-        .get(path)
-        //then获取成功；response成功后的返回值（对象）
-        .then(response => {
-          //console.log(response.data.result);
-          _this.tableData = [];
-          _this.tableData = response.data.result;
-        })
-        //获取失败
-        .catch(error => {
-          //console.log(error);
-          alert("网络错误，不能访问");
-        });
-    },
+   
+ 
      //搜索
     search() {
       this.ajaxSync();
@@ -303,9 +169,6 @@ export default {
         });
     },
     refresh(){
-      this.city = "460100";
-      this.county = "";
-      //this.changeCity();
     },
     //点击查询按钮请求的方法
     queryTableData() {
@@ -335,45 +198,39 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+.image-card {
+  position: relative;
+  width: 2.4rem;
+  color: #fff;
+  font-size: 0.16rem;
+}
+.image-card .bg-image {
+  width: 100%;
+  height: 100%;
+}
+.image-card .description {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+.image-card .description .icon-image {
+  margin-top: 0.15rem;
+  height: 0.45rem;
+}
+.image-card .description .description-num {
+  font-size: 0.3rem;
+}
 .wrap-middle {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  /* margin-top: 20px;
+  margin-bottom: 20px; */
   background: #fff;
   height: auto;
 }
 .queryForm {
   padding: 25px 15px 10px 25px;
-}
-.utilize-position{
-  display:inline-block;
-}
-.utilize-position span{
-  color: white;
-  text-align: center;
-  font-size: 15px; 
-  bottom: 25px; 
-  left: 101px;
-  position: absolute;
-}
-.img-xcly span{
-  left: 343px;
-}
-.img-cyms span{
-  left: 590px;
-}
-.img-whty span{
-  left: 836px;
-}
-.img-cybg span{
-  left: 1085px;
-}
-.img-dzsw span{
-  left: 1322px;
-}
-.size-xxny{
-  margin-left: 0.14rem;
-  margin-top: 0.2rem;
-  width: 242px;
 }
 .ph-margin{
   width: 242px;
