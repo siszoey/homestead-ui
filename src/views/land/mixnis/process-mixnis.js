@@ -36,7 +36,7 @@ export default {
       return ''
     },
     isFirstProcess() {
-      return this.info.role == '村民'
+      return this.info.role.some(r => r.name == '村民')
     },
     canNotGoBack(taskname){
       return CANNOT_GO_BACK_TASKS.includes(taskname)
