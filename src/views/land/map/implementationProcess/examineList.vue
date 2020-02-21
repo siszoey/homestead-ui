@@ -75,6 +75,9 @@
                 <el-button type="primary" @click="queryTableData">
                   <d2-icon name="search" />查询
                 </el-button>
+                <el-button type="default" @click="resetForm('queryForm')">
+                  <d2-icon name="refresh" />
+              </el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -286,6 +289,11 @@ export default {
         .finally(() => {
           this.table.listLoading = false;
         });
+    },
+    resetForm(formName) {
+      this.sqsj = "";
+      this.$refs[formName].resetFields();
+      this.getTableData();
     },
     //点击查询按钮请求的方法
     queryTableData() {
