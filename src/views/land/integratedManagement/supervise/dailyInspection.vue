@@ -26,7 +26,7 @@
       <el-col :span="showMapView ? 14: 24" style="padding: 0px 5px 0px 25px">
         <el-table :key="table.key" :data="table.list" highlight-current-row border
           :header-cell-style="{background:'#F5F5F5',color:'#666666'}" style="width: 100%;">
-          <el-table-column align="center" label="项目名称" width="180">
+          <el-table-column align="center" label="项目名称" width="180" show-overflow-tooltip>
             <template slot-scope="scope">
               <span>{{scope.row.xmmc}}</span>
             </template>
@@ -44,13 +44,13 @@
             </template>
           </el-table-column>
 
-          <el-table-column align="center" label="违法地址">
+          <el-table-column align="center" label="违法地址" show-overflow-tooltip>
             <template slot-scope="scope">
               <span>{{scope.row.wfdz}}</span>
             </template>
           </el-table-column>
 
-          <el-table-column align="center" label="违法事由">
+          <el-table-column align="center" label="违法事由" show-overflow-tooltip>
             <template slot-scope="scope">
               <span>{{scope.row.wfsy}}</span>
             </template>

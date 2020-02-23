@@ -1,14 +1,14 @@
 <template>
   <d2-container>
     <el-form :model="queryForm" :inline="true" size="mini">
-      <el-form-item label="申请人">
-        <el-input v-model="queryForm.sqr" placeholder="申请人"></el-input>
+      <el-form-item label="申请人" prop="sqr">
+        <el-input v-model="sqr" placeholder="申请人"></el-input>
       </el-form-item>
-      <el-form-item label="纠纷人">
-        <el-input v-model="queryForm.jfr" placeholder="纠纷人"></el-input>
+      <el-form-item label="纠纷人" prop="jfr">
+        <el-input v-model="jfr" placeholder="纠纷人"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">
+        <el-button type="primary" @click="getTableData">
           <d2-icon name="search" />查询</el-button>
       </el-form-item>
     </el-form>
@@ -65,15 +65,16 @@
     data() {
       return {
         queryForm: {
-          sqr: '',//项目编号
-          jfr: '',//项目名称
+          //sqr: '',//项目编号
+          //jfr: '',//项目名称
         },
         showMapView: false,//右侧地图是否显示
-        sqr: ""
+        sqr: '',
+        jfr: '',
       }
     },
-    created() {
-      this.getTableData()
+    mounted() {
+      this.getTableData();
     },
     methods: {
       getTableData() {
@@ -81,7 +82,9 @@
         request.get('/supervise/getDisputeDatas', {
           params: {
             pageNum: this.table.pageNum,
-            pageSize: this.table.pageSize
+            pageSize: this.table.pageSize,
+            sqr: this.sqr,
+            jfr: this.jfr
           }
         }).then(res => {
           // console.log(res)
@@ -90,6 +93,10 @@
         }).finally(() => {
           this.table.listLoading = false
         })
+      },
+      search(){
+        console.log(111)
+        this.getTableData();
       },
       checkPosition(row) {
         if (row.sqr == this.sqr) {

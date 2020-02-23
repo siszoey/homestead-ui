@@ -8,7 +8,7 @@
           <el-input v-model="queryForm.jcxmmc" placeholder="项目名称"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary"><d2-icon name="search"/>查询</el-button>
+          <el-button type="primary" @click="getTableData"><d2-icon name="search"/>查询</el-button>
         </el-form-item>
       </el-form>
       <el-table :key='table.key'
@@ -91,7 +91,9 @@ export default {
         request.get('/monitor/getCzgzDatas',{
           params: {
             pageNum: this.table.pageNum,
-            pageSize: this.table.pageSize
+            pageSize: this.table.pageSize,
+            xmbh: this.queryForm.xmbh,
+            jcxmmc: this.queryForm.jcxmmc
           }
         }).then(res =>{
           console.log(res)

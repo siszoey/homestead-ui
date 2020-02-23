@@ -47,9 +47,6 @@ function getComplaintDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  console.log(xmmc)
-  console.log(xmbh)
-  console.log(complaintDatas.datas.filter(item => (item.xmmc).indexOf(xmmc) > -1&&(item.xmbh).indexOf(xmbh) > -1))
   cDatas.datas = complaintDatas.datas.filter(item => (item.xmmc).indexOf(xmmc) > -1&&(item.xmbh).indexOf(xmbh) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = complaintDatas.datas.length
   return cDatas
@@ -70,7 +67,7 @@ function getRegistrationDatas (params) {
 }
 
 function getDisputeDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, sqr, jfr } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -78,8 +75,9 @@ function getDisputeDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = disputeDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = disputeDatas.datas.filter(item => (item.sqr).indexOf(sqr) > -1&&(item.jfr).indexOf(jfr) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = disputeDatas.datas.length
+  console.log(cDatas)
   return cDatas
 }
 
@@ -119,7 +117,7 @@ let czgzDatas = Mock.mock({ 'datas|100': [{
 }] })
 
 function getJcsbDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, xmbh, jcxmmc } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -127,13 +125,13 @@ function getJcsbDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = jcsbDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = jcsbDatas.datas.filter(item => (item.xmbh).indexOf(xmbh) > -1&&(item.jcxmmc).indexOf(jcxmmc) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = jcsbDatas.datas.length
   return cDatas
 }
 
 function getWfdxDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, xmbh, xmmc } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -141,13 +139,13 @@ function getWfdxDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = wfdxDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = wfdxDatas.datas.filter(item => (item.xmbh).indexOf(xmbh) > -1&&(item.xmmc).indexOf(xmmc) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = wfdxDatas.datas.length
   return cDatas
 }
 
 function getCzgzDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, xmbh, jcxmmc } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -155,7 +153,7 @@ function getCzgzDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = czgzDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = czgzDatas.datas.filter(item => (item.xmbh).indexOf(xmbh) > -1&&(item.jcxmmc).indexOf(jcxmmc) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = czgzDatas.datas.length
   return cDatas
 }
