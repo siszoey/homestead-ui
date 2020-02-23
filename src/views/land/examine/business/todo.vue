@@ -104,7 +104,6 @@
       <el-table-column align="center" label="项目状态">
         <template slot-scope="scope">
           <span>{{scope.row.actname}}</span>
-          <!-- <span>{{getOptName('项目状态', scope.row.formVO.zjdSqJl.xmzt)}}</span> -->
         </template>
       </el-table-column>
 
@@ -113,8 +112,6 @@
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情
           </el-button>
-          <!--<el-button size="mini" type="primary" @click="handleCheck(scope.row)">办理
-          </el-button>-->
         </template>
       </el-table-column>
 
@@ -254,46 +251,6 @@
       },
       handleUpdate(row) {
       },
-      handleCheck(row) {
-        let confirm = {
-          distinguishCancelAndClose: true,
-          title: '办理结果, 是否继续?',
-          trueText: '已办',
-          falseText: '退办',
-        }
-        //第一个角色申请，只有已办，没有退办
-        if (row.zjdSqJl.roleid === this.getOptName("流程角色", "1")) {
-          confirm = Object.assign(confirm, {
-            distinguishCancelAndClose: false,
-            title: '办理结果, 是否继续?',
-            trueText: '已办',
-            falseText: '取消',
-          })
-        }
-        this.$confirm(confirm.title, '提示', {
-          distinguishCancelAndClose: confirm.distinguishCancelAndClose,
-          confirmButtonText: confirm.trueText,
-          cancelButtonText: confirm.falseText,
-          type: 'warning',
-          center: true
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '已办!'
-          })
-          this.processRequest(row.zjdSqJl, true)
-        }).catch(action => {
-          //不通过
-          if (confirm.distinguishCancelAndClose && action === 'cancel') {
-            this.$message({
-              type: 'info',
-              message: '退办!'
-            })
-            this.processRequest(row.zjdSqJl, false)
-          }
-        })
-      },
-
     }
   }
 </script>
