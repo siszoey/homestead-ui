@@ -12,6 +12,9 @@
           <d2-icon name="search" />查询
         </el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="handleYxsb()">新增遥感监测批次</el-button>
+      </el-form-item>
     </el-form>
     <el-table
       :key="table.key"
@@ -53,7 +56,10 @@
       ></el-pagination>
     </template>
     <el-dialog title="对比分析" :visible.sync="dialogVisible" width="80%" top="5vh">
-      <Dbfx  style="height:700px"></Dbfx>
+      <Dbfx style="height:700px"></Dbfx>
+    </el-dialog>
+    <el-dialog title="影像识别" :visible.sync="YxsbVisible" width="80%" top="5vh">
+      <Yxsb style="height:700px"></Yxsb>
     </el-dialog>
   </d2-container>
 </template>
@@ -64,6 +70,7 @@ import processMixins from "../../mixnis/process-mixnis";
 import pageMixins from "../../mixnis/page-mixnis";
 
 import Dbfx from "../../../land/map/spatialData/ygdc_dbfxmain";
+import Yxsb from "./ygdc_yxsb";
 export default {
   mixins: [pageMixins, processMixins],
   data() {
@@ -72,11 +79,13 @@ export default {
         xmbh: "", //项目编号
         jcxmmc: "" //项目名称
       },
-      dialogVisible: false
+      dialogVisible: false,
+      YxsbVisible: false
     };
   },
   components: {
-    Dbfx
+    Dbfx,
+    Yxsb
   },
   created() {
     this.getTableData();
@@ -102,6 +111,9 @@ export default {
     },
     handleDbfx(row) {
       this.dialogVisible = true;
+    },
+    handleYxsb() {
+      this.YxsbVisible = true;
     }
   }
 };
