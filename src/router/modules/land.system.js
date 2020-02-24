@@ -31,6 +31,15 @@ export default function (iotHeader) {
           ...meta,
           title: '业务设置'
         }
+      },
+      {
+        path: 'versionConfig',
+        name: `${pre}versionConfig`,
+        component: _import('land/system/versionConfig.vue'),
+        meta: {
+          ...meta,
+          title: '版本设置'
+        }
       }
     ])('land-system-')
   }

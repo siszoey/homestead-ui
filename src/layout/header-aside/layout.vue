@@ -30,7 +30,7 @@
           <!-- <d2-header-search @click="handleSearchClick"/> -->
           <!-- <d2-header-log/> -->
           <!-- 切换系统数据 -->
-          <data-change></data-change>
+          <!-- <data-change></data-change> -->
 
           <d2-header-fullscreen/>
           <!-- <d2-header-theme/> -->
@@ -104,7 +104,7 @@ import d2HeaderUser from './components/header-user'
 import d2Breadcrumb from './components/breadcrumb'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
-import DataChange from './components/data-change'
+// import DataChange from './components/data-change'
 import { stat } from 'fs'
 export default {
   name: 'd2-layout-header-aside',
@@ -125,7 +125,7 @@ export default {
     // d2HeaderColor
     d2Breadcrumb,
     //切换系统数据
-    DataChange
+    //DataChange
   },
   data () {
     return {
