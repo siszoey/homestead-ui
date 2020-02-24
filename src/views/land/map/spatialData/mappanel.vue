@@ -501,14 +501,16 @@ export default {
 }
 .leftcontainer {
   position: absolute;
-  left: 10px;
+  // left: 10px;
+  left: 0px;
   top: 10px;
   width: 30%;
   height:6.5rem;
 }
 .rightcontainer {
   position: absolute;
-  right: 30px;
+  // right: 30px;
+  right: 0px;
   top: 10px;
   width: 30%;
   height:6.5rem;
