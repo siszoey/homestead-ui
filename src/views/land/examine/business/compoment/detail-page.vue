@@ -15,6 +15,9 @@
         </el-col>
 
         <el-col :span="12" style="text-align:right">
+          <el-button type="primary" size="mini" @click="cancel">
+            取消
+          </el-button>
           <el-button type="primary" size="mini" @click="handleShowMap">
             查看地图
           </el-button>
@@ -328,6 +331,10 @@
         // this.showFileView = flag
         this.showPrintView = flag
         // this.showMap = flag
+      },
+      cancel(){
+        //this.$router.go(-1);
+        this.$router.back();
       },
       handleShowMap() {
         this.showFileView = false
