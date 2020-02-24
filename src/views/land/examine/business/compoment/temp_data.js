@@ -102,7 +102,7 @@ export const approvalFormTempData = {
   }
 }
 
-export const appceptanceFormTempData = {
+export const acceptanceFormTempData = {
   //验收意见
   ysyj: {
     // sqid: "",

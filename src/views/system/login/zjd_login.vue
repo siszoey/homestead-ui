@@ -7,7 +7,7 @@
             <img src="./image/title.png" />
           </div>
           <div class="login-btn" v-if="info.name" style="width: 180px;">
-            <div class="login-text">
+            <div class="user-info-text">
               <i>
                 <img src="./image/login_icon.png" width="50px" height="50px" />
               </i>
@@ -22,7 +22,7 @@
               </el-dropdown>
             </div>
           </div>
-          <div class="login-btn" v-else style="width: 600px;">
+          <div class="login-btn" v-else >
             <el-form :inline="true" ref="loginForm" :rules="rules" :model="formLogin"
               class="demo-form-inline login-text" size="small">
               <el-form-item label="用户名:" class="form_item_lable from_item">
@@ -32,7 +32,7 @@
                 <el-input v-model="formLogin.password" class="formLogin_input" placeholder="密码" show-password></el-input>
               </el-form-item>
               <el-form-item class="from_item">
-                <el-button type="primary" @click="submit" class="button-login" size="mini">登录</el-button>
+                <el-button type="default" @click="submit" class="button-login" size="mini">登录</el-button>
               </el-form-item>
             </el-form>
 
@@ -48,17 +48,17 @@
               <img src="./image/jointApproval.png" width="71px" height="70px" />
               <span>联合审批</span>
             </div>
-            <div class="cardDiv" @click="JumpPage('#')">
+            <div class="cardDiv" @click="JumpPage('/land/integratedManagement/monitoringAnalysis/multipleAnalysis')">
               <img src="./image/comprehensive.png" width="64px" height="72px" />
               <span>综合监管</span>
             </div>
           </div>
           <div class="cardBody">
-            <div class="cardDiv" @click="JumpPage('#')">
+            <div class="cardDiv" @click="JumpPage('/land/utilize/utilizeAnalyse')">
               <img src="./image/shareRelease.png" width="75px" height="76px" />
               <span>共享发布</span>
             </div>
-            <div class="cardDiv" @click="JumpPage('#')">
+            <div class="cardDiv" @click="JumpPage('/land/concurrent/batchreport')">
               <img src="./image/dataConcurrent.png" width="74px" height="74px" />
               <span>数据汇交</span>
             </div>
@@ -280,19 +280,42 @@
       }
 
       .login-btn {
-        width: 300px;
+        min-width: 300px;
+        width: auto;
         height: 70px;
+        display: flex;
+        align-items: center;
         position: absolute;
         top: 0px;
         right: 0px;
         background: rgba(0, 0, 0, 0.18);
         border-radius: 0px 0px 0px 100px;
+        .user-info-text{
+          position: relative;
+          top: 20%;
+          left: 58%;
+          transform: translate(-50%, -50%);
+          //padding: 0px 15px 0px 35px;
+          cursor: pointer;
+          width: max-content;
+          letter-spacing: 1px;
+          img {
+            width: 18px;
+            height: 18px;
+          }
 
+          span {
+            margin-left: 8px;
+            font-size: 18px;
+            color: #fff;
+          }
+        }
         .login-text {
           position: relative;
-          top: 50%;
-          left: 75%;
-          transform: translate(-50%, -50%);
+          // top: 50%;
+          // left: 75%;
+          // transform: translate(-50%, -50%);
+          padding: 0px 15px 0px 35px;
           cursor: pointer;
           // width: max-content;
           letter-spacing: 1px;

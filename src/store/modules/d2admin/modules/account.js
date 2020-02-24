@@ -24,7 +24,14 @@ export default {
           password
         })
           .then(async response => {
-            let res = Object.assign({}, response,
+            let res = Object.assign({}, //response,
+              {
+                username,
+                name: response.name || response.username,
+                uuid: response.uuid || `${username}-uuid`,
+                role: response.role || response.groupname,
+                token: response.token || '8dfhassad0asdjwoeiruty'
+            }
               /*{
                 username: 'zjd',
                 password: '123456',
@@ -33,6 +40,7 @@ export default {
                 token: '8dfhassad0asdjwoeiruty'
               }*/
             )
+
             // 设置 cookie 一定要存 uuid 和 token 两个 cookie
             // 整个系统依赖这两个数据进行校验和存储
             // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
@@ -109,6 +117,10 @@ export default {
       return new Promise(async resolve => {
         // DB -> store 加载用户名
         await dispatch('d2admin/user/load', null, {root: true})
+        if (util.hasLogin()) {
+          // get cases count after load user info
+          await dispatch('d2admin/cases/updateCaseCount', null, { root: true })
+        }
         // DB -> store 加载主题
         await dispatch('d2admin/theme/load', null, {root: true})
         // DB -> store 加载页面过渡效果设置

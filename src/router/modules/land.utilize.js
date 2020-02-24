@@ -9,9 +9,9 @@ export default function (iotHeader) {
     name: 'land-utilize',
     meta: {
       ...meta,
-      title: '盘活利用'
+      title: '共享发布'
     },
-    redirect: { name: 'land-utilize-informationStatistics' },
+    redirect: { name: 'land-utilize-utilizeAnalyse' },
     component: iotHeader,
     children: (pre => [
       { 

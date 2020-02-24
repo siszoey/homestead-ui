@@ -1,17 +1,20 @@
 import Mock from 'mockjs'
+import util from '@/libs/util.js'
+
+const dataRegion = util.cookies.get('dataRegion')
 
 let complaintDatas = Mock.mock({ 'datas|100': [{
   'xmbh': '@now(yyyyMMddHHmmssSS)',
   'xmmc': '@cname()',
   'jbr': '@cname()',
   'jbsj': '@datetime("yyyy-MM-dd HH:mm:ss")',
-  'jbdz': '海南省文昌市',
+  'jbdz': `${dataRegion}`,
   'jbnr': '存在"一宅多户"情况'
 }] })
 
 let registrationDatas = Mock.mock({ 'datas|100': [{
   'fwmph|1-200': 2,
-  'djdz': '海南省文昌市',
+  'djdz': `${dataRegion}`,
   'djr': '@cname()',
   'djsj': '@datetime("yyyy-MM-dd HH:mm:ss")',
   'xzsy|1': ['未利用', '超标宅基地'],
@@ -36,7 +39,7 @@ function params2Obj (url) {
 }
 
 function getComplaintDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, xmbh, xmmc } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -44,7 +47,7 @@ function getComplaintDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = complaintDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = complaintDatas.datas.filter(item => (item.xmmc).indexOf(xmmc) > -1&&(item.xmbh).indexOf(xmbh) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = complaintDatas.datas.length
   return cDatas
 }
@@ -64,7 +67,7 @@ function getRegistrationDatas (params) {
 }
 
 function getDisputeDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, sqr, jfr } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -72,8 +75,9 @@ function getDisputeDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = disputeDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = disputeDatas.datas.filter(item => (item.sqr).indexOf(sqr) > -1&&(item.jfr).indexOf(jfr) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = disputeDatas.datas.length
+  console.log(cDatas)
   return cDatas
 }
 
@@ -86,7 +90,7 @@ let jcsbDatas = Mock.mock({ 'datas|100': [{
   'xmbh': '@now(yyyyMMddHHmmssSS)',
   'jcxmmc': '宅基地违法占地',
   'yxqs': '2019年第一期',
-  'yswfdz': '海南省文昌市',
+  'yswfdz': `${dataRegion}`,
   'jcsj': '@date("yyyy-MM-dd")',
   'yswflx|1':  ['占用基本农田', '非规划范围内建设']
 }] })
@@ -106,14 +110,14 @@ let czgzDatas = Mock.mock({ 'datas|100': [{
   'xmbh': '@now(yyyyMMddHHmmssSS)',
   'jcxmmc': '宅基地违法占地',
   'wfdxr': '@cname()',
-  'wfdz': '海南省文昌市',
+  'wfdz': `${dataRegion}`,
   'wfdxsj': '@date("yyyy-MM-dd")',
   'czzt|1': ['未开始执行', '执行中', '处置完毕'],
   'bz': ''
 }] })
 
 function getJcsbDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, xmbh, jcxmmc } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -121,13 +125,13 @@ function getJcsbDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = jcsbDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = jcsbDatas.datas.filter(item => (item.xmbh).indexOf(xmbh) > -1&&(item.jcxmmc).indexOf(jcxmmc) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = jcsbDatas.datas.length
   return cDatas
 }
 
 function getWfdxDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, xmbh, xmmc } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -135,13 +139,13 @@ function getWfdxDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = wfdxDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = wfdxDatas.datas.filter(item => (item.xmbh).indexOf(xmbh) > -1&&(item.xmmc).indexOf(xmmc) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = wfdxDatas.datas.length
   return cDatas
 }
 
 function getCzgzDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, xmbh, jcxmmc } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -149,7 +153,7 @@ function getCzgzDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = czgzDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = czgzDatas.datas.filter(item => (item.xmbh).indexOf(xmbh) > -1&&(item.jcxmmc).indexOf(jcxmmc) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = czgzDatas.datas.length
   return cDatas
 }

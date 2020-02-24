@@ -86,7 +86,7 @@ export function creatAsideMenu ({ agentBoxCount = 1, completedCount = 0, rollbac
           { path: `${pre}/todo`, title: '待办箱', badge: agentBoxCount },
           { path: `${pre}/done`, title: '已办箱', badge: completedCount },
           { path: `${pre}/rollback`, title: '退件箱', badge: rollbackCount },
-          { path: `${pre}/batchreport`, title: '批量上报', badge: 10 },
+          // { path: `${pre}/batchreport`, title: '批量上报', badge: 10 },
           { path: `${pre}/comprehensive`, title: '综合管理', badge: totalCount }
         ])('/land/examine/business')
       },
@@ -101,6 +101,7 @@ export function creatAsideMenu ({ agentBoxCount = 1, completedCount = 0, rollbac
     icon: 'system',
     children: (pre => [
       { path: `${pre}/fileConfig`, title: '上传设置' },
+      { path: `${pre}/businessConfig`, title: '业务设置' }
     ])('/land/system')
   }
   //综合监管
@@ -134,10 +135,10 @@ export function creatAsideMenu ({ agentBoxCount = 1, completedCount = 0, rollbac
   //   ])('/land/integratedManagement')
   // }
   
-  //盘活利用
+  //共享发布
   const utilize = {
     path: '/land/utilize',
-    title: '盘活利用',
+    title: '共享发布',
     alias: 'index',
     icon: 'utilize',
     children: (pre => [
@@ -192,12 +193,26 @@ const integratedManagement = {
   ])('/land/integratedManagement')
 }
 
+//数据汇交
+const concurrent = {
+  path: '/land/concurrent',
+  title: '联合审批',
+  alias: 'index',
+  icon: 'concurrent',
+  children: (pre => [
+    {
+      path: `${pre}/batchreport`,
+      title: '批量上报'
+    }
+  ])('/land/concurrent')
+}
   return [
     map,
     examine,
     system,
     integratedManagement,
-    utilize
+    utilize,
+    concurrent
   ]
 }
 
@@ -238,7 +253,11 @@ export const menuHeader = [
 
   {
     path: '/land/utilize',
-    title: '盘活利用'
+    title: '共享发布'
+  },
+  {
+    path: '/land/concurrent',
+    title: '数据汇交'
   },
   {
     path: '/land/system',

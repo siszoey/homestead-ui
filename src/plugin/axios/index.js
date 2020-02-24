@@ -27,9 +27,10 @@ function errorLog(error) {
   }
   // 显示提示
   Message({
+    showClose: true,
     message: error.message,
     type: 'error',
-    duration: 5 * 1000
+    duration: 3 * 1000
   })
 }
 
@@ -76,9 +77,9 @@ service.interceptors.response.use(
         case 1:
           // [ 示例 ] state === 1 代表没有错误
           return dataAxios.data || dataAxios.result || dataAxios
-        case 'xxx':
+        case '0200E':
           // [ 示例 ] 其它和后台约定的 state
-          errorCreate(`[ state: xxx ] ${msgInfo}: ${response.config.url}`)
+          errorCreate(`用户名或密码错误`)
           break
         default:
           // 不是正确的 state

@@ -57,51 +57,44 @@
             </el-table-column>-->
 
             <el-table-column align="center" label="项目编号" width="155">
-                <template slot-scope="scope">
-                    <span>{{scope.row.jcxx.sqid}}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column align="center" label="项目名称">
-                <template slot-scope="scope">
-                    <span>{{getOptName('建房类型', scope.row.nzjdqk.jflx)}}</span>
-                </template>
+              <template slot-scope="scope">
+                  <span>{{scope.row.formVO.jcxx.sqid}}</span>
+              </template>
             </el-table-column>
 
             <el-table-column align="center" label="申请类型">
                 <template slot-scope="scope">
-                    <span>{{getOptName('建房类型', scope.row.nzjdqk.jflx)}}</span>
+                    <span>{{getOptName('建房类型', scope.row.formVO.nzjdqk.jflx)}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="申请时间">
                 <template slot-scope="scope">
-                    <span>{{scope.row.qt.sqrrq}}</span>
+                    <span>{{scope.row.formVO.qt.sqrrq}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="申请人">
                 <template slot-scope="scope">
-                    <span>{{scope.row.jcxx.xm}}</span>
+                    <span>{{scope.row.formVO.jcxx.xm}}</span>
                 </template>
             </el-table-column>
 
-
             <el-table-column align="center" label="申请面积">
                 <template slot-scope="scope">
-                    <span>{{scope.row.nzjdqk.zjdmj}}</span>
+                    <span>{{scope.row.formVO.nzjdqk.zjdmj}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="联系方式" width="120">
                 <template slot-scope="scope">
-                    <span>{{scope.row.jcxx.lxdh}}</span>
+                    <span>{{scope.row.formVO.jcxx.lxdh}}</span>
                 </template>
             </el-table-column>
 
             <el-table-column align="center" label="项目状态">
                 <template slot-scope="scope">
-                    <span>{{getOptName('项目状态', scope.row.zjdSqJl.xmzt)}}</span>
+                  <span>{{scope.row.actname}}</span>
                 </template>
             </el-table-column>
 
@@ -134,7 +127,7 @@
 </template>
 
 <script>
-  import {PageData} from "../../../../api/land.business"
+  import {HadDone} from "../../../../api/land.business_activiti"
   import dictMixins from "../../mixnis/dict-mixnis"
   import pageMixins from "../../mixnis/page-mixnis"
   import {mapState} from 'vuex'
@@ -167,7 +160,7 @@
     methods: {
       getTableData() {
         this.table.listLoading = true
-        PageData(this.getTableDataParam()).then(res => {
+        HadDone(this.getTableDataParam()).then(res => {
           this.table.list = res.records || res.list || res.data
           this.table.total = res.total
         }).catch(err => console.log(err)).finally(() => {
@@ -178,16 +171,17 @@
       getTableDataParam() {
         //根据业务修改补充
         let otherParam = {
-          blzt: this.getOptCode("办理状态", "已办"),
-          roleid: this.info.role.join("|")
+          // blzt: this.getOptCode("办理状态", "已办"),
+          // roleid: this.info.role.join("|")
+          loginName: this.info.username
         }
         //时间区间字段，调整
         let newQueryForm = Object.assign({}, this.queryForm)
         if (newQueryForm.sqsj && newQueryForm.sqsj.length > 0) {
           let start_sqrrq = newQueryForm.sqsj[0]
           let end_sqrrq = newQueryForm.sqsj[1]
-          newQueryForm['start_sqrrq'] = start_sqrrq
-          newQueryForm['end_sqrrq'] = end_sqrrq
+          newQueryForm['kssj'] = start_sqrrq
+          newQueryForm['jssj'] = end_sqrrq
           delete newQueryForm.sqsj
         }
         return Object.assign({
@@ -202,7 +196,7 @@
               //申请表
               applicationFormDisabled: true,
               //审批表
-              appceptanceFormDisabled: true,//this.info.role.includes(''),
+              acceptanceFormDisabled: true,
               //验收表
               approvalFormDisabled: true,
               detail: row,

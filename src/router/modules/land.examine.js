@@ -62,9 +62,9 @@ export default function (iotHeader) {
                 props: true
               },
               {
-                path: `appceptance-form`,
-                name: `appceptanceForm`,
-                component: _import('land/examine/business/compoment/appceptance-form.vue'),
+                path: `accceptance-form`,
+                name: `accceptanceForm`,
+                component: _import('land/examine/business/compoment/acceptance-form.vue'),
                 props: true,
               },
               {
@@ -99,15 +99,15 @@ export default function (iotHeader) {
               title: '退件箱'
             }
           },
-          {
-            path: 'batchreport',
-            name: `${pre}batchreport`,
-            component: _import('land/examine/business/batchreport.vue'),
-            meta: {
-              ...meta,
-              title: '批量上报'
-            }
-          },
+          // {
+          //   path: 'batchreport',
+          //   name: `${pre}batchreport`,
+          //   component: _import('land/examine/business/batchreport.vue'),
+          //   meta: {
+          //     ...meta,
+          //     title: '批量上报'
+          //   }
+          // },
           {
             path: 'comprehensive',
             name: `${pre}comprehensive`,
