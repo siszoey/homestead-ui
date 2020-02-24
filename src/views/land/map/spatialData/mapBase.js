@@ -133,7 +133,8 @@ function BaseInitMap(div) {
         ],
         view: new View({
             center: [0, 0],
-            zoom: 7
+            zoom: 7,
+            projection:"EPSG:4326"
         }),
         //controls: defaults({ attribution: false, zoom: false, rotate: false })
     });
