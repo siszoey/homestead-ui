@@ -21,6 +21,7 @@ import landExamine from './modules/land.examine'
 import landSystem from './modules/land.system'
 import landIntegratedManagement from './modules/land.integratedManagement'
 import landUtilize from './modules/land.utilize'
+import landConcurrent from './modules/land.concurrent'
 
 /**
  * 在主框架内显示
@@ -38,7 +39,8 @@ const frameIn = [
     landExamine(layHeader),
     landSystem(layHeader),
     landIntegratedManagement(layHeader),
-    landUtilize(layHeader)
+    landUtilize(layHeader),
+    landConcurrent(layHeader)
 ]
 
 /**
