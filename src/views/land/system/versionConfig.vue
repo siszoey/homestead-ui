@@ -53,19 +53,12 @@
 
 <style lang="scss" scoped>
     .wrap-middle {
-        height: 100%;
+        padding: 30px 50px;
         background: #FFF;
         font-size: 15px;
     }
 
     .current-version {
         margin-bottom: 20px;
-    }
-
-    .version-select {
-        position: relative;
-        top: 5%;
-        left: 5%;
-        letter-spacing: 1px;
     }
 </style>
