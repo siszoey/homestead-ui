@@ -26,6 +26,7 @@ export default {
        if(!this.code){
            this.code = "46",
            util.cookies.set('regionCode','46')
+           util.cookies.set('dataRegion','海南省文昌市')
        }
        this.getOptions()
     },
