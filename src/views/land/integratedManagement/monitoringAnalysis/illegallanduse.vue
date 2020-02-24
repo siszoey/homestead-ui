@@ -45,19 +45,19 @@
               :header-cell-style="{background:'#F5F5F5',color:'#666666'}"
               style="width: 100%;"
             >
-            <el-table-column align="center" label="姓名" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="姓名" :show-overflow-tooltip="true" width="100px">
               <template slot-scope="scope">
                 <span>{{scope.row.xm}}</span>
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="身份证号" prop="sfzh" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="身份证号" prop="sfzh" :show-overflow-tooltip="true" width="180px">
               <!-- <template slot-scope="scope">
                 <span>{{getOptName('建房类型', scope.row.sfzh)}}</span>
               </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="宅基地位置" prop="zjdwz" width="90" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="宅基地位置" prop="zjdwz" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{getOptName('建房类型', scope.row.jflx)}}</span>
               </template> -->
@@ -70,18 +70,18 @@
               </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="处置状态" prop="czzt" width="90" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="处置状态" prop="czzt" width="100" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{getOptName('办理状态', scope.row.xmzt)}}</span>
               </template> -->
             </el-table-column>
 
-            <el-table-column align="center" label="处置时间" prop="czsj" width="90" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="处置时间" prop="czsj" width="120" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
               </template> -->
             </el-table-column>
-            <el-table-column align="center" label="执法人" prop="zfr" width="90" :show-overflow-tooltip="true">
+            <el-table-column align="center" label="执法人" prop="zfr" width="100" :show-overflow-tooltip="true">
               <!-- <template slot-scope="scope">
                 <span>{{scope.row.sqr}}</span>
               </template> -->
