@@ -110,7 +110,6 @@
           //     this.table.list = xfjbList
           //     this.table.total = xfjbList.length
           //   }
-          console.log(res)
           this.table.list = res.datas
           this.table.total = res.total
         }).finally(() => {

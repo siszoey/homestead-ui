@@ -79,30 +79,34 @@
     },
     methods: {
       getTableData() {
-        let params = {
-          djdz:this.djdz,
-          djr: this.djr
-        };
+        // let params = {
+        //   djdz:this.djdz,
+        //   djr: this.djr
+        // };
         this.table.listLoading = true
         request.get('/supervise/getRegistrationDatas', {
           params: {
             pageNum: this.table.pageNum,
-            pageSize: this.table.pageSize
+            pageSize: this.table.pageSize,
+            djdz:this.djdz,
+            djr: this.djr
           }
         }).then(res => {
           //获取到总数据后再根据查询条件进行筛选
-           let xzdjList = res.datas.filter(function(item){
-              if(item.djdz == params.djdz||item.djr==params.djr)
-             return item;            
-            });
-            if(params.djdz==""&&params.djr==""){
-              this.table.list = res.datas
-              this.table.total = res.total
-            }
-            else{
-              this.table.list = xzdjList
-              this.table.total = xzdjList.length
-            }
+          //  let xzdjList = res.datas.filter(function(item){
+          //     if(item.djdz == params.djdz||item.djr==params.djr)
+          //    return item;            
+          //   });
+          //   if(params.djdz==""&&params.djr==""){
+          //     this.table.list = res.datas
+          //     this.table.total = res.total
+          //   }
+          //   else{
+          //     this.table.list = xzdjList
+          //     this.table.total = xzdjList.length
+          //   }
+            this.table.list = res.datas
+            this.table.total = res.total
         }).finally(() => {
           this.table.listLoading = false
         })
