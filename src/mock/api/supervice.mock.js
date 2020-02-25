@@ -53,7 +53,7 @@ function getComplaintDatas (params) {
 }
 
 function getRegistrationDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, djdz, djr } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -61,7 +61,7 @@ function getRegistrationDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = registrationDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = registrationDatas.datas.filter(item => (item.djdz).indexOf(djdz) > -1&&(item.djr).indexOf(djr) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = registrationDatas.datas.length
   return cDatas
 }
