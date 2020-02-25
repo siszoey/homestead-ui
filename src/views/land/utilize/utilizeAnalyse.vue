@@ -39,7 +39,7 @@
 
             <div style="float: right">
               <el-form-item>
-                <el-button type="primary" icon="el-icon-search" v-on:click="search()">查询</el-button>
+                <el-button type="primary" icon="el-icon-search" v-on:click="initData()">查询</el-button>
                 <el-button type="primary" icon="el-icon-statistics">统计信息</el-button>
                 <el-button type="default" @click="refresh()">
                   <d2-icon name="refresh" />
@@ -54,7 +54,7 @@
           <el-table
             element-loading-text="拼命加载中..."
             highlight-current-row
-            :data="tableData"
+            :data="table.list"
             stripe
             ref="multipleTable"
             tooltip-effect="dark"
@@ -68,7 +68,7 @@
             <el-table-column prop="jtzrs" label="家庭总人数" width="120" sortable></el-table-column>
           </el-table>
           <!-- footer 分页条 -->
-          <el-pagination
+          <!-- <el-pagination
               background
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
@@ -78,7 +78,11 @@
               :total="100"
               :page-count="4"
               style="margin-top:35px;text-align:center"
-          ></el-pagination>
+          ></el-pagination> -->
+          <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page.sync="table.pageNum" :page-sizes="[10,20,30,50]" :page-size="table.pageSize"
+            layout="total, sizes, prev, pager, next, jumper" :total="table.total" style="margin-top:35px;text-align:center">
+          </el-pagination>
         </el-col>
       </el-row>
     </div>
@@ -90,9 +94,10 @@ import dictMixins from "../mixnis/dict-mixnis";
 import { color } from "echarts/lib/export";
 import Region from '@/views/land/mixnis/region-mixin.js'
 import jsonFileHandler from "@/libs/util.jsonfile.js"
+import pageMixins from "../mixnis/page-mixnis"
 export default {
    name: "land-map-implementationProcess",
-  mixins: [dictMixins,Region],
+  mixins: [dictMixins,Region,pageMixins],
   data() {
     return {
       tableData: [],
@@ -101,6 +106,8 @@ export default {
       city: "",
       cities: [],
       county: "",
+      citycode: "",
+      countycode: "",
       counties: [], //update
       imagesDatas:[
         { image:"./image/utilize/xxny.png",icon:"./image/utilize/xxny-icon.png",num:1000,description:"休闲农庄"},
@@ -132,17 +139,26 @@ export default {
       })
       let code = this.getRegionCode()
       jsonFileHandler.getData('test-data/utilize/utilize.json','code',code).then(datas=>{
-        this.tableData = datas.tableData
+        let { pageNum, pageSize, citycode, countycode } = {pageNum:this.table.pageNum,pageSize:this.table.pageSize,citycode:this.citycode,countycode:this.countycode}
+        if (pageNum == 0) {
+          pageNum = 1
+        }
+        let startIndex = pageSize * (pageNum - 1)
+        this.table.list = datas.tableData.filter(t=>t.code.startsWith(this.citycode) && t.code.startsWith(this.countycode)).slice(startIndex, pageSize * pageNum)
+        this.table.total= datas.tableData.length
         this.allDatas = datas.tableData
       })
     },
     changeCity(value) {
       this.counties = this.cities.find(t => t.code==value).children
-      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      // this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
       this.county = ''
+      this.citycode = value;
+      this.countycode = "";
     },
     changeCounty(value) {
-      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      // this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      this.countycode = value;
     },
    
  
@@ -162,13 +178,18 @@ export default {
       let _this = this;
       this.$axios
         .get(this.apiPath + "/system/getWXTemplateList", { params })
-        .then(res => (_this.tableData = res.data.data.list))
+        .then(res => (_this.table.list = res.data.data.list))
         .catch(function(error) {
           // 请求失败处理
           //console.log(error);
         });
     },
     refresh(){
+      this.city = "";
+        this.county = "";
+        this.citycode = "";
+        this.countycode = "";
+        this.initData()
     },
     //点击查询按钮请求的方法
     queryTableData() {
