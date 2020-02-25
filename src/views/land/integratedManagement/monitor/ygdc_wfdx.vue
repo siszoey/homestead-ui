@@ -96,7 +96,6 @@ export default {
             xmmc: this.queryForm.xmmc
           }
         }).then(res =>{
-          console.log(res)
           this.table.list = res.datas
           this.table.total = res.total
         }).finally(() => {
