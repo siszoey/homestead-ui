@@ -52,24 +52,16 @@
         </div>
 
         <div class="wrap-middle">
-            <div class="tab-panel" v-if="checkedValue==1">
-                <businessTypeOne></businessTypeOne>
-            </div>
-            <div class="tab-panel" v-if="checkedValue==2">
+            <div class="tab-panel">
+                <businessTypeOne businessType="原址新建" v-if="checkedValue==1"></businessTypeOne>
                 <!-- <businessTypeTwo></businessTypeTwo> -->
-                <businessTypeOne></businessTypeOne>
-            </div>
-            <div class="tab-panel" v-if="checkedValue==3">
+                <businessTypeOne businessType="改扩建" v-if="checkedValue==2"></businessTypeOne>
                 <!-- <businessTypeThree></businessTypeThree> -->
-                <businessTypeOne></businessTypeOne>
-            </div>
-            <div class="tab-panel" v-if="checkedValue==4">
+                <businessTypeOne businessType="异址新建" v-if="checkedValue==3"></businessTypeOne>
                 <!-- <businessTypeFour></businessTypeFour> -->
-                <businessTypeOne></businessTypeOne>
-            </div>
-            <div class="tab-panel" v-if="checkedValue==5">
+                <businessTypeOne businessType="宅基地流转" v-if="checkedValue==4"></businessTypeOne>
                 <!-- <businessTypeFive></businessTypeFive> -->
-                <businessTypeOne></businessTypeOne>
+                <businessTypeOne businessType="宅基地退出" v-if="checkedValue==5"></businessTypeOne>
             </div>
         </div>
     </div>

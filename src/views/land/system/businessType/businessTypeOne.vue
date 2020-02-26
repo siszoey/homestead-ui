@@ -1,7 +1,7 @@
 <template>
     <div>
-        <el-tabs :tab-position="tabPosition">
-            <el-tab-pane label="基本信息">
+        <el-tabs v-model="activeName" :tab-position="tabPosition">
+            <el-tab-pane label="基本信息" name="jbxx">
                 <div class="jbxx" id="jbxx">
                     <div class="jbxx_titles">
                         <div class="jbxx_tit">
@@ -24,19 +24,13 @@
                                         <div>事项信息</div>
                                     </td>
                                 </tr>
-
-
-
                                 <tr>
                                     <td class="things_title">
                                         <div>事项名称</div>
                                     </td>
                                     <td class="things_con">
                                         <div>
-
-                                            宅基地使用权登记（首次登记）
-
-
+                                            {{businessType}}
                                         </div>
                                     </td>
                                     <td class="things_title">
@@ -44,26 +38,17 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             行政确认
-
-
                                         </div>
                                     </td>
                                 </tr>
-
-
                                 <tr>
                                     <td class="things_title">
                                         <div>基本编码</div>
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             330707046004
-
-
-
                                         </div>
                                     </td>
                                     <td class="things_title">
@@ -71,10 +56,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             11330700002592054F3330707046004
-
-
                                         </div>
                                     </td>
                                 </tr>
@@ -85,7 +67,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-                                            上海飞未信息技术有限公司
+                                            铺前镇乡镇政府
                                         </div>
                                     </td>
                                     <td class="things_title">
@@ -93,7 +75,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-                                            上海飞未信息技术有限公司
+                                            铺前镇乡镇政府
                                         </div>
                                     </td>
                                 </tr>
@@ -284,10 +266,7 @@
                                     </td>
                                     <td class="things_con" colspan="3">
                                         <div>
-
-                                            宅基地使用权登记（首次登记）
-
-
+                                            {{businessType}}
                                         </div>
                                     </td>
                                 </tr>
@@ -450,15 +429,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
-
-
-
                                             全市
-
-
-
-
                                         </div>
                                     </td>
                                 </tr>
@@ -473,10 +444,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             无
-
-
                                         </div>
                                     </td>
                                     <td class="things_title">
@@ -484,10 +452,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             不动产证书
-
-
                                         </div>
                                     </td>
                                 </tr>
@@ -497,11 +462,8 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             <a href="http://zjqlk.oss-cn-hangzhou.aliyuncs.com/a/7/75761e33-643d-4f71-86fa-f7948b93028a.jpg"
                                                 style="color: #33a0e5" target="_blank">样本下载</a>
-
-
                                         </div>
                                     </td>
                                     <td class="things_title">
@@ -522,10 +484,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             自作出决定之日起1个工作日内送达。
-
-
                                         </div>
                                     </td>
                                     <td class="things_title">
@@ -533,10 +492,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             当场送达/快递送达
-
-
                                         </div>
                                     </td>
                                 </tr>
@@ -549,19 +505,13 @@
                                         <div>事项信息</div>
                                     </td>
                                 </tr>
-
-
-
                                 <tr>
                                     <td class="things_title">
                                         <div>事项名称</div>
                                     </td>
                                     <td class="things_con">
                                         <div>
-
-                                            宅基地使用权登记（首次登记）
-
-
+                                            {{businessType}}
                                         </div>
                                     </td>
                                 </tr>
@@ -571,26 +521,17 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             行政确认
-
-
                                         </div>
                                     </td>
                                 </tr>
-
-
                                 <tr>
                                     <td class="things_title">
                                         <div>基本编码</div>
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             330707046004
-
-
-
                                         </div>
                                     </td>
                                 </tr>
@@ -600,10 +541,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
                                             11330700002592054F3330707046004
-
-
                                         </div>
                                     </td>
                                 </tr>
@@ -613,7 +551,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-                                            上海飞未信息技术有限公司
+                                            铺前镇乡镇政府
                                         </div>
                                     </td>
                                 </tr>
@@ -623,7 +561,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-                                            上海飞未信息技术有限公司
+                                            铺前镇乡镇政府
                                         </div>
                                     </td>
                                 </tr>
@@ -818,10 +756,7 @@
                                     </td>
                                     <td class="things_con">
                                         <div>
-
-                                            宅基地使用权登记（首次登记）
-
-
+                                            {{businessType}}
                                         </div>
                                     </td>
                                 </tr>
@@ -1097,7 +1032,7 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="线下办事点">
+            <el-tab-pane label="线下办事点" name="xxbsd">
                 <div class="underLine_place" id="underLine_place">
                     <div class="underLine_place_title clearfix">
                         <h3>线下办事地点/时间</h3>
@@ -1105,14 +1040,10 @@
                     </div>
                     <div class="hx_fg"></div>
                     <div class="underLine_place_con" id="addressListHtml">
-
-
-
-
                         <div class="underLine_place_item clearfix">
                             <div class="address_time lf">
                                 <p class="clearfix"><span class="subTit">具体地址：</span><span class="Cons">
-                                        上海市徐汇区漕河泾开发区（上海市徐汇区漕河泾开发区418号512室）
+                                        铺前镇乡镇政府
                                     </span></p>
                                 <p class="clearfix"><span class="subTit">办理时间：</span><span class="Cons">
                                         周一至周五上午9点30分到晚上6点
@@ -1137,7 +1068,7 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="申请条件">
+            <el-tab-pane label="申请条件" name="sqtj">
                 <div class="sqtj" id="sqtj">
                     <div class="sqtj_title">
                         <h3>申请条件</h3>
@@ -1192,7 +1123,7 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="申报材料">
+            <el-tab-pane label="申报材料" name="sbcl">
                 <div class="sbcl" id="sbcl">
                     <div class="sbcl_title">
                         <h3>申报材料</h3>
@@ -1265,7 +1196,7 @@
                     </table>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="办事流程">
+            <el-tab-pane label="办事流程" name="bllc">
                 <div class="bllc" id="bllc">
                     <div class="bllc_title">
                         <span class="bllcTit">办理流程</span>
@@ -1435,14 +1366,13 @@
 
                     </div>
 
-                    <a href="javascript:void(0);"
-                        onclick="window.open(encodeURI('image/examine/zjdlct.png'));"
+                    <a href="javascript:void(0);" onclick="window.open(encodeURI('image/examine/zjdlct.png'));"
                         class="lc_btn">查看流程图</a>
 
 
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="收费标准">
+            <el-tab-pane label="收费标准" name="sfbz">
                 <div class="sfbz" id="sfbz">
                     <div class="sfbz_title">
                         <h3>收费标准</h3>
@@ -1478,7 +1408,7 @@
 
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="常见问题">
+            <el-tab-pane label="常见问题" name="cjwt">
                 <div class="cjwt" id="cjwt">
                     <div class="cjwt_title">
                         <h3>常见问题</h3>
@@ -1489,7 +1419,7 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="设定依据">
+            <el-tab-pane label="设定依据" name="sdyj">
                 <div class="sdyj" id="sdyj">
                     <div class="sdyj_title">
                         <h3>设定依据</h3>
@@ -1554,10 +1484,21 @@
 
 <script>
     export default {
+        props: {
+            businessType: String
+        },
         data() {
             return {
-                tabPosition: 'left'
+                tabPosition: 'left',
+                activeName: 'jbxx'
             };
+        },
+        watch: {
+            businessType(newValue, oldValue) {
+                this.$nextTick(() => {
+                    this.activeName='jbxx'
+                });
+            }
         }
     };
 </script>
