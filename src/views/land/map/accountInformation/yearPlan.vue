@@ -36,7 +36,7 @@
           <el-button
             type="primary"
             icon="el-icon-search"
-            v-on:click="search()"
+            v-on:click="initData()"
           >查询</el-button>
           <el-button type="default" @click="resetForm('queryForm')">
                         <d2-icon name="refresh"/>
@@ -48,7 +48,7 @@
     <el-table
       element-loading-text="拼命加载中..."
       highlight-current-row
-      :data="tableData"
+      :data="table.list"
       stripe
       ref="multipleTable"
       tooltip-effect="dark"
@@ -67,7 +67,7 @@
 
     <!-- footer 分页条 -->
     <template slot="footer">
-      <el-pagination
+      <!-- <el-pagination
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -76,7 +76,11 @@
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
         :total="100"
-      ></el-pagination>
+      ></el-pagination> -->
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page.sync="table.pageNum" :page-sizes="[10,20,30,50]" :page-size="table.pageSize"
+            layout="total, sizes, prev, pager, next, jumper" :total="table.total" style="margin-top:35px;text-align:center">
+          </el-pagination>
     </template>
   </d2-container>
 </template>
@@ -85,9 +89,11 @@
 // import JSON_WHS from "@/plugin/echarts-map/city/json/hubei/420100.json"; //武汉市
 import Region from '@/views/land/mixnis/region-mixin.js'
 import jsonFileHandler from "@/libs/util.jsonfile.js"
+import pageMixins from "../../mixnis/page-mixnis"
 export default {
   mixins: [
-    Region
+    Region,
+    pageMixins
   ],
   data() {
     return {
@@ -100,6 +106,8 @@ export default {
       cities: [],
       county: "",
       counties: [],
+      citycode: "",
+      countycode: "",
       tableData: [
       ],
       allDatas:[],
@@ -132,17 +140,27 @@ export default {
       })
       let code = this.getRegionCode()
       jsonFileHandler.getData('test-data/map/yearPlan.json','code',code).then(datas=>{
-        this.tableData = datas.data
+        let { pageNum, pageSize, citycode, countycode } = {pageNum:this.table.pageNum,pageSize:this.table.pageSize,citycode:this.citycode,countycode:this.countycode}
+        // console.log(pageNum)
+        if (pageNum == 0) {
+          pageNum = 1
+        }
+        let startIndex = pageSize * (pageNum - 1)
+        this.table.list = datas.data.filter(t=>t.code.startsWith(this.citycode) && t.code.startsWith(this.countycode)).slice(startIndex, pageSize * pageNum)
+        this.table.total= datas.data.length
         this.allDatas = datas.data
       })
     },
     changeCity(value) {
       this.counties = this.cities.find(t => t.code==value).children
-      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      // this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
       this.county = ''
+      this.citycode = value;
+      this.countycode = "";
     },
     changeCounty(value) {
-      this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      // this.tableData = this.allDatas.filter(t=>t.code.startsWith(value))
+      this.countycode = value;
     },
   
     handleSizeChange(val) {
@@ -159,6 +177,8 @@ export default {
       this.year = "";
         this.city = "";
         this.county = "";
+        this.citycode = "";
+        this.countycode = "";
         this.initData()
         var _date = new Date();
     var tYear = _date.getFullYear();
@@ -177,7 +197,7 @@ export default {
       let _this = this;
       this.$axios
         .get(this.apiPath + "/system/aa", { params })
-        .then(res => (_this.tableData = res.data.data.list))
+        .then(res => (_this.table.list = res.data.data.list))
         .catch(function(error) {
           // 请求失败处理
           console.log(error);
