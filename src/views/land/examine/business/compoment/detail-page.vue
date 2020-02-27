@@ -280,9 +280,10 @@
         }).then(() => {
           this.processRequest(this.processInfo, true)
           this.hadSend = true
+
+          this.jumpToDoPage()
         }).catch(() => {
         }).finally(() => {
-          this.jumpToDoPage()
         })
       },
       handleBack() {
@@ -354,7 +355,7 @@
           that.$router.push({
             name: 'land-examine-business-todo'
           })
-        }, 300)
+        }, 800)
       },
       confirmDone() {
         if (this.hadSend) {
