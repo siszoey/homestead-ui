@@ -28,7 +28,7 @@
               </el-form-item>
               <div style="float: right">
                 <el-form-item>
-                  <el-button type="info" @click="add()" style="background:#27658A">新增</el-button>
+                  <el-button type="info" v-on:click="add()" style="background:#27658A">新增</el-button>
                   <el-button type="info" @click="search()" style="background:#27658A">查询记录</el-button>
                 </el-form-item>
               </div>
@@ -102,10 +102,39 @@
             :page-count="4"
             style="margin-top:35px;text-align:center"
           ></el-pagination>
+           <!-- 详情弹框 -->
+          <el-dialog title="一户多宅分析信息列表" :visible.sync="editFormVisible" top="5vh">
+              <el-form :model="editForm" label-width="110px" ref="editForm">
+                <el-form-item label="姓名" prop="xm">
+                  <el-input v-model="editForm.xm" auto-complete="off"></el-input>
+                </el-form-item>
+                 <el-form-item label="身份证号" prop="sfzh">
+                  <el-input v-model="editForm.sfzh" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="家庭总人口" prop="jtzrk">
+                  <el-input v-model="editForm.jtzrk" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="常住地址" prop="czdz">
+                  <el-input v-model="editForm.czdz" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="住宅位置" prop="zzwz">
+                  <el-input v-model="editForm.zzwz" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="住宅面积" prop="zzmj">
+                  <el-input v-model="editForm.zzmj" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="宅基地退出意愿" prop="zjdtcyy">
+                  <el-input v-model="editForm.zjdtcyy" auto-complete="off"></el-input>
+                </el-form-item>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click.native="editFormVisible = false">确定</el-button>
+              </div>
+          </el-dialog>
           </el-col>
           <el-col :span="10">
               <div class="map">
-                  <oneMap :hiddenToolbar="true"></oneMap>
+                  <oneMap :hiddenToolbar="flase"></oneMap>
               </div>
           </el-col>
         </el-row>
@@ -165,7 +194,17 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
                 barChart: {},
                 lineChart: {},
                 pieChart: {},
-
+                editFormVisible: false,//详情界面是否显示
+                 //详情界面数据
+                editForm: {
+                  xm: '',
+                  sfzh: '',
+                  jtzrk:'',
+                  czdz:'',
+                  zzwz:'',
+                  zzmj:'',
+                  zjdtcyy:''
+                },
                 table: {
                   key: 0,
                   listLoading: false,
@@ -371,6 +410,19 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
                 .finally(() => {
                   this.table.listLoading = false;
                 });
+            },
+            //新增事件
+            add(){
+              this.editForm = {
+                xm: '',
+                sfzh: '',
+                jtzrk:'',
+                czdz:'',
+                zzwz:'',
+                zzmj:'',
+                zjdtcyy:''
+            }
+            this.editFormVisible = true;
             },
             handleSizeChange(size) {
               this.table.size = size;

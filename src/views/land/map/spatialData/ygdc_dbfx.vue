@@ -203,7 +203,7 @@ export default {
   props: {
     hiddenToolbar: {
       type: Boolean,
-      default: true
+      default: false
     },
     mapid: String
   },
@@ -438,11 +438,12 @@ export default {
     //切换面板显示
     changeToolbar() {
       if (this.hiddenToolbar) {
-        this.$refs.mapPanel.style.display = "none";
-        this.$refs.leftPanel.style.height = "50px";
-      } else {
         this.$refs.mapPanel.style.display = "block";
         this.$refs.leftPanel.style.height = "100%";
+
+      } else {
+        this.$refs.mapPanel.style.display = "none";
+        this.$refs.leftPanel.style.height = "50px";
       }
     },
     checkALL(LayerName) {
