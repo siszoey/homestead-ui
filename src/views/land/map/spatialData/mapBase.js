@@ -134,7 +134,7 @@ function BaseInitMap(div) {
         view: new View({
             center: [0, 0],
             zoom: 7,
-            projection:"EPSG:4326"
+            projection: "EPSG:4326"
         }),
         //controls: defaults({ attribution: false, zoom: false, rotate: false })
     });
@@ -374,18 +374,19 @@ function BaseAddTruePoints(map, color) {
 
 }
 
-
-function BaseChangeRegionVector(map, xzqhdm, currentRegionLayer, onLoaded) {
-    map.removeLayer(currentRegionLayer);//移除当前界线图层
+//切换行政区划图层
+function BaseChangeRegionVector(map, xzqhdm, currentRegionLayer, zoomtolayer = true, zoomlevel = -1) {
+    if (currentRegionLayer)
+        map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
-
     currentRegionLayer.getSource().on('change', function (evt) {
         var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
         if (source.getState() === 'ready') {
-           map.values_.view.fit(source.getExtent());//自动缩放
-           if(onLoaded){
-              onLoaded()
-           }
+            if (zoomtolayer)
+                map.getView().fit(source.getExtent());//自动缩放
+            if (zoomlevel != -1) {
+                map.getView().setZoom(zoomlevel);
+            }
         }
     });
     map.addLayer(currentRegionLayer);//加载图层

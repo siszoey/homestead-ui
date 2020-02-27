@@ -1,0 +1,97 @@
+[
+    {
+        "code": "46",
+        "geoserverURL": "http://101.91.199.54:8060/geoserver/",
+        "layers": [
+            {
+                "name": "村级调查区",
+                "code":"CJDCQ",
+                "regions": [
+                    {
+                        "level": "3",
+                        "code": "469005"
+                    },
+                    {
+                        "level": "4",
+                        "code": "469005115"
+                    },
+                    {
+                        "level": "5",
+                        "code": "469005115201"
+                    }
+                ]
+            },
+            {
+                "name": "省级行政区",
+                "code":"SJXZQ",
+                "regions": [
+                    {
+                        "level": "1",
+                        "code": "46"
+                    }
+                ]
+            },
+            {
+                "name": "XZQ",
+                "regions": [
+                    {
+                        "level": "3",
+                        "code": "469005"
+                    },
+                    {
+                        "level": "4",
+                        "code": "469005115"
+                    }
+                ]
+            },
+            {
+                "name": "CJYX",
+                "regions": []
+            },
+            {
+                "name": "CZGH",
+                "regions": [
+                    {
+                        "level": "5",
+                        "code": "469005115201"
+                    }
+                ]
+            },
+            {
+                "name": "DLTB",
+                "regions": [
+                    {
+                        "level": "3",
+                        "code": "469005"
+                    },
+                    {
+                        "level": "4",
+                        "code": "469005115"
+                    },
+                    {
+                        "level": "5",
+                        "code": "469005115201"
+                    }
+                ]
+            },
+            {
+                "name": "ZD",
+                "regions": [
+                    {
+                        "level": "5",
+                        "code": "469005115201"
+                    }
+                ]
+            },
+            {
+                "name": "ZD_PG",
+                "regions": [
+                    {
+                        "level": "5",
+                        "code": "469005115201"
+                    }
+                ]
+            }
+        ]
+    }
+]
