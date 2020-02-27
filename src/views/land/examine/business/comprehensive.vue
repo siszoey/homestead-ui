@@ -94,7 +94,7 @@
       <el-table-column fixed="right" align="center" label="操作" width="300">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看详情</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row)" v-if="[1,2].includes(scope.row.blzt)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
