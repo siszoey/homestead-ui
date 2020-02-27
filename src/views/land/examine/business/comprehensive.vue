@@ -207,7 +207,7 @@
           center: true
         }).then(() => {
           DeleteProc({
-            sqid: row.jcxx.sqid,
+            sqid: row.formVO.jcxx.sqid,
             taskid: row.taskid
           }).then(() => {
             this.$message({
