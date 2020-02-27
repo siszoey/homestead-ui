@@ -390,7 +390,7 @@ import jsonFileHandler from "@/libs/util.jsonfile.js"
                 this.cities = datas
               })
               let code = this.getRegionCode()
-              jsonFileHandler.getData('test-data/monitor/manyhouses.json','code',code).then(datas=>{
+              jsonFileHandler.getData('test-data/monitor/manyHouses.json','code',code).then(datas=>{
                 let resList = datas.tableData.filter(item => (item.sfzh).indexOf(this.queryForm.sfzh) > -1&&(item.xm).indexOf(this.queryForm.xm) > -1)
                 this.tableData=resList
                 
