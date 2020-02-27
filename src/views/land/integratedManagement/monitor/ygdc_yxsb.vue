@@ -1,5 +1,11 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    v-loading="loading"
+    element-loading-text="影像识别中，请稍候..."
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+  >
     <div class="mapPanel" ref="leftPanel">
       <div style="text-align:center">
         <el-switch
@@ -121,79 +127,59 @@
         </div>
       </div>-->
     </div>
-    <el-card class="box-card" ref="popup">
-      <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard">关闭</el-button>
-      <div class="text item">
-        <b>项目名称</b>
-      </div>
-      <div class="text item">宅基地疑似违法占地</div>
-      <div class="text item">
-        <b>项目位置</b>
-      </div>
-      <div class="text item">美宝村民小组</div>
-      <div class="text item">
-        <b>监察人</b>
-      </div>
-      <div class="text item">吴坤义</div>
-      <div class="text item">
-        <b>监察时间</b>
-      </div>
-      <div class="text item">2019-8-13</div>
-      <div class="text item">
-        <b>违法事由</b>
-      </div>
-      <div class="text item">宅基地获批面积为150平方米，实际修建的建筑面积为174平方米</div>
-      <div class="text item">
-        <b>备注</b>
-      </div>
-      <div class="text item">暂无</div>
-      <el-button type="primary" style="width:100%">发起现场核实</el-button>
-    </el-card>
     <el-card class="box-card" ref="popupedit">
       <el-button style="float: right; padding: 3px 0" type="text" @click="closeEditCard">关闭</el-button>
       <div class="text item">
-        <b>项目名称</b>
+        <b>区域范围</b>
       </div>
-      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
       <div class="text item">
-        <b>项目位置</b>
+        <b>
+          {{currentYxsb.topleft}}
+          {{currentYxsb.topright}}
+          {{currentYxsb.bottomleft}}
+          {{currentYxsb.bottomright}}
+        </b>
       </div>
-      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
       <div class="text item">
-        <b>监察人</b>
+        <b>区域面积</b>
       </div>
-      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
       <div class="text item">
-        <b>监察时间</b>
+        <b>{{currentYxsb.area}}（亩）</b>
       </div>
-      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
       <div class="text item">
-        <b>违法事由</b>
+        <b>预计识别时间</b>
       </div>
-      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
       <div class="text item">
-        <b>备注</b>
+        <b>{{currentYxsb.timeabout}}</b>
       </div>
-      <div class="text item"><el-input placeholder="请输入内容"></el-input></div>
-      <el-button type="primary" style="width:100%">发起现场核实</el-button>
+      <el-button type="primary" style="width:100%" @click="submitYxsb">发起影像识别</el-button>
     </el-card>
     <LayerList style="position:absolute;top:180px;right:80px" v-show="layerOn"></LayerList>
   </div>
 </template>
 <script>
-import LayerList from "./components/LayerList_ZJD";
-import BaseMap from "../spatialData/mapBase.js";
+import LayerList from "../../map/spatialData/components/LayerList_ZJD";
+import BaseMap from "../../map/spatialData/mapBase.js";
 
 import "ol/ol.css";
 import Map from "ol/Map";
 import View from "ol/View";
 import GeoJSON from "ol/format/GeoJSON";
+import WKT from "ol/format/WKT";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from "ol/style";
 import { XYZ, TileWMS, Cluster } from "ol/source";
 import { Overlay, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
-import { getCenter, getBottomLeft, getTopRight } from "ol/extent";
+import { getArea } from "ol/sphere";
+
+import {
+  getCenter,
+  getBottomLeft,
+  getTopRight,
+  getTopLeft,
+  getBottomRight
+} from "ol/extent";
 import Point from "ol/geom/Point";
 import Axios from "axios";
 import { Modify, Draw, Snap } from "ol/interaction";
@@ -203,14 +189,16 @@ export default {
   props: {
     hiddenToolbar: {
       type: Boolean,
-      default: false
+      default: true
     },
-    mapid: String
+    mapid: {
+      type: String,
+      default: "mapyxsb"
+    }
   },
   data() {
     return {
-      popup: null,
-      popupedit:null,
+      popupedit: null,
       EditMode: false,
       draw: null,
       snap: null,
@@ -221,6 +209,19 @@ export default {
       Region_Layer: null,
       zdLayer: null,
       xzqhdm: "469005115201",
+      currentYxsb: {
+        requestGeoJson: "",
+        responseGeoJson: "",
+        topright: "",
+        topleft: "",
+        bottomright: "",
+        bottomleft: "",
+        area: "",
+        timeabout: ""
+      },
+      loading: false,
+      vectorSource: null,
+      vectorLayer: null,
       ZJDInfo: {
         Szz: "",
         Zdmj: "",
@@ -229,7 +230,7 @@ export default {
       },
       XZDCCG: {
         Layer: null,
-        Visible: true,
+        Visible: false,
         CheckAll: true,
         Features: [],
         Boxs: [
@@ -267,7 +268,7 @@ export default {
       },
       CZGH: {
         Layer: null,
-        Visible: true,
+        Visible: false,
         CheckAll: true,
         Features: [],
         Boxs: [
@@ -314,47 +315,12 @@ export default {
     this.InitLayer("XZQ");
     this.InitLayer("DT");
     this.XZQ.Layer.setZIndex(20);
-
-    this.popup = new Overlay({
-      element: this.$refs.popup.$el
-    });
-    this.map.addOverlay(this.popup);
     this.popupedit = new Overlay({
       element: this.$refs.popupedit.$el
     });
     this.map.addOverlay(this.popupedit);
     //点击事件
     let _this = this;
-    this.map.on("singleclick", function(evt) {
-      var view = _this.map.getView();
-      var viewResolution = view.getResolution();
-      var source = _this.XZDCCG.Layer.getSource();
-      var url = source.getFeatureInfoUrl(
-        evt.coordinate,
-        viewResolution,
-        view.getProjection(),
-        { INFO_FORMAT: "application/json" }
-      );
-      if (url) {
-        Axios({
-          method: "get",
-          url: url,
-          dataType: "json",
-          crossDomain: true,
-          cache: false
-        })
-          .then(res => {
-            if (res.data.features.length == 0) {
-              _this.closeCard();
-              return;
-            }
-            _this.popup.setPosition(evt.coordinate);
-            _this.ZJDInfo = res.data.features[0].properties;
-            _this.openCard();
-          })
-          .catch(error => {});
-      }
-    });
     this.source = new VectorSource();
     var vector = new VectorLayer({
       source: this.source,
@@ -377,15 +343,47 @@ export default {
     this.source.on("change", function(evt) {
       var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
       if (source.getState() === "ready") {
-        var center = getCenter(source.getExtent());
-        //_this.map.getView().centerOn(center); //自动缩放
-        _this.popupedit.setPosition(getTopRight(source.getExtent()));
+        if (source.getFeatures().length == 0) return;
+        var extent = source.getExtent();
+        var center = getCenter(extent);
+        _this.popupedit.setPosition(getTopRight(extent));
         _this.openEditCard();
+        var GEOJSON_PARSER = new GeoJSON();
+        var vectorLayerAsJson = GEOJSON_PARSER.writeGeometry(
+          source.getFeatures()[0].getGeometry()
+        );
+        _this.currentYxsb.requestGeoJson = vectorLayerAsJson;
+        _this.currentYxsb.topright = getTopRight(extent);
+        _this.currentYxsb.topleft = getTopLeft(extent);
+        _this.currentYxsb.bottomleft = getBottomLeft(extent);
+        _this.currentYxsb.bottomright = getBottomRight(extent);
+        var area = getArea(source.getFeatures()[0].getGeometry(), {
+          projection: "EPSG:4326"
+        });
+        _this.currentYxsb.area = (area * 0.0015).toFixed(2);
+        _this.currentYxsb.timeabout = _this.calAboutTime(
+          _this.currentYxsb.area
+        );
       }
     });
     this.map.addLayer(vector);
     var modify = new Modify({ source: this.source });
     this.map.addInteraction(modify);
+
+    this.vectorSource = new VectorSource();
+    this.vectorLayer = new VectorLayer({
+      source: this.vectorSource,
+      style: new Style({
+        stroke: new Stroke({
+          color: "green",
+          width: 1
+        }),
+        fill: new Fill({
+          color: "rgba(0, 255, 0, 0.5)"
+        })
+      })
+    });
+    _this.map.addLayer(this.vectorLayer);
   },
 
   methods: {
@@ -395,32 +393,77 @@ export default {
     changeEditMode() {
       this.EditMode = !this.EditMode;
       if (this.EditMode) {
+        this.source.clear();
         this.draw = new Draw({
           source: this.source,
           type: "Polygon"
         });
-        this.map.addInteraction(this.draw);
+
         this.snap = new Snap({ source: this.source });
+        this.map.addInteraction(this.draw);
         this.map.addInteraction(this.snap);
       } else {
         this.map.removeInteraction(this.draw);
         this.map.removeInteraction(this.snap);
       }
     },
-    closeCard() {
-      this.$refs.popup.$el.style.visibility = "hidden";
-      this.$refs.popup.$el.style.width = "1px";
-      this.$refs.popup.$el.style.height = "1px";
+    submitYxsb() {
+      let _this = this;
+      _this.loading = true;
+      Axios({
+        method: "get",
+        url: "http://101.91.199.54:8277/predict",
+        dataType: "json",
+        crossDomain: true,
+        cache: false,
+        params: { geometry: _this.currentYxsb.requestGeoJson }
+      }).then(res => {
+        _this.loading = false;
+        _this.closeEditCard();
+        // _this.source.clear();
+        let resdata = res.data;
+        if (resdata.code == "200") {
+          _this.addResult(resdata.result);
+        } else {
+          alert(resdata.msg);
+        }
+      });
+      this.changeEditMode();
+    },
+    calAboutTime(area) {
+      if (area < 10) return "约10秒";
+      if (area < 50) return "约30秒";
+      if (area < 100) return "约一分钟";
+      return "大于一分钟";
+    },
+    addResult(geometries) {
+      let geojson = new GeoJSON();
+      let features = [];
+      var i = 0;
+      for (let geom of geometries) {
+        let feature = new Feature({
+          geometry: geojson.readGeometry(geom[0])
+        });
+        features.push(feature);
+        i++;
+      }
+      if (i == 0) {
+        this.$message({
+          message: "识别完毕，所选区域中未识别到房屋。"
+        });
+      } else {
+        this.$message({
+          message: "识别完毕，所选区域中识别出房屋 " + i + " 幢。",
+          type: "success"
+        });
+      }
+      this.vectorSource.clear();
+      this.vectorSource.addFeatures(features);
     },
     closeEditCard() {
       this.$refs.popupedit.$el.style.visibility = "hidden";
       this.$refs.popupedit.$el.style.width = "1px";
       this.$refs.popupedit.$el.style.height = "1px";
-    },
-    openCard() {
-      this.$refs.popup.$el.style.visibility = "visible";
-      this.$refs.popup.$el.style.width = "260px";
-      this.$refs.popup.$el.style.height = "400px";
     },
     openEditCard() {
       this.$refs.popupedit.$el.style.visibility = "visible";
@@ -438,12 +481,11 @@ export default {
     //切换面板显示
     changeToolbar() {
       if (this.hiddenToolbar) {
-        this.$refs.mapPanel.style.display = "block";
-        this.$refs.leftPanel.style.height = "100%";
-
-      } else {
         this.$refs.mapPanel.style.display = "none";
         this.$refs.leftPanel.style.height = "50px";
+      } else {
+        this.$refs.mapPanel.style.display = "block";
+        this.$refs.leftPanel.style.height = "100%";
       }
     },
     checkALL(LayerName) {

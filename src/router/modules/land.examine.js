@@ -99,15 +99,15 @@ export default function (iotHeader) {
               title: '退件箱'
             }
           },
-          {
-            path: 'batchreport',
-            name: `${pre}batchreport`,
-            component: _import('land/examine/business/batchreport.vue'),
-            meta: {
-              ...meta,
-              title: '批量上报'
-            }
-          },
+          // {
+          //   path: 'batchreport',
+          //   name: `${pre}batchreport`,
+          //   component: _import('land/examine/business/batchreport.vue'),
+          //   meta: {
+          //     ...meta,
+          //     title: '批量上报'
+          //   }
+          // },
           {
             path: 'comprehensive',
             name: `${pre}comprehensive`,

@@ -53,7 +53,7 @@ function getComplaintDatas (params) {
 }
 
 function getRegistrationDatas (params) {
-  let { pageNum, pageSize } = params2Obj(params.url)
+  let { pageNum, pageSize, djdz, djr } = params2Obj(params.url)
   // console.log(pageNum)
   if (pageNum == 0) {
     pageNum = 1
@@ -61,7 +61,7 @@ function getRegistrationDatas (params) {
   let startIndex = pageSize * (pageNum - 1)
   // console.log(startIndex)
   let cDatas = {}
-  cDatas.datas = registrationDatas.datas.slice(startIndex, pageSize * pageNum)
+  cDatas.datas = registrationDatas.datas.filter(item => (item.djdz).indexOf(djdz) > -1&&(item.djr).indexOf(djr) > -1).slice(startIndex, pageSize * pageNum)
   cDatas.total = registrationDatas.datas.length
   return cDatas
 }
@@ -161,3 +161,96 @@ function getCzgzDatas (params) {
 Mock.mock(/\/api\/monitor\/getJcsbDatas/, 'get', getJcsbDatas)
 Mock.mock(/\/api\/monitor\/getWfdxDatas/, 'get', getWfdxDatas)
 Mock.mock(/\/api\/monitor\/getCzgzDatas/, 'get', getCzgzDatas)
+
+// 出租列表
+let czlbDatas = Mock.mock({ 'datas|20': [{
+  'czr': '@cname',
+  'lxdh|1': ['13125648612', '13204516234', '13256402316', '13125648632', '13164528539'],
+  'dz': `${dataRegion}`,
+  'fwdx': '@integer(40,150)',
+  'czjg': '@integer(800,3500)',
+  'fbsj': '@date("yyyy-MM-dd")'
+}] })
+
+// 求租列表
+let qzlbDatas = Mock.mock({ 'datas|20': [{
+  'qzr': '@cname',
+  'xb|1': ['男', '女'],
+  'lxdh|1': ['13125648612', '13204516234', '13256402316', '13125648632', '13164528539'],
+  'qzwz': `${dataRegion}`,
+  'qzjg': '@integer(800,3500)',
+  'fbsj': '@date("yyyy-MM-dd")'
+}] })
+
+// 政策法规
+let zcfgDatas = Mock.mock({ 'datas|20': [{
+  'title': '@ctitle',
+  'text': '@csentence(30,50)',
+  'fbr': '@cname',
+  'fbsj': '@date("yyyy-MM-dd")',
+  'ydsl': '@integer(0,500)',
+  'isShow': '@boolean'
+}] })
+
+// 新闻推荐
+let xwtjDatas = Mock.mock({ 'datas|20': [{
+  'title': '@ctitle',
+  'text': '@csentence(30,50)',
+  'fbr': '@cname',
+  'fbsj': '@date("yyyy-MM-dd")',
+  'ydsl': '@integer(0,500)',
+  'isShow': '@boolean'
+}] })
+
+// 注册人信息
+let zcrDatas = Mock.mock({ 'datas|50': [{
+  'yhm': '@first',
+  'xm': '@cname',
+  'xb|1': ['男', '女'],
+  'lxdh|1': ['13125648612', '13204516234', '13256402316', '13125648632', '13164528539'],
+  'yx': '@email("163.com")',
+  'zz':  `${dataRegion}`,
+  'zcsj':  '@date("yyyy-MM-dd")',
+}] })
+
+function getCzlbDatas (params) {
+  let { czr, lxdh} = params2Obj(params.url)
+  let cDatas = czlbDatas.datas.filter(item => (item.czr).indexOf(czr) > -1&&(item.lxdh).indexOf(lxdh) > -1)
+  return cDatas
+}
+
+function getQzlbDatas (params) {
+  let { qzr, lxdh} = params2Obj(params.url)
+  let cDatas = qzlbDatas.datas.filter(item => (item.qzr).indexOf(qzr) > -1&&(item.lxdh).indexOf(lxdh) > -1)
+  return cDatas
+}
+
+function getZcfgDatas (params) {
+  let { title, fbr} = params2Obj(params.url)
+  let cDatas = zcfgDatas.datas.filter(item => (item.title).indexOf(title) > -1&&(item.fbr).indexOf(fbr) > -1)
+  return cDatas
+}
+
+function getXwtjDatas (params) {
+  let { title, fbr} = params2Obj(params.url)
+  let cDatas = xwtjDatas.datas.filter(item => (item.title).indexOf(title) > -1&&(item.fbr).indexOf(fbr) > -1)
+  return cDatas
+}
+
+function getZcrDatas (params) {
+  let { pageNum, pageSize, yhm, xm, lxdh } = params2Obj(params.url)
+  if (pageNum == 0) {
+    pageNum = 1
+  }
+  let startIndex = pageSize * (pageNum - 1)
+  let cDatas = {}
+  cDatas.datas = zcrDatas.datas.filter(item => (item.yhm).indexOf(yhm) > -1&&(item.xm).indexOf(xm) > -1&&(item.lxdh).indexOf(lxdh) > -1).slice(startIndex, pageSize * pageNum)
+  cDatas.total = zcrDatas.datas.length
+  return cDatas
+}
+
+Mock.mock(/\/api\/shareFarmhouse\/getCzlbDatas/, 'get', getCzlbDatas)
+Mock.mock(/\/api\/shareFarmhouse\/getQzlbDatas/, 'get', getQzlbDatas)
+Mock.mock(/\/api\/shareFarmhouse\/getZcfgDatas/, 'get', getZcfgDatas)
+Mock.mock(/\/api\/shareFarmhouse\/getXwtjDatas/, 'get', getXwtjDatas)
+Mock.mock(/\/api\/shareFarmhouse\/getZcrDatas/, 'get', getZcrDatas)

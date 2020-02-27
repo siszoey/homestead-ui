@@ -231,12 +231,12 @@ export default {
     },
     //切换面板显示
     changeToolbar() {
-      if (this.hiddenToolbar) {
-        document.getElementById("mapPanel").style.display = "none";
-        document.getElementById("leftPanel").style.height = "50px";
-      } else {
+      if (this.hiddenToolbar) {      
         document.getElementById("mapPanel").style.display = "block";
         document.getElementById("leftPanel").style.height = "100%";
+      } else {
+        document.getElementById("mapPanel").style.display = "none";
+        document.getElementById("leftPanel").style.height = "50px";
       }
     },
     zoomToXzqh(xzqhdm) {

@@ -2,42 +2,42 @@
     {
         "code":"46",
         "progressData":[
-            { "label":"铺前圩社区（亩）", "usedArea":"1518.69", "percentage":11 },
-            { "label":"地太村（亩）", "usedArea":"76564.45", "percentage":67 },
-            { "label":"东坡村（亩）", "usedArea":"647.21", "percentage":21 },
-            { "label":"林梧村（亩）", "usedArea":"9776.88", "percentage":35 },
-            { "label":"隆丰村（亩）", "usedArea":"543.97", "percentage":15 }
+            { "label":"铺前圩社区（亩）", "usedArea":"1518.69", "percentage":16 },
+            { "label":"地太村（亩）", "usedArea":"76564.45", "percentage":101 },
+            { "label":"东坡村（亩）", "usedArea":"647.21", "percentage":20 },
+            { "label":"林梧村（亩）", "usedArea":"9776.88", "percentage":99 },
+            { "label":"隆丰村（亩）", "usedArea":"543.97", "percentage":7 }
         ],
         "tableData":[
             {
                 "xzq": "铺前圩社区",
                 "jhyd": "9460.81",
                 "sjyd": "1518.69",
-                "szbl": "11%"
+                "szbl": "16%"
               },
               {
                 "xzq": "地太村",
                 "jhyd": "75765.81",
                 "sjyd": "76564.45",
-                "szbl": "67%"
+                "szbl": "101%"
               },
               {
                 "xzq": "东坡村",
                 "jhyd": "3243.81",
                 "sjyd": "647.21",
-                "szbl": "21%"
+                "szbl": "20%"
               },
               {
                 "xzq": "林梧村",
                 "jhyd": "9875.81",
                 "sjyd": "9776.88",
-                "szbl": "35%"
+                "szbl": "99%"
               },
               {
                 "xzq": "隆丰村",
                 "jhyd": "7657.81",
                 "sjyd": "543.97",
-                "szbl": "15%"
+                "szbl": "7%"
               }
         ]
     }
