@@ -260,10 +260,11 @@ import { defaults } from "ol/control";
 import TileLayer from "ol/layer/Tile";
 import Region from "@/views/land/mixnis/region-mixin.js";
 import jsonFileHandler from "@/libs/util.jsonfile.js";
+import mapBase from "../spatialData/mapBase.js";
 
 export default {
   name: "mappanel",
-  mixins: [Region, BaseMap],
+  mixins: [Region],
   data() {
     return {
       map: null,
@@ -281,6 +282,24 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
+      this.drawPieChart();
+      this.drawbarchart();
+      this.initMap();
+    });
+  },
+  methods: {
+    initData() {
+      let code = this.getRegionCode();
+      this.xzqhdm = code;
+
+      jsonFileHandler
+        .getData("/test-data/index.json", "code", code)
+        .then(data => {
+          this.jsonData = data.data;
+        });
+    },
+    initMap: async function() {
+      await BaseMap.InitGeoServer(this.xzqhdm);
       this.map = BaseMap.BaseInitMap("mapmappanel");
       this.map.addLayer(BaseMap.img_wLayer);
       var Region_Layer = BaseMap.BaseChangeRegionVector(
@@ -290,19 +309,6 @@ export default {
         true,
         7
       );
-      this.drawPieChart();
-      this.drawbarchart();
-    });
-  },
-  methods: {
-    initData() {
-      let code = this.getRegionCode();
-      this.xzqhdm = code;
-      jsonFileHandler
-        .getData("/test-data/index.json", "code", code)
-        .then(data => {
-          this.jsonData = data.data;
-        });
     },
     drawPieChart: function() {
       let myChart = this.$echarts.init(document.getElementById("piechart"));

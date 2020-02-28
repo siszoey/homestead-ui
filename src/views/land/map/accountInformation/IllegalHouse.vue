@@ -6,14 +6,14 @@
           style="height:50px;"
           inactive-text="各村/居违法建房情况统计排行"
           active-text
-          v-model="hiddenToolbar"
+          v-model="hiddentoolbar"
           @change="changeToolbar()"
         ></el-switch>
       </div>
       <!-- <hr /> -->
       <el-card class="box-card" id="mapPanel">
         <div style="height:50%;overflow-y: auto;">
-           <div class="text item" v-for="(item,index) in progressData" :key="index">
+          <div class="text item" v-for="(item,index) in progressData" :key="index">
             <!-- <div v-for="o in 5" :key="o" class="text item"> -->
             <span class="demonstration">{{item.label}}</span>
             <span class="demonstration" style="float:right">
@@ -26,7 +26,6 @@
             </span>
             <el-progress :percentage="item.percentage" color="#E85754"></el-progress>
           </div>
-         
         </div>
         <div style="height:50%;overflow-y: auto;margin-top: 10px;">
           <div class="text item">
@@ -56,8 +55,8 @@
 <script>
 import echarts from "echarts";
 
-import Region from '@/views/land/mixnis/region-mixin.js'
-import jsonFileHandler from "@/libs/util.jsonfile.js"
+import Region from "@/views/land/mixnis/region-mixin.js";
+import jsonFileHandler from "@/libs/util.jsonfile.js";
 
 import timeline from "../spatialData/components/timeline";
 import BaseMap from "../spatialData/mapBase.js";
@@ -65,7 +64,7 @@ import ToolBar from "../spatialData/components/toolbar";
 
 export default {
   name: "echart-map",
-  mixins:[Region],
+  mixins: [Region],
   props: {
     hiddenToolbar: {
       type: Boolean,
@@ -83,6 +82,8 @@ export default {
       city: "",
       JSON_Data: [],
       myFile: "420200",
+      xzqhdm: "",
+      hiddentoolbar: "",
       id: "echarts_" + new Date().getTime() + Math.floor(Math.random() * 1000),
       echartObj: null,
       radioList: {
@@ -193,22 +194,13 @@ export default {
     ToolBar
   },
   created() {
-    this.initData()
+    this.initData();
+    this.hiddentoolbar = this.hiddenToolbar;
   },
   mounted() {
     this.changeToolbar();
-    var currentRegionLayer;
-    var xzqhdm = "469005115";
-    this.map = BaseMap.BaseInitMap("mapillgalhouse");
-    this.map.addLayer(BaseMap.img_wLayer);
+    this.initMap();
 
-    currentRegionLayer = BaseMap.BaseChangeRegionVector(
-      this.map,
-      xzqhdm,
-      currentRegionLayer
-    );
-    BaseMap.BaseAddTruePoints(this.map, "#F28965");
-  
     //获得当前年份
     var _date = new Date();
     var tYear = _date.getFullYear();
@@ -218,27 +210,37 @@ export default {
     }
     //默认年份为上一年度
     this.year = tYear - 1;
-    
   },
   methods: {
-    initData(){
-      this.getRegions().then(datas=>{
-        this.cities = datas
-      })
-      let code = this.getRegionCode()
-      jsonFileHandler.getData('test-data/map/illegalHouse.json','code',code).then(datas=>{
-        this.tableData = datas.tableData
-        this.progressData = datas.progressData
-      })
+    initData() {
+      this.getRegions().then(datas => {
+        this.cities = datas;
+      });
+      let code = this.getRegionCode();
+      this.xzqhdm = code;
+      jsonFileHandler
+        .getData("test-data/map/illegalHouse.json", "code", code)
+        .then(datas => {
+          this.tableData = datas.tableData;
+          this.progressData = datas.progressData;
+        });
+    },
+    initMap: async function() {
+      await BaseMap.InitGeoServer(this.xzqhdm);
+      this.map = BaseMap.BaseInitMap("mapillgalhouse");
+      this.map.addLayer(BaseMap.img_wLayer);
+
+      BaseMap.BaseInitLayer(this.map, null, "XZQ", null, null, "5");
+      BaseMap.BaseAddTruePoints(this.map, "#F28965");
     },
     //切换面板显示
     changeToolbar() {
-      if (this.hiddenToolbar) {
+      if (this.hiddentoolbar) {
         document.getElementById("mapPanel").style.display = "block";
         document.getElementById("leftPanel").style.height = "100%";
       } else {
         document.getElementById("mapPanel").style.display = "none";
-        document.getElementById("leftPanel").style.height = "50px";       
+        document.getElementById("leftPanel").style.height = "50px";
       }
     },
     zoomToXzqh(xzqhdm) {
@@ -289,9 +291,7 @@ export default {
       this.echartObj.setOption(this.getOptions(), true);
       // console.log(this.JSON_Data);
     },
-    changeCity(value) {
-      
-    },
+    changeCity(value) {},
     getOptions() {
       this.setOptions("legend", {
         //data: Object.values(this.radioList),

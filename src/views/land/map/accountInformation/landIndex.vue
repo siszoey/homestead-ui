@@ -26,7 +26,6 @@
             </span>
             <el-progress :percentage="item.percentage"></el-progress>
           </div>
-       
         </div>
         <div style="height:50%;overflow-y: auto;margin-top: 10px;">
           <div class="text item">
@@ -54,8 +53,8 @@
 <script>
 import echarts from "echarts";
 
-import Region from '@/views/land/mixnis/region-mixin.js'
-import jsonFileHandler from "@/libs/util.jsonfile.js"
+import Region from "@/views/land/mixnis/region-mixin.js";
+import jsonFileHandler from "@/libs/util.jsonfile.js";
 
 import timeline from "../spatialData/components/timeline";
 import BaseMap from "../spatialData/mapBase.js";
@@ -63,7 +62,7 @@ import ToolBar from "../spatialData/components/toolbar";
 
 export default {
   name: "echart-map",
-  mixins:[Region],
+  mixins: [Region],
   props: {
     hiddenToolbar: {
       type: Boolean,
@@ -73,12 +72,13 @@ export default {
   data() {
     return {
       tableData: [],
-      progressData:[],
+      progressData: [],
       years: [],
       cities: [],
       year: "",
       city: "",
       JSON_Data: [],
+      xzqhdm: "",
       myFile: "420200",
       id: "echarts_" + new Date().getTime() + Math.floor(Math.random() * 1000),
       echartObj: null,
@@ -107,7 +107,6 @@ export default {
           formatter: params => {
             // params.data
             return "";
-      
           }
         },
         legend: {
@@ -191,7 +190,7 @@ export default {
     ToolBar
   },
   created() {
-    this.initData()
+    this.initData();
   },
   mounted() {
     this.changeToolbar();
@@ -206,32 +205,25 @@ export default {
     this.year = tYear - 1;
     // console.log(this.years);
     // this.echartObj = echarts.init(document.getElementById(this.id));
-    var currentRegionLayer;
-    var xzqhdm = "469005115";
-    this.map = BaseMap.BaseInitMap("maplandindex");
-    this.map.addLayer(BaseMap.img_wLayer);
-
-    currentRegionLayer = BaseMap.BaseChangeRegionVector(
-      this.map,
-      xzqhdm,
-      currentRegionLayer
-    );
-    BaseMap.BaseAddTruePoints(this.map, "#F28965");
+    this.initMap();
   },
   methods: {
-     initData(){
-      this.getRegions().then(datas=>{
-        this.cities = datas
-      })
-      let code = this.getRegionCode()
-      jsonFileHandler.getData('test-data/map/landIndex.json','code',code).then(datas=>{
-        this.tableData = datas.tableData
-        this.progressData = datas.progressData
-      })
+    initData() {
+      this.getRegions().then(datas => {
+        this.cities = datas;
+      });
+      let code = this.getRegionCode();
+      this.xzqhdm = code;
+      jsonFileHandler
+        .getData("test-data/map/landIndex.json", "code", code)
+        .then(datas => {
+          this.tableData = datas.tableData;
+          this.progressData = datas.progressData;
+        });
     },
     //切换面板显示
     changeToolbar() {
-      if (this.hiddenToolbar) {      
+      if (this.hiddenToolbar) {
         document.getElementById("mapPanel").style.display = "block";
         document.getElementById("leftPanel").style.height = "100%";
       } else {
@@ -251,7 +243,7 @@ export default {
         }
       });
     },
-   
+
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {
         return "warning-row";
@@ -259,6 +251,14 @@ export default {
         return "success-row";
       }
       return "";
+    },
+    initMap: async function() {
+      await BaseMap.InitGeoServer(this.xzqhdm);
+      this.map = BaseMap.BaseInitMap("maplandindex");
+      this.map.addLayer(BaseMap.img_wLayer);
+
+      BaseMap.BaseInitLayer(this.map, null, "XZQ", null, null, "5");
+      BaseMap.BaseAddTruePoints(this.map, "#F28965");
     },
     //初始化加载和注册Map
     initMaps(jsonData) {
@@ -268,9 +268,7 @@ export default {
       this.echartObj.setOption(this.getOptions(), true);
       console.log(this.JSON_Data);
     },
-    changeCity(value) {
-      
-    },
+    changeCity(value) {},
     getOptions() {
       this.setOptions("legend", {
         //data: Object.values(this.radioList),
@@ -463,7 +461,7 @@ export default {
   font-size: 14px;
 }
 
-.el-card__body{
-  height:91%;
+.el-card__body {
+  height: 91%;
 }
 </style>

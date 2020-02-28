@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
     <div class="half">
-      <singleMap ref="mapleft" mapid="mapleft"></singleMap>
+      <singleMap ref="mapleft" mapid="mapleft" v-on:inited="initFinished"></singleMap>
     </div>
     <div class="half">
-      <singleMap ref="mapright"mapid="mapright"></singleMap>
+      <singleMap ref="mapright" mapid="mapright" v-on:inited="initFinished"></singleMap>
     </div>
   </div>
 </template>
@@ -27,17 +27,29 @@ import Point from "ol/geom/Point";
 export default {
   name: "ygdc_dbfxmain",
   data() {
-    return {};
+    return {
+      viewbinded: false
+    };
   },
   components: {
     singleMap
   },
   mounted() {
-    var view = this.$refs.mapleft.map.getView();
-    this.$refs.mapright.map.setView(view);
+    // var view = this.$refs.mapleft.map.getView();
+    // this.$refs.mapright.map.setView(view);
   },
 
-  methods: {}
+  methods: {
+    initFinished() {
+      if (!this.viewbinded) {
+        try {
+          //如果右边也加载完了
+          this.$refs.mapright.map.setView(this.$refs.mapleft.map.getView());
+          this.viewbinded = true;
+        } catch (e) {}
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
