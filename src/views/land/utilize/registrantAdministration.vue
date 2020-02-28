@@ -93,6 +93,7 @@
     <!-- 详情弹框 -->
     <el-dialog title="注册人信息" :visible.sync="editFormVisible" top="5vh" width="450px">
       <el-form :model="editForm" label-width="80px" ref="editForm">
+        <el-input v-model="editForm.id" type="hidden"></el-input>
         <el-form-item label="用户名" prop="yhm">
           <el-input v-model="editForm.yhm" readonly></el-input>
         </el-form-item>
@@ -111,8 +112,8 @@
             <el-option label="女" value="女"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
+        <el-form-item label="密码" prop="password">
+          <el-input placeholder="请输入密码" v-model="editForm.password" show-password></el-input>
         </el-form-item>
         <el-form-item label="联系电话" prop="lxdh">
           <el-input v-model="editForm.lxdh"></el-input>
@@ -122,7 +123,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="editFormVisible = false">确定</el-button>
+        <el-button @click="submitData()">确定</el-button>
       </div>
     </el-dialog>
   </d2-container>
@@ -141,15 +142,16 @@
         editFormVisible: false,//详情界面是否显示
         //详情界面数据
         editForm: {
+          id: null,
           yhm: "",
           xm: "",
           xb: "",
+          password: "",
           lxdh: "",
           yx: "",
           zz: "",
           zcsj: ""
-        },
-        password: "123456"
+        }
       };
     },
     mounted() {
@@ -180,9 +182,34 @@
         this.lxdh = "";
         this.getTableData()
       },
+      submitData(){
+        request.post('/shareFarmhouse/addOrEditZcr',{
+          params: {
+            obj: this.editForm
+          }
+        }).then(res => {
+          this.resetForm();
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          })
+        }).finally(() => {
+          this.editFormVisible = false
+        });
+      },
       //详情
       handleUpdate(row) {
-        this.editForm = row;
+        this.editForm = {
+          id: row.id,
+          yhm: row.yhm,
+          xm: row.xm,
+          xb: row.xb,
+          password: row.password,
+          lxdh: row.lxdh,
+          yx: row.yx,
+          zz: row.zz,
+          zcsj: row.zcsj
+        }
         this.editFormVisible = true;
       }
     }
