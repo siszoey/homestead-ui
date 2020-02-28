@@ -86,7 +86,7 @@
               <el-form-item>
                 <el-button type="primary" icon="el-icon-statistics" @click="statistics">统计分析</el-button>
                 <el-button type="success" icon="el-icon-plus" v-on:click="add()">新增</el-button>
-                <el-button type="primary" icon="el-icon-search" v-on:click="initData()">查询</el-button>
+                <el-button type="primary" icon="el-icon-search" v-on:click="search()">查询</el-button>
                 <el-button type="default" @click="resetForm('queryForm')">
                   <d2-icon name="refresh" />
                 </el-button>
@@ -139,8 +139,8 @@
             layout="total, sizes, prev, pager, next, jumper" :total="table.total" style="margin-top:35px;text-align:center">
           </el-pagination>
           <!-- 详情弹框 -->
-          <el-dialog title="农村人口详情信息" :visible.sync="editFormVisible" top="5vh">
-              <el-form :model="editForm" label-width="80px" ref="editForm">
+          <el-dialog title="农村人口详情信息" :visible.sync="editFormVisible" width="450px">
+              <el-form :model="editForm" label-width="100px" ref="editForm">
                 <el-form-item label="户主姓名" prop="hzxm">
                   <el-input v-model="editForm.hzxm" auto-complete="off"></el-input>
                 </el-form-item>
@@ -161,7 +161,7 @@
                 </el-form-item>                  
               </el-form>
               <div slot="footer" class="dialog-footer">
-                <el-button @click.native="editFormVisible = false">确定</el-button>
+                <el-button @click="submitData()">确定</el-button>
               </div>
           </el-dialog>
         </el-col>
@@ -268,12 +268,10 @@ export default {
           pageNum = 1
         }
         let startIndex = pageSize * (pageNum - 1)
-        // console.log(startIndex)
-        this.table.list = datas.houseHolder.filter(t=>t.code.startsWith(this.citycode) && t.code.startsWith(this.countycode)).slice(startIndex, pageSize * pageNum)
+        //页面第一次加载默认将table.list赋值
+        this.table.list = datas.houseHolder.slice(startIndex, pageSize * pageNum)
         this.table.total= datas.houseHolder.length
-        // this.tableData = datas.houseHolder
-        // this.table.list = res.datas
-        // this.table.total = res.total
+        //将获取到的所有值赋给allDatas对象中，方便后面进行数据操作
         this.allDatas = datas.houseHolder
         this.summary = datas.summary
       })
@@ -330,14 +328,33 @@ export default {
     //搜索
     search() {
       // this.ajaxSync();
-      this.tableData = this.allDatas.filter(t=>t.code.startsWith(this.citycode) && t.code.startsWith(this.countycode))
+      this.table.pageNum = 1
+      this.getTableData()
+    },
+    //表格中获取数据方法
+    getTableData(){
+      let resList = this.allDatas.filter(t=>t.code.startsWith(this.citycode) && t.code.startsWith(this.countycode))
+      let startIndex = this.table.pageSize * (this.table.pageNum - 1)
+      this.table.list = resList.slice(startIndex, this.table.pageSize * this.table.pageNum)
+      this.table.total= resList.length
     },
     resetForm(formName) {
       this.city = "";
       this.citycode = "";
       this.county = "";
       this.countycode = "";
-      this.initData()
+      this.search()
+      },
+      submitData(){
+        //这里一定要将查询条件中的值都放入editForm中，否则后面查询会直接报错
+        this.editForm.code = this.cities[0].code
+        this.allDatas.push(this.editForm)
+        this.editFormVisible = false
+        this.$message({
+          message: '保存成功',
+          type: 'success'
+        })
+        this.resetForm()
       },
     //ajax请求api,传入参数：类型和标题
     ajaxSync() {
