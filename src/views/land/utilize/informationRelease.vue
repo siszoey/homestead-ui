@@ -51,6 +51,7 @@
     </el-table>
     <el-dialog title="注册人信息" :visible.sync="addOrEditForm" width="450px">
       <el-form :model="editForm" label-width="80px" ref="editForm">
+        <el-input v-model="editForm.id" type="hidden"></el-input>
         <el-form-item label="信息类型" prop="xxlx">
           <el-select v-model="editForm.xxlx" placeholder="请选择">
             <el-option label="政策法规" value="1"></el-option>
@@ -78,7 +79,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="addOrEditForm = false">确定</el-button>
+        <el-button @click="submitData()">确定</el-button>
       </div>
     </el-dialog>
   </d2-container>
@@ -99,6 +100,7 @@
         xwtjlistLoading: false,
         addOrEditForm: false,
         editForm: {
+          id: null,
           isShow: true,
           title: "",
           text: "",
@@ -146,6 +148,7 @@
       },
       add() {
         this.editForm = {
+          id: null,
           isShow: true,
           title: "",
           text: "",
@@ -156,8 +159,31 @@
         }
         this.addOrEditForm = true;
       },
+      submitData(){
+        let url = '';
+        if(this.editForm.xxlx==1){
+          url = '/shareFarmhouse/addOrEditZcfg'
+        }else{
+          url = '/shareFarmhouse/addOrEditXwtj'
+        }
+        delete this.editForm.xxlx
+        request.post(url,{
+          params: {
+            obj: this.editForm
+          }
+        }).then(res => {
+          this.resetForm();
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          })
+        }).finally(() => {
+          this.addOrEditForm = false
+        });
+      },
       handleUpdate(row, xxlx) {
         this.editForm = {
+          id: row.id,
           isShow: row.isShow,
           title: row.title,
           text: row.text,

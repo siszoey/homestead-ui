@@ -184,6 +184,7 @@ let qzlbDatas = Mock.mock({ 'datas|20': [{
 
 // 政策法规
 let zcfgDatas = Mock.mock({ 'datas|20': [{
+  'id|+1':1,
   'title': '@ctitle',
   'text': '@csentence(30,50)',
   'fbr': '@cname',
@@ -194,6 +195,7 @@ let zcfgDatas = Mock.mock({ 'datas|20': [{
 
 // 新闻推荐
 let xwtjDatas = Mock.mock({ 'datas|20': [{
+  'id|+1':1,
   'title': '@ctitle',
   'text': '@csentence(30,50)',
   'fbr': '@cname',
@@ -204,9 +206,11 @@ let xwtjDatas = Mock.mock({ 'datas|20': [{
 
 // 注册人信息
 let zcrDatas = Mock.mock({ 'datas|50': [{
+  'id|+1':1,
   'yhm': '@first',
   'xm': '@cname',
   'xb|1': ['男', '女'],
+  'password': '@string(6,16)',
   'lxdh|1': ['13125648612', '13204516234', '13256402316', '13125648632', '13164528539'],
   'yx': '@email("163.com")',
   'zz':  `${dataRegion}`,
@@ -231,10 +235,66 @@ function getZcfgDatas (params) {
   return cDatas
 }
 
+function addOrEditZcfg(options){
+  let rtype = options.type.toLowerCase(); //获取请求的类型
+  switch (rtype) {
+      case 'get':
+          break;
+      case 'post':
+          let obj = JSON.parse(options.body).params.obj;
+          let id = parseInt(JSON.parse(options.body).params.obj.id);
+          if(!id){
+            let date = new Date();
+            obj.ydsl = 0;
+            obj.fbsj = date.getFullYear()+"-" + (date.getMonth()+1) + "-" + date.getDate();
+            obj.id=zcfgDatas.datas.length+1
+            zcfgDatas.datas.push(obj);  // 将前台返回来的数据，拼接到数组中。
+          }else{
+            zcfgDatas.datas = zcfgDatas.datas.map(val => {  // 将需要替换的数据替换掉
+              return val.id === obj.id ? obj : val ;
+            });
+          }
+          break;
+      default:
+          break;
+  }
+  return {
+      data: zcfgDatas
+  }
+}
+
 function getXwtjDatas (params) {
   let { title, fbr} = params2Obj(params.url)
   let cDatas = xwtjDatas.datas.filter(item => (item.title).indexOf(title) > -1&&(item.fbr).indexOf(fbr) > -1)
   return cDatas
+}
+
+function addOrEditXwtj(options){
+  let rtype = options.type.toLowerCase(); //获取请求的类型
+  switch (rtype) {
+      case 'get':
+          break;
+      case 'post':
+          let obj = JSON.parse(options.body).params.obj;
+          let id = parseInt(JSON.parse(options.body).params.obj.id);
+          if(!id){
+            let date = new Date();
+            obj.ydsl = 0;
+            obj.fbsj = date.getFullYear()+"-" + (date.getMonth()+1) + "-" + date.getDate();
+            obj.id=xwtjDatas.datas.length+1
+            xwtjDatas.datas.push(obj);  // 将前台返回来的数据，拼接到数组中。
+          }else{
+            xwtjDatas.datas = xwtjDatas.datas.map(val => {  // 将需要替换的数据替换掉
+              return val.id === obj.id ? obj : val ;
+            });
+          }
+          break;
+      default:
+          break;
+  }
+  return {
+      data: xwtjDatas
+  }
 }
 
 function getZcrDatas (params) {
@@ -249,8 +309,39 @@ function getZcrDatas (params) {
   return cDatas
 }
 
+function addOrEditZcr(options){
+  let rtype = options.type.toLowerCase(); //获取请求的类型
+    switch (rtype) {
+        case 'get':
+            break;
+        case 'post':
+            let obj = JSON.parse(options.body).params.obj;
+            let id = parseInt(JSON.parse(options.body).params.obj.id);
+            if(!id){
+              let date = new Date();
+              obj.ydsl = 0;
+              obj.fbsj = date.getFullYear()+"-" + (date.getMonth()+1) + "-" + date.getDate();
+              obj.id=zcrDatas.datas.length+1
+              zcrDatas.datas.push(obj);  // 将前台返回来的数据，拼接到数组中。
+            }else{
+              zcrDatas.datas = zcrDatas.datas.map(val => {  // 将需要替换的数据替换掉
+                return val.id === obj.id ? obj : val ;
+              });
+            }
+            break;
+        default:
+            break;
+    }
+    return {
+        data: zcrDatas
+    }
+}
+
 Mock.mock(/\/api\/shareFarmhouse\/getCzlbDatas/, 'get', getCzlbDatas)
 Mock.mock(/\/api\/shareFarmhouse\/getQzlbDatas/, 'get', getQzlbDatas)
 Mock.mock(/\/api\/shareFarmhouse\/getZcfgDatas/, 'get', getZcfgDatas)
+Mock.mock(/\/api\/shareFarmhouse\/addOrEditZcfg/, /get|post/i,addOrEditZcfg);
 Mock.mock(/\/api\/shareFarmhouse\/getXwtjDatas/, 'get', getXwtjDatas)
+Mock.mock(/\/api\/shareFarmhouse\/addOrEditXwtj/, /get|post/i,addOrEditXwtj);
 Mock.mock(/\/api\/shareFarmhouse\/getZcrDatas/, 'get', getZcrDatas)
+Mock.mock(/\/api\/shareFarmhouse\/addOrEditZcr/, /get|post/i,addOrEditZcr);
