@@ -350,6 +350,10 @@ export default {
         this.editForm.code = this.cities[0].code
         this.allDatas.push(this.editForm)
         this.editFormVisible = false
+        this.$message({
+          message: '保存成功',
+          type: 'success'
+        })
         this.resetForm()
       },
     //ajax请求api,传入参数：类型和标题
