@@ -12,7 +12,7 @@
           style="height:50px;"
           inactive-text="图层控制"
           active-text
-          v-model="hiddenToolbar"
+          v-model="hiddentoolbar"
           @change="changeToolbar()"
         ></el-switch>
       </div>
@@ -86,7 +86,11 @@
           <el-menu-item index="6">
             <template slot="title">
               <div @click.stop="stop()">
-                <el-switch inactive-text="影像底图" v-model="DT.Visible" @change="changeLayer('DT')"></el-switch>
+                <el-switch
+                  inactive-text="影像底图"
+                  v-model="CJYX.Visible"
+                  @change="changeLayer('CJYX')"
+                ></el-switch>
               </div>
             </template>
           </el-menu-item>
@@ -161,6 +165,8 @@
 import LayerList from "../../map/spatialData/components/LayerList_ZJD";
 import BaseMap from "../../map/spatialData/mapBase.js";
 
+import Region from "@/views/land/mixnis/region-mixin.js";
+
 import "ol/ol.css";
 import Map from "ol/Map";
 import View from "ol/View";
@@ -186,6 +192,7 @@ import { Modify, Draw, Snap } from "ol/interaction";
 
 export default {
   name: "ygdc_dbfx",
+  mixins: [Region],
   props: {
     hiddenToolbar: {
       type: Boolean,
@@ -208,7 +215,8 @@ export default {
       NFJSFB_Layer: null,
       Region_Layer: null,
       zdLayer: null,
-      xzqhdm: "469005115201",
+      hiddentoolbar: "",
+      xzqhdm: "",
       currentYxsb: {
         requestGeoJson: "",
         responseGeoJson: "",
@@ -233,6 +241,7 @@ export default {
         Visible: false,
         CheckAll: true,
         Features: [],
+        XzqhLevel: "5",
         Boxs: [
           {
             name: "未批已建",
@@ -271,6 +280,7 @@ export default {
         Visible: false,
         CheckAll: true,
         Features: [],
+        XzqhLevel: "5",
         Boxs: [
           {
             name: "乡村建设用地",
@@ -289,13 +299,15 @@ export default {
         Visible: true,
         CheckAll: true,
         Features: [],
+        XzqhLevel: "5",
         Boxs: []
       },
-      DT: {
+      CJYX: {
         Layer: null,
         Visible: true,
         CheckAll: true,
         Features: [],
+        XzqhLevel: "",
         Boxs: []
       }
     };
@@ -303,92 +315,101 @@ export default {
   components: {
     LayerList
   },
+  created() {
+    this.hiddentoolbar = this.hiddenToolbar;
+  },
   mounted() {
     //是否显示工具栏
     this.changeToolbar();
-    this.map = BaseMap.BaseInitMap(this.mapid);
-    //console.log(this.map);
-    this.checkALL("XZDCCG");
-    this.checkALL("CZGH");
-    this.InitLayer("XZDCCG");
-    this.InitLayer("CZGH");
-    this.InitLayer("XZQ");
-    this.InitLayer("DT");
-    this.XZQ.Layer.setZIndex(20);
-    this.popupedit = new Overlay({
-      element: this.$refs.popupedit.$el
-    });
-    this.map.addOverlay(this.popupedit);
-    //点击事件
-    let _this = this;
-    this.source = new VectorSource();
-    var vector = new VectorLayer({
-      source: this.source,
-      style: new Style({
-        fill: new Fill({
-          color: "rgba(255, 255, 255, 0.2)"
-        }),
-        stroke: new Stroke({
-          color: "#ffcc33",
-          width: 2
-        }),
-        image: new CircleStyle({
-          radius: 7,
-          fill: new Fill({
-            color: "#ffcc33"
-          })
-        })
-      })
-    });
-    this.source.on("change", function(evt) {
-      var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
-      if (source.getState() === "ready") {
-        if (source.getFeatures().length == 0) return;
-        var extent = source.getExtent();
-        var center = getCenter(extent);
-        _this.popupedit.setPosition(getTopRight(extent));
-        _this.openEditCard();
-        var GEOJSON_PARSER = new GeoJSON();
-        var vectorLayerAsJson = GEOJSON_PARSER.writeGeometry(
-          source.getFeatures()[0].getGeometry()
-        );
-        _this.currentYxsb.requestGeoJson = vectorLayerAsJson;
-        _this.currentYxsb.topright = getTopRight(extent);
-        _this.currentYxsb.topleft = getTopLeft(extent);
-        _this.currentYxsb.bottomleft = getBottomLeft(extent);
-        _this.currentYxsb.bottomright = getBottomRight(extent);
-        var area = getArea(source.getFeatures()[0].getGeometry(), {
-          projection: "EPSG:4326"
-        });
-        _this.currentYxsb.area = (area * 0.0015).toFixed(2);
-        _this.currentYxsb.timeabout = _this.calAboutTime(
-          _this.currentYxsb.area
-        );
-      }
-    });
-    this.map.addLayer(vector);
-    var modify = new Modify({ source: this.source });
-    this.map.addInteraction(modify);
-
-    this.vectorSource = new VectorSource();
-    this.vectorLayer = new VectorLayer({
-      source: this.vectorSource,
-      style: new Style({
-        stroke: new Stroke({
-          color: "green",
-          width: 1
-        }),
-        fill: new Fill({
-          color: "rgba(0, 255, 0, 0.5)"
-        })
-      })
-    });
-    _this.map.addLayer(this.vectorLayer);
+    this.initMap();
   },
 
   methods: {
     showLayer() {
       //this.layerOn = !this.layerOn;
+    },
+    initMap: async function() {
+      this.xzqhdm = this.getRegionCode();
+      await BaseMap.InitGeoServer(this.xzqhdm);
+      this.map = BaseMap.BaseInitMap(this.mapid);
+      //console.log(this.map);
+      this.checkALL("XZDCCG");
+      this.checkALL("CZGH");
+
+      this.InitLayer("XZDCCG");
+      this.InitLayer("CZGH");
+      this.InitLayer("XZQ");
+      this.InitLayer("CJYX");
+      this.XZQ.Layer.setZIndex(20);
+      this.popupedit = new Overlay({
+        element: this.$refs.popupedit.$el
+      });
+      this.map.addOverlay(this.popupedit);
+      //点击事件
+      let _this = this;
+      this.source = new VectorSource();
+      var vector = new VectorLayer({
+        source: this.source,
+        style: new Style({
+          fill: new Fill({
+            color: "rgba(255, 255, 255, 0.2)"
+          }),
+          stroke: new Stroke({
+            color: "#ffcc33",
+            width: 2
+          }),
+          image: new CircleStyle({
+            radius: 7,
+            fill: new Fill({
+              color: "#ffcc33"
+            })
+          })
+        })
+      });
+      this.source.on("change", function(evt) {
+        var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
+        if (source.getState() === "ready") {
+          if (source.getFeatures().length == 0) return;
+          var extent = source.getExtent();
+          var center = getCenter(extent);
+          _this.popupedit.setPosition(getTopRight(extent));
+          _this.openEditCard();
+          var GEOJSON_PARSER = new GeoJSON();
+          var vectorLayerAsJson = GEOJSON_PARSER.writeGeometry(
+            source.getFeatures()[0].getGeometry()
+          );
+          _this.currentYxsb.requestGeoJson = vectorLayerAsJson;
+          _this.currentYxsb.topright = getTopRight(extent);
+          _this.currentYxsb.topleft = getTopLeft(extent);
+          _this.currentYxsb.bottomleft = getBottomLeft(extent);
+          _this.currentYxsb.bottomright = getBottomRight(extent);
+          var area = getArea(source.getFeatures()[0].getGeometry(), {
+            projection: "EPSG:4326"
+          });
+          _this.currentYxsb.area = (area * 0.0015).toFixed(2);
+          _this.currentYxsb.timeabout = _this.calAboutTime(
+            _this.currentYxsb.area
+          );
+        }
+      });
+      this.map.addLayer(vector);
+      var modify = new Modify({ source: this.source });
+      this.map.addInteraction(modify);
+
+      this.vectorSource = new VectorSource();
+      this.vectorLayer = new VectorLayer({
+        source: this.vectorSource,
+        style: new Style({
+          stroke: new Stroke({
+            color: "green",
+            width: 1
+          }),
+          fill: new Fill({
+            color: "rgba(0, 255, 0, 0.5)"
+          })
+        })
+      });
+      _this.map.addLayer(this.vectorLayer);
     },
     changeEditMode() {
       this.EditMode = !this.EditMode;
@@ -417,17 +438,28 @@ export default {
         crossDomain: true,
         cache: false,
         params: { geometry: _this.currentYxsb.requestGeoJson }
-      }).then(res => {
-        _this.loading = false;
-        _this.closeEditCard();
-        // _this.source.clear();
-        let resdata = res.data;
-        if (resdata.code == "200") {
-          _this.addResult(resdata.result);
-        } else {
-          alert(resdata.msg);
-        }
-      });
+      })
+        .then(res => {
+          _this.loading = false;
+          _this.closeEditCard();
+          // _this.source.clear();
+          let resdata = res.data;
+          if (resdata.code == "200") {
+            _this.addResult(resdata.result);
+          } else {
+            this.$message({
+              message: "网络连接失败",
+              type: "error"
+            });
+          }
+        })
+        .catch(function(error) {
+          _this.loading = false;
+          this.$message({
+            message: "网络连接失败",
+            type: "error"
+          });
+        });
       this.changeEditMode();
     },
     calAboutTime(area) {
@@ -473,14 +505,16 @@ export default {
     stop() {},
     changeLayer(LayerName) {
       if (this[LayerName].Visible) {
-        this.map.addLayer(this[LayerName].Layer);
+        if (this[LayerName].Layer == null) {
+          this.InitLayer(LayerName);
+        } else this.map.addLayer(this[LayerName].Layer);
       } else {
         this.map.removeLayer(this[LayerName].Layer);
       }
     },
     //切换面板显示
     changeToolbar() {
-      if (this.hiddenToolbar) {
+      if (this.hiddentoolbar) {
         this.$refs.mapPanel.style.display = "none";
         this.$refs.leftPanel.style.height = "50px";
       } else {
@@ -532,160 +566,14 @@ export default {
       if (!this[LayerName].Visible) {
         return;
       }
-      if (LayerName == "XZDCCG") {
-        this.XZDCCG.Layer = this.InitXZDCCG();
-      } else if (LayerName == "GTKJGH") {
-        this.GTKJGH.Layer = this.InitGTKJGH();
-      } else if (LayerName == "CZGH") {
-        this.CZGH.Layer = this.InitCZGH();
-      } else if (LayerName == "NFJSFB") {
-        this.NFJSFB.Layer = this.InitNFJSFB();
-      } else if (LayerName == "XZQ") {
-        this.XZQ.Layer = this.InitXZQ();
-      } else if (LayerName == "DT") {
-        this.DT.Layer = this.InitDT();
-      }
-    },
-    InitXZDCCG() {
-      this.map.removeLayer(this.XZDCCG.Layer);
-      var wmsLayer = new TileLayer({
-        source: new TileWMS({
-          url: BaseMap.geoserverURL + "TDLYXZ/wms",
-          params: {
-            LAYERS: "TDLYXZ:ZD",
-            QUERY_LAYERS: "TDLYXZ:ZD",
-            CQL_FILTER: "DCQK" + this.getFeatures("XZDCCG")
-          },
-          serverType: "geoserver",
-          VERSION: "1.1.1"
-        }),
-        zIndex: 20
-      });
-      this.map.addLayer(wmsLayer);
-      return wmsLayer;
-    },
-    InitGTKJGH() {
-      this.map.removeLayer(this.GTKJGH.Layer);
-      var wmsLayer = new TileLayer({
-        source: new TileWMS({
-          url: BaseMap.geoserverURL + "TDLYXZ/wms",
-          params: {
-            LAYERS: "TDLYXZ:DLTB",
-            QUERY_LAYERS: "TDLYXZ:DLTB",
-            CQL_FILTER:
-              "QSDWDM LIKE '" +
-              this.xzqhdm +
-              "%'" +
-              " AND DLBM" +
-              this.getFeatures("GTKJGH")
-          },
-          serverType: "geoserver",
-          VERSION: "1.1.1"
-        }),
-        zIndex: 19
-      });
-      this.map.addLayer(wmsLayer);
-      return wmsLayer;
-    },
-    InitCZGH() {
-      this.map.removeLayer(this.CZGH.Layer);
-      var wmsLayer = new TileLayer({
-        source: new TileWMS({
-          url: BaseMap.geoserverURL + "TDLYXZ/wms",
-          params: {
-            LAYERS: "TDLYXZ:CZGH",
-            QUERY_LAYERS: "TDLYXZ:CZGH",
-            CQL_FILTER:
-              "ZLDWDM LIKE '" +
-              this.xzqhdm +
-              "%'" +
-              " AND DLMC" +
-              this.getFeatures("CZGH")
-          },
-          serverType: "geoserver",
-          VERSION: "1.1.1"
-        }),
-        zIndex: 19
-      });
-      this.map.addLayer(wmsLayer);
-      return wmsLayer;
-    },
-    InitNFJSFB() {
-      this.map.removeLayer(this.NFJSFB.Layer);
-      var color = "#3399CC";
-      var styleCache = {};
-      var clusters = new VectorLayer({
-        source: new Cluster({
-          distance: 10,
-          geometryFunction: function(features) {
-            var coord = getCenter(features.getGeometry().getExtent());
-            return new Feature(new Point(coord)).getGeometry();
-          },
-          source: new VectorSource({
-            url: BaseMap.geoserver + "&typeName=TDLYXZ:ZD",
-            format: new GeoJSON()
-          })
-        }),
-        style: function(feature) {
-          var size = feature.get("features").length;
-          var style = styleCache[size];
-          if (!style) {
-            style = new Style({
-              image: new CircleStyle({
-                radius: 10,
-                stroke: new Stroke({
-                  color: "#fff"
-                }),
-                fill: new Fill({
-                  color: color
-                })
-              }),
-              text: new Text({
-                text: size.toString(),
-                fill: new Fill({
-                  color: "#fff"
-                })
-              })
-            });
-            styleCache[size] = style;
-          }
-          return style;
-        },
-        zIndex: 21
-      });
-      this.map.addLayer(clusters);
-      return clusters;
-    },
-    InitXZQ() {
-      var _this = this;
-      if (this.XZQ.Layer != null) this.map.removeLayer(this.XZQ.Layer);
-      var Region_Layer = BaseMap.BaseCreateRegionVectorFromServer(this.xzqhdm);
-      Region_Layer.getSource().on("change", function(evt) {
-        var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
-        if (source.getState() === "ready") {
-          _this.map.values_.view.fit(source.getExtent()); //自动缩放
-        }
-      });
-      this.map.addLayer(Region_Layer); //加载图层
-      return Region_Layer;
-    },
-    InitDT() {
-      let layer = new TileLayer({
-        source: new TileWMS({
-          url: BaseMap.geoserverURL + "TDLYXZ/wms",
-          params: {
-            FORMAT: "image/png",
-            VERSION: "1.1.1",
-            tiled: true,
-            LAYERS: "TDLYXZ:Puqian",
-            exceptions: "application/vnd.ogc.se_inimage"
-          }
-        }),
-        name: "东坡村影像底图",
-        zindex: 1
-      });
-      this.map.addLayer(layer);
-      return layer;
+      this[LayerName].Layer = BaseMap.BaseInitLayer(
+        this.map,
+        this[LayerName].Layer,
+        LayerName,
+        this.getFeatures(LayerName),
+        this.xzqhdm,
+        this[LayerName].XzqhLevel
+      );
     }
   }
 };

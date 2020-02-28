@@ -6,7 +6,7 @@
           style="height:50px;"
           inactive-text="审批管理"
           active-text
-          v-model="hiddenToolbar"
+          v-model="hiddentoolbar"
           @change="changeToolbar()"
         ></el-switch>
       </div>
@@ -74,12 +74,12 @@ import { Overlay } from "ol";
 
 import ToolBar from "../spatialData/components/toolbar";
 
-import Region from '@/views/land/mixnis/region-mixin.js'
-import jsonFileHandler from "@/libs/util.jsonfile.js"
+import Region from "@/views/land/mixnis/region-mixin.js";
+import jsonFileHandler from "@/libs/util.jsonfile.js";
 
 export default {
   name: "examinePic",
-  mixins:[Region],
+  mixins: [Region],
   props: {
     hiddenToolbar: {
       type: Boolean,
@@ -95,6 +95,8 @@ export default {
       cities: [],
       city: "",
       year: "",
+      hiddentoolbar: "",
+      xzqhdm: "",
       currentZD: null,
       popup: null,
       popupvisible: false,
@@ -112,7 +114,8 @@ export default {
     ToolBar
   },
   created() {
-    this.initData()
+    this.initData();
+    this.hiddentoolbar = this.hiddenToolbar;
   },
   watch: {
     selectedType(val) {
@@ -120,18 +123,28 @@ export default {
     }
   },
   methods: {
-    initData(){
-      this.getRegions().then(datas=>{
-        this.cities = datas
-      })
-      let code = this.getRegionCode()
-      jsonFileHandler.getData('test-data/map/examinPic.json','code',code).then(datas=>{
-        this.tableData = datas.tableData
-      })
+    initData() {
+      this.getRegions().then(datas => {
+        this.cities = datas;
+      });
+      let code = this.getRegionCode();
+      this.xzqhdm = code;
+      jsonFileHandler
+        .getData("test-data/map/examinPic.json", "code", code)
+        .then(datas => {
+          this.tableData = datas.tableData;
+        });
+    },
+    initMap: async function() {
+      await BaseMap.InitGeoServer(this.xzqhdm);
+      this.map = BaseMap.BaseInitMap("pic-map");
+      this.map.addLayer(BaseMap.BaseCJYX());
+      BaseMap.BaseInitLayer(this.map, null, "XZQ", null, null, "5");
+      BaseMap.BaseAddTruePoints(this.map, "#E58C2A");
     },
     //切换面板显示
     changeToolbar() {
-      if (this.hiddenToolbar) {
+      if (this.hiddentoolbar) {
         document.getElementById("mapPanel").style.display = "block";
         document.getElementById("leftPanel").style.height = "100%";
       } else {
@@ -237,16 +250,7 @@ export default {
   },
   mounted() {
     this.changeToolbar();
-    var currentRegionLayer;
-    var xzqhdm = "469005115";
-    this.map = BaseMap.BaseInitMap("pic-map");
-    this.map.addLayer(BaseMap.img_DPCLayer);
-    currentRegionLayer = BaseMap.BaseChangeRegionVector(
-      this.map,
-      xzqhdm,
-      currentRegionLayer
-    );
-    BaseMap.BaseAddTruePoints(this.map, "#E58C2A");
+    this.initMap();
     let sj_fileName = "echarts-map/province/json/hainan.json";
     this.requestAjax(sj_fileName, 2);
     this.city = "460100";

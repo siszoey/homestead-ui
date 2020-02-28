@@ -4,7 +4,7 @@
         "progressData":[
             { "label":"铺前圩社区（亩）", "illegalArea":"5460.81", "percentage":58 },
             { "label":"地太村（亩）", "illegalArea":"7656.81", "percentage":10 },
-            { "label":"东坡村（亩）", "illegalArea":"9732.81", "percentage":300 },
+            { "label":"东坡村（亩）", "illegalArea":"9732.81", "percentage":30 },
             { "label":"林梧村（亩）", "illegalArea":"2323.81", "percentage":24 },
             { "label":"隆丰村（亩）", "illegalArea":"6942.81", "percentage":91 }
         ],
@@ -25,7 +25,7 @@
                 "xzq": "东坡村",
                 "zzyd": "3243.81",
                 "wfzd": "9732.81",
-                "szbl": "300%"
+                "szbl": "30%"
               },
               {
                 "xzq": "林梧村",

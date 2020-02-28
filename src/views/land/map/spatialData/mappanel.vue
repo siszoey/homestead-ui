@@ -118,7 +118,7 @@
             <span class="value">22.5</span>
             <span class="unit">万套</span>
           </div>
-        </div> -->
+        </div>-->
 
         <div class="xzzjd-item" style="margin-top:10px">
           <span class="label">农村闲置宅基地</span>
@@ -258,18 +258,17 @@ import BaseMap from "../spatialData/mapBase.js";
 import { Map, View } from "ol";
 import { defaults } from "ol/control";
 import TileLayer from "ol/layer/Tile";
-import Region from '@/views/land/mixnis/region-mixin.js'
-import jsonFileHandler from "@/libs/util.jsonfile.js"
+import Region from "@/views/land/mixnis/region-mixin.js";
+import jsonFileHandler from "@/libs/util.jsonfile.js";
+import mapBase from "../spatialData/mapBase.js";
 
 export default {
   name: "mappanel",
-  mixins:[
-    Region
-  ],
+  mixins: [Region],
   data() {
     return {
       map: null,
-      xzqhdm: "46",
+      xzqhdm: "",
       jsonData: {
         regions: {},
         landAreaAndPeople: {},
@@ -279,33 +278,49 @@ export default {
     };
   },
   created() {
-    this.initData()
+    this.initData();
   },
   mounted() {
-    this.$nextTick(function(){
-      this.map = BaseMap.BaseInitMap("mapmappanel");
-      this.map.addLayer(BaseMap.img_wLayer);
-      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, this.xzqhdm,null,()=>{
-          this.map.getView().setZoom(7)
-      });
+    this.$nextTick(function() {
       this.drawPieChart();
       this.drawbarchart();
-    })
-    
+      this.initMap();
+    });
   },
   methods: {
-    initData () {
-      let code = this.getRegionCode()
-     jsonFileHandler.getData('/test-data/index.json','code',code)
-      .then(data => {
-        this.jsonData = data.data
-      })
-     
+    initData() {
+      let code = this.getRegionCode();
+      this.xzqhdm = code;
+
+      jsonFileHandler
+        .getData("/test-data/index.json", "code", code)
+        .then(data => {
+          this.jsonData = data.data;
+        });
+    },
+    initMap: async function() {
+      await BaseMap.InitGeoServer(this.xzqhdm);
+      this.map = BaseMap.BaseInitMap("mapmappanel");
+      this.map.addLayer(BaseMap.img_wLayer);
+      var Region_Layer = BaseMap.BaseChangeRegionVector(
+        this.map,
+        this.xzqhdm,
+        null,
+        true,
+        7
+      );
     },
     drawPieChart: function() {
       let myChart = this.$echarts.init(document.getElementById("piechart"));
       let datas = [];
-      let legends = ["休闲农业", "乡村旅游", "餐饮民宿", "文化体验", "创意办公", "电子商务"];
+      let legends = [
+        "休闲农业",
+        "乡村旅游",
+        "餐饮民宿",
+        "文化体验",
+        "创意办公",
+        "电子商务"
+      ];
       let seriesname = "住宅开发利用情况";
       legends.forEach(c => {
         datas.push({
@@ -313,7 +328,14 @@ export default {
           value: 5
         });
       });
-      let colorList = ["#12B1EB", "#29EEDF", "#45B043", "#F2B705", "#800080", "#6A5ACD"];
+      let colorList = [
+        "#12B1EB",
+        "#29EEDF",
+        "#45B043",
+        "#F2B705",
+        "#800080",
+        "#6A5ACD"
+      ];
       let option = {
         tooltip: {
           trigger: "item",
@@ -505,7 +527,7 @@ export default {
   left: 0px;
   top: 10px;
   width: 30%;
-  height:6.5rem;
+  height: 6.5rem;
 }
 .rightcontainer {
   position: absolute;
@@ -513,7 +535,7 @@ export default {
   right: 0px;
   top: 10px;
   width: 30%;
-  height:6.5rem;
+  height: 6.5rem;
 }
 .panel {
   background: url("/image/mapicon/panel-rectangle.png") no-repeat;

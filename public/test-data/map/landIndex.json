@@ -3,7 +3,7 @@
         "code":"46",
         "progressData":[
             { "label":"铺前圩社区（亩）", "usedArea":"1518.69", "percentage":16 },
-            { "label":"地太村（亩）", "usedArea":"76564.45", "percentage":101 },
+            { "label":"地太村（亩）", "usedArea":"76564.45", "percentage":10 },
             { "label":"东坡村（亩）", "usedArea":"647.21", "percentage":20 },
             { "label":"林梧村（亩）", "usedArea":"9776.88", "percentage":99 },
             { "label":"隆丰村（亩）", "usedArea":"543.97", "percentage":7 }
@@ -19,7 +19,7 @@
                 "xzq": "地太村",
                 "jhyd": "75765.81",
                 "sjyd": "76564.45",
-                "szbl": "101%"
+                "szbl": "10%"
               },
               {
                 "xzq": "东坡村",

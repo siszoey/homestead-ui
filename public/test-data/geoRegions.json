@@ -1,0 +1,45 @@
+[
+    {
+        "code": "46",
+        "geoserverURL": "http://101.91.199.54:8060/geoserver/",
+        "regions": [
+            {
+                "level": "1",
+                "code": "46"
+            },
+            {
+                "level": "3",
+                "code": "469005"
+            },
+            {
+                "level": "4",
+                "code": "469005115"
+            },
+            {
+                "level": "5",
+                "code": "469005115201"
+            }
+        ]
+    },{
+        "code": "42",
+        "geoserverURL": "http://101.91.199.54:8060/geoserver/",
+        "regions": [
+            {
+                "level": "1",
+                "code": "42"
+            },
+            {
+                "level": "3",
+                "code": "469005"
+            },
+            {
+                "level": "4",
+                "code": "469005115"
+            },
+            {
+                "level": "5",
+                "code": "469005115201"
+            }
+        ]
+    }
+]

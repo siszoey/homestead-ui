@@ -12,6 +12,8 @@ import Point from "ol/geom/Point";
 import { defaults as defaultControls, Control } from 'ol/control';
 import ImageLayer from "ol/layer/Image";
 
+import request from 'axios'
+
 
 //访问天地图网站的序号
 var siteindex = Math.round(Math.random() * 7);
@@ -70,27 +72,12 @@ var cia_wLayer = new TileLayer({
     zindex: 2
 });
 
-var geoserverURL = 'http://101.91.199.54:8060/geoserver/';
+var geoserverURL = '';
 
-var geoserver = geoserverURL + 'TDLYXZ/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson';
-var dkserver = geoserverURL + 'TDLYXZ/wms';
+var geoserver = '';
 
-//东坡村影像底图
-var img_DPCLayer = new TileLayer({
-    source: new TileWMS({
-        url: geoserverURL + "TDLYXZ/wms",
-        params: {
-            'FORMAT': 'image/png',
-            'VERSION': '1.1.1',
-            tiled: true,
-            "LAYERS": 'TDLYXZ:Puqian',
-            "exceptions": 'application/vnd.ogc.se_inimage'
-        },
-    }),
-    name: '东坡村影像底图'
-    ,
-    zindex: 1
-});
+
+var geoserverConfig = [];
 
 export default {
     img_wLayer,
@@ -98,13 +85,23 @@ export default {
     ter_wLayer,
     cia_wLayer,
     img_wLayer_g,
-    img_DPCLayer,
+
     key,
 
     geoserverURL,
     geoserver,
-    dkserver,
 
+    InitGeoServer,
+    geoserverConfig,
+
+    BaseInitLayer,
+    BaseCreateXZDCCGLayer,
+    BaseCreateGTKJGHLayer,
+    BaseCreateNFJSFBLayer,
+    BaseCreateCZGHLayer,
+    BaseCreateSingleZDLayer,
+
+    BaseCJYX,
     BaseAddTruePoints,
     AddZD,
     BaseInitMap,
@@ -113,13 +110,19 @@ export default {
     BaseDKStyle,
     BaseAddLayer,
     BaseChangeRegionVector,
-    BaseChangeRegionVectorWithPoints,
-    BaseAddPoints,
     BaseCreateRegionVectorFromServer,
     endWith,
-    startWith
+    startWith,
+}
 
+async function InitGeoServer(code) {
+    var res = await request.get("/test-data/geoRegions.json");
 
+    geoserverConfig = res.data.find(t => t["code"] === code);
+    geoserverURL = geoserverConfig.geoserverURL;
+    geoserver = geoserverURL + 'TDLYXZ/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=application%2Fjson';
+
+    // console.log(geoserverURL);
 }
 
 function BaseInitMap(div) {
@@ -134,12 +137,32 @@ function BaseInitMap(div) {
         view: new View({
             center: [0, 0],
             zoom: 7,
-            projection:"EPSG:4326"
+            projection: "EPSG:4326"
         }),
         //controls: defaults({ attribution: false, zoom: false, rotate: false })
     });
     //$('#' + div).css("background-color", "#00161F");
     return map;
+}
+
+function BaseCJYX() {
+    //村级影像底图
+    var img_CJYXLayer = new TileLayer({
+        source: new TileWMS({
+            url: geoserverURL + "TDLYXZ/wms",
+            params: {
+                'FORMAT': 'image/png',
+                'VERSION': '1.1.1',
+                tiled: true,
+                "LAYERS": 'TDLYXZ:Puqian',
+                "exceptions": 'application/vnd.ogc.se_inimage'
+            },
+        }),
+        name: '东坡村影像底图'
+        ,
+        zindex: 1
+    });
+    return img_CJYXLayer;
 }
 
 function BaseOverlay(map, div, positioning) {
@@ -218,7 +241,9 @@ function BaseAddLayer(map, url, params) {
     return currentDK;
 }
 
+
 function BaseCreateRegionVectorFromServer(xzqhdm) {
+    //  console.log(geoserver);
     var sjqy = '&typeName=TDLYXZ:SJXZQ';
     var xjqy = '&typeName=TDLYXZ:XZQ';
     var cjqy = '&typeName=TDLYXZ:CJDCQ';
@@ -260,20 +285,6 @@ function BaseCreateRegionVectorFromServer(xzqhdm) {
     return regionVector;
 }
 
-function BaseChangeRegionVectorWithPoints(map, xzqhdm, currentRegionLayer) {
-    map.removeLayer(currentRegionLayer);//移除当前界线图层
-    currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
-
-    currentRegionLayer.getSource().on('change', function (evt) {
-        var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
-        if (source.getState() === 'ready') {
-            map.values_.view.fit(source.getExtent());//自动缩放
-            map.addLayer(AddPoints(source.getExtent()));
-        }
-    });
-    map.addLayer(currentRegionLayer);//加载图层
-}
-
 
 function AddZD(map) {
     var vecLayer = new VectorLayer({
@@ -290,21 +301,6 @@ function AddZD(map) {
             //map.values_.view.fit(source.getExtent()); //自动缩放
         }
     });
-}
-
-
-function BaseAddPoints(map, xzqhdm, currentRegionLayer) {
-    //map.removeLayer(currentRegionLayer);//移除当前界线图层
-    currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
-
-    currentRegionLayer.getSource().on('change', function (evt) {
-        var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
-        if (source.getState() === 'ready') {
-            map.values_.view.fit(source.getExtent());//自动缩放
-            map.addLayer(AddPoints(source.getExtent()));
-        }
-    });
-    map.addLayer(currentRegionLayer);//加载图层
 }
 
 function BaseAddTruePoints(map, color) {
@@ -374,18 +370,19 @@ function BaseAddTruePoints(map, color) {
 
 }
 
-
-function BaseChangeRegionVector(map, xzqhdm, currentRegionLayer, onLoaded) {
-    map.removeLayer(currentRegionLayer);//移除当前界线图层
+//切换行政区划图层
+function BaseChangeRegionVector(map, xzqhdm, currentRegionLayer, zoomtolayer = true, zoomlevel = -1) {
+    if (currentRegionLayer)
+        map.removeLayer(currentRegionLayer);//移除当前界线图层
     currentRegionLayer = BaseCreateRegionVectorFromServer(xzqhdm);//创建新的图层
-
     currentRegionLayer.getSource().on('change', function (evt) {
         var source = evt.target;//图层矢量数据是异步加载的，所以要在事件里做缩放
         if (source.getState() === 'ready') {
-           map.values_.view.fit(source.getExtent());//自动缩放
-           if(onLoaded){
-              onLoaded()
-           }
+            if (zoomtolayer)
+                map.getView().fit(source.getExtent());//自动缩放
+            if (zoomlevel != -1) {
+                map.getView().setZoom(zoomlevel);
+            }
         }
     });
     map.addLayer(currentRegionLayer);//加载图层
@@ -410,31 +407,140 @@ function startWith(str) {
         return false;
 };
 
-function AddPoints(extent) {
-    var center = getCenter(extent);
-    var count = 500;
-    var features = new Array(count);
-    for (var i = 0; i < count; ++i) {
-        var coordinates = [
-            center[0] + (Math.random() * 4000),
-            center[1] + (Math.random() * 4000)
-        ];
-        features[i] = new Feature(new Point(coordinates));
+
+function BaseInitLayer(map, currentlayer, LayerName, filter, xzqhdm, xzqhlevel) {
+    if (currentlayer)
+        map.removeLayer(currentlayer);
+    if (xzqhlevel) {
+        xzqhdm = geoserverConfig.regions.find(t => t["level"] === xzqhlevel).code;
     }
+    var layer = null;
+    if (LayerName == "XZDCCG") {
+        layer = BaseCreateXZDCCGLayer(filter);
+    } else if (LayerName == "GTKJGH") {
+        layer = BaseCreateGTKJGHLayer(filter, xzqhdm);
+    } else if (LayerName == "CZGH") {
+        layer = BaseCreateCZGHLayer(filter, xzqhdm);
+    } else if (LayerName == "NFJSFB") {
+        layer = BaseCreateNFJSFBLayer();
+    } else if (LayerName == "XZQ") {
+        layer = BaseChangeRegionVector(map, xzqhdm);
+        return layer;
+    } else if (LayerName == "DT") {
+        layer = img_wLayer;
+    } else if (LayerName == "CJYX") {
+        layer = BaseCJYX();
+    }
+    if (layer)
+        map.addLayer(layer);
+    return layer;
+};
 
-    var source = new VectorSource({
-        features: features
+
+
+function BaseCreateXZDCCGLayer(filter) {
+    var params = {
+        LAYERS: "TDLYXZ:ZD",
+        QUERY_LAYERS: "TDLYXZ:ZD"
+    };
+    if (filter) {
+        params.CQL_FILTER = "DCQK" + filter;
+    }
+    var currentlayer = new TileLayer({
+        source: new TileWMS({
+            url: geoserverURL + "TDLYXZ/wms",
+            params: params,
+            serverType: "geoserver",
+            VERSION: "1.1.1"
+        }),
+        zIndex: 20
     });
+    return currentlayer;
+};
 
-    var clusterSource = new Cluster({
-        //distance: parseInt(distance.value, 10),
-        distance: 50,
-        source: source
+function BaseCreateGTKJGHLayer(filter, xzqhdm) {
+    var params = {
+        LAYERS: "TDLYXZ:DLTB",
+        QUERY_LAYERS: "TDLYXZ:DLTB"
+    };
+    if (filter && xzqhdm) {
+        params.CQL_FILTER = "QSDWDM LIKE '" +
+            xzqhdm +
+            "%'" +
+            " AND DLBM" +
+            filter;
+    }
+    else if (xzqhdm) {
+        params.CQL_FILTER = "QSDWDM LIKE '" +
+            xzqhdm +
+            "%'";
+    }
+    else if (filter) {
+        params.CQL_FILTER =
+            "DLBM" +
+            filter;
+    }
+    var wmsLayer = new TileLayer({
+        source: new TileWMS({
+            url: geoserverURL + "TDLYXZ/wms",
+            params: params,
+            serverType: "geoserver",
+            VERSION: "1.1.1"
+        }),
+        zIndex: 19
     });
-
+    return wmsLayer;
+};
+//村庄规划
+function BaseCreateCZGHLayer(filter, xzqhdm) {
+    var params = {
+        LAYERS: "TDLYXZ:CZGH",
+        QUERY_LAYERS: "TDLYXZ:CZGH"
+    };
+    if (filter && xzqhdm) {
+        params.CQL_FILTER = "ZLDWDM LIKE '" +
+            xzqhdm +
+            "%'" +
+            " AND DLMC" +
+            filter;
+    }
+    else if (xzqhdm) {
+        params.CQL_FILTER = "ZLDWDM LIKE '" +
+            xzqhdm +
+            "%'";
+    }
+    else if (filter) {
+        params.CQL_FILTER =
+            "DLMC" +
+            filter;
+    }
+    var wmsLayer = new TileLayer({
+        source: new TileWMS({
+            url: geoserverURL + "TDLYXZ/wms",
+            params: params,
+            serverType: "geoserver",
+            VERSION: "1.1.1"
+        }),
+        zIndex: 19
+    });
+    return wmsLayer;
+};
+//农房建设分布（宅基地数据聚合）
+function BaseCreateNFJSFBLayer() {
+    var color = "#3399CC";
     var styleCache = {};
     var clusters = new VectorLayer({
-        source: clusterSource,
+        source: new Cluster({
+            distance: 10,
+            geometryFunction: function (features) {
+                var coord = getCenter(features.getGeometry().getExtent());
+                return new Feature(new Point(coord)).getGeometry();
+            },
+            source: new VectorSource({
+                url: geoserver + "&typeName=TDLYXZ:ZD",
+                format: new GeoJSON()
+            })
+        }),
         style: function (feature) {
             var size = feature.get("features").length;
             var style = styleCache[size];
@@ -446,7 +552,7 @@ function AddPoints(extent) {
                             color: "#fff"
                         }),
                         fill: new Fill({
-                            color: "#3399CC"
+                            color: color
                         })
                     }),
                     text: new Text({
@@ -459,8 +565,24 @@ function AddPoints(extent) {
                 styleCache[size] = style;
             }
             return style;
-        }
+        },
+        zIndex: 21
     });
-
     return clusters;
+};
+
+function BaseCreateSingleZDLayer(zddm) {
+    var layer = new VectorLayer({
+        source: new VectorSource({
+            url:
+                BaseMap.geoserver +
+                "&typeName=TDLYXZ:ZD" +
+                "&CQL_FILTER=zddm_bf = %27" +
+                zddm +
+                "%27",
+            format: new GeoJSON()
+        }),
+        zIndex: 20
+    });
+    return layer;
 }

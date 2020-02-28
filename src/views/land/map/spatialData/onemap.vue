@@ -6,7 +6,7 @@
           style="height:50px;"
           inactive-text="图层控制"
           active-text
-          v-model="hiddenToolbar"
+          v-model="hiddentoolbar"
           @change="changeToolbar()"
         ></el-switch>
       </div>
@@ -261,8 +261,11 @@ import VectorSource from "ol/source/Vector";
 import { getCenter, getBottomLeft } from "ol/extent";
 import Point from "ol/geom/Point";
 import Axios from "axios";
+import Region from "@/views/land/mixnis/region-mixin.js";
+import mapBase from "../spatialData/mapBase.js";
 
 export default {
+  mixins: [Region],
   props: {
     hiddenToolbar: {
       type: Boolean,
@@ -278,12 +281,13 @@ export default {
     return {
       flag: false,
       dialogVisible: false,
+      hiddentoolbar: "",
       srcList: [],
       imgsrc: "",
       map: null,
       layerOn: false,
       currentZD: null,
-      xzqhdm: "469005115201",
+      xzqhdm: "",
       popup: null,
       ChartIndex: 0,
       tabs: [],
@@ -299,6 +303,7 @@ export default {
         Visible: false, //可见性
         CheckAll: [true], //全选（全不选不等于不可见）
         Features: [], //当前未选中类别
+        XzqhLevel: "5", //默认的行政区划级别,
         Boxs: [
           //选项列表
           [
@@ -340,6 +345,7 @@ export default {
         Visible: false,
         CheckAll: [true, true, true],
         Features: [],
+        XzqhLevel: "5",
         Boxs: [
           [
             {
@@ -634,6 +640,7 @@ export default {
         Visible: false,
         CheckAll: [true],
         Features: [],
+        XzqhLevel: "5",
         Boxs: [
           [
             {
@@ -725,6 +732,7 @@ export default {
         Visible: false,
         CheckAll: [true],
         Features: [],
+        XzqhLevel: "5",
         Boxs: [
           [
             {
@@ -771,6 +779,7 @@ export default {
         Visible: true,
         CheckAll: [true],
         Features: [],
+        XzqhLevel: "4",
         Boxs: []
       },
       DT: {
@@ -778,6 +787,7 @@ export default {
         Visible: true,
         CheckAll: [true],
         Features: [],
+        XzqhLevel: "",
         Boxs: []
       }
     };
@@ -787,13 +797,33 @@ export default {
     ToolBar,
     RightChart
   },
+  created() {
+    this.initData();
+    this.hiddentoolbar = this.hiddenToolbar;
+  },
   mounted() {
     this.$nextTick(function() {
-      //初始化地图
-      this.map = BaseMap.BaseInitMap("maponemap");
       //是否显示工具栏
       this.changeToolbar();
       this.changeChartData("XZDCCG");
+      this.initMap();
+    });
+  },
+
+  methods: {
+    closeCard() {
+      //document.getElementById("popup_onemap").style.visibility = "hidden";
+      this.dialogVisible = false;
+    },
+    initData() {
+      let code = this.getRegionCode();
+      this.xzqhdm = code;
+    },
+    initMap: async function() {
+      await BaseMap.InitGeoServer(this.xzqhdm);
+      //初始化地图
+      this.map = BaseMap.BaseInitMap("maponemap");
+
       //初始化图层
       this.InitLayer("XZDCCG");
       this.InitLayer("GTKJGH");
@@ -808,11 +838,6 @@ export default {
         this.InitLayer("XZQ");
         this.XZQ.Layer.setZIndex(20);
       }
-
-      // this.popup = new Overlay({
-      //   element: document.getElementById("popup_onemap")
-      // });
-      // this.map.addOverlay(this.popup);
       //点击事件
       let _this = this;
       this.map.on("singleclick", function(evt) {
@@ -846,13 +871,6 @@ export default {
             .catch(error => {});
         }
       });
-    });
-  },
-
-  methods: {
-    closeCard() {
-      //document.getElementById("popup_onemap").style.visibility = "hidden";
-      this.dialogVisible = false;
     },
     stop() {},
     changeToolbarPosition(padding) {
@@ -864,7 +882,7 @@ export default {
     },
     //切换面板显示
     changeToolbar() {
-      if (this.hiddenToolbar) {
+      if (this.hiddentoolbar) {
         document.getElementById("mapPanel").style.display = "block";
         document.getElementById("leftPanel").style.height = "100%";
       } else {
@@ -880,18 +898,7 @@ export default {
       var zddm = "469005115003JC99012";
       let _this = this;
       if (this.currentZD != null) this.map.removeLayer(this.currentZD);
-      this.currentZD = new VectorLayer({
-        source: new VectorSource({
-          url:
-            BaseMap.geoserver +
-            "&typeName=TDLYXZ:ZD" +
-            "&CQL_FILTER=zddm_bf = %27" +
-            zddm +
-            "%27",
-          format: new GeoJSON()
-        }),
-        zIndex: 20
-      });
+      this.currentZD = mapBase.BaseCreateSingleZDLayer(zddm);
       this.currentZD.getSource().on("change", function(evt) {
         var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
         if (source.getState() === "ready") {
@@ -913,7 +920,7 @@ export default {
     zoomToXzqh(xzqhdm) {
       if (!this.XZQ.Visible) return;
       var _this = this;
-      var layer =BaseMap.BaseCreateRegionVectorFromServer(xzqhdm);
+      var layer = BaseMap.BaseCreateRegionVectorFromServer(xzqhdm);
       _this.map.addLayer(layer);
       layer.getSource().on("change", function(evt) {
         var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
@@ -1015,149 +1022,14 @@ export default {
       if (!this[LayerName].Visible) {
         return;
       }
-      if (LayerName == "XZDCCG") {
-        this.XZDCCG.Layer = this.InitXZDCCG();
-      } else if (LayerName == "GTKJGH") {
-        this.GTKJGH.Layer = this.InitGTKJGH();
-      } else if (LayerName == "CZGH") {
-        this.CZGH.Layer = this.InitCZGH();
-      } else if (LayerName == "NFJSFB") {
-        this.NFJSFB.Layer = this.InitNFJSFB();
-      } else if (LayerName == "XZQ") {
-        this.XZQ.Layer = this.InitXZQ();
-      } else if (LayerName == "DT") {
-        this.DT.Layer = this.InitDT();
-      }
-    },
-    //现状调查成果（宅基地宗地）
-    InitXZDCCG() {
-      this.map.removeLayer(this.XZDCCG.Layer);
-      var wmsLayer = new TileLayer({
-        source: new TileWMS({
-          url: BaseMap.geoserverURL + "TDLYXZ/wms",
-          params: {
-            LAYERS: "TDLYXZ:ZD",
-            QUERY_LAYERS: "TDLYXZ:ZD",
-            CQL_FILTER: "DCQK" + this.getFeatures("XZDCCG")
-          },
-          serverType: "geoserver",
-          VERSION: "1.1.1"
-        }),
-        zIndex: 20
-      });
-      this.map.addLayer(wmsLayer);
-      return wmsLayer;
-    },
-    //土地利用规划（三调）
-    InitGTKJGH() {
-      this.map.removeLayer(this.GTKJGH.Layer);
-      var wmsLayer = new TileLayer({
-        source: new TileWMS({
-          url: BaseMap.geoserverURL + "TDLYXZ/wms",
-          params: {
-            LAYERS: "TDLYXZ:DLTB",
-            QUERY_LAYERS: "TDLYXZ:DLTB",
-            CQL_FILTER:
-              "QSDWDM LIKE '" +
-              this.xzqhdm +
-              "%'" +
-              " AND DLBM" +
-              this.getFeatures("GTKJGH")
-          },
-          serverType: "geoserver",
-          VERSION: "1.1.1"
-        }),
-        zIndex: 19
-      });
-      this.map.addLayer(wmsLayer);
-      return wmsLayer;
-    },
-    //村庄规划
-    InitCZGH() {
-      this.map.removeLayer(this.CZGH.Layer);
-      var wmsLayer = new TileLayer({
-        source: new TileWMS({
-          url: BaseMap.geoserverURL + "TDLYXZ/wms",
-          params: {
-            LAYERS: "TDLYXZ:CZGH",
-            QUERY_LAYERS: "TDLYXZ:CZGH",
-            CQL_FILTER:
-              "ZLDWDM LIKE '" +
-              this.xzqhdm +
-              "%'" +
-              " AND DLMC" +
-              this.getFeatures("CZGH")
-          },
-          serverType: "geoserver",
-          VERSION: "1.1.1"
-        }),
-        zIndex: 19
-      });
-      this.map.addLayer(wmsLayer);
-      return wmsLayer;
-    },
-    //农房建设分布（宅基地数据聚合）
-    InitNFJSFB() {
-      this.map.removeLayer(this.NFJSFB.Layer);
-      var color = "#3399CC";
-      var styleCache = {};
-      var clusters = new VectorLayer({
-        source: new Cluster({
-          distance: 10,
-          geometryFunction: function(features) {
-            var coord = getCenter(features.getGeometry().getExtent());
-            return new Feature(new Point(coord)).getGeometry();
-          },
-          source: new VectorSource({
-            url: BaseMap.geoserver + "&typeName=TDLYXZ:ZD",
-            format: new GeoJSON()
-          })
-        }),
-        style: function(feature) {
-          var size = feature.get("features").length;
-          var style = styleCache[size];
-          if (!style) {
-            style = new Style({
-              image: new CircleStyle({
-                radius: 10,
-                stroke: new Stroke({
-                  color: "#fff"
-                }),
-                fill: new Fill({
-                  color: color
-                })
-              }),
-              text: new Text({
-                text: size.toString(),
-                fill: new Fill({
-                  color: "#fff"
-                })
-              })
-            });
-            styleCache[size] = style;
-          }
-          return style;
-        },
-        zIndex: 21
-      });
-      this.map.addLayer(clusters);
-      return clusters;
-    },
-    //行政区边界
-    InitXZQ() {
-      var Region_Layer = BaseMap.BaseChangeRegionVector(this.map, "469005115"); //this.xzqhdm
-      // Region_Layer.getSource().on("change", function(evt) {
-      //   var source = evt.target; //图层矢量数据是异步加载的，所以要在事件里做缩放
-      //   if (source.getState() === "ready") {
-      //     alert("success");
-      //   }
-      // });
-      return Region_Layer;
-    },
-    //天地图底图
-    InitDT() {
-      this.map.addLayer(BaseMap.img_wLayer);
-      return BaseMap.img_wLayer;
+      this[LayerName].Layer = BaseMap.BaseInitLayer(
+        this.map,
+        this[LayerName].Layer,
+        LayerName,
+        this.getFeatures(LayerName),
+        this.xzqhdm,
+        this[LayerName].XzqhLevel
+      );
     }
   }
 };
@@ -1235,21 +1107,11 @@ export default {
 }
 
 .box-card {
-  // width: 99.5%;
-  /* margin-top: 11%; */
-  // height: 99.5%;
-  // background-color: #f7f7f7d1;
   overflow-y: auto;
 }
 
 .right-side {
-  // position: absolute;
   z-index: 9;
-  // right: 1px;
-  // width: 350px;
-  // height: 400px;
-  // visibility: hidden;
-  // font-size: 14px;
   opacity: 0.9;
 }
 </style>
