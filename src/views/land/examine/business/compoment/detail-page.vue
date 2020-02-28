@@ -1,8 +1,8 @@
 <template>
   <d2-container v-loading="pageLoading">
-<!--    <el-steps :active="active" finish-status="success" align-center direction="vertical">-->
-<!--      <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>-->
-<!--    </el-steps>-->
+    <!--<el-steps :active="active" finish-status="success" align-center direction="vertical">
+      <el-step v-for="option in getDicts('项目状态')" :description="option.optName"></el-step>
+    </el-steps>-->
     <div class="detail-content">
       <el-row :gutter="20">
         <el-col :span="12">
@@ -33,12 +33,15 @@
           <el-button type="primary" size="mini" @click="handleShowHistory">
             历史
           </el-button>
+          <el-button type="primary" size="mini" @click="handleShowProc">
+            流程
+          </el-button>
         </el-col>
       </el-row>
 
       <el-row :gutter="5">
         <!--表单-->
-        <el-col :span="showMap || showFileView || showHistory? 12 : 24">
+        <el-col :span="showMap || showFileView || showHistory || showProc? 12 : 24">
           <el-tabs tab-position="top" v-show="showForm">
             <el-tab-pane label="申请表">
               <applicationForm :disabled="applicationFormDisabled" :detail="detail"
@@ -89,7 +92,7 @@
           <!--材料-->
           <file-tree-view :xmbh="xmbh" :stage="stage"></file-tree-view>
         </el-col>
-        <el-col :span="12" v-if="showHistory">
+        <el-col :span="12" v-show="showHistory">
           <!--历史-->
           <div class="history-content">
             <div v-show="procHistories.length == 0">
@@ -108,6 +111,12 @@
               </el-timeline-item>
             </el-timeline>
           </div>
+        </el-col>
+        <el-col :span="12" v-show="showProc">
+          <!--finish-status="success"-->
+          <el-steps :active="active" align-center direction="vertical">
+            <el-step v-for="option in getDicts('项目状态')" :description="option.optName" icon="el-icon-warning-outline"></el-step>
+          </el-steps>
         </el-col>
       </el-row>
     </div>
@@ -189,8 +198,9 @@
 
         procHistories: [],
         showHistory: false,
+        showProc: false,
 
-        active: 0,
+        active: 9,
         pageLoading: true
       }
     },
@@ -273,9 +283,10 @@
         }).then(() => {
           this.processRequest(this.processInfo, true)
           this.hadSend = true
+
+          this.jumpToDoPage()
         }).catch(() => {
         }).finally(() => {
-          this.jumpToDoPage()
         })
       },
       handleBack() {
@@ -304,51 +315,46 @@
         })
       },
       handleShowForm() {
-        this.showFlag(false)
+        this.showLeftFlag(false)
         this.showForm = true
-        // let flag = this.showForm
-        // let mapFlag = this.showMap
-        // this.showFlag(false)
-        // this.showMap = mapFlag
-        // this.showForm = flag ? false : true
-      },
-      handleShowFileView() {
-        // this.showFlag(false)
-        // this.showFileView = true;
-
-        this.showMap = false
-        this.showFileView = this.showFileView ? false : true
       },
       handleShowPrintView() {
-        this.showFlag(false)
+        this.showLeftFlag(false)
         this.showPrintView = true
-        // let flag = this.showPrintView
-        // this.showFlag(false)
-        // this.showPrintView = flag ? false : true
       },
-      showFlag(flag) {
+      showLeftFlag(flag) {
         this.showForm = flag
-        // this.showFileView = flag
         this.showPrintView = flag
-        // this.showMap = flag
+      },
+      showRightFlag(flag) {
+        this.showFileView = flag
+        this.showMap = flag
+        this.showHistory = flag
+        this.showProc = flag
       },
       cancel(){
         //this.$router.go(-1);
         this.$router.back();
       },
       handleShowMap() {
-        this.showFileView = false
-        this.showMap = this.showMap ? false : true
-        // let flag = this.showMap
-        // let formFlag = this.showForm
-        // this.showFlag(false)
-        // this.showForm = formFlag
-        // this.showMap = flag ? false : true
+        let a = this.showMap
+        this.showRightFlag(false)
+        this.showMap = a ? false : true
+      },
+      handleShowFileView() {
+        let a = this.showFileView
+        this.showRightFlag(false)
+        this.showFileView = a ? false : true
       },
       handleShowHistory() {
-        this.showFileView = false
-        this.showMap = false
-        this.showHistory = this.showHistory ? false : true
+        let a = this.showHistory
+        this.showRightFlag(false)
+        this.showHistory = a ? false : true
+      },
+      handleShowProc(){
+        let a = this.showProc
+        this.showRightFlag(false)
+        this.showProc = a ? false : true
       },
       jumpToDoPage() {
         let that = this
@@ -356,7 +362,7 @@
           that.$router.push({
             name: 'land-examine-business-todo'
           })
-        }, 300)
+        }, 800)
       },
       confirmDone() {
         if (this.hadSend) {
@@ -423,12 +429,15 @@
 
   .el-steps {
     position: absolute;
-    top: 0;
-    left: 90%;
-    right: 0;
-    padding-top: 20px;
-    padding-right: 20px;
+    /*top: 0;*/
+    /*left: 90%;*/
+    /*right: 0;*/
+    /*padding-top: 20px;*/
+    /*padding-right: 20px;*/
     // height: 200%;
+
+    left: 70%;
+    padding-top: 40px;
   }
 
   .detail-content {
